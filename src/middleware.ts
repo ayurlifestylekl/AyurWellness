@@ -19,18 +19,21 @@ function homeForRole(role: UserRole | null | undefined): string {
   }
 }
 
+/** Pages that are finished enough to be public on the preview deploy. */
+const PUBLIC_PREVIEW_ROUTES = ['/', '/about', '/contact']
+
 /**
  * Preview-deploy gate: set HOMEPAGE_ONLY=true in Vercel's env vars to make
- * every route except "/" (and Next's own internals/api) redirect to home.
- * Runs before the Supabase client is created, so it works even without real
- * Supabase/Sanity credentials configured — safe for an early homepage-only
- * preview deploy. Remove the env var (no code change needed) once the rest
- * of the site is ready to go live.
+ * everything except the routes above (and Next's own internals/api) redirect
+ * to home. Runs before the Supabase client is created, so it works even
+ * without any Supabase/Sanity credentials configured. Remove the env var
+ * (no code change needed) once the rest of the site is ready to go live.
  */
 function homepageOnlyGate(request: NextRequest): NextResponse | null {
   if (process.env.HOMEPAGE_ONLY !== 'true') return null
   const { pathname } = request.nextUrl
-  if (pathname === '/' || pathname.startsWith('/api/')) return null
+  if (PUBLIC_PREVIEW_ROUTES.includes(pathname)) return null
+  if (pathname.startsWith('/api/')) return null
   const home = request.nextUrl.clone()
   home.pathname = '/'
   home.search = ''

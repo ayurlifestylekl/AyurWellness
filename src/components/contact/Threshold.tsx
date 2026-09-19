@@ -8,6 +8,7 @@ import { MapPin, MessageCircle } from 'lucide-react'
 import CTAButton from '@/components/ui/CTAButton'
 import { BotanicalMandala } from '@/components/ui/Decorations'
 import { EASE_OUT_PREMIUM } from '@/lib/motion'
+import { CLINIC_ADDRESS } from '@/lib/clinic'
 
 const heroDiamondPattern = {
   backgroundImage: `
@@ -222,8 +223,7 @@ export default function Threshold() {
                     The Centre
                   </p>
                   <p className="mt-1 font-body text-[13px] italic leading-[1.45] text-dark/85">
-                    No. 37, Jalan Thamby Abdullah-1<br />
-                    Brickfields · 50470 · KL
+                    {CLINIC_ADDRESS}
                   </p>
                 </div>
               </motion.div>

@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react'
 import { EASE_OUT_PREMIUM, fadeUp, inViewOnce } from '@/lib/motion'
 import { contactFaqs as contactFaqsFallback } from '@/data/contactFaqs'
 import type { FAQ } from '@/data/faqs'
+import { CLINIC_ADDRESS } from '@/lib/clinic'
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
 
@@ -301,8 +302,7 @@ export default function Footnotes({ items = contactFaqsFallback }: FootnotesProp
                 — Ayurvedic Wellness Centre
               </p>
               <p className="mt-1 max-w-[42ch] font-body text-[10px] italic leading-[1.5] text-dark/40">
-                Ayurvedic Wellness Centre · Reg. [BUSINESS REGISTRATION NO.] · No. 37, Jalan
-                Thamby Abdullah-1, Brickfields 50470 KL
+                Ayurvedic Wellness Centre · Reg. [BUSINESS REGISTRATION NO.] · {CLINIC_ADDRESS}
               </p>
             </div>
           </motion.div>

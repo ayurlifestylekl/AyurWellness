@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 
 import { EASE_OUT_PREMIUM, fadeUp, inViewOnce, staggerParent } from '@/lib/motion'
-import { CLINIC_EMAIL, CLINIC_PHONE_PRIMARY, mailtoLink, telLink, whatsappLink } from '@/lib/clinic'
+import { CLINIC_ADDRESS, CLINIC_EMAIL, CLINIC_PHONE_PRIMARY, mailtoLink, telLink, whatsappLink } from '@/lib/clinic'
 
 const heroDiamondPattern = {
   backgroundImage: `
@@ -169,7 +169,7 @@ export default function Bureau() {
             >
               <iframe
                 title="Ayurvedic Wellness Centre · Brickfields"
-                src="https://www.google.com/maps?q=3.1269091,101.6812077&z=16&output=embed"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(CLINIC_ADDRESS)}&z=16&output=embed`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 h-full w-full border-0"
@@ -193,7 +193,7 @@ export default function Bureau() {
             </div>
 
             <a
-              href="https://www.google.com/maps/dir/?api=1&destination=3.1269091,101.6812077"
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(CLINIC_ADDRESS)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex items-center gap-2 border-b border-accent/50 pb-0.5 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-accent/90 transition-colors duration-300 hover:border-accent hover:text-accent"
@@ -281,10 +281,7 @@ export default function Bureau() {
                   Ayurvedic Wellness Centre
                 </p>
                 <p className="mt-2 font-body text-[14px] italic leading-[1.55] text-accent/90">
-                  No. 37, Jalan Thamby Abdullah-1 · 50470
-                </p>
-                <p className="mt-1 font-body text-[13.5px] italic leading-[1.55] text-white/55">
-                  Brickfields, Kuala Lumpur, Malaysia
+                  {CLINIC_ADDRESS}
                 </p>
 
                 <span

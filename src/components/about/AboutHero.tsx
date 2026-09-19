@@ -165,9 +165,14 @@ export default function AboutHero({
 
         {/* ── RIGHT — storefront photograph ───────────────── */}
         <motion.div {...scaleReveal} className="relative min-h-[300px] sm:min-h-[400px] lg:min-h-0">
+          {/* Interim image. The previous /centre-exterior.jpg was a photo of the
+              original Kerala Ayurvedic Lifestyles shopfront — their signage,
+              address and phone number were all legible in it, so it can't
+              represent this brand. Swap in a real photo of the centre once
+              one is available. */}
           <Image
-            src="/centre-exterior.jpg"
-            alt="Ayurvedic Wellness Centre centre in Brickfields, Kuala Lumpur"
+            src="/therapies/panchakarma.jpg"
+            alt="Traditional Ayurvedic therapy at our Brickfields centre"
             fill
             priority
             className="object-cover object-center"

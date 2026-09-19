@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Mail } from 'lucide-react'
-import { mailtoLink, telLink, whatsappLink, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
+import { mailtoLink, telLink, whatsappLink, CLINIC_ADDRESS, CLINIC_MAPS_URL, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
 
 const quickLinks = [
   { label: 'Treatments',    href: '/treatments' },
@@ -120,14 +120,13 @@ export default function Footer() {
               <li>
                 <span className="mb-1.5 block text-xs uppercase tracking-wider text-white/40">Location</span>
                 <a
-                  href="https://maps.google.com/?q=Ayurvedic+Wellness+Centre+No.37+Jalan+Thamby+Abdullah+1+Brickfields+Kuala+Lumpur+Malaysia"
+                  href={CLINIC_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block leading-relaxed transition-colors hover:text-accent"
                 >
                   Ayurvedic Wellness Centre<br />
-                  No. 37, Jalan Thamby Abdullah 1<br />
-                  Brickfields, Kuala Lumpur, Malaysia
+                  {CLINIC_ADDRESS}
                 </a>
               </li>
 
