@@ -79,9 +79,17 @@ export async function getGroupMembers(groupId: string): Promise<StaffAppointment
  * bust it instantly with revalidateTag('announcements').
  */
 export async function getActiveAnnouncement(): Promise<Announcement | null> {
+  // No Supabase project wired up yet → no announcements to show. Without this
+  // the client constructor throws "supabaseUrl is required", and because this
+  // runs in the shared (public) layout it takes down every public page at
+  // build time — the homepage included.
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !serviceKey) return null
+
   const cached = createSb(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    url,
+    serviceKey,
     {
       auth: { persistSession: false, autoRefreshToken: false },
       global: { fetch: (input, init) => fetch(input, { ...init, next: { revalidate: 300, tags: ['announcements'] } }) },
