@@ -32,7 +32,7 @@ export default function AuthCanvas({
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(68% 52% at 80% -8%, rgba(181,138,59,0.16), transparent 60%), radial-gradient(58% 62% at -5% 105%, rgba(0,107,60,0.55), transparent 62%), radial-gradient(46% 46% at 105% 100%, rgba(241,124,165,0.10), transparent 60%)',
+            'radial-gradient(68% 52% at 80% -8%, rgba(181,138,59,0.16), transparent 60%), radial-gradient(58% 62% at -5% 105%, rgba(0,107,60,0.55), transparent 62%), radial-gradient(46% 46% at 105% 100%, rgba(228,195,132,0.10), transparent 60%)',
         }}
       />
       {/* Edge vignette for depth */}

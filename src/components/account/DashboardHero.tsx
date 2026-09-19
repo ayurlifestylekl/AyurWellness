@@ -30,7 +30,7 @@ export default function DashboardHero({ firstName }: DashboardHeroProps) {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            'radial-gradient(65% 60% at 82% 6%, rgba(181,138,59,0.20), transparent 64%), radial-gradient(50% 60% at 0% 100%, rgba(241,124,165,0.12), transparent 64%)',
+            'radial-gradient(65% 60% at 82% 6%, rgba(181,138,59,0.20), transparent 64%), radial-gradient(50% 60% at 0% 100%, rgba(228,195,132,0.12), transparent 64%)',
         }}
       />
       <BotanicalMandala

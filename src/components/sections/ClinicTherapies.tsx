@@ -8,7 +8,7 @@ import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
 
 /* ── Minimal-luxury layout, harmonized to the homepage palette ── */
 const GOLD = '#B58A3B' // brand gold — minor decorative accents only
-const LOTUS = '#E91E73' // main accent — highlighted words, links
+const LOTUS = '#B8752A' // main accent — highlighted words, links
 const INK = '#006B3C' // brand forest green
 
 /* Generated paper texture (no photo) */
@@ -135,7 +135,7 @@ export default function ClinicTherapies() {
               className="mt-2 font-display"
               style={{ fontSize: 'clamp(1.75rem, 3.2vw, 2.5rem)', lineHeight: 1.04, color: INK, fontWeight: 400 }}
             >
-              Signature <span className="italic" style={{ color: LOTUS, textShadow: '0 3px 22px rgba(233,30,115,0.18)' }}>therapies</span>
+              Signature <span className="italic" style={{ color: LOTUS, textShadow: '0 3px 22px rgba(184,117,42,0.18)' }}>therapies</span>
             </h2>
             <p className="mt-2 max-w-md font-body text-[13px] font-light leading-[1.6]" style={{ color: 'rgba(42,42,40,0.62)' }}>
               Tailored to your dosha and performed by our experienced therapists — a small, considered collection.

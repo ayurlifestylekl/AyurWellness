@@ -11,8 +11,8 @@ const EMERALD      = '#006B3C'   // dark base, matches hero ink
 const EMERALD_DEEP = '#12372D'   // slight gradient depth
 const SAFFRON      = '#B58A3B'   // vivid turmeric accent — minor/decorative only
 const SAFFRON_SOFT = '#B58A3B'   // eyebrow on dark
-const LOTUS        = '#E91E73'   // main accent — highlighted words, links, CTAs
-const LOTUS_SOFT   = '#F17CA5'   // subtle pink accent
+const LOTUS        = '#B8752A'   // main accent — highlighted words, links, CTAs
+const LOTUS_SOFT   = '#E4C384'   // subtle pink accent
 const CREAM        = '#EFE2C4'   // warm parchment — more saturated than the pale ivory token, which read as white
 
 const painPoints = ['Burnout', 'Insomnia', 'Joint Pain', 'Brain Fog']
@@ -69,7 +69,7 @@ export default function EmpathyBridge() {
                 color: LOTUS_SOFT,
                 fontSize: 'clamp(1.75rem, 3.6vw, 3rem)',
                 letterSpacing: '-0.01em',
-                textShadow: '0 2px 18px rgba(233, 30, 115,0.25)',
+                textShadow: '0 2px 18px rgba(184, 117, 42,0.25)',
               }}
             >
               They don&apos;t fix the cause.

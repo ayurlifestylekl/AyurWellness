@@ -10,7 +10,7 @@ import CTAButton from '@/components/ui/CTAButton'
 /* ── Palette (hero-local) — Amber Wash ──────────────────── */
 const SAFFRON      = '#B58A3B'   // gold — minor decorative accents only
 const SAFFRON_SOFT = '#B58A3B'   // eyebrow on warm base
-const SCRIPT_LOTUS = '#F17CA5'   // main accent — italic "Ayurveda"
+const SCRIPT_LOTUS = '#E4C384'   // main accent — italic "Ayurveda"
 const INK          = '#12372D'   // espresso-oxblood warm base (was forest green)
 // Oxblood ground (#12372D) is applied inline with alpha on the stats bar / overlays
 

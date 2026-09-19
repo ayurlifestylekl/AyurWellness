@@ -21,7 +21,7 @@ const TEXT_DARK  = '#006B3C'
 const TEXT_MUTED = 'rgba(0, 107, 60,0.70)'
 const GOLD       = '#B58A3B'
 const GOLD_SOFT  = 'rgba(181, 138, 59, 0.22)'
-const LOTUS      = '#E91E73'
+const LOTUS      = '#B8752A'
 
 export default function FAQs({
   items = defaultFaqs,
@@ -81,7 +81,7 @@ export default function FAQs({
               style={{ fontSize: 'clamp(2.1rem, 4vw, 3rem)', lineHeight: 1.05, letterSpacing: '-0.02em', color: TEXT_DARK }}
             >
               Before You{' '}
-              <span className="italic" style={{ color: LOTUS, textShadow: '0 3px 22px rgba(233, 30, 115,0.18)' }}>
+              <span className="italic" style={{ color: LOTUS, textShadow: '0 3px 22px rgba(184, 117, 42,0.18)' }}>
                 Book.
               </span>
             </h2>

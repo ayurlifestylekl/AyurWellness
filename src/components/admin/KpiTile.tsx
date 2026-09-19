@@ -19,7 +19,7 @@ const ACCENT: Record<
 > = {
   burgundy: { chip: 'bg-[#006B3C]/[0.07] text-[#006B3C]', rule: 'from-[#006B3C] to-[#12372D]' },
   gold: { chip: 'bg-[#B58A3B]/15 text-[#B58A3B]', rule: 'from-[#B58A3B] to-[#B58A3B]' },
-  rose: { chip: 'bg-[#F17CA5]/20 text-[#F17CA5]', rule: 'from-[#F17CA5] to-[#F17CA5]' },
+  rose: { chip: 'bg-[#E4C384]/20 text-[#E4C384]', rule: 'from-[#E4C384] to-[#E4C384]' },
 }
 
 /**

@@ -12,7 +12,7 @@ const EMERALD       = '#006B3C'
 const EMERALD_DEEP  = '#12372D'
 const SAFFRON       = '#B58A3B'
 const SAFFRON_SOFT  = '#B58A3B'
-const LOTUS          = '#F17CA5'
+const LOTUS          = '#E4C384'
 
 /**
  * Cinematic close — split layout:
@@ -161,7 +161,7 @@ export default function FinalBookingCTA() {
                   fontSize: 'clamp(1.8rem, 3.4vw, 2.5rem)',
                   lineHeight: 1.05,
                   letterSpacing: '-0.015em',
-                  textShadow: '0 3px 22px rgba(241, 124, 165,0.28)',
+                  textShadow: '0 3px 22px rgba(228, 195, 132,0.28)',
                 }}
               >
                 lasting wellness.

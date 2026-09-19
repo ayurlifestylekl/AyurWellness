@@ -49,7 +49,7 @@ export default function FeaturedProducts() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(45% 55% at 88% 0%, rgba(181,138,59,0.22) 0%, transparent 62%), radial-gradient(45% 45% at 6% 100%, rgba(233,30,115,0.10) 0%, transparent 60%)',
+            'radial-gradient(45% 55% at 88% 0%, rgba(181,138,59,0.22) 0%, transparent 62%), radial-gradient(45% 45% at 6% 100%, rgba(184,117,42,0.10) 0%, transparent 60%)',
         }}
       />
       {/* fine gold grain, screen-blended so it lifts off the dark surface */}

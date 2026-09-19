@@ -10,11 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── Ayurvedic Wellness Centre brand palette — Forest Green + Lotus Pink + Gold ──
+        // ── Ayurvedic Wellness Centre brand palette — Forest Green + Deep Amber + Gold ──
         primary:        "#006B3C", // Deep Forest Green
         secondary:      "#75B843", // Fresh Leaf Green
-        tertiary:       "#F17CA5", // Soft Lotus Pink
-        accent:         "#E91E73", // Lotus Pink — main accent, highlighted words & links (name kept to avoid mass class rename)
+        tertiary:       "#E4C384", // Soft Amber (name kept to avoid mass class rename)
+        accent:         "#B8752A", // Deep Amber/Copper — main accent, highlighted words & links (name kept to avoid mass class rename)
         gold:           "#B58A3B", // Ayurvedic Gold — minor/premium decorative details only
         clay:           "#FFF9F2", // Warm Ivory
         dark:           "#12372D", // Deep Charcoal Green (name kept)
