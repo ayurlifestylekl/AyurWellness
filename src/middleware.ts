@@ -41,11 +41,23 @@ export async function middleware(request: NextRequest) {
   const gated = homepageOnlyGate(request)
   if (gated) return gated
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // No Supabase project wired up yet → there are no sessions to read and no
+  // portals to gate, so skip auth entirely. Without this, createServerClient
+  // throws "supabaseUrl is required" on *every* request (middleware runs on
+  // all matched paths, including "/"), which surfaces as a hard 500
+  // MIDDLEWARE_INVOCATION_FAILED rather than a degraded page.
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
