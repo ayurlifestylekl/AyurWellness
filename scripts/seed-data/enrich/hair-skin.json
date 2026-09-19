@@ -1,0 +1,232 @@
+{
+  "cat-hair-care": {
+    "Ayurvedic Scalp & Hair Oil Massage": {
+      "body": [
+        "A soothing, traditional treatment for the scalp, hair and neck, this special oil massage combines warm medicated oil with focused point massage and gentle wide-tooth combing. The therapist applies the oil to the scalp and works it through the hair right to the tips, then uses careful finger and palm techniques to encourage circulation and help the oil absorb.",
+        "It is a wonderfully relaxing experience designed for general scalp and hair nourishment. The combination of warmth, touch and rhythmic combing leaves both the hair and the mind feeling calm and cared for."
+      ],
+      "benefits": [
+        "Improves blood circulation to the scalp",
+        "Enhances oil absorption into the scalp and hair",
+        "Nourishes the scalp and hair from root to tip",
+        "Deeply relaxing and calming"
+      ],
+      "procedureSteps": [
+        {"title": "Warm oil application", "description": "Medicated oil is gently warmed and applied across the scalp and through the hair to the tips."},
+        {"title": "Point massage", "description": "The therapist uses gentle finger and palm massage, including focused point work, to stimulate circulation and aid absorption."},
+        {"title": "Traditional combing", "description": "Hair is combed with a traditional wide-tooth comb to distribute the oil evenly and relax the scalp."}
+      ],
+      "contraindications": "This treatment is not suitable if you have a fever, cold or any infection, or any scalp infection. It should not be carried out immediately after eating. Please avoid heavy meals beforehand, stay well hydrated, and let our staff know of any scalp concerns. Afterwards, follow the recommended post-care by avoiding cold wind, direct sun and strenuous activity."
+    },
+    "Ayurveda Hair Treatment": {
+      "body": [
+        "A dedicated therapy for hair concerns, this treatment brings together Siro-Abhyangam and Takra Dhaara (medicated buttermilk). It begins with a scalp and hair oil massage using a specific hair oil to improve hair quality and strengthen the roots, followed by medicine application and combing. A continuous flow of medicated buttermilk is then poured over the forehead, before a final medicated Kashaya wash of the scalp and hair.",
+        "Intensely cooling, refreshing and calming, it is an ideal choice for those troubled by stubborn dandruff, a sensitive scalp or stress-related hair fall. Shower facilities, including a towel, warm water and shampoo, are provided afterwards so you can leave feeling refreshed."
+      ],
+      "benefits": [
+        "Pacifies hyperactive Pitta and Vata",
+        "A potent remedy for stubborn dandruff, scalp itch and inflammation",
+        "Nourishes the roots to help curb stress-induced hair fall",
+        "Helps prevent premature greying",
+        "Promotes deep, restful sleep"
+      ],
+      "procedureSteps": [
+        {"title": "Ayurvedic head massage", "description": "A scalp and hair oil massage with a specific medicated hair oil to strengthen roots and improve hair quality."},
+        {"title": "Medicine application and combing", "description": "Herbal medicine is applied to the scalp and hair, followed by gentle combing."},
+        {"title": "Takra Dhaara", "description": "Medicated buttermilk is poured in a steady, soothing stream over the forehead."},
+        {"title": "Kashaya wash", "description": "The scalp and hair are washed with a medicated Kashaya decoction, with shower facilities provided afterwards."}
+      ],
+      "contraindications": "Please avoid this treatment if you have a persistent cold or active cough, acute sinusitis with heavy mucus, or a fever. It is not advised for those whose body type is highly sensitive to intense cold treatments (Vata-Kapha respiratory vulnerability), or during pregnancy."
+    },
+    "Ayurveda Hair & Scalp Therapy": {
+      "body": [
+        "Our most luxurious and clinically exhaustive hair and scalp restoration therapy, this 90-minute experience progresses through four carefully sequenced stages. It opens with a deep, nourishing scalp and hair oil massage, followed by Thala Pothichil, a scalp packing with a thick customised herbal paste of herbs such as Amalaki and Hibiscus processed in buttermilk, wrapped securely with natural leaves. A continuous Takra Dhara buttermilk pour over the wrapped area follows, before a restorative Kashaya herbal-decoction wash.",
+        "This premium, multi-layered treatment is designed for advanced or chronic concerns. The initial massage melts away tension, the thick herbal wrap and buttermilk stream work deeply on the scalp, and the final Kashaya wash leaves the hair intensely soft. It cools the central nervous system while nourishing the follicles."
+      ],
+      "benefits": [
+        "Nourishes the roots and rejuvenates the follicles",
+        "Helps reverse severe hair loss",
+        "Clears chronic Daarunakam (scalp psoriasis), scales and dandruff",
+        "Cools the central nervous system and reduces stress markers",
+        "Eases anxiety and supports restful sleep",
+        "Improves memory and focus"
+      ],
+      "procedureSteps": [
+        {"title": "Nourishing oil massage", "description": "A deep scalp and hair oil massage releases tension and prepares the scalp."},
+        {"title": "Thala Pothichil scalp packing", "description": "A thick customised herbal paste with herbs such as Amalaki and Hibiscus is applied and wrapped securely with natural leaves."},
+        {"title": "Takra Dhara buttermilk pour", "description": "A continuous stream of medicated buttermilk is poured over the wrapped area."},
+        {"title": "Kashaya wash", "description": "A restorative Kashaya herbal-decoction wash leaves the hair intensely soft."}
+      ],
+      "contraindications": "This therapy is not advised if you have an active lung infection, an acute asthma flare-up, heavy sinus blockage, a wet productive cough or a fever. It should also be avoided during the active days of menstruation, as the deep systemic cooling is not recommended. Pregnant women should consult the Vaidya before booking."
+    }
+  },
+  "cat-skin-care": {
+    "Upper Body Herbal Scrub": {
+      "body": [
+        "This treatment focuses on the upper back, neck and shoulders, combining a herbal oil massage with a herbal-powder scrub to help reduce hyperpigmentation. Traditional Ayurvedic techniques using medicated oils and herbal preparations are worked across the area.",
+        "It is ideal for those troubled by pigmentation across the upper back and neck, or simply wishing to refresh dull skin and improve overall tone."
+      ],
+      "benefits": [
+        "Reduces hyperpigmentation on the upper back",
+        "Improves skin tone",
+        "Refreshes and revitalises the skin"
+      ],
+      "procedureSteps": [
+        {"title": "Herbal oil massage", "description": "Medicated oils are massaged across the neck, shoulders and upper back."},
+        {"title": "Herbal-powder scrub", "description": "A herbal-powder scrub is worked over the area to address pigmentation."},
+        {"title": "Finishing", "description": "The skin is left refreshed, with post-care guidance provided."}
+      ],
+      "contraindications": "Please avoid this treatment if you have any open wounds, skin infections or active skin conditions over the area being treated. Avoid heavy meals beforehand, stay hydrated, and follow the recommended post-care by avoiding cold wind or strenuous activity afterwards."
+    },
+    "Abhyangam (Skin Specific Oil Massage)": {
+      "body": [
+        "A full-body massage using a specially blended oil tailored to your skin's needs, this treatment is particularly well suited to dry, sensitive skin. Deep, attentive friction helps the medicated oil nourish both the body and the skin.",
+        "Beyond its skin benefits, it offers deep physical relaxation, eases muscle stiffness and supports better circulation, making it an excellent choice for high stress, fatigue or a body in need of Vata balance."
+      ],
+      "benefits": [
+        "Provides deep physical relaxation",
+        "Reduces muscle stiffness",
+        "Improves circulation",
+        "Nourishes and hydrates dry, sensitive skin",
+        "Supports Vata balance"
+      ],
+      "procedureSteps": [
+        {"title": "Oil selection", "description": "A specially blended oil is chosen to suit your skin's particular needs."},
+        {"title": "Full-body massage", "description": "The oil is massaged over the whole body with deep, nourishing friction."},
+        {"title": "Absorption and rest", "description": "The medicated oil is allowed to nourish the skin and body, leaving you relaxed and hydrated."}
+      ],
+      "contraindications": "This massage is not suitable during a fever or acute illness, severe indigestion, or immediately after meals. It should also be avoided during menstruation and over infected or damaged skin."
+    },
+    "Upper Back Pigmentation Treatment": {
+      "body": [
+        "A targeted treatment focused on the upper back and the back of the neck, this therapy uses a herbal-mix powder scrub followed by Njavara kizhi to help reduce hyperpigmentation and dark shades. Traditional Ayurvedic techniques with medicated oils and herbal preparations are used throughout.",
+        "It is designed for those seeking to address pigmentation across the upper back and neck while nourishing and evening the skin tone."
+      ],
+      "benefits": [
+        "Reduces hyperpigmentation and dark shades",
+        "Evens the skin tone",
+        "Nourishes the skin"
+      ],
+      "procedureSteps": [
+        {"title": "Herbal powder scrub", "description": "A herbal-mix powder scrub is applied over the upper back and back of the neck."},
+        {"title": "Njavara kizhi", "description": "Warm Njavara kizhi poultices are massaged over the area to nourish and address pigmentation."},
+        {"title": "Finishing", "description": "The skin is left nourished and more even in tone, with post-care guidance provided."}
+      ],
+      "contraindications": "Please avoid this treatment if you have open wounds, active skin infections or rashes over the area. As Njavara uses milk, it is not suitable for those with a dairy sensitivity. Avoid heavy meals beforehand, stay hydrated, and follow the recommended post-care."
+    },
+    "Udvarthanam (Full Body Herbal Scrub)": {
+      "body": [
+        "A deeply therapeutic full-body treatment, Udvarthanam uses warm dry herbal powder massaged vigorously upward, against the direction of hair growth. This firm, friction-based technique is a powerful natural exfoliant that sloughs off dead skin, helps break down stubborn subcutaneous fat and boosts circulation, leaving the body cleansed, toned and energised.",
+        "Gritty and invigorating, the massage unblocks pores and reduces oiliness while supporting detoxification and toning. A warm shower usually follows shortly afterwards. It is especially suited to oily or dull skin and to a Kapha-dominant constitution."
+      ],
+      "benefits": [
+        "Acts as a deep natural body polish",
+        "Helps reduce cellulite",
+        "Firms loose skin",
+        "Supports weight management",
+        "Stimulates circulation, easing sluggishness and water retention"
+      ],
+      "procedureSteps": [
+        {"title": "Warm powder preparation", "description": "Warm dry herbal powder is prepared for the massage."},
+        {"title": "Upward friction massage", "description": "The powder is massaged vigorously upward, against the direction of hair growth, to exfoliate and stimulate."},
+        {"title": "Detox and toning", "description": "The firm technique unblocks pores, reduces oiliness and supports detoxification."},
+        {"title": "Warm shower", "description": "A warm shower typically follows shortly afterwards to cleanse the skin."}
+      ],
+      "contraindications": "This treatment is not advised for extremely dry skin, eczema, psoriasis or any skin condition, as the dry powder can irritate. It must be avoided over open wounds, skin infections, active acne or broken skin. It is also unsuitable during pregnancy, in cases of severe emaciation, high fever, or acute inflammatory conditions."
+    },
+    "Ayurvedic Full-Body Skin Lightening Therapy (Njavara Kizhi)": {
+      "body": [
+        "Njavara Kizhi (Navarakizhi) is a deeply nourishing, skin-rejuvenating massage using warm herbal poultices. Mineral-rich medicinal Njavara rice is cooked with milk and a Bala-root decoction, wrapped into cotton bundles, dipped in warm milk and massaged over the body. The warm, creamy rice paste acts as a natural body mask that feeds the skin and calms the nervous system.",
+        "The experience offers deep hydration and a natural glow. It tightens sagging skin, improves elasticity, smooths fine textures, fades mild blemishes, improves tone and cleanses impurities, making it ideal for chronic dryness, early skin aging, or restoring the skin after sun or harsh weather."
+      ],
+      "benefits": [
+        "Provides deep hydration and a natural glow",
+        "Tightens sagging skin and improves elasticity",
+        "Smooths fine textures and fades mild blemishes",
+        "Improves skin tone and cleanses impurities",
+        "Calms the nervous system"
+      ],
+      "procedureSteps": [
+        {"title": "Poultice preparation", "description": "Njavara rice is cooked with milk and a Bala-root decoction, then wrapped into cotton bundles."},
+        {"title": "Warm milk dip", "description": "The poultices are dipped in warm milk to soften the creamy rice paste."},
+        {"title": "Full-body massage", "description": "The warm bundles are massaged over the body so the rice paste feeds the skin like a natural mask."},
+        {"title": "Rest and absorption", "description": "The skin is left hydrated and glowing, with the nervous system calmed."}
+      ],
+      "contraindications": "Please avoid this therapy with active acne, eczema flares, open wounds, psoriasis plaques or infectious rashes, as the heat and rubbing can worsen them. It is also not advised during acute congestion, a heavy cold, cough, fever or digestive block, for those with severe dairy sensitivity, during the initial days of menstruation, or in pregnancy."
+    },
+    "Ayurvedic Full-Body Exfoliation Therapy (Body Scrub with Steam Bath)": {
+      "body": [
+        "This 90-minute treatment pairs a full-body Udvarthanam herbal-powder body scrub with a herbal steam bath. The scrub exfoliates the skin, and the steam then opens the pores so the skin can absorb herbal nutrients while sweating out toxins.",
+        "Expect a gritty, invigorating scrub followed by a herbal steam that induces heavy sweating and an immediate sense of lightness. A warm shower usually follows. It is well suited to dull or oily skin, detox and weight-management support."
+      ],
+      "benefits": [
+        "Delivers deep exfoliation",
+        "Supports detoxification",
+        "Improves circulation and skin glow",
+        "Tones the body"
+      ],
+      "procedureSteps": [
+        {"title": "Udvarthanam scrub", "description": "A full-body herbal-powder scrub exfoliates the skin and reduces oiliness."},
+        {"title": "Herbal steam bath", "description": "A herbal steam opens the pores and induces heavy sweating to release toxins."},
+        {"title": "Nutrient absorption", "description": "Open pores allow the skin to absorb herbal nutrients, leaving an immediate feeling of lightness."},
+        {"title": "Warm shower", "description": "A warm shower follows to cleanse and refresh the skin."}
+      ],
+      "contraindications": "This therapy is not suitable during pregnancy, or over open wounds, eczema, psoriasis or active skin infections, and is not advised for highly sensitive dry skin. As the steam raises the heart rate, it should be avoided by those with high blood pressure, heart disease or a tendency to dizziness. Please also avoid it during a fever, acute inflammation or weakness, and on a full stomach; wait at least two hours after a heavy meal. Stay hydrated and follow the recommended post-care."
+    },
+    "Abhyangam with Udvarthanam": {
+      "body": [
+        "This treatment pairs a full-body oil massage with a herbal-mix powder scrub, a strong combination that enhances skin health by exfoliating dead cells, relieving itching and giving a radiant, toned appearance. Traditional Ayurvedic techniques with medicated oils and herbal powder are used throughout.",
+        "An oil massage prepares and nourishes the skin, followed by an upward powder scrub that exfoliates and tones, making it a good choice for dull or congested skin."
+      ],
+      "benefits": [
+        "Exfoliates dead skin cells",
+        "Relieves itching",
+        "Gives radiant, toned skin",
+        "Improves circulation"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "Medicated oils are massaged over the whole body to nourish and prepare the skin."},
+        {"title": "Upward powder scrub", "description": "A herbal-mix powder is worked over the body in upward strokes to exfoliate and tone."},
+        {"title": "Finishing", "description": "The skin is left radiant and toned, with post-care guidance provided."}
+      ],
+      "contraindications": "This treatment is not advised for extremely dry skin, eczema or psoriasis, or over open wounds, active acne or broken skin. It should also be avoided during pregnancy, high fever or acute inflammation. Avoid heavy meals beforehand, stay hydrated, and follow the recommended post-care."
+    },
+    "Full Body Abhyangam and Njavara Kizhi": {
+      "body": [
+        "A special full-body oil massage combined with Njavara kizhi, this treatment uses red rice processed with herbs and milk to reduce pigmentation, tighten the skin and rejuvenate. Traditional Ayurvedic techniques with medicated oils are used throughout.",
+        "A full-body oil massage is followed by warm Njavara-milk kizhi, nourishing the tissues and leaving the skin healthy and refreshed. It is well suited to pigmentation, dull or aging skin, and general rejuvenation."
+      ],
+      "benefits": [
+        "Reduces pigmentation",
+        "Tightens the skin",
+        "Makes the skin healthy",
+        "Rejuvenates and nourishes the tissues"
+      ],
+      "procedureSteps": [
+        {"title": "Full-body oil massage", "description": "Medicated oils are massaged over the whole body to nourish and prepare the skin."},
+        {"title": "Njavara kizhi", "description": "Warm Njavara-milk kizhi poultices are massaged over the body to address pigmentation and tighten the skin."},
+        {"title": "Rest and absorption", "description": "The skin is left rejuvenated and the tissues nourished, with post-care guidance provided."}
+      ],
+      "contraindications": "Please avoid this treatment with active acne, eczema, open wounds, psoriasis or rashes, and during a heavy cold, cough, fever or digestive block. It is not suitable for those with severe dairy sensitivity, during the initial days of menstruation, or in pregnancy. Avoid heavy meals beforehand, stay hydrated, and follow the recommended post-care."
+    },
+    "Full Body Takra Dhaara": {
+      "body": [
+        "Full Body Takra Dhaara involves a continuous pouring of medicated buttermilk (Takra) over the whole body. Deeply cooling and calming, it supports skin health and helps reduce excess body heat.",
+        "The gentle, rhythmic warm stream of medicated buttermilk is profoundly relaxing, soothing the nervous system and promoting good sleep. It is ideal for those with high body heat (Pitta), stress, skin-heat conditions or poor sleep."
+      ],
+      "benefits": [
+        "Cools the body",
+        "Calms the nervous system",
+        "Supports skin health",
+        "Reduces excess heat (Pitta)",
+        "Promotes good sleep"
+      ],
+      "procedureSteps": [
+        {"title": "Preparation", "description": "Medicated buttermilk (Takra) is prepared and gently warmed."},
+        {"title": "Continuous pour", "description": "A gentle, rhythmic warm stream of medicated buttermilk is poured over the body."},
+        {"title": "Rest and cooling", "description": "The deeply cooling treatment calms the nervous system, leaving you relaxed and refreshed."}
+      ],
+      "contraindications": "This treatment is not advised during a heavy cold, cough or sinus congestion, or a fever. It is unsuitable for those with severe dairy sensitivity and during pregnancy, as well as in any condition where deep cooling is not advised; please consult the Vaidya if unsure."
+    }
+  }
+}

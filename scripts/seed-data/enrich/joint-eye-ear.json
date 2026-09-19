@@ -1,0 +1,227 @@
+{
+  "cat-joint-care": {
+    "Abhyangam with Njavara Kizhi (Affected Joint / Partial Body)": {
+      "body": [
+        "This targeted therapy pairs a soothing Ayurvedic oil massage of the affected joint with Njavara kizhi, a warm poultice of red rice cooked with herbs and milk that is applied locally. Together they work to strengthen the joint, muscles and nerves while gently rejuvenating the area.",
+        "A 30-minute practitioner consultation is mandatory before treatment, and the therapy focuses on the affected or partial body area rather than the whole body. You can expect a focused oil massage of the joint, followed by the application of warm njavara-milk kizhi — a nourishing and deeply soothing experience."
+      ],
+      "benefits": [
+        "Nourishes and strengthens degenerated joints",
+        "Relieves stiffness in and around the joint",
+        "Improves mobility and ease of movement",
+        "Boosts local circulation to the treated area"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Practitioner consultation",
+          "description": "A mandatory 30-minute consultation to assess your condition and confirm the therapy is suitable."
+        },
+        {
+          "title": "Targeted oil massage",
+          "description": "A focused Abhyangam of the affected joint with medicated oil to warm and prepare the area."
+        },
+        {
+          "title": "Njavara kizhi application",
+          "description": "Warm njavara-milk kizhi (red rice cooked with herbs and milk) is applied locally over the joint."
+        },
+        {
+          "title": "Rest and settle",
+          "description": "A short period to let the warmth and nourishment settle into the joint, muscles and nerves."
+        }
+      ],
+      "contraindications": "This therapy is best avoided if you have acute severe inflammation or a hot, swollen joint, open wounds or skin infections over the joint, a fever or a heavy cold, fractures or dislocations needing orthopaedic care, or inflammatory joint conditions such as Aamavata or Vata Raktam. It is always subject to practitioner consultation, and is suited to joint degeneration or osteoarthritis (Sandhivata), chronic joint pain or weakness, and post-injury joint weakness."
+    },
+    "Abhyangam — Heat Therapy — Herbal Bandage": {
+      "body": [
+        "This localized therapy combines an oil massage of the affected joint with herbal heat compression and a supportive herbal bandage. It is designed to reduce stiffness and improve movement, and is offered only for affected joints.",
+        "A 30-minute practitioner consultation is mandatory beforehand. During the session you can expect a focused oil massage, followed by herbal heat application and finally a supportive herbal bandage to comfort and protect the joint."
+      ],
+      "benefits": [
+        "Reduces joint stiffness and swelling",
+        "Eases pain in the affected joint",
+        "Improves freedom of movement",
+        "Enhances local circulation"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Practitioner consultation",
+          "description": "A mandatory 30-minute consultation to assess the joint and confirm suitability."
+        },
+        {
+          "title": "Localized oil massage",
+          "description": "A focused Abhyangam of the affected joint to warm and loosen the area."
+        },
+        {
+          "title": "Herbal heat application",
+          "description": "Therapeutic herbal heat is applied to relieve stiffness and ease discomfort."
+        },
+        {
+          "title": "Supportive herbal bandage",
+          "description": "A herbal bandage is applied to support and comfort the treated joint."
+        }
+      ],
+      "contraindications": "This therapy should be avoided in cases of acute severe inflammation or a hot, swollen joint, open wounds or skin infections, fever, fractures or dislocations, and inflammatory joint conditions such as Aamavata or Vata Raktam. It is always subject to practitioner consultation, and is well suited to localized joint pain or stiffness, sprain or strain recovery, and joint degeneration."
+    },
+    "Pichu — with Partial Abhyangam and Kizhi": {
+      "body": [
+        "Pichu involves applying medicated oil over the affected area using an oil-soaked cotton pad held in place for sustained oil therapy. It is followed by a partial Abhyangam and Kizhi, working together to reduce swelling and stiffness while improving joint mobility.",
+        "A 30-minute practitioner consultation is mandatory first, and the therapy focuses on the affected area. You can expect the oil-soaked cotton pad to rest over the area for deep, sustained oil therapy, followed by a partial oil massage and a herbal heat compress."
+      ],
+      "benefits": [
+        "Provides sustained local oil therapy",
+        "Reduces swelling and stiffness",
+        "Improves joint mobility",
+        "Soothes affected nerves"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Practitioner consultation",
+          "description": "A mandatory 30-minute consultation to assess your condition and confirm suitability."
+        },
+        {
+          "title": "Pichu application",
+          "description": "An oil-soaked cotton pad is held over the affected area for sustained, deep oil therapy."
+        },
+        {
+          "title": "Partial Abhyangam",
+          "description": "A focused oil massage of the affected area to support the oil therapy."
+        },
+        {
+          "title": "Kizhi compress",
+          "description": "A herbal heat compress is applied to ease swelling and stiffness."
+        }
+      ],
+      "contraindications": "This therapy should be avoided in cases of acute severe inflammation, open wounds or skin infections, fever, fractures or dislocations, and inflammatory joint conditions. It is always subject to practitioner consultation, and is suited to localized joint or nerve pain, joint degeneration, and post-injury weakness."
+    },
+    "Herbal Bandage — Affected Joints": {
+      "body": [
+        "This gentle therapy begins with an Abhyangam using medicated oil and localized Naadi Sweda or Kizhi, finished with a supportive herbal bandage. It is designed to ease pain arising from sprains, injury, degeneration and swelling, and is offered only for affected joints.",
+        "A 30-minute practitioner consultation is mandatory first. You can expect a gentle local oil massage, localized steam or kizhi, and finally a herbal bandage to support the joint and improve comfort."
+      ],
+      "benefits": [
+        "Eases pain from sprains and injuries",
+        "Reduces joint swelling",
+        "Supports degenerating joints",
+        "Improves comfort and mobility"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Practitioner consultation",
+          "description": "A mandatory 30-minute consultation to assess the joint and confirm suitability."
+        },
+        {
+          "title": "Gentle Abhyangam",
+          "description": "A gentle local oil massage with medicated oil to prepare the affected joint."
+        },
+        {
+          "title": "Localized Naadi Sweda / Kizhi",
+          "description": "Localized steam or a herbal kizhi is applied to ease pain and swelling."
+        },
+        {
+          "title": "Herbal bandage",
+          "description": "A supportive herbal bandage is applied to comfort and stabilise the joint."
+        }
+      ],
+      "contraindications": "This therapy should be avoided in cases of acute severe inflammation, open wounds or skin infections, fever, fractures or dislocations, and inflammatory joint conditions. It is always subject to practitioner consultation, and is suited to sprains and injuries, joint swelling, and joint degeneration."
+    }
+  },
+  "cat-eye-care": {
+    "Ayurveda Eye Care (Eye Wash, Netra Patah)": {
+      "body": [
+        "This multi-step therapeutic routine restores ocular hygiene and comfort. It begins with Netra Dhara, a gentle pouring of cooled herbal decoction (Kashayam) across the eyes, followed by a specialised facial marma massage around the forehead and temples. It concludes with Netra Patah, where a cooling herbal paste is applied over the closed eyelids and orbital area to draw out deep-seated heat.",
+        "A 15-minute practitioner consultation is mandatory first. The experience is intensely refreshing, crisp and cooling — the herbal eye wash gently flushes pollutants (a mild burning sensation is possible), the marma facial massage relieves sinus and temple pressure, and the final herbal paste delivers long-lasting cooling."
+      ],
+      "benefits": [
+        "Instant relief from eye tiredness and heaviness",
+        "Reduces dark circles and puffiness",
+        "Cools the optical nerves",
+        "Eases tension headaches",
+        "Revitalizes clarity of vision"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Practitioner consultation",
+          "description": "A mandatory 15-minute consultation to confirm the routine is suitable for you."
+        },
+        {
+          "title": "Netra Dhara (eye wash)",
+          "description": "Cooled herbal decoction (Kashayam) is gently poured across the eyes to flush pollutants; a mild burning sensation is possible."
+        },
+        {
+          "title": "Facial marma massage",
+          "description": "A specialised massage around the forehead and temples relieves sinus and temple pressure."
+        },
+        {
+          "title": "Netra Patah (cooling paste)",
+          "description": "A cooling herbal paste is applied over the closed eyelids and orbital area to draw out deep-seated heat."
+        }
+      ],
+      "contraindications": "This routine is not performed for any active eye disease and should be avoided with active weeping eye conditions, severe allergic flare-ups with high discharge, or open lesions or skin rashes around the orbital region. It is only carried out after consultation with a qualified Ayurveda practitioner, and is well suited to those working long hours on screens, students, people exposed to dust, pollution or heat, and anyone with stress-related tension headaches or optical fatigue."
+    }
+  },
+  "cat-nasyam-ear": {
+    "Nasyam": {
+      "body": [
+        "Nasyam is a Panchakarma therapy in which medicated oils are administered into the nasal passages to clear kapha dosha (phlegm) from the upper respiratory tract and sinuses. It also helps with brain fogginess, memory loss, neck stiffness and Vata disorders such as numbness and giddiness.",
+        "It is performed as a continuous 3, 5, 7 or 10-day course with strict rest and specific dietary care under practitioner guidance. Each session begins with a gentle face, neck and shoulder massage with herbal steam (Swedana), after which a precise dose of medicated oil is administered while you recline. An enquiry and consultation are required first, and the therapy is carried out over consecutive days."
+      ],
+      "benefits": [
+        "Relieves chronic headaches, migraines and sinusitis",
+        "Clears the senses",
+        "Improves mental focus",
+        "Reduces stress for better sleep"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Enquiry and consultation",
+          "description": "A required consultation to plan the course and confirm suitability before treatment begins."
+        },
+        {
+          "title": "Massage and herbal steam",
+          "description": "A gentle face, neck and shoulder massage with herbal steam (Swedana) to prepare the passages."
+        },
+        {
+          "title": "Medicated oil administration",
+          "description": "A precise dose of medicated oil is administered into the nasal passages while you recline."
+        },
+        {
+          "title": "Rest and dietary care",
+          "description": "Strict rest and specific dietary care follow, with the course continuing over consecutive days."
+        }
+      ],
+      "contraindications": "Nasyam should be avoided with a common cold (acute coryza), high fever, immediately after a meal, during acute indigestion, or with a nasal injury. An enquiry and consultation are required first, and the therapy is carried out over consecutive days. It is suited to chronic sinus congestion, respiratory allergies, recurring headaches, neck stiffness, and improving mental focus."
+    },
+    "Ear Treatment (Karnapooranam & Karnadhoopanam)": {
+      "body": [
+        "This comprehensive aural therapy combines Karnapooranam, filling the ear canal with warm medicated oil for 8–10 minutes, with Karnadhoopanam, a herbal fuming with medicated smoke. It begins with a gentle external massage around the ear, jawline and neck, after which the ear is filled, drained, cleaned and fumed.",
+        "A practitioner consultation is required first. You can expect a deeply soothing, warm sensation as the oil rests in the ear canal — ambient sound feels muffled — followed by a pleasant, warming herbal smoke that brings lightness and clarity to the head."
+      ],
+      "benefits": [
+        "Softens and loosens impacted earwax",
+        "Strengthens the ear bones (ossicles) and auditory nerves",
+        "Relieves earaches and checks chronic tinnitus",
+        "Relieves stiff neck muscles",
+        "Stabilizes balance to control vertigo"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Practitioner consultation",
+          "description": "A required consultation to assess your ears and confirm the therapy is suitable."
+        },
+        {
+          "title": "External massage",
+          "description": "A gentle massage around the ear, jawline and neck to relax the area."
+        },
+        {
+          "title": "Karnapooranam (oil filling)",
+          "description": "The ear canal is filled with warm medicated oil for 8–10 minutes, then drained and cleaned."
+        },
+        {
+          "title": "Karnadhoopanam (herbal fuming)",
+          "description": "Warming herbal smoke is applied to bring lightness and clarity to the head."
+        }
+      ],
+      "contraindications": "This therapy should be avoided with a ruptured or perforated eardrum, active purulent discharge (pus), acute middle-ear infections (otitis media), or open bleeding or fresh injuries inside the ear canal. A practitioner consultation is required first, and the therapy is suited to chronic dry earwax, decreased hearing sharpness, frequent jaw or ear pain, neck tension, mild vertigo, and heavy headphone users."
+    }
+  }
+}

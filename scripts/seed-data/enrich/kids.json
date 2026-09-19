@@ -1,0 +1,228 @@
+{
+  "cat-kids": {
+    "Oil Massage — Ages 1 to 5": {
+      "body": [
+        "A very gentle, nourishing full-body Ayurvedic oil application designed for infants and young children aged 1 to 5. Using mild traditional oils such as Lakshadi Keram or Nalpamaradi Keram, the therapist works with light, nurturing strokes to support skin health, bone density and healthy weight gain during these formative early years.",
+        "The session is rhythmic and deeply soothing rather than deep-tissue. Every detail — the choice of oil, its temperature and the duration — is custom-selected for your child following a mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your little one's constitution and sensitivity beforehand."
+      ],
+      "benefits": [
+        "Strengthens developing bones and muscles",
+        "Enhances the skin's natural immunity",
+        "Improves the quality and depth of sleep",
+        "Relieves common discomforts such as colic and gas",
+        "Calms Vata for a settled, contented child"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya, who reviews your child's constitution and skin sensitivity and selects the appropriate oil, temperature and duration."
+        },
+        {
+          "title": "Warm mild-oil application",
+          "description": "A gentle, child-appropriate traditional oil is warmed and applied across the body."
+        },
+        {
+          "title": "Light rhythmic strokes",
+          "description": "The therapist uses soft, nurturing strokes suited to an infant or young child."
+        },
+        {
+          "title": "Calming close",
+          "description": "The session settles into a soothing, restful finish to leave your child calm and comfortable."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your child has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your child's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    },
+    "Oil Massage — Ages 6 to 10": {
+      "body": [
+        "A full-body Ayurvedic oil massage tailored for school-aged children aged 6 to 10, designed to build physical resilience and relieve the postural fatigue that comes from long hours at desks and carrying heavy school bags.",
+        "Gentle and structured rather than deep-tissue, the massage uses warm herb-infused oils chosen for your child's constitution. The oils, temperature, duration and combination are custom-selected by our Ayurveda Vaidya during the mandatory pre-therapy consultation."
+      ],
+      "benefits": [
+        "Strengthens joints and muscles",
+        "Boosts immunity and motor coordination",
+        "Improves the quality of sleep",
+        "Helps calm high energy levels",
+        "Eases postural fatigue from school activity"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya to review your child's constitution and tailor the oils, temperature and duration."
+        },
+        {
+          "title": "Warm oil application",
+          "description": "A warm, constitution-appropriate oil is applied across the body."
+        },
+        {
+          "title": "Gentle structured strokes",
+          "description": "The therapist works through gentle, structured strokes suited to an active school-aged child."
+        },
+        {
+          "title": "Calming close",
+          "description": "The session concludes with a calming finish to leave your child settled and relaxed."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your child has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your child's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    },
+    "Oil Massage — Ages 11 to 17": {
+      "body": [
+        "A full-body Ayurvedic oil massage for adolescents aged 11 to 17, created to relieve academic stress, screen-time strain and sports fatigue while helping to balance the nervous system through the demands of growth spurts.",
+        "Warm herb-infused oils are applied with gentle, rhythmic strokes for deep calm. The oils, temperature, duration and combination are custom-selected for your teenager by our Ayurveda Vaidya during the mandatory pre-therapy consultation."
+      ],
+      "benefits": [
+        "Relieves physical exhaustion",
+        "Reduces everyday stress",
+        "Improves mental clarity",
+        "Supports better sleep",
+        "Supports healthy growth and development"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya to review your teenager's constitution and tailor the oils, temperature and duration."
+        },
+        {
+          "title": "Warm oil application",
+          "description": "A warm, constitution-appropriate oil is applied across the body."
+        },
+        {
+          "title": "Rhythmic strokes",
+          "description": "The therapist works through gentle, rhythmic strokes to ease tension and fatigue."
+        },
+        {
+          "title": "Deep calm",
+          "description": "The session settles into a deeply calming finish to leave your teenager relaxed and refreshed."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your teenager has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your teenager's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    },
+    "Head or Leg Massage — Ages 11 to 17": {
+      "body": [
+        "A focused Ayurvedic oil massage for adolescents aged 11 to 17, concentrating either on the head and neck or, alternatively, on the legs and hips for targeted relief.",
+        "Warm constitution-appropriate oil is applied to the chosen area with gentle point massage. The oils, temperature, duration and the area of focus are custom-selected for your teenager by our Ayurveda Vaidya during the mandatory pre-therapy consultation."
+      ],
+      "benefits": [
+        "Relieves head and neck or leg tension",
+        "Eases screen-time and study fatigue",
+        "Improves circulation in the treated area",
+        "Encourages a sense of calm",
+        "Provides focused, targeted relief"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya to choose the area of focus and tailor the oils, temperature and duration."
+        },
+        {
+          "title": "Warm oil application",
+          "description": "Warm, constitution-appropriate oil is applied to the chosen area — the head and neck, or the legs and hips."
+        },
+        {
+          "title": "Gentle point massage",
+          "description": "The therapist works the area with gentle point massage to release tension."
+        },
+        {
+          "title": "Calming close",
+          "description": "The session concludes calmly to leave your teenager relaxed and at ease."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your teenager has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your teenager's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    },
+    "Sirodhaara — Ages 11 to 17": {
+      "body": [
+        "Kids' Shirodhara for school-aged children aged 11 to 17 — a gentle, continuous stream of warm, comforting herbal oil, such as Brahmi Thailam, poured onto the forehead and paired with a soothing head and neck oil massage.",
+        "The treatment induces deep calm and is especially suited to those experiencing academic stress, sleep disturbance or a lack of focus. The oils, temperature, duration and combination are custom-selected for your child by our Ayurveda Vaidya during the mandatory pre-therapy consultation."
+      ],
+      "benefits": [
+        "Deeply relaxes the mind",
+        "Improves memory and focus",
+        "Relaxes the eyes after screen strain",
+        "Balances the nervous system",
+        "Improves the quality of sleep"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya to review your child's constitution and tailor the oils, temperature and duration."
+        },
+        {
+          "title": "Head and neck massage",
+          "description": "A gentle warm-oil massage of the head and neck prepares your child for the oil stream."
+        },
+        {
+          "title": "Soothing oil stream",
+          "description": "A continuous stream of warm herbal oil is poured gently over the forehead to induce deep calm."
+        },
+        {
+          "title": "Restful close",
+          "description": "The session settles into a deeply calming finish to leave your child relaxed and focused."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your child has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your child's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    },
+    "Talam & Sirodhaara — Ages 12 to 17": {
+      "body": [
+        "A cooling combination treatment for teenagers aged 12 to 17, bringing together a head massage, a cooling herbal scalp wrap known as Talam, and a Sirodhaara stream of medicated buttermilk. It is especially suited to those with high body heat, stress or sleep issues.",
+        "The treatment supports good sleep and helps reduce body heat. The herbal preparations, temperature, duration and combination are custom-selected for your teenager by our Ayurveda Vaidya during the mandatory pre-therapy consultation."
+      ],
+      "benefits": [
+        "Cools the body and mind",
+        "Calms the nervous system",
+        "Improves the quality of sleep",
+        "Reduces body heat",
+        "Eases everyday stress"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya to review your teenager's constitution and tailor the preparations, temperature and duration."
+        },
+        {
+          "title": "Head massage",
+          "description": "A gentle head massage begins the session and prepares the scalp."
+        },
+        {
+          "title": "Cooling herbal scalp wrap (Talam)",
+          "description": "A cooling herbal paste is applied to the scalp and wrapped to draw down heat."
+        },
+        {
+          "title": "Buttermilk Sirodhaara",
+          "description": "A soothing stream of medicated buttermilk is poured gently over the forehead for deep, cooling calm."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your teenager has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your teenager's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    },
+    "Oil Massage and Sirodhaara — Ages 12 to 17": {
+      "body": [
+        "Complete relaxation for older kids aged 12 to 17 — a full-body Ayurvedic oil massage paired with Sirodhaara, for teenagers seeking thorough rest and calm.",
+        "Warm herb-infused oils are applied across the body before a soothing oil stream flows over the forehead. The oils, temperature, duration and combination are custom-selected for your teenager by our Ayurveda Vaidya during the mandatory pre-therapy consultation."
+      ],
+      "benefits": [
+        "Delivers full-body relaxation",
+        "Calms the nervous system",
+        "Relieves stress and fatigue",
+        "Improves the quality of sleep",
+        "Supports better focus"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Pre-therapy consultation",
+          "description": "A 15-minute assessment with the Ayurveda Vaidya to review your teenager's constitution and tailor the oils, temperature and duration."
+        },
+        {
+          "title": "Full-body oil massage",
+          "description": "Warm, constitution-appropriate oil is applied across the body with gentle, rhythmic strokes."
+        },
+        {
+          "title": "Soothing oil stream",
+          "description": "A continuous stream of warm oil is poured gently over the forehead for deep calm."
+        },
+        {
+          "title": "Restful close",
+          "description": "The session settles into a deeply relaxing finish to leave your teenager rested and refreshed."
+        }
+      ],
+      "contraindications": "This treatment is not suitable when your teenager has a fever or any acute illness, an active infection, a skin infection or open wound, or immediately after food. Every session is preceded by the mandatory pre-therapy consultation with our Ayurveda Vaidya, who assesses your teenager's constitution, skin sensitivity, digestion and any contraindications before therapy begins."
+    }
+  }
+}

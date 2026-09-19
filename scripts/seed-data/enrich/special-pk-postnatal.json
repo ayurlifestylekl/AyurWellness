@@ -1,0 +1,333 @@
+{
+  "cat-special": {
+    "Jaanu Vasti (Knee Care)": {
+      "body": [
+        "Jaanu Vasti is a specialised knee-care therapy in which a ring of black-gram dough is carefully built around the knee and filled with warm medicated oil, left to pool gently over the kneecap. The oil rests for roughly thirty to forty-five minutes and is continuously refreshed so it stays comfortably warm throughout, allowing its medicinal properties to soak deeply into the joint.",
+        "The pooled-oil phase is followed by a soothing oil massage and a warm Kizhi (herbal poultice) over the area, leaving the knee feeling supported, mobile and cared for."
+      ],
+      "benefits": [
+        "Lubricates the joint by helping to restore synovial fluid",
+        "Relieves knee pain and stiffness",
+        "Improves flexibility and range of motion",
+        "Boosts local circulation to aid natural healing"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Preparatory knee massage",
+          "description": "A gentle massage around the knee prepares the joint and surrounding tissue for the therapy."
+        },
+        {
+          "title": "Building the dough ring",
+          "description": "A ring of black-gram dough is shaped and sealed around the knee to form a leak-proof reservoir."
+        },
+        {
+          "title": "Warm pooled oil",
+          "description": "Deeply warm (never hot) medicated oil is poured into the well over the kneecap and refreshed to stay warm for around 30 to 45 minutes."
+        },
+        {
+          "title": "Soothing massage",
+          "description": "The dough is removed and a calming oil massage is given over the knee."
+        },
+        {
+          "title": "Warm Kizhi",
+          "description": "A warm herbal poultice (Kizhi) is applied to ease the area and seal in the warmth."
+        }
+      ],
+      "contraindications": "Jaanu Vasti is not suitable for everyone. It should be avoided where there is acute severe inflammation or a hot, swollen knee, open wounds, skin infections or burns around the knee, fever or a heavy cold, fractures or dislocations, and inflammatory joint conditions such as Aamavata or Vata Raktam. Because suitability depends entirely on your individual condition, this therapy cannot be booked online; a free consultation with our Ayurveda Vaidya is required first to confirm it is right for you."
+    },
+    "Kati Vasti (Lower Back Care)": {
+      "body": [
+        "Kati Vasti is a specialised lower-back therapy in which a ring of black-gram dough is built and sealed over the lumbar spine to hold warm medicated oil pooled across the lower back. The oil remains in place for roughly thirty to forty-five minutes and is refreshed throughout to keep it comfortably warm, letting a deep, spreading warmth penetrate the muscles and tissues.",
+        "Once the pooled-oil phase is complete, a light massage and a brief Kizhi (herbal poultice) follow, leaving the lower back feeling eased, warmed and supported."
+      ],
+      "benefits": [
+        "Deeply relieves low-back pain",
+        "Eases stiffness and improves bending",
+        "Strengthens back muscles and ligaments",
+        "Improves circulation to the lower back",
+        "Supports degenerating soft tissue (tarunasthi)"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Lying face down",
+          "description": "You lie comfortably face down so the lower back is fully accessible."
+        },
+        {
+          "title": "Building the dough ring",
+          "description": "A ring of black-gram dough is shaped and sealed on the lower back to form a leak-proof well."
+        },
+        {
+          "title": "Warm pooled oil",
+          "description": "Warm medicated oil is poured into the well and refreshed to stay warm for around 30 to 45 minutes, giving a deep spreading warmth."
+        },
+        {
+          "title": "Gentle massage",
+          "description": "The dough is removed and a light, gentle massage is given over the lower back."
+        },
+        {
+          "title": "Brief Kizhi",
+          "description": "A short warm herbal poultice (Kizhi) finishes the treatment."
+        }
+      ],
+      "contraindications": "Kati Vasti is not suitable for all back pain and is only carried out under Vaidya guidance. It should be avoided during pregnancy, where there are open wounds, skin infections, burns or rashes on the lower back, acute inflammation, fever or a hot swollen injury, and in cases of severe spinal fractures or tumours. For this reason the therapy cannot be booked online; a free consultation with our Ayurveda Vaidya is required first to assess whether it is appropriate for you."
+    },
+    "Greeva Vasti (Neck Care)": {
+      "body": [
+        "Greeva Vasti is a specialised neck-care therapy in which a ring of black-gram dough is placed over the back of the neck to hold warm medicated oil at a consistent temperature. The oil is kept comfortably warm for roughly thirty to forty-five minutes, allowing its warmth and medicinal properties to settle into the cervical region and the muscles around it.",
+        "The pooled-oil phase is followed by an oil massage and a Kizhi (herbal poultice) over the affected area, helping the neck feel looser, calmer and more mobile."
+      ],
+      "benefits": [
+        "Relieves cervical pain and chronic neck discomfort",
+        "Eases stiff, knotted muscles and improves head movement",
+        "Soothes compressed nerves, easing numbness or tingling down the arms",
+        "Boosts local circulation"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Lying face down",
+          "description": "You lie comfortably face down so the back of the neck is exposed."
+        },
+        {
+          "title": "Placing the dough ring",
+          "description": "A black-gram dough ring is built at the trigger point on the neck to form a warm reservoir."
+        },
+        {
+          "title": "Warm pooled oil",
+          "description": "Warm medicated oil is poured in and kept consistently warm for around 30 to 45 minutes."
+        },
+        {
+          "title": "Soothing massage",
+          "description": "The dough is removed and a calming oil massage is given over the neck."
+        },
+        {
+          "title": "Warm Kizhi",
+          "description": "A warm herbal poultice (Kizhi) is applied to the affected area to finish."
+        }
+      ],
+      "contraindications": "Greeva Vasti is not suitable for all neck pain and is only carried out under Vaidya guidance. It should be avoided in acute inflammatory conditions, hot swelling or infection in the neck, where there are open wounds, burns, psoriasis or eczema on the neck, during fever or active infection, and in cases of recent cervical fractures or dislocations. Because of this, the therapy cannot be booked online; a free consultation with our Ayurveda Vaidya is required first to confirm it is suitable for you."
+    },
+    "Uro Vasti (Chest Care)": {
+      "body": [
+        "Uro Vasti, also known as Hridaya Vasti, is a chest-care therapy in which a ring of black-gram dough is built on the chest to hold warm medicated oil pooled over the heart and lung region. The oil rests for roughly thirty to forty-five minutes and is refreshed to stay comfortably warm, allowing a grounding warmth and gentle weight to settle over the centre of the chest.",
+        "After the pooled-oil phase, a gentle massage and a warm Kizhi (herbal poultice) follow, leaving the chest feeling open, soothed and at ease."
+      ],
+      "benefits": [
+        "Enhances breathing by expanding the lungs, easing spasms and clearing congestion",
+        "Strengthens and nourishes the heart muscles and improves circulation",
+        "Relieves emotional stress by calming the Anahata (heart) centre",
+        "Eases intercostal and chest-wall tightness"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Lying on the back",
+          "description": "You lie comfortably on your back so the centre of the chest is accessible."
+        },
+        {
+          "title": "Building the dough wall",
+          "description": "A ring of black-gram dough is built over the centre of the chest to form a leak-proof well."
+        },
+        {
+          "title": "Warm pooled oil",
+          "description": "Warm medicated oil is poured in and refreshed to stay warm for around 30 to 45 minutes, giving a grounding warmth and gentle weight."
+        },
+        {
+          "title": "Soothing massage",
+          "description": "The dough is removed and a gentle massage is given over the chest."
+        },
+        {
+          "title": "Warm Kizhi",
+          "description": "A warm herbal poultice (Kizhi) is applied to complete the therapy."
+        }
+      ],
+      "contraindications": "Uro Vasti is only carried out after thorough case-taking by a qualified Vaidya. It should be avoided in acute heart conditions, after a recent heart attack or during any medical emergency, where there are active skin infections, open wounds or rashes on the chest, during fever, cold, severe congestion or infectious illness, and during pregnancy unless cleared by an expert physician. For these reasons the therapy cannot be booked online; a free consultation with our Ayurveda Vaidya is required first."
+    },
+    "Netra Tarpanam (Eye Rejuvenation)": {
+      "body": [
+        "Netra Tarpanam, also known as Akshi Tarpana, is a deeply nourishing eye therapy in which small wells of black-gram dough are built around each eye socket and filled with warm medicated ghee, such as Triphala ghee, until it gently covers the eyes. As you slowly open and close your eyes, the ghee coats, lubricates and cleanses the eyes, the surrounding muscles and the nerves around them.",
+        "The therapy is carried out as a consecutive-day course with strict rest. During treatment, opening the eyes feels like a warm bath and vision turns temporarily golden and blurry; afterwards the eyes are wiped and may feel hazy with brief mild burning, so sunglasses, eye rest and reduced screen time are advised."
+      ],
+      "benefits": [
+        "Relieves digital eye strain",
+        "Deeply lubricates the eyes, helping as a remedy for dry-eye syndrome",
+        "Strengthens the eye muscles",
+        "Nourishes the optical nerves and improves clarity",
+        "Reduces dark circles and puffiness"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Lying on the back",
+          "description": "You lie comfortably on your back as the dough frames are prepared around each eye."
+        },
+        {
+          "title": "Building the dough wells",
+          "description": "Wells of black-gram dough are built around each eye socket, giving a gentle, warm weight."
+        },
+        {
+          "title": "Filling with warm ghee",
+          "description": "Warm medicated ghee, such as Triphala ghee, is poured into the wells until it covers the eyes; opening the eyes feels like a warm bath and vision turns golden and blurry."
+        },
+        {
+          "title": "Gentle eye movements",
+          "description": "You gently open and close your eyes so the ghee coats, lubricates and cleanses the eyes, muscles and nerves."
+        },
+        {
+          "title": "Wiping and aftercare",
+          "description": "The wells are removed and the eyes wiped; they may feel hazy with brief mild burning, so sunglasses, eye rest and reduced screen time are advised."
+        }
+      ],
+      "contraindications": "Netra Tarpanam is not suitable for all eye problems and is only carried out after consultation with a qualified Vaidya. It should be avoided where there is an active eye infection such as conjunctivitis, styes or ulcers, severe congestion, heavy colds or sinusitis with weeping eyes, in very young children or the very elderly, during intoxication, and on overcast, rainy or cold days as these aggravate Kapha. For these reasons the therapy cannot be booked online; a free consultation with our Ayurveda Vaidya is required first."
+    }
+  },
+  "cat-panchakarma": {
+    "Virechana (Metabolic Cleansing)": {
+      "body": [
+        "Virechana is a medically supervised Panchakarma procedure that uses specific herbs and oils to systematically eliminate toxins (Ama) and excess Pitta through the gastrointestinal tract. It begins with a multi-day preparation phase designed to loosen and mobilise toxins within the body.",
+        "Once the body is prepared, customised herbal compounds are used to induce controlled purgation that deeply cleanses the liver, gallbladder and small intestine, restoring balance from within."
+      ],
+      "benefits": [
+        "Balances the metabolic fire (Agni)",
+        "Resolves digestive disorders",
+        "Clears heat-driven skin conditions",
+        "Boosts overall energy"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Consultation and screening",
+          "description": "A Vaidya consultation, with possible medical screening, determines whether the procedure is appropriate for you."
+        },
+        {
+          "title": "Preparation phase",
+          "description": "A multi-day preparation phase is carried out to loosen and mobilise toxins throughout the body."
+        },
+        {
+          "title": "Customised herbal compounds",
+          "description": "Herbal compounds are tailored to your needs to prepare for the cleansing stage."
+        },
+        {
+          "title": "Controlled purgation",
+          "description": "Controlled purgation is induced to deeply cleanse the liver, gallbladder and small intestine."
+        },
+        {
+          "title": "Supervised recovery",
+          "description": "The process is closely supervised throughout to support a balanced return to normal routine."
+        }
+      ],
+      "contraindications": "Virechana is a medically supervised procedure and must never be undertaken without a Vaidya consultation. It should be avoided during pregnancy, in cases of extreme weakness, in the very young or elderly, during acute fevers, severe diarrhoea, or intestinal obstruction. For these reasons it cannot be booked online; a mandatory consultation with our Ayurveda Vaidya, and possible medical screening, come first."
+    },
+    "Basti (Medicated Enema Therapy)": {
+      "body": [
+        "Basti is considered the most essential Panchakarma procedure. It involves introducing herbal decoctions (Niruha Basti) or medicated oils (Anuvasana Basti) into the colon, which is regarded as the primary seat of Vata.",
+        "The therapy is delivered as a supervised programme that combines decoction-based and oil-based enemas, tailored to your individual needs for a thorough and balancing effect."
+      ],
+      "benefits": [
+        "Relieves chronic Vata pain such as arthritis, sciatica and joint stiffness",
+        "Remedies chronic constipation and gas",
+        "Calms the nervous system",
+        "Enhances immunity"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Vaidya consultation",
+          "description": "A consultation with the Vaidya assesses your needs and confirms suitability."
+        },
+        {
+          "title": "Tailored programme design",
+          "description": "A programme combining decoction-based and oil-based enemas is designed around your condition."
+        },
+        {
+          "title": "Niruha Basti",
+          "description": "Herbal decoction enemas (Niruha Basti) are administered as part of the supervised course."
+        },
+        {
+          "title": "Anuvasana Basti",
+          "description": "Medicated oil enemas (Anuvasana Basti) are administered to nourish and balance Vata."
+        },
+        {
+          "title": "Supervised progress",
+          "description": "Your progress is monitored throughout the supervised programme."
+        }
+      ],
+      "contraindications": "Basti should be avoided in cases of acute intestinal bleeding, severe diarrhoea, acute abdominal infections, high fever, extreme emaciation, and during pregnancy. As a supervised Panchakarma procedure, it cannot be booked online; a mandatory consultation with our Ayurveda Vaidya comes first."
+    },
+    "Nasya (Sensory & Respiratory Clearance)": {
+      "body": [
+        "Nasya is the administration of medicated oils, powders or herbal juices into the nasal passages, which Ayurveda regards as the gateway to the brain. It works to clear congestion, soothe the nervous system and balance Prana Vata.",
+        "The session begins with a gentle face, neck and shoulder massage followed by herbal steam (Swedana), after which a precise dose of medicated oil is administered while you are comfortably reclined."
+      ],
+      "benefits": [
+        "Relieves chronic headaches, migraines and sinusitis",
+        "Clears the senses, including vision, smell and hearing",
+        "Reduces stress for better sleep",
+        "Improves mental focus"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Vaidya consultation",
+          "description": "A consultation with the Vaidya confirms the procedure is appropriate for you."
+        },
+        {
+          "title": "Massage preparation",
+          "description": "A gentle face, neck and shoulder massage prepares the area."
+        },
+        {
+          "title": "Herbal steam (Swedana)",
+          "description": "Herbal steam is applied to help open the channels before administration."
+        },
+        {
+          "title": "Reclining position",
+          "description": "You recline comfortably so the medicated dose can be administered safely."
+        },
+        {
+          "title": "Nasal administration",
+          "description": "A precise dose of medicated oil is administered into the nasal passages."
+        }
+      ],
+      "contraindications": "Nasya should be avoided during a common cold (acute coryza), high fever, immediately after a meal, in cases of acute indigestion, and where there is nasal injury. As a supervised Panchakarma procedure, it cannot be booked online; a mandatory consultation with our Ayurveda Vaidya comes first."
+    }
+  },
+  "cat-postnatal": {
+    "Post-Delivery Care Package (Sutika Paricharya)": {
+      "body": [
+        "The Post-Delivery Care Package, traditionally known as Sutika Paricharya, is a fully personalised postpartum recovery programme spanning roughly the forty-five-day postpartum period. It is designed to nurture and restore the mother after childbirth, combining several core therapies that are tailored to her delivery type and breastfeeding needs.",
+        "During childbirth, a sudden emptiness in the pelvic cavity disturbs Vata Dosha, the digestive fire (Agni) weakens, and the body's tissues (Dhatus) are depleted. Left unmanaged, this imbalance can lead to chronic back pain, joint weakness, digestive issues, fatigue and postpartum anxiety — this care helps you heal correctly from the start.",
+        "Following a free pre-package consultation with the Ayurvedic doctor, the programme draws on customised core therapies including Abhyangam (oil massage), Kizhi (herbal poultice), Kashaya Dhaara (herbal decoction pouring), Mukha Lepam (herbal face pack), Sirodhara (head pouring) and Udara Veshtanam (abdominal wrapping). These are not all given on the same day; they are sequenced and tailored to support your recovery.",
+        "No two births are identical. A natural delivery has different immediate needs to a Cesarean section, where deep abdominal massage must wait until the incision heals. Your constitution (Prakriti), current imbalances (Vikriti), digestive strength and lactation needs are unique, so the oils, herbs, therapy durations and dietary guidance are customised to you.",
+        "Before starting, you'll have a free Pre-Package Consultation with our Ayurvedic Vaidya, which assesses your delivery type and any complications, your current vitals and healing progress, and your digestive capacity — ensuring every therapy is safely timed for you and your nursing infant."
+      ],
+      "benefits": [
+        "Aids uterine involution and tones the abdominal muscles",
+        "Relieves lower backache, shoulder tension and joint pain",
+        "Calms the nervous system, eases exhaustion and promotes deep, restorative sleep",
+        "Boosts digestive fire and supports healthy weight management",
+        "Enhances breast-milk quality and quantity while boosting immunity for mother and child"
+      ],
+      "procedureSteps": [
+        {
+          "title": "Free pre-package consultation",
+          "description": "A free consultation with the Ayurvedic doctor assesses the mother's health, delivery type and breastfeeding needs to tailor the programme."
+        },
+        {
+          "title": "Personalised therapy plan",
+          "description": "Based on your delivery type, healing progress and digestive strength, we tailor which therapies you receive and in what order — not all therapies are given on the same day."
+        },
+        {
+          "title": "Abhyangam and Kizhi",
+          "description": "Customised oil massage (Abhyangam) and herbal poultice (Kizhi) help ease the body and relieve aches."
+        },
+        {
+          "title": "Kashaya Dhaara and Sirodhara",
+          "description": "Herbal pouring (Kashaya Dhaara) and head pouring (Sirodhara) calm the nervous system and support rest."
+        },
+        {
+          "title": "Mukha Lepam",
+          "description": "A herbal face pack (Mukha Lepam) is applied as part of the nurturing care."
+        },
+        {
+          "title": "Udara Veshtanam",
+          "description": "Abdominal wrapping (Udara Veshtanam) supports the abdomen and helps tone the muscles."
+        }
+      ],
+      "contraindications": "This package is tailored individually, and a mandatory free pre-package consultation determines the safe herbs and therapies based on the mother's health and breastfeeding. It is generally avoided during acute illness or active infection. For this reason it cannot be booked online; an enquiry and a free consultation with our Ayurveda Vaidya come first."
+    }
+  }
+}

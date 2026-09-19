@@ -1,0 +1,386 @@
+{
+  "cat-massage": {
+    "Paada-Abhyangam (Foot Massage)": {
+      "body": [
+        "Paada-Abhyangam is a soothing 30-minute Ayurvedic foot massage in which warm herbal oils are worked gently into the feet, ankles and calves. Through rhythmic, calming strokes, the therapist stimulates the marma points of the feet, which are considered to be connected to the whole body.",
+        "Far more than a simple foot treatment, this therapy is designed to settle a busy mind as much as it eases tired legs. It is an ideal way to unwind at the end of a long day and to prepare the body and mind for restful sleep."
+      ],
+      "benefits": [
+        "Encourages deep physical relaxation",
+        "Promotes mental calm and better sleep",
+        "Reduces foot fatigue",
+        "Supports improved eye health and vitality"
+      ],
+      "procedureSteps": [
+        {"title": "Warm oil application", "description": "Warm herbal oil is applied to the feet, ankles and calves to begin the treatment."},
+        {"title": "Rhythmic strokes", "description": "The therapist performs soothing, rhythmic strokes along the lower limbs."},
+        {"title": "Marma stimulation", "description": "Marma points on the feet are gently activated to encourage whole-body relaxation."},
+        {"title": "Settling rest", "description": "The session closes with a calming finish that leaves you grounded and relaxed."}
+      ],
+      "contraindications": "This treatment should be avoided if you have active infections or open wounds on the feet or legs, a fever or acute illness, deep vein thrombosis (DVT), or any severe medical condition. If in doubt, please consult our practitioner before booking."
+    },
+    "Head Massage": {
+      "body": [
+        "Siro-Abhyangam is a restful 30-minute head massage focusing on the scalp, neck and shoulders using warm, herb-infused oils. Gentle yet firm rhythmic strokes are applied along the marma points to nourish the scalp and soothe the nervous system.",
+        "It is a wonderfully effective way to melt away mental fatigue and ease the tension that gathers across the upper body during long, demanding days."
+      ],
+      "benefits": [
+        "Encourages deep relaxation",
+        "Relieves stiffness in the neck and shoulders",
+        "Nourishes the scalp and hair",
+        "Supports better sleep and mental clarity"
+      ],
+      "procedureSteps": [
+        {"title": "Warm oil application", "description": "Warm herb-infused oil is applied to the scalp, neck and shoulders."},
+        {"title": "Rhythmic strokes", "description": "Gentle, firm rhythmic strokes work across the upper body."},
+        {"title": "Marma stimulation", "description": "Key marma points are activated to soothe the nervous system."},
+        {"title": "Calming finish", "description": "The treatment ends with a settling finish that eases mental fatigue."}
+      ],
+      "contraindications": "Please avoid this treatment if you have a fever, cold, flu or heavy cough, a scalp infection or injury, any recent injury, a severe migraine in progress, or heavy indigestion. If you are unsure, do speak with our practitioner beforehand."
+    },
+    "Abhyangam (Partial)": {
+      "body": [
+        "Abhyangam (Partial) is a focused 45-minute Ayurvedic oil massage that uses warm medicated oil over targeted muscle groups to relax the body and improve circulation.",
+        "It offers a time-efficient alternative to a full-body Abhyangam, making it ideal when you wish to address a specific area without committing to a longer session."
+      ],
+      "benefits": [
+        "Eases localized stiffness and tension",
+        "Improves circulation in the treated area",
+        "Encourages relaxation",
+        "A time-efficient alternative to full-body massage"
+      ],
+      "procedureSteps": [
+        {"title": "Warm oil application", "description": "Warm medicated oil is applied over the targeted area."},
+        {"title": "Targeted strokes", "description": "Rhythmic strokes focus on the chosen muscle groups."},
+        {"title": "Relaxation", "description": "The session concludes with soothing strokes that leave the area relaxed."}
+      ],
+      "contraindications": "This treatment is best avoided during fever or acute illness, with severe indigestion or immediately after meals, or where the skin over the area is infected or damaged."
+    },
+    "Leg and Foot Massage with Kizhi": {
+      "body": [
+        "This one-hour treatment combines a deep-tissue oil massage of the feet and lower legs with Kizhi, a warm herbal heat compress. Marma points are stimulated while the healing warmth helps the medicated oils penetrate, drawing out stiffness and pain.",
+        "The result is a deeply restorative experience that leaves the lower limbs feeling light, warm and revived."
+      ],
+      "benefits": [
+        "Relieves muscle stiffness in the legs and feet",
+        "Improves lower-limb circulation",
+        "Eases tension and stress",
+        "Leaves an immediate sense of lightness"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "A deep-tissue oil massage is applied to the feet and lower legs."},
+        {"title": "Marma activation", "description": "Marma points are stimulated, which may produce a mild sensation."},
+        {"title": "Kizhi compress", "description": "Warm herbal poultices deliver deep, penetrating warmth and herbal aromas."},
+        {"title": "Total relaxation", "description": "The treatment closes with a soothing finish and a feeling of lightness."}
+      ],
+      "contraindications": "Avoid this therapy if you have a fever or acute infection, skin injuries, severe vascular issues such as DVT or varicose veins, unexplained leg swelling, uncontrolled conditions such as severe diabetic neuropathy or advanced heart disease, or if you are in the first trimester of pregnancy."
+    },
+    "Siro-Abhyangam (Head Massage)": {
+      "body": [
+        "This extended one-hour Siro-Abhyangam covers the head, face, neck and shoulders using warm, herb-infused oils worked gently into the marma points. The longer format allows for an unhurried, deeply nourishing experience.",
+        "It deeply nourishes the scalp, soothes the nervous system and relieves the mental fatigue that builds up through busy, high-pressure days."
+      ],
+      "benefits": [
+        "Encourages deep relaxation",
+        "Relieves stiffness in the neck and shoulders",
+        "Nourishes the scalp and hair",
+        "Supports better sleep and mental clarity"
+      ],
+      "procedureSteps": [
+        {"title": "Warm oil application", "description": "Warm herb-infused oil is applied to the head, face, neck and shoulders."},
+        {"title": "Rhythmic strokes", "description": "Gentle rhythmic strokes work across the upper body and face."},
+        {"title": "Marma stimulation", "description": "Marma points are activated to soothe the nervous system."},
+        {"title": "Calming finish", "description": "An unhurried finish leaves you relaxed and mentally clear."}
+      ],
+      "contraindications": "Please avoid this treatment if you have a fever, cold, flu or cough, a scalp infection or injury, any recent injury, a severe migraine in progress, or heavy indigestion. Consult our practitioner if you are uncertain."
+    },
+    "Neck and Shoulder Massage with Kizhi": {
+      "body": [
+        "This one-hour treatment pairs a firm massage of the neck, shoulders and upper back with the penetrating heat of a warm Kizhi compress. Together they soften the tissue and release stubborn knots and stiffness.",
+        "It is a particularly welcome therapy for anyone who carries tension across the upper body, offering targeted relief through a combination of pressure and soothing warmth."
+      ],
+      "benefits": [
+        "Releases stubborn knots and stiffness",
+        "Softens tight tissue in the neck and shoulders",
+        "Eases tension across the upper back",
+        "Provides soothing stress relief"
+      ],
+      "procedureSteps": [
+        {"title": "Initial warmth", "description": "The treatment begins with gentle warmth to prepare the tissue."},
+        {"title": "Targeted bodywork", "description": "Firm, rhythmic pressure works through the neck, shoulders and upper back."},
+        {"title": "Kizhi application", "description": "A warm Kizhi compress is applied; do let your therapist know your heat tolerance."},
+        {"title": "Soothing finish", "description": "Rhythmic pressure and warmth bring the session to a relaxing close."}
+      ],
+      "contraindications": "This therapy should be avoided with acute injuries or inflammation, skin infections or open wounds, severe spinal or nerve conditions, a fever or contagious illness, or cardiovascular issues."
+    },
+    "Low-Back & Leg Massage with Kizhi": {
+      "body": [
+        "This therapy combines an Abhyangam of the lower back, hips and legs with a Kizhi compress, allowing deep heat to penetrate the joints and muscles.",
+        "It is especially helpful for chronic lower-back discomfort and stiffness, offering thermal relief alongside gentle detoxification through sweating."
+      ],
+      "benefits": [
+        "Delivers deep thermal relief",
+        "Reduces pain and stiffness",
+        "Encourages sweating and detoxification",
+        "Promotes lasting post-treatment relaxation"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "Abhyangam is performed over the lower back, hips and legs with warm oil."},
+        {"title": "Kizhi compress", "description": "Warm Kizhi poultices apply deep, penetrating heat to joints and muscles."},
+        {"title": "Detoxification", "description": "The warmth encourages sweating to help release toxins."},
+        {"title": "Relaxation", "description": "The treatment closes with a restful, deeply relaxed finish."}
+      ],
+      "contraindications": "Avoid this treatment with acute inflammation or recent injuries, a fever or infectious disease, skin conditions, severe vascular issues such as DVT or varicose veins, advanced cardiovascular conditions, during pregnancy, or with indigestion or directly after a heavy meal."
+    },
+    "Spinal Massage with Kizhi": {
+      "body": [
+        "This treatment delivers an Abhyangam along the spine, lower back and legs followed by a Kizhi compress. Targeted heat, medicated oils and gentle pressure work together to melt deep stiffness and improve circulation.",
+        "It is well suited to chronic lower-back discomfort and to nerve-related pain that radiates down the leg, offering soothing warmth and relief."
+      ],
+      "benefits": [
+        "Provides deep pain relief",
+        "Reduces stiffness along the spine and lower back",
+        "Offers soothing warmth",
+        "Supports detoxification and better circulation"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "Abhyangam is applied along the spine, lower back and legs."},
+        {"title": "Kizhi compress", "description": "Targeted heat from Kizhi poultices works into deep-seated stiffness."},
+        {"title": "Gentle pressure", "description": "Gentle pressure with medicated oils improves circulation."},
+        {"title": "Warming finish", "description": "The session ends with soothing warmth and a sense of relief."}
+      ],
+      "contraindications": "Please avoid this therapy with acute inflammation or injury, a fever or active infections, indigestion, or during pregnancy, when deep Kizhi pressure on the lower back is avoided."
+    },
+    "Lymphatic Drainage Massage": {
+      "body": [
+        "This treatment uses light, highly rhythmic and precisely directed pumping strokes that follow the natural anatomy of the lymphatic system, guiding fluid toward the lymph-node centres at the groin, armpits and neck. The gentle technique moves cellular fluid without collapsing the delicate lymphatic walls.",
+        "By encouraging healthy lymphatic flow, the therapy helps flush metabolic waste, speeds recovery from soft-tissue injuries, reduces swelling and reinforces immune function."
+      ],
+      "benefits": [
+        "Flushes metabolic waste",
+        "Speeds recovery from soft-tissue injuries",
+        "Reduces swelling and fluid retention",
+        "Reinforces immune function"
+      ],
+      "procedureSteps": [
+        {"title": "Light directional strokes", "description": "Very light pumping strokes are applied, quite distinct from deep-tissue work."},
+        {"title": "Following lymphatic flow", "description": "Strokes follow the natural lymphatic anatomy toward the node centres."},
+        {"title": "Rhythmic sequence", "description": "A gentle, rhythmic sequence moves fluid steadily through the system."},
+        {"title": "Gentle completion", "description": "The treatment finishes gently, leaving the body lighter and refreshed."}
+      ],
+      "contraindications": "Avoid this treatment with an active infection or fever, deep vein thrombosis (DVT), or acute inflammation. If you have a heart or kidney condition, please consult the practitioner first."
+    },
+    "Abhyangam (Full Body Oil Massage)": {
+      "body": [
+        "Abhyangam is a traditional one-hour full-body Ayurvedic massage in which warm, herb-infused oils are applied from head to toe using rhythmic, synchronized strokes.",
+        "The deep friction helps the medicated oil nourish the body, flush toxins and balance the body's energies, making it both a deeply relaxing and restorative experience."
+      ],
+      "benefits": [
+        "Encourages deep physical relaxation",
+        "Reduces muscle stiffness",
+        "Supports detoxification and better circulation",
+        "Nourishes the skin"
+      ],
+      "procedureSteps": [
+        {"title": "Warm oil application", "description": "Warm herb-infused oil is applied from head to toe."},
+        {"title": "Synchronized strokes", "description": "Rhythmic, synchronized strokes work across the whole body."},
+        {"title": "Deep friction", "description": "Deeper friction helps the oil nourish tissues and flush toxins."},
+        {"title": "Relaxing finish", "description": "The treatment closes with a deeply relaxing, balancing finish."}
+      ],
+      "contraindications": "This treatment should be avoided during fever or acute illness, with severe indigestion or immediately after meals, during menstruation, or where the skin is infected or damaged."
+    },
+    "Abhyangam with Kashaya Dhaara": {
+      "body": [
+        "This treatment begins with a full-body oil massage and is followed by Kashaya Dhaara, in which a warm fermented medicinal liquid, often Dhanyamla, is poured rhythmically over the body.",
+        "Together, the massage and the warm pour work to reduce inflammation, relieve stiff muscles and flush deep-seated toxins, leaving a notable sense of post-treatment lightness."
+      ],
+      "benefits": [
+        "Eases chronic pain and stiffness",
+        "Helps reduce inflammation",
+        "Supports the nervous system",
+        "Relieves stress and fatigue",
+        "Aids weight management"
+      ],
+      "procedureSteps": [
+        {"title": "Synchronized massage", "description": "A rhythmic, synchronized full-body oil massage prepares the body."},
+        {"title": "The warm pour", "description": "Warm fermented medicinal liquid is poured rhythmically over the body."},
+        {"title": "Thermal relief", "description": "The warmth penetrates to deliver deep relief from stiffness."},
+        {"title": "Lightness", "description": "The session concludes with a feeling of post-treatment lightness."}
+      ],
+      "contraindications": "Please avoid this therapy with a fever or acute infections, skin alterations, severe inflammation or burns, extreme weakness, or during pregnancy."
+    },
+    "Abhyangam with Kizhi": {
+      "body": [
+        "This treatment combines a full-body oil massage with warm muslin herbal poultices, known as Kizhi, that are patted and stamped across the body. Targeted pressure, heat and herbal oils work together to penetrate the tissues.",
+        "The combined action draws out stiffness and toxins, providing immediate physical relief and an enveloping sense of warmth."
+      ],
+      "benefits": [
+        "Eases chronic back and neck pain",
+        "Relieves joint stiffness and muscle spasms",
+        "Reduces stress, exhaustion and insomnia",
+        "Improves circulation, skin tone and flexibility",
+        "Supports post-workout recovery"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "A full-body oil massage prepares and relaxes the body."},
+        {"title": "Poultice application", "description": "Warm herbal poultices are patted and stamped across the body."},
+        {"title": "Penetrating warmth", "description": "Pressure, heat and herbal oils penetrate the tissues with herbal aromas."},
+        {"title": "Immediate relief", "description": "The treatment closes with immediate physical relief and warmth."}
+      ],
+      "contraindications": "Avoid this therapy with a fever or acute inflammatory illness, indigestion, diarrhoea or Ama, infectious skin conditions, open wounds or rashes, advanced cardiovascular disease, DVT or uncontrolled high blood pressure, during the first days of menstruation or pregnancy, or immediately after a heavy meal."
+    },
+    "Abhyangam with Steam Bath": {
+      "body": [
+        "This treatment opens with a full-body oil massage and is followed by a herbal steam chamber, known as Bashpa Swedana. The gentle heat opens the pores so the oils can penetrate more deeply while sweat and toxins are flushed out.",
+        "It is a beautifully complete therapy for relaxation, detoxification and a renewed sense of glow and mobility."
+      ],
+      "benefits": [
+        "Promotes deep relaxation and stress relief",
+        "Reduces pain and stiffness",
+        "Supports detoxification through swedana",
+        "Improves circulation and skin glow",
+        "Enhances mobility"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "A full-body oil massage prepares the body and skin."},
+        {"title": "Herbal steam", "description": "A herbal steam chamber gently opens the pores."},
+        {"title": "Deeper penetration", "description": "The heat helps oils penetrate while sweat flushes out toxins."},
+        {"title": "Renewing finish", "description": "The treatment closes with a sense of glow, mobility and calm."}
+      ],
+      "contraindications": "This treatment should be avoided during fever or acute illness, with indigestion or after meals, during pregnancy or menstruation, with severe heart conditions or high blood pressure, with infectious skin conditions or open wounds, or in cases of extreme obesity or acute inflammation."
+    }
+  },
+  "cat-rehabilitation": {
+    "Abhyangam with Kizhi (Heat Compress)": {
+      "body": [
+        "This clinical, practitioner-supervised therapy combines a full-body dynamic medicated-oil massage with Kizhi, a form of Swedana or sudation that uses herbal poultices. It offers a deeply warm and tactile experience designed for genuine rehabilitation.",
+        "After the oil massage, heated herbal poultices are applied with gentle tapping, rhythmic pounding and sliding compressions over the muscles, spinal pathways and joints, with the therapist continually checking the temperature for your comfort."
+      ],
+      "benefits": [
+        "Significantly reduces muscle and joint stiffness",
+        "Relieves localized chronic pain in the lower back and neck",
+        "Increases joint range of motion",
+        "Enhances lymphatic drainage",
+        "Expels deep metabolic toxins (Ama) through sweating",
+        "Promotes physical relaxation and grounding"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "A full-body dynamic medicated-oil massage prepares the body."},
+        {"title": "Heated poultices", "description": "Warm herbal poultices are applied with gentle tapping and rhythmic pounding."},
+        {"title": "Sliding compressions", "description": "Sliding compressions work over muscles, spinal pathways and joints."},
+        {"title": "Temperature checks", "description": "The therapist continually checks the temperature for your comfort."},
+        {"title": "Grounding finish", "description": "The treatment closes with physical relaxation and a grounded calm."}
+      ],
+      "contraindications": "This therapy should be avoided with a high fever, acute inflammatory states, active skin infections, open wounds, indigestion, DVT, or during the active days of menstruation."
+    },
+    "Abhyangam with Kashaya Dhaara (Full Body)": {
+      "body": [
+        "This practitioner-supervised therapy integrates an oil massage with Kashaya Dhaara, a continuous warm stream of concentrated medicated herbal decoction poured systematically over the whole body. The oil addresses the lipid-soluble components while the decoction delivers water-soluble plant alkaloids.",
+        "After a thorough warm-oil massage, warm aromatic decoctions are poured uniformly in rhythmic linear and circular patterns, producing a pleasant tingling that soothes the peripheral nerves."
+      ],
+      "benefits": [
+        "Improves systemic circulation",
+        "Tones flaccid muscle fibres",
+        "Stabilizes nervous-system pathways",
+        "Decreases fluid retention and peripheral edema",
+        "Relieves stubborn chronic inflammatory joint disease"
+      ],
+      "procedureSteps": [
+        {"title": "Warm-oil massage", "description": "A thorough warm-oil massage prepares the whole body."},
+        {"title": "Decoction pour", "description": "Warm aromatic decoctions are poured uniformly over the body."},
+        {"title": "Rhythmic patterns", "description": "The stream follows rhythmic linear and circular patterns."},
+        {"title": "Nerve soothing", "description": "A pleasant tingling soothes the peripheral nerves."},
+        {"title": "Restorative finish", "description": "The session closes with improved circulation and a settled calm."}
+      ],
+      "contraindications": "Avoid this therapy with severe exhaustion, active diarrhoea, a high fever, advanced cardiac vulnerabilities, or during the immediate post-meal period."
+    },
+    "Abhyangam with Sirodhaara (Rehabilitation)": {
+      "body": [
+        "This premier stress-elimination and neurological-rehabilitation sequence pairs a full-body oil massage with Sirodhaara, where a warm stream of medicated oil, herbal milk or buttermilk is poured in a continuous rhythmic arc across the forehead. It targets the Ajna chakra and the frontal cortex.",
+        "Following the massage, you lie with your eyes protected and feel a warm, steady, perfectly regulated stream on the forehead; the rhythmic oscillation induces a meditative state that often leads to deep, restorative sleep."
+      ],
+      "benefits": [
+        "Releases deep-seated psychological stress and anxiety",
+        "Eradicates chronic tension headaches",
+        "Restores deep sleep in cases of insomnia",
+        "Helps stabilize elevated blood pressure",
+        "Relieves facial-nerve stiffness"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "A full-body oil massage relaxes the body and prepares the nervous system."},
+        {"title": "Eyes protected", "description": "You lie comfortably with your eyes carefully protected."},
+        {"title": "Steady stream", "description": "A warm, regulated stream is poured in a rhythmic arc across the forehead."},
+        {"title": "Meditative state", "description": "The rhythmic oscillation induces a deeply meditative state."},
+        {"title": "Restorative rest", "description": "Many drift into deep, restorative sleep as the treatment completes."}
+      ],
+      "contraindications": "This therapy should be avoided with acute head injuries, brain tumours in critical stages, severe colds, sinusitis with heavy congestion, or active high fevers."
+    },
+    "Abhyangam with Njavara Kizhi (Full Body)": {
+      "body": [
+        "Classically known as Shashtika Shali Pinda Sweda, this comprehensive therapy follows an Abhyangam oil massage with warm boluses of Njavara medicinal rice cooked in a decoction of Bala (Sida cordifolia) root and rich cow's milk. The boluses are massaged firmly so that the creamy medicinal starch squeezes onto the skin.",
+        "It is an extraordinarily luxurious, soft and intensely nourishing experience, as the warm milk-soaked rice poultices glide along the muscles and form a deep nutrient mask before being wiped clean."
+      ],
+      "benefits": [
+        "Provides unparalleled tissue nourishment",
+        "Supports reversal of muscle wasting (atrophy)",
+        "Strengthens weak or degenerated joints",
+        "Enhances skin texture, radiance and elasticity",
+        "Helps delay structural aging",
+        "Revitalizes neuromuscular function"
+      ],
+      "procedureSteps": [
+        {"title": "Oil massage", "description": "A comprehensive Abhyangam oil massage prepares the body."},
+        {"title": "Rice boluses", "description": "Warm boluses of Njavara rice cooked in Bala decoction and milk are prepared."},
+        {"title": "Firm massage", "description": "The boluses are massaged firmly so the creamy starch squeezes onto the skin."},
+        {"title": "Nutrient mask", "description": "The poultices form a deep, nourishing nutrient mask over the muscles."},
+        {"title": "Clean finish", "description": "The mask is gently wiped clean, leaving the skin nourished and radiant."}
+      ],
+      "contraindications": "Avoid this therapy with severe milk or lactose skin allergies, high kapha congestion, acute phlegm or mucus conditions, active infections, or toxic digestive states (Ama)."
+    },
+    "Udwarthanam with Kashaya Dhaara": {
+      "body": [
+        "This dynamic therapy begins with a dry herbal-powder (choornam) scrub rubbed briskly upward against the direction of hair growth (Pratiloma) to open the pores, reduce subcutaneous fat and stimulate the metabolic fire. It is then balanced by Kashaya Dhaara, in which warm therapeutic decoctions are poured to soothe the scrubbed skin and flush toxins.",
+        "It is an invigorating, exfoliating and stimulating session: the textured friction with firm upward pressure creates a warm tingling, transitioning to relief as the warm decoction streams over the body."
+      ],
+      "benefits": [
+        "Reduces stubborn subcutaneous fat and cellulite",
+        "Provides deep exfoliation for silky skin",
+        "Helps eliminate body odour",
+        "Relieves deep muscle stiffness",
+        "Enhances micro-circulation",
+        "Stimulates lymphatic flow"
+      ],
+      "procedureSteps": [
+        {"title": "Herbal scrub", "description": "A dry herbal-powder scrub is rubbed briskly upward against hair growth."},
+        {"title": "Pore opening", "description": "The firm friction opens the pores and stimulates the metabolic fire."},
+        {"title": "Warm tingling", "description": "The textured pressure creates an invigorating warm tingling."},
+        {"title": "Decoction pour", "description": "Warm therapeutic decoctions are poured to soothe the scrubbed skin."},
+        {"title": "Soothing relief", "description": "The streaming decoction flushes toxins and brings soothing relief."}
+      ],
+      "contraindications": "This therapy should be avoided with excessively dry skin, active skin diseases with open scaling, open cuts or abrasions, extreme physical emaciation, or during pregnancy."
+    }
+  },
+  "cat-weight-mgmt": {
+    "Udwarthanam + Steam Bath": {
+      "body": [
+        "This treatment combines a full-body Udvarthanam, a warm dry herbal-powder scrub massaged upward against the direction of hair growth, with a herbal steam chamber (Bashpa Swedana) immediately afterwards. Together they stimulate metabolism, help break down stubborn subcutaneous fat, improve circulation and sweat out toxins.",
+        "It is an excellent natural therapy for weight management and body toning, leaving most people with an immediate sense of lightness and refreshed energy."
+      ],
+      "benefits": [
+        "Stimulates metabolism and supports weight loss",
+        "Helps break down stubborn subcutaneous fat",
+        "Improves circulation and reduces water retention",
+        "Tones muscles and reduces cellulite",
+        "Supports full-body detox and refreshes oily skin"
+      ],
+      "procedureSteps": [
+        {"title": "Herbal scrub", "description": "A firm, gritty body scrub removes dead skin with brisk upward strokes."},
+        {"title": "Localized heat", "description": "The brisk strokes generate localized heat in the fatty tissue."},
+        {"title": "Steam bath", "description": "A herbal steam bath follows immediately, inducing heavy sweating."},
+        {"title": "Detox sweat", "description": "The sweating helps flush toxins and reduce stiffness."},
+        {"title": "Warm shower", "description": "A warm shower afterwards leaves you feeling light and refreshed."}
+      ],
+      "contraindications": "Avoid this treatment during pregnancy; with open wounds, eczema, psoriasis or active skin infections; with highly sensitive dry skin; with high blood pressure, heart disease or severe dizziness, as the steam raises the heart rate; or with fever, acute inflammation or severe weakness. Never undertake it on a full stomach, and wait at least two hours after a heavy meal."
+    }
+  }
+}
