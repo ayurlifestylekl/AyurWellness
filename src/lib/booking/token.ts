@@ -9,20 +9,25 @@ import { createHmac, timingSafeEqual } from 'crypto'
  *
  * No DB column needed — the token is derived, not stored.
  */
-const SECRET =
-  process.env.BOOKING_LINK_SECRET ||
-  process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  (process.env.NODE_ENV === 'production'
-    ? // Never sign production booking links with a public constant — tokens would
-      // be forgeable. Fail loudly instead. (In practice the service-role key is
-      // always set in prod, so this never triggers.)
-      (() => {
-        throw new Error('BOOKING_LINK_SECRET (or SUPABASE_SERVICE_ROLE_KEY) is required in production for booking-link signing.')
-      })()
-    : 'dev-only-secret')
+/**
+ * Resolved per call rather than at module load: evaluating this at module
+ * scope crashed `next build` while collecting page data on any deploy without
+ * the service-role key set. Failing here instead keeps the security guarantee
+ * (a production link is never signed with a guessable constant) while letting
+ * the build succeed — nothing can issue a forgeable token either way.
+ */
+function bookingSecret(): string {
+  const secret =
+    process.env.BOOKING_LINK_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (secret) return secret
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('BOOKING_LINK_SECRET (or SUPABASE_SERVICE_ROLE_KEY) is required in production for booking-link signing.')
+  }
+  return 'dev-only-secret'
+}
 
 export function createBookingToken(id: string): string {
-  return createHmac('sha256', SECRET).update(id).digest('base64url').slice(0, 24)
+  return createHmac('sha256', bookingSecret()).update(id).digest('base64url').slice(0, 24)
 }
 
 export function verifyBookingToken(id: string, token: string | null | undefined): boolean {
