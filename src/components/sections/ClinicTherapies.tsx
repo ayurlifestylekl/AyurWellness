@@ -10,7 +10,6 @@ import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
 const GOLD = '#B58A3B' // brand gold — minor decorative accents only
 const LOTUS = '#E91E73' // main accent — highlighted words, links
 const INK = '#006B3C' // brand forest green
-const CHAR = '#2A2A28' // soft charcoal for body + card names
 
 /* Generated paper texture (no photo) */
 const PAPER_MOTTLE =

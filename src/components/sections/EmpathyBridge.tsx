@@ -72,7 +72,7 @@ export default function EmpathyBridge() {
                 textShadow: '0 2px 18px rgba(233, 30, 115,0.25)',
               }}
             >
-              They don't fix the cause.
+              They don&apos;t fix the cause.
             </span>
           </h3>
 
@@ -99,7 +99,7 @@ export default function EmpathyBridge() {
 
           {/* Quiet supporting line */}
           <p className="mt-7 max-w-md font-body text-[14px] leading-[1.65] text-white/55 sm:text-[15px]">
-            A pill can quiet a symptom for a day. But if what's actually
+            A pill can quiet a symptom for a day. But if what&apos;s actually
             causing it never gets treated, it always comes back.
           </p>
         </div>
