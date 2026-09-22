@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import AboutHero from '@/components/about/AboutHero'
 import FoundersVision from '@/components/about/FoundersVision'
 import OurPhilosophy from '@/components/about/OurPhilosophy'
+import CentreGallery from '@/components/about/CentreGallery'
 import TeamOrgChart from '@/components/about/TeamOrgChart'
 import KalsDifference from '@/components/about/KalsDifference'
 import WellnessFocus from '@/components/about/WellnessFocus'
@@ -152,6 +153,7 @@ export default async function AboutPage() {
         aria-hidden
       />
       <OurPhilosophy />
+      <CentreGallery />
       <TeamOrgChart />
       <KalsDifference />
       <WellnessFocus />

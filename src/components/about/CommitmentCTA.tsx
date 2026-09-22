@@ -71,13 +71,13 @@ export default function CommitmentCTA({
       aria-labelledby="commitment-heading"
       className="relative overflow-hidden"
     >
-      <div className="grid min-h-[60vh] grid-cols-1 lg:grid-cols-[3fr_2fr]">
+      <div className="grid min-h-[280px] grid-cols-1 lg:grid-cols-[3fr_2fr]">
         {/* ── LEFT: Atmospheric photograph ────────────── */}
         <motion.div
           variants={clipReveal('left', 0)}
           initial="initial"
           animate="animate"
-          className="relative hidden min-h-[400px] lg:block"
+          className="relative hidden min-h-[220px] lg:block"
         >
           <Image
             src="/cta-ayurveda.jpg"
@@ -108,7 +108,7 @@ export default function CommitmentCTA({
           variants={clipReveal('bottom', 0)}
           initial="initial"
           animate="animate"
-          className="relative h-[30vh] min-h-[200px] lg:hidden"
+          className="relative h-[22vh] min-h-[160px] lg:hidden"
         >
           <Image
             src="/cta-ayurveda.jpg"
@@ -132,13 +132,16 @@ export default function CommitmentCTA({
         </motion.div>
 
         {/* ── RIGHT: CTA content ─────────────────────── */}
-        <div className="relative flex flex-col justify-center bg-[#75B843] px-6 py-16 sm:px-10 lg:px-14 lg:py-20">
-          {/* Subtle radial glow */}
+        <div
+          className="relative flex flex-col justify-center px-6 py-7 sm:px-10 lg:px-14 lg:py-8"
+          style={{ background: 'linear-gradient(135deg, #006B3C 0%, #12372D 100%)' }}
+        >
+          {/* Subtle radial glow — matches the homepage FinalBookingCTA panel */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 50%, rgba(181, 138, 59,0.06) 0%, transparent 60%)',
+                'radial-gradient(ellipse at 50% 50%, rgba(181, 138, 59,0.1) 0%, transparent 60%)',
             }}
             aria-hidden
           />
@@ -160,7 +163,8 @@ export default function CommitmentCTA({
             <motion.h2
               id="commitment-heading"
               variants={fadeUp(0)}
-              className="mt-4 font-heading text-3xl font-extrabold leading-[1.08] text-white sm:text-4xl"
+              className="mt-3 font-heading font-extrabold leading-[1.05] text-white"
+              style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.1rem)', letterSpacing: '-0.025em' }}
             >
               {copy.headlineLead}
               {copy.headlineAccent ? (
@@ -173,7 +177,8 @@ export default function CommitmentCTA({
 
             <motion.p
               variants={fadeUp(0)}
-              className="mt-5 font-body text-[15px] leading-[1.7] text-white/60"
+              className="mt-4 font-body leading-[1.6] text-white/95"
+              style={{ fontSize: 'clamp(14px, 1vw, 15px)' }}
             >
               {copy.body}
             </motion.p>
@@ -181,7 +186,7 @@ export default function CommitmentCTA({
             {copy.closingLine ? (
               <motion.p
                 variants={fadeUp(0)}
-                className="mt-3 font-body text-[14px] italic text-white/45"
+                className="mt-2 font-body text-[13px] italic text-white/60"
               >
                 {copy.closingLine}
               </motion.p>
@@ -190,7 +195,7 @@ export default function CommitmentCTA({
             {/* CTAs — stacked vertically */}
             <motion.div
               variants={fadeUp(0)}
-              className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col"
+              className="mt-6 flex flex-col gap-3 sm:flex-row lg:flex-col"
             >
               <CTAButton
                 href={copy.primaryHref}
@@ -213,7 +218,7 @@ export default function CommitmentCTA({
             {/* Trust row */}
             <motion.div
               variants={fadeUp(0)}
-              className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 font-heading text-[10px] font-medium uppercase tracking-[0.18em] text-white/30"
+              className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-heading text-[10px] font-medium uppercase tracking-[0.18em] text-white/30"
             >
               {copy.trustPills.map((pill, i, arr) => (
                 <React.Fragment key={i}>

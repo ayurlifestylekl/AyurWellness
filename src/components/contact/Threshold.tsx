@@ -36,20 +36,28 @@ export default function Threshold() {
       className="relative flex min-h-[calc(100svh-6.5rem)] overflow-hidden bg-primary lg:h-[calc(100svh-6.5rem)] lg:max-h-[calc(100svh-6.5rem)] lg:min-h-[560px]"
       aria-labelledby="threshold-heading"
     >
+      {/* L-1  Blurred atmospheric background photo — soft-focus brass/herb
+              still life, kept fully out of focus so it never competes with
+              the foreground plate photo or the headline text. */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <Image
+          src="/contact-threshold-bg.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="scale-110 object-cover blur-2xl"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'rgba(11,31,22,0.35)' }}
+        />
+      </div>
+
       {/* L0  Gold dot grid */}
       <div
         className="pointer-events-none absolute inset-0"
         style={heroDiamondPattern}
-        aria-hidden
-      />
-
-      {/* L1  Warm atmospheric radials */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 900px 700px at 85% 10%, rgba(181, 138, 59,0.22) 0%, transparent 55%), radial-gradient(ellipse 800px 650px at 10% 95%, rgba(18, 55, 45,0.55) 0%, transparent 55%), radial-gradient(ellipse 600px 500px at 50% 50%, rgba(181, 138, 59,0.04) 0%, transparent 60%)',
-        }}
         aria-hidden
       />
 
@@ -148,25 +156,16 @@ export default function Threshold() {
                     '0 40px 80px -30px rgba(0,0,0,0.55), 0 18px 40px -20px rgba(181, 138, 59,0.25)',
                 }}
               >
-                {/* Placeholder — warm apothecary flat-lay. Swap point for the
-                    real Brickfields doorway / threshold shoot: replace the
-                    `src` below and keep the same aspect ratio. */}
                 <Image
-                  src="/Ayurvedic-wellness-flat-lay-arrangement-1024x683.png"
-                  alt="Warm Ayurvedic still life at the threshold of the Ayurvedic Wellness Centre Centre — brass vessels, herbs and sprigs arranged on a teak surface"
+                  src="/about/gallery-exterior.jpg"
+                  alt="Ayurvedic Wellness Centre — our storefront in Brickfields, Kuala Lumpur"
                   fill
                   priority
                   sizes="(max-width: 1024px) 85vw, 420px"
                   className="object-cover"
-                  style={{ objectPosition: 'center' }}
+                  style={{ objectPosition: '50% 30%' }}
                 />
 
-                {/* Green harmonising tint */}
-                <div
-                  className="pointer-events-none absolute inset-0 mix-blend-multiply"
-                  style={{ backgroundColor: 'rgba(0, 107, 60,0.22)' }}
-                  aria-hidden
-                />
                 {/* Bottom gradient — darker than Treatments for cinematic weight */}
                 <div
                   className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/20 to-transparent"

@@ -33,9 +33,9 @@ interface ButtonProps extends CommonProps {
 type Props = LinkProps | ButtonProps
 
 const variantStyles: Record<Variant, string> = {
-  // Lotus Pink — the brand's main accent, used for primary calls to action
+  // Deep Amber/Copper — the brand's main accent, used for primary calls to action
   primary:
-    'bg-[linear-gradient(135deg,#F6A8C4_0%,#E4C384_30%,#B8752A_60%,#C4185E_100%)] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_18px_40px_-18px_rgba(184,117,42,0.75)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_22px_50px_-16px_rgba(184,117,42,0.9)] hover:-translate-y-0.5',
+    'bg-[linear-gradient(135deg,#E4C384_0%,#B8752A_100%)] text-[#12372D] shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_18px_40px_-18px_rgba(184,117,42,0.75)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_22px_50px_-16px_rgba(184,117,42,0.9)] hover:-translate-y-0.5',
   // Forest green with gold wording — secondary emphasis
   secondary:
     'bg-primary text-gold shadow-[0_18px_40px_-18px_rgba(18,55,45,0.65)] hover:bg-[#12372D] hover:shadow-[0_22px_50px_-16px_rgba(18,55,45,0.85)] hover:-translate-y-0.5',

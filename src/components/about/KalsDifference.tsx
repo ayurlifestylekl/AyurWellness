@@ -26,15 +26,12 @@ export default function KalsDifference() {
       aria-labelledby="difference-heading"
       className="relative overflow-hidden bg-cream"
     >
-      {/* Ambient radial wash — sage top-left, gold bottom-right */}
+      {/* Ambient radial wash — gold bottom-right only */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: [
-            'radial-gradient(720px 520px at 10% 18%, rgba(0, 107, 60,0.085), transparent 62%)',
-            'radial-gradient(820px 600px at 92% 88%, rgba(181, 138, 59,0.07), transparent 66%)',
-          ].join(', '),
+          backgroundImage: 'radial-gradient(820px 600px at 92% 88%, rgba(181, 138, 59,0.07), transparent 66%)',
         }}
       />
 
