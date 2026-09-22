@@ -55,7 +55,7 @@ export interface RefundStatusResult {
 export interface RefundCallbackResult extends RefundStatusResult {
   providerRefundId: string
   idempotencyKey?: string
-  provider?: 'stripe' | 'billplz' | 'stub'
+  provider?: 'hitpay' | 'stub'
 }
 
 export type ProviderRefundErrorCategory = 'definitive' | 'ambiguous'
@@ -77,9 +77,8 @@ export function isSafeProviderRefundId(provider: string, value: unknown): value 
   if (typeof value !== 'string' || value.length === 0 || value.length > 255 || value.trim() !== value) {
     return false
   }
-  if (provider === 'stripe') return /^re_[A-Za-z0-9]+$/.test(value)
   if (provider === 'stub') return /^stub_refund_[A-Za-z0-9:_-]+$/.test(value)
-  if (provider !== 'billplz') return false
+  if (provider !== 'hitpay') return false
 
   const safeToken = /^[A-Za-z0-9][A-Za-z0-9_-]*$/
   const hasSeparator = /[_-]/.test(value)
@@ -91,7 +90,7 @@ const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3
 
 export function isSafeRefundIdempotencyKey(value: unknown): value is string {
   if (typeof value !== 'string') return false
-  const match = /^booking-refund:([^:]+):full$/.exec(value)
+  const match = /^(?:booking|product)-refund:([^:]+):full$/.exec(value)
   return match !== null && UUID_PATTERN.test(match[1])
 }
 

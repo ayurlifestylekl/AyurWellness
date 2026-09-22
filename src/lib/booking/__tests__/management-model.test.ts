@@ -78,7 +78,7 @@ describe('buildManagementModel', () => {
     expect(buildManagementModel({
       ...paidTreatment,
       group_id: 'group-a',
-      booking_refunds: [{ status: 'pending', amount_rm: 180 }],
+      booking_refunds: [{ id: 'refund-a', status: 'pending', amount_rm: 180, customer_reason: null, staff_reason: null }],
       group_members: [{
         ...paidTreatment,
         id: 'b',

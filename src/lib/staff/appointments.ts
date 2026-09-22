@@ -466,12 +466,16 @@ export async function getRefundExceptions(db: ServiceDb): Promise<RefundExceptio
 
 export interface AppointmentRefundRow {
   id: string
-  status: 'claimed' | 'pending' | 'confirmed' | 'failed' | 'exception'
+  status: 'claimed' | 'pending' | 'confirmed' | 'failed' | 'exception' | 'requested' | 'rejected'
   amountRm: number
   provider: string
   failureReason: string | null
   bankCode: string | null
   bankAccountLast4: string | null
+  customerReason: string | null
+  staffReason: string | null
+  bankAccountNumber: string | null
+  bankAccountHolderName: string | null
   createdAt: string
   confirmedAt: string | null
 }
@@ -480,7 +484,7 @@ export interface AppointmentRefundRow {
 export async function getRefundsForAppointment(db: ServiceDb, appointmentId: string): Promise<AppointmentRefundRow[]> {
   const { data, error } = await db
     .from('booking_refunds')
-    .select('id, status, amount_rm, provider, failure_reason, bank_code, bank_account_last4, created_at, confirmed_at')
+    .select('id, status, amount_rm, provider, failure_reason, bank_code, bank_account_last4, customer_reason, staff_reason, bank_account_number, bank_account_holder_name, created_at, confirmed_at')
     .eq('appointment_id', appointmentId)
     .order('created_at', { ascending: false })
   if (error) {
@@ -496,6 +500,10 @@ export async function getRefundsForAppointment(db: ServiceDb, appointmentId: str
     failureReason: r.failure_reason ?? null,
     bankCode: r.bank_code ?? null,
     bankAccountLast4: r.bank_account_last4 ?? null,
+    customerReason: r.customer_reason ?? null,
+    staffReason: r.staff_reason ?? null,
+    bankAccountNumber: r.bank_account_number ?? null,
+    bankAccountHolderName: r.bank_account_holder_name ?? null,
     createdAt: r.created_at,
     confirmedAt: r.confirmed_at ?? null,
   }))

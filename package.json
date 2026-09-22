@@ -33,7 +33,6 @@
     "sanity": "^3.57.0",
     "server-only": "^0.0.1",
     "sonner": "^2.0.7",
-    "stripe": "^22.3.1",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {

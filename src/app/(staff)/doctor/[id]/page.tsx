@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { requireStaff } from '@/lib/staff/guard'
-import { getAppointmentDetail, getGroupAppointments } from '@/lib/staff/appointments'
+import { getAppointmentDetail, getGroupAppointments, getRefundsForAppointment } from '@/lib/staff/appointments'
 import { therapistsForGender } from '@/lib/staff/therapists'
 import StatusBadge from '@/components/staff/StatusBadge'
 import PatientHealthPanel from '@/components/staff/PatientHealthPanel'
@@ -10,7 +10,9 @@ import UnlockTreatment from '@/components/staff/UnlockTreatment'
 import AppointmentActions from '@/components/staff/AppointmentActions'
 import GroupApprovalActions from '@/components/staff/GroupApprovalActions'
 import MarkContactedButton from '@/components/staff/MarkContactedButton'
+import RefundRequestPanel from '@/components/staff/RefundRequestPanel'
 import { canClearConsultation } from '@/lib/booking/consultation-rules'
+import { reconcilePendingRefundsSafe, bookingRefundDependencies } from '@/lib/payments/refund'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,6 +27,10 @@ export default async function DoctorPatientPage({ params }: { params: { id: stri
 
   const groupMembers = a.groupId ? await getGroupAppointments(db, a.groupId) : []
   const isGroup = groupMembers.length > 1
+  // Resolve any refund HitPay reported as still 'pending' before rendering,
+  // so staff see current status without waiting for the reconciliation cron.
+  await reconcilePendingRefundsSafe(bookingRefundDependencies())
+  const refunds = await getRefundsForAppointment(db, a.id)
   const canShowClearance = a.treatmentUnlocked || canClearConsultation({
     bookingKind: a.bookingKind,
     status: a.status,
@@ -92,6 +98,7 @@ export default async function DoctorPatientPage({ params }: { params: { id: stri
               assignedTherapistName={a.assignedTherapistName}
             />
           )}
+          {refunds.length > 0 && <RefundRequestPanel refunds={refunds} canApprove={role !== 'doctor'} />}
           {a.bookingKind === 'consultation' && (canShowClearance ? (
             <UnlockTreatment consultationId={a.id} treatmentId={a.treatmentId} unlocked={a.treatmentUnlocked} outcome={a.consultationOutcome ?? null} />
           ) : (

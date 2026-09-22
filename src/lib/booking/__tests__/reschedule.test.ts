@@ -24,6 +24,17 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => ({ get: vi.fn() }),
 }))
 vi.mock('@/components/booking/SlotPicker', () => ({ default: () => null }))
+vi.mock('@/lib/staff/therapists', () => ({
+  therapistsForGender: () => Promise.resolve([{ code: 't1', name: 'Therapist', gender: 'male', active: true }]),
+  therapistByCode: () => Promise.resolve(undefined),
+  getAllTherapists: () => Promise.resolve([]),
+  getAllVaidyas: () => Promise.resolve([]),
+  vaidyaByCode: () => Promise.resolve(undefined),
+  vaidyaName: () => Promise.resolve(''),
+  VAIDYA_BLOCK_CODE: 'VAIDYA',
+  therapistLabel: (t: { name: string }) => t.name,
+  vaidyaLabel: (v: { name: string }) => v.name,
+}))
 
 import {
   buildRescheduleClaim,

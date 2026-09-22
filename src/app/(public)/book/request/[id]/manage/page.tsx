@@ -46,7 +46,7 @@ export default async function ManageBookingPage({
           Back to booking status
         </Link>
         <div className="mt-8">
-          <ManageBookingPanel model={model} />
+          <ManageBookingPanel model={model} token={token} />
         </div>
       </div>
     </section>

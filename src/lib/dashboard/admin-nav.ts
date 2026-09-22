@@ -1,15 +1,7 @@
 import type { NavItem, PortalChrome } from './nav-types'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
 
-/**
- * Active admin sidebar — the clinic-only Command Center (Phase 1).
- *
- * The commerce + partner stack (products, inventory, orders, marketplace,
- * agents, wholesale, vouchers, brand partners, finance) is built but archived
- * below until Phase 2 launches the product catalogue. Those routes still exist
- * and remain reachable by URL — they're only hidden from the sidebar. To bring
- * one back, move its entry from `adminNavArchived` into `adminNav`.
- */
+/** Clinic-only Command Center modules — always shown. */
 export const clinicAdminNav: NavItem[] = [
   { label: 'Overview', href: '/admin/dashboard', icon: 'dashboard' },
   { label: 'Appointments', href: '/admin/appointments', icon: 'calendar' },
@@ -21,7 +13,12 @@ export const clinicAdminNav: NavItem[] = [
   { label: 'Settings', href: '/admin/settings', icon: 'settings' },
 ]
 
-/** Archived — Phase 2 (commerce + partners). Not rendered in the sidebar. */
+/**
+ * Commerce + partner stack (products, inventory, orders, marketplace,
+ * agents, wholesale, vouchers, brand partners, finance). Rendered whenever
+ * `COMMERCE_ENABLED` is on (the default) — set
+ * NEXT_PUBLIC_COMMERCE_ENABLED=false to hold it back again.
+ */
 export const commerceAdminNav: NavItem[] = [
   { label: 'Products', href: '/admin/products', icon: 'shopping-bag' },
   { label: 'Inventory', href: '/admin/inventory', icon: 'boxes' },

@@ -37,7 +37,6 @@ const ANCHOR_ID = '11111111-1111-4111-8111-111111111111'
 const TARGET_ID = '22222222-2222-4222-8222-222222222222'
 const GROUP_ID = '44444444-4444-4444-8444-444444444444'
 const NOW_MS = Date.parse('2026-07-19T09:30:00+08:00')
-const ACCOUNT_NUMBER = '1234567890'
 
 type QueryResult = { data: unknown; error: unknown }
 
@@ -115,6 +114,7 @@ function validInput(overrides: Record<string, unknown> = {}) {
     appointmentIds: [ANCHOR_ID],
     token: null,
     wholeGroup: false,
+    reason: 'Change of plans',
     ...overrides,
   }
 }
@@ -132,17 +132,15 @@ beforeEach(() => {
 })
 
 describe('cancellation pure helpers', () => {
-  it('requires bank details only for eligible paid FPX cancellation', () => {
-    expect(validateCancellationInput({ provider: 'billplz', paid: true, refundEligible: true, bank: undefined }))
-      .toEqual({ error: 'Bank details are required for an FPX refund.' })
-    expect(validateCancellationInput({ provider: 'stripe', paid: true, refundEligible: true, bank: undefined }))
+  it('does not require bank details for HitPay refunds', () => {
+    expect(validateCancellationInput({ provider: 'hitpay', paid: true, refundEligible: true, bank: undefined }))
       .toEqual({ ok: true })
   })
 
   it('does not require bank details for an unpaid or ineligible cancellation', () => {
-    expect(validateCancellationInput({ provider: 'billplz', paid: false, refundEligible: false, bank: undefined }))
+    expect(validateCancellationInput({ provider: 'hitpay', paid: false, refundEligible: false, bank: undefined }))
       .toEqual({ ok: true })
-    expect(validateCancellationInput({ provider: 'billplz', paid: true, refundEligible: false, bank: undefined }))
+    expect(validateCancellationInput({ provider: 'hitpay', paid: true, refundEligible: false, bank: undefined }))
       .toEqual({ ok: true })
   })
 
@@ -246,59 +244,29 @@ describe('cancelManagedBooking action', () => {
     expect(mocks.requestProviderRefund).not.toHaveBeenCalled()
   })
 
-  it('requires bank details for an eligible paid Billplz cancellation before the RPC', async () => {
+  it('requires a cancellation reason before the RPC', async () => {
     vi.spyOn(Date, 'now').mockReturnValue(NOW_MS)
     mocks.canManageBookingTarget.mockResolvedValue(true)
-    const db = actionDb([paidRow({ payment_provider: 'billplz', payment_bill_id: 'bill-1' })])
+    const db = actionDb([paidRow()])
     mocks.createClient.mockReturnValue(db.client)
-    const result = await cancelManagedBooking(validInput())
-    expect(result).toMatchObject({ code: 'INVALID_INPUT', error: 'Bank details are required for an FPX refund.' })
+    const result = await cancelManagedBooking(validInput({ reason: '' }))
+    expect(result).toMatchObject({ code: 'INVALID_INPUT', error: 'Please provide a reason for cancellation.' })
     expect(db.rpc).not.toHaveBeenCalled()
   })
 
-  it('requests each claimed provider refund with RPC-authoritative metadata and no bank to Stripe', async () => {
+  it('passes the cancellation reason to the RPC and does not auto-request a refund', async () => {
     vi.spyOn(Date, 'now').mockReturnValue(NOW_MS)
     mocks.canManageBookingTarget.mockResolvedValue(true)
     const db = actionDb()
     mocks.createClient.mockReturnValue(db.client)
-    const result = await cancelManagedBooking(validInput())
+    const result = await cancelManagedBooking(validInput({ reason: 'Change of plans' }))
     expect(result).toMatchObject({ ok: true })
     expect(db.rpc).toHaveBeenCalledWith('claim_booking_cancellation', expect.objectContaining({
       p_appointment_ids: [ANCHOR_ID],
+      p_reason: 'Change of plans',
     }))
-    expect(mocks.requestProviderRefund).toHaveBeenCalledWith(expect.objectContaining({
-      refundId: 'refund-1',
-      billId: `stub_${ANCHOR_ID}`,
-      amountRm: 180,
-      idempotencyKey: `booking-refund:${ANCHOR_ID}:full`,
-      customerEmail: 'guest@example.com',
-      bank: undefined,
-    }), ...([] as never[]))
+    expect(mocks.requestProviderRefund).not.toHaveBeenCalled()
     expect(mocks.voidBill).not.toHaveBeenCalled()
-  })
-
-  it('passes the FPX bank recipient only to Billplz rows and never to the RPC', async () => {
-    vi.spyOn(Date, 'now').mockReturnValue(NOW_MS)
-    mocks.canManageBookingTarget.mockResolvedValue(true)
-    const db = actionDb(
-      [paidRow({ payment_provider: 'billplz', payment_bill_id: 'bill-1' })],
-      claimResult({ refunds: [{
-        refund_id: 'refund-1',
-        appointment_id: ANCHOR_ID,
-        provider: 'billplz',
-        amount_rm: 180,
-        idempotency_key: `booking-refund:${ANCHOR_ID}:full`,
-        bill_id: 'bill-1',
-        customer_email: 'guest@example.com',
-      }] }),
-    )
-    mocks.createClient.mockReturnValue(db.client)
-    const bank = { bankCode: 'MBBEMYKL', accountNumber: ACCOUNT_NUMBER, accountHolderName: 'Arun Kumar' }
-    const result = await cancelManagedBooking(validInput({ bank }))
-    expect(result).toMatchObject({ ok: true })
-    expect(mocks.requestProviderRefund).toHaveBeenCalledWith(expect.objectContaining({ bank }), ...([] as never[]))
-    // The raw account number must never reach the RPC arguments.
-    expect(JSON.stringify(db.rpc.mock.calls)).not.toContain(ACCOUNT_NUMBER)
   })
 
   it('voids deduplicated unpaid bills and never requests a refund', async () => {
@@ -315,17 +283,17 @@ describe('cancelManagedBooking action', () => {
     expect(mocks.requestProviderRefund).not.toHaveBeenCalled()
   })
 
-  it('keeps a committed cancellation when the provider refund throws', async () => {
+  it('notifies the customer with the cancellation reason and refund eligibility', async () => {
     vi.spyOn(Date, 'now').mockReturnValue(NOW_MS)
-    vi.spyOn(console, 'error').mockImplementation(() => undefined)
     mocks.canManageBookingTarget.mockResolvedValue(true)
-    mocks.requestProviderRefund.mockRejectedValue(new Error('provider outcome pending'))
     const db = actionDb()
     mocks.createClient.mockReturnValue(db.client)
-    const result = await cancelManagedBooking(validInput())
+    const result = await cancelManagedBooking(validInput({ reason: 'Change of plans' }))
     expect(result).toMatchObject({ ok: true })
-    if (!('ok' in result)) throw new Error('expected success')
-    expect(result.data.refunds).toEqual([{ appointmentId: ANCHOR_ID, refundStatus: 'exception' }])
+    expect(mocks.notifyManagedCancellation).toHaveBeenCalledWith(expect.objectContaining({
+      reason: 'Change of plans',
+      refundable: true,
+    }))
   })
 
   it.each([

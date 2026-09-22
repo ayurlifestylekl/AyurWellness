@@ -12,6 +12,7 @@ export const accountNav: NavItem[] = [
   { label: 'Dashboard', href: '/account/dashboard', icon: 'dashboard' },
   { label: 'Assessments', href: '/account/assessments', icon: 'compass' },
   { label: 'Appointments', href: '/account/appointments', icon: 'calendar' },
+  { label: 'Product Orders', href: '/account/product-orders', icon: 'package' },
   { label: 'Messages', href: '/account/messages', icon: 'inbox' },
   { label: 'Profile', href: '/account/profile', icon: 'user' },
 ]

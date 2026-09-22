@@ -71,10 +71,6 @@ export default async function Home() {
       <TrustStrip />
       <EmpathyBridge />
       <ClinicTherapies />
-      {/* Product showcase — pre-launch teaser (Notify Me, no cart/checkout yet).
-          Shown regardless of COMMERCE_ENABLED since it's just browsing.
-          PromoBanners ("Free Shipping Over RM150") stays off until real
-          checkout/shipping is wired up — that offer isn't live yet. */}
       <FeaturedProducts />
       {COMMERCE_ENABLED && <PromoBanners />}
       <Reviews />

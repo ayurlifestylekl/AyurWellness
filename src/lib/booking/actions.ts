@@ -384,11 +384,12 @@ export async function getAvailableSlots(dateYMD: string, treatmentId: string | n
   return computeSlots(dateYMD, treatmentId, { male: gender === 'male' ? 1 : 0, female: gender === 'female' ? 1 : 0 })
 }
 
-/** Public-facing, active Vaidyas eligible for auto-assignment. VAIDYA (the
- * primary doctor) is preferred first when both are free — getAllVaidyas()
- * orders by code, which would otherwise favour LYMAT alphabetically. */
+/** Every active Vaidya is eligible for public consultation booking. The admin
+ * roster UI can deactivate a doctor to hide them; VAIDYA (the primary doctor)
+ * is preferred first when both are free — getAllVaidyas() orders by code,
+ * which would otherwise favour LYMAT alphabetically. */
 async function bookableVaidyas(): Promise<Vaidya[]> {
-  const candidates = (await getAllVaidyas()).filter((v) => v.active && v.publicFacing)
+  const candidates = (await getAllVaidyas()).filter((v) => v.active !== false)
   return candidates.sort((a, b) =>
     a.code === VAIDYA_BLOCK_CODE ? -1 : b.code === VAIDYA_BLOCK_CODE ? 1 : a.code.localeCompare(b.code))
 }

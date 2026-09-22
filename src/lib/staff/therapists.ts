@@ -1,11 +1,22 @@
 import 'server-only'
-import { cache } from 'react'
+import { cache as reactCache } from 'react'
 import { createClient as createSb } from '@supabase/supabase-js'
 import type { Gender } from '@/types/booking'
 import type { Therapist, Vaidya } from './therapist-format'
 
 export type { Therapist, Vaidya } from './therapist-format'
 export { therapistLabel, vaidyaLabel } from './therapist-format'
+
+// React's `cache` is only available in the React server environment; in
+// plain Node/Vitest it is undefined. Fall back to the identity function so
+// these helpers remain testable without affecting request-level caching in
+// production server components.
+function requestCache<T>(fn: T): T {
+  if (typeof reactCache !== 'function') return fn
+  // React's cache accepts any function and returns the same type.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return reactCache(fn as any) as T
+}
 
 /** Service-role client for reading roster tables. */
 function db() {
@@ -26,14 +37,14 @@ function db() {
 export const VAIDYA_BLOCK_CODE = 'VAIDYA'
 
 /** Fetch a therapist by code. Request-level cached. */
-export const therapistByCode = cache(async (code: string | null | undefined): Promise<Therapist | undefined> => {
+export const therapistByCode = requestCache(async (code: string | null | undefined): Promise<Therapist | undefined> => {
   if (!code) return undefined
   const { data } = await db().from('therapists').select('code, name, gender, active').eq('code', code).maybeSingle()
   return data ? { code: data.code, name: data.name, gender: data.gender as Gender, active: data.active } : undefined
 })
 
 /** Active therapists of a given gender (or all if no requirement). Request-level cached. */
-export const therapistsForGender = cache(async (gender: Gender | null): Promise<Therapist[]> => {
+export const therapistsForGender = requestCache(async (gender: Gender | null): Promise<Therapist[]> => {
   let q = db().from('therapists').select('code, name, gender, active').eq('active', true)
   if (gender) q = q.eq('gender', gender)
   const { data } = await q.order('sort_order')
@@ -41,20 +52,20 @@ export const therapistsForGender = cache(async (gender: Gender | null): Promise<
 })
 
 /** All therapists (active + inactive) for admin roster UI. Request-level cached. */
-export const getAllTherapists = cache(async (): Promise<Therapist[]> => {
+export const getAllTherapists = requestCache(async (): Promise<Therapist[]> => {
   const { data } = await db().from('therapists').select('code, name, gender, active').order('sort_order')
   return (data ?? []).map((t) => ({ code: t.code, name: t.name, gender: t.gender as Gender, active: t.active }))
 })
 
 /** Fetch a Vaidya by code. Request-level cached. */
-export const vaidyaByCode = cache(async (code: string | null | undefined): Promise<Vaidya | undefined> => {
+export const vaidyaByCode = requestCache(async (code: string | null | undefined): Promise<Vaidya | undefined> => {
   if (!code) return undefined
   const { data } = await db().from('vaidyas').select('code, name, public_facing, active').eq('code', code).maybeSingle()
   return data ? { code: data.code, name: data.name, publicFacing: data.public_facing, active: data.active } : undefined
 })
 
 /** All Vaidyas (active + inactive) for admin roster UI. Request-level cached. */
-export const getAllVaidyas = cache(async (): Promise<Vaidya[]> => {
+export const getAllVaidyas = requestCache(async (): Promise<Vaidya[]> => {
   const { data } = await db().from('vaidyas').select('code, name, public_facing, active').order('code')
   return (data ?? []).map((v) => ({ code: v.code, name: v.name, publicFacing: v.public_facing, active: v.active }))
 })

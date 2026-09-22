@@ -11,6 +11,14 @@
     {
       "path": "/api/cron/appointment-reminders",
       "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/cron/product-order-expiry",
+      "schedule": "0 17 * * *"
+    },
+    {
+      "path": "/api/cron/reconcile-refunds",
+      "schedule": "0 19 * * *"
     }
   ]
 }

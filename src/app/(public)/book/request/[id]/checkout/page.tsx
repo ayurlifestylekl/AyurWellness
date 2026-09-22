@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import { Landmark, CreditCard, ArrowLeft, ShieldCheck } from 'lucide-react'
+import { Landmark, ArrowLeft, ShieldCheck } from 'lucide-react'
 
 import { getBookingForPayment, getGroupMembers, getTreatmentImageUrl } from '@/lib/storefront/booking'
 import { reconcileAppointment } from '@/lib/booking/payment'
 import { sweepExpiredBookingsSafe } from '@/lib/booking/expiry'
-import { isCardPaymentEnabled } from '@/lib/payments'
 import { canAccessBooking } from '@/lib/booking/access'
 import { fmtMY } from '@/lib/datetime'
 import { bookingRef } from '@/lib/booking/ref'
@@ -190,44 +189,15 @@ export default async function CheckoutPage({
                 href={`/book/request/${b.id}/pay${tokenQuery}`}
                 className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border-2 border-accent bg-white p-5 shadow-gold-glow transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 sm:p-6"
               >
-                <span className="absolute right-4 top-4 rounded-full bg-accent px-2.5 py-1 font-heading text-[9px] font-bold uppercase tracking-[0.12em] text-white">
-                  Recommended
-                </span>
                 <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-accent/10 transition-colors duration-300 group-hover:bg-accent/15">
                   <Landmark className="h-5 w-5 text-accent" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-heading text-[14.5px] font-bold text-primary">Online Banking (FPX)</span>
-                  <span className="mt-0.5 block font-body text-[12.5px] text-dark/55">For Malaysian bank accounts — instant confirmation.</span>
+                  <span className="block font-heading text-[14.5px] font-bold text-primary">Pay securely online</span>
+                  <span className="mt-0.5 block font-body text-[12.5px] text-dark/55">FPX, card, e-wallets & more via HitPay — instant confirmation.</span>
                 </span>
                 <span className="flex-none font-heading text-[12px] font-bold uppercase tracking-[0.1em] text-accent">RM{amount} →</span>
               </Link>
-
-              {isCardPaymentEnabled() ? (
-                <Link
-                  href={`/book/request/${b.id}/pay${tokenQuery ? `${tokenQuery}&` : '?'}method=card`}
-                  className="group flex items-center gap-4 rounded-2xl border border-accent/25 bg-white p-5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-floating sm:p-6"
-                >
-                  <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-primary/5 transition-colors duration-300 group-hover:bg-primary/10">
-                    <CreditCard className="h-5 w-5 text-primary" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-heading text-[14.5px] font-bold text-primary">Credit / Debit Card</span>
-                    <span className="mt-0.5 block font-body text-[12.5px] text-dark/55">No Malaysian bank account? Any international card works.</span>
-                  </span>
-                  <span className="flex-none font-heading text-[12px] font-bold uppercase tracking-[0.1em] text-primary">RM{amount} →</span>
-                </Link>
-              ) : (
-                <div className="flex items-center gap-4 rounded-2xl border border-dashed border-accent/25 bg-white/60 p-5 opacity-60 sm:p-6">
-                  <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-dark/5">
-                    <CreditCard className="h-5 w-5 text-dark/35" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-heading text-[14.5px] font-bold text-dark/50">Credit / Debit Card</span>
-                    <span className="mt-0.5 block font-body text-[12.5px] text-dark/45">Coming soon.</span>
-                  </span>
-                </div>
-              )}
             </div>
 
             <p className="mt-5 flex items-center gap-1.5 font-body text-[11.5px] text-dark/40">

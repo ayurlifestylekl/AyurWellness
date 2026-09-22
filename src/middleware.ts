@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-type UserRole = 'admin' | 'customer' | 'sales_agent' | 'doctor' | 'front_desk'
+type UserRole = 'admin' | 'customer' | 'sales_agent' | 'doctor' | 'front_desk' | 'product_manager'
 
 function homeForRole(role: UserRole | null | undefined): string {
   switch (role) {
@@ -13,6 +13,8 @@ function homeForRole(role: UserRole | null | undefined): string {
       return '/doctor'
     case 'front_desk':
       return '/console'
+    case 'product_manager':
+      return '/product-management'
     case 'customer':
     default:
       return '/account/dashboard'
@@ -96,13 +98,23 @@ export async function middleware(request: NextRequest) {
   const isAgentLogin = pathname === '/agent/login'
   const isStaffLogin = pathname === '/staff/login'
   const isDoctorLogin = pathname === '/doctor/login'
+  const isProductManagementLogin = pathname === '/product-management/login'
   const isAdminRoute = pathname.startsWith('/admin') && !isAdminLogin
   const isAgentRoute = pathname.startsWith('/agent') && !isAgentLogin
   // Front-desk + admin share the /console workspace; doctors get /doctor.
   const isConsoleRoute = pathname.startsWith('/console')
   const isDoctorRoute = pathname.startsWith('/doctor') && !isDoctorLogin
+  // Product Management has its own dedicated account/login — separate from
+  // the admin portal (admin can still enter as a fallback/oversight path).
+  const isProductManagementRoute =
+    pathname.startsWith('/product-management') && !isProductManagementLogin
   const isProtectedRoute =
-    isAccountRoute || isAdminRoute || isAgentRoute || isConsoleRoute || isDoctorRoute
+    isAccountRoute ||
+    isAdminRoute ||
+    isAgentRoute ||
+    isConsoleRoute ||
+    isDoctorRoute ||
+    isProductManagementRoute
 
   // Auth pages that signed-in users should be bounced away from.
   // We DO NOT bounce away from /auth/callback (mid-OAuth handshake) or
@@ -114,7 +126,8 @@ export async function middleware(request: NextRequest) {
     isAdminLogin ||
     isAgentLogin ||
     isStaffLogin ||
-    isDoctorLogin
+    isDoctorLogin ||
+    isProductManagementLogin
 
   // ── Not signed in → send to the portal-specific login page ──────────────
   if (isProtectedRoute && !user) {
@@ -127,6 +140,8 @@ export async function middleware(request: NextRequest) {
       ? '/doctor/login'
       : isConsoleRoute
       ? '/staff/login'
+      : isProductManagementRoute
+      ? '/product-management/login'
       : '/auth/login'
     loginUrl.search = ''
     loginUrl.searchParams.set('next', pathname)
@@ -162,12 +177,16 @@ export async function middleware(request: NextRequest) {
       isConsoleRoute && role !== 'admin' && role !== 'front_desk'
     const wrongRoleForDoctor =
       isDoctorRoute && role !== 'admin' && role !== 'doctor'
+    // Product Management: its own account (product_manager), admin can also enter.
+    const wrongRoleForProductManagement =
+      isProductManagementRoute && role !== 'admin' && role !== 'product_manager'
     if (
       wrongRoleForAdmin ||
       wrongRoleForAgent ||
       wrongRoleForAccount ||
       wrongRoleForConsole ||
-      wrongRoleForDoctor
+      wrongRoleForDoctor ||
+      wrongRoleForProductManagement
     ) {
       const home = request.nextUrl.clone()
       home.pathname = homeForRole(role)

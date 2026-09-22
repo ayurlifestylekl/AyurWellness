@@ -1,12 +1,11 @@
 /**
  * Commerce (online product shop) feature flag.
  *
- * The clinic runs on bookings, consultations and treatments — not an online
- * store. So the shop side of the admin Overview (product orders, revenue,
- * fulfilment, inventory/low-stock, partner invites, top-selling, promos) is
- * ARCHIVED by default: hidden from the dashboard but kept in the codebase.
+ * Enabled by default — the shop side of the admin Overview (product orders,
+ * revenue, fulfilment, inventory/low-stock, partner invites, top-selling,
+ * promos) is live alongside clinic bookings/consultations/treatments.
  *
- * To bring it all back, either set NEXT_PUBLIC_COMMERCE_ENABLED=true in the
- * environment, or flip the default below to `true`.
+ * To hold it back again (e.g. before product pricing is finalized), set
+ * NEXT_PUBLIC_COMMERCE_ENABLED=false in the environment.
  */
-export const COMMERCE_ENABLED = process.env.NEXT_PUBLIC_COMMERCE_ENABLED === 'true'
+export const COMMERCE_ENABLED = process.env.NEXT_PUBLIC_COMMERCE_ENABLED !== 'false'

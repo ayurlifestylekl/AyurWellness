@@ -76,7 +76,7 @@ interface DashboardShellProps {
     id: string
     fullName: string
     email: string
-    role: 'admin' | 'customer' | 'sales_agent'
+    role: 'admin' | 'customer' | 'sales_agent' | 'product_manager'
     avatarUrl?: string | null
   }
   nav: NavItem[]
@@ -231,13 +231,19 @@ export default function DashboardShell({ user, nav, portal, initialNotifications
 function UserMenu({
   user,
 }: {
-  user: { fullName: string; email: string; role: 'admin' | 'customer' | 'sales_agent'; avatarUrl?: string | null }
+  user: { fullName: string; email: string; role: 'admin' | 'customer' | 'sales_agent' | 'product_manager'; avatarUrl?: string | null }
 }) {
   const [open, setOpen] = useState(false)
   const firstName = user.fullName.split(' ')[0] || 'You'
   const initial = firstName.charAt(0).toUpperCase()
   const roleLabel =
-    user.role === 'admin' ? 'Admin' : user.role === 'sales_agent' ? 'Brand Partner' : 'Member'
+    user.role === 'admin'
+      ? 'Admin'
+      : user.role === 'sales_agent'
+      ? 'Brand Partner'
+      : user.role === 'product_manager'
+      ? 'Product Manager'
+      : 'Member'
 
   return (
     <div className="relative">

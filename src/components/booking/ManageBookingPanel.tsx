@@ -2,6 +2,12 @@ import { CreditCard, MessageCircle } from 'lucide-react'
 
 import { STATUS_LABEL } from '@/lib/booking/status'
 import type { BookingManagementModel } from '@/lib/booking/management'
+import { getRescheduleFormBookings, rescheduleBooking } from '@/lib/booking/reschedule'
+import { cancelManagedBooking } from '@/lib/booking/cancellation'
+import { requestBookingRefund } from '@/lib/booking/refund-request'
+import RescheduleBookingForm from './RescheduleBookingForm'
+import CancelBookingDialog from './CancelBookingDialog'
+import RefundRequestDialog from './RefundRequestDialog'
 import { getTreatmentImageUrl } from '@/lib/storefront/booking'
 import { fmtMY } from '@/lib/datetime'
 import { whatsappLink } from '@/lib/clinic'
@@ -14,13 +20,18 @@ const paymentLabels: Record<BookingManagementModel['payment']['display'], string
   refund_pending: 'Refund pending',
   refunded: 'Refunded',
   refund_needs_review: 'Refund needs review',
+  refund_rejected: 'Refund declined',
 }
 
-export default async function ManageBookingPanel({ model }: { model: BookingManagementModel }) {
+export default async function ManageBookingPanel({ model, token }: { model: BookingManagementModel; token?: string | null }) {
   const amount = model.payment.amountRm == null ? null : `RM${model.payment.amountRm.toFixed(2)}`
   const isActiveGroup = model.groupMembers.length > 1
     && model.groupMembers.some((member) => member.id === model.id)
   const imageUrl = !isActiveGroup && model.treatmentId ? await getTreatmentImageUrl(model.treatmentId) : null
+  const rescheduleIds = Array.from(new Set([model.id, ...model.groupMembers.map((m) => m.id)]))
+  const rescheduleBookings = model.canReschedule ? await getRescheduleFormBookings(rescheduleIds) : []
+  const canCancel = model.status !== 'cancelled' && model.canCancel
+  const selfServiceAvailable = model.canReschedule || canCancel
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[380px_1fr] lg:gap-12">
@@ -59,15 +70,47 @@ export default async function ManageBookingPanel({ model }: { model: BookingMana
           Need to make a change?
         </h2>
         <p className="mt-3 max-w-xl font-body text-[14px] leading-6 text-dark/65">
-          Rescheduling, cancellations, and refund requests are handled directly via WhatsApp — message us and our team will take care of it.
+          {selfServiceAvailable
+            ? 'Cancellations, refund requests, and reschedules can all be managed below.'
+            : 'This booking can no longer be changed online — message us on WhatsApp and our team will take care of it.'}
         </p>
 
-        <div className="mt-7 rounded-2xl bg-white p-6 ring-1 ring-accent/15">
+        {model.canReschedule && (
+          <div className="mt-7">
+            <RescheduleBookingForm
+              anchorId={model.id}
+              bookings={rescheduleBookings}
+              action={rescheduleBooking}
+            />
+          </div>
+        )}
+
+        {canCancel && (
+          <CancelBookingDialog
+            anchorId={model.id}
+            appointmentIds={rescheduleIds}
+            wholeGroup={isActiveGroup}
+            action={cancelManagedBooking}
+          />
+        )}
+
+        {model.status === 'cancelled' && model.payment.status === 'paid' && model.payment.display !== 'refunded' && (
+          <RefundRequestDialog
+            appointmentId={model.id}
+            amountRm={model.payment.amountRm ?? 0}
+            provider={model.payment.provider}
+            existingRefund={model.refund}
+            token={token}
+            action={requestBookingRefund}
+          />
+        )}
+
+        <div className="mt-4 rounded-2xl bg-white p-5 ring-1 ring-accent/15">
           <div className="flex items-start gap-3">
             <MessageCircle className="mt-0.5 h-5 w-5 flex-none text-accent" />
             <div>
-              <h3 className="font-heading text-[14px] font-bold text-primary">
-                Need to reschedule, cancel, or ask about a refund?
+              <h3 className="font-heading text-[13px] font-bold text-primary">
+                {selfServiceAvailable ? 'Need something else?' : 'Need to reschedule, cancel, or ask about a refund?'}
               </h3>
               <p className="mt-1 font-body text-[13px] leading-5 text-dark/65">
                 Message us on WhatsApp and our team will take care of it directly.

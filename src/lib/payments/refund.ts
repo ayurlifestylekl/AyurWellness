@@ -15,11 +15,11 @@ import {
 
 export const REFUND_ATTEMPT_LEASE_MS = 5 * 60 * 1000
 
-export type RefundLifecycleStatus = 'claimed' | 'pending' | 'confirmed' | 'failed' | 'exception'
+export type RefundLifecycleStatus = 'claimed' | 'pending' | 'confirmed' | 'failed' | 'exception' | 'requested' | 'rejected'
 
 export interface RefundRecord {
   id: string
-  provider: 'stripe' | 'billplz' | 'stub'
+  provider: 'hitpay' | 'stub'
   providerRefundId: string | null
   status: RefundLifecycleStatus
   amountRm: number
@@ -29,6 +29,10 @@ export interface RefundRecord {
   failureReason?: string | null
   requestedAt?: string | null
   confirmedAt?: string | null
+  customerReason?: string | null
+  staffReason?: string | null
+  bankAccountNumber?: string | null
+  bankAccountHolderName?: string | null
 }
 
 export interface RefundTransition {
@@ -56,6 +60,8 @@ export interface RefundStore {
     expectedProviderRefundId: string | null,
     patch: RefundTransition,
   ): Promise<boolean>
+  /** Ids of rows still awaiting a provider outcome, oldest first — feeds the reconciliation sweep/cron. */
+  listPending(limit: number): Promise<string[]>
 }
 
 export interface RefundDependencies {
@@ -68,12 +74,43 @@ export interface RequestProviderRefundArgs extends RefundArgs {
   refundId: string
 }
 
-function adminStore(): RefundStore {
+/**
+ * How a store resolves which payment provider a refund row belongs to.
+ * `booking_refunds` carries its own `provider` column; `product_refund_requests`
+ * has none — it's resolved by joining back to `product_orders.payment_provider`.
+ */
+export type RefundProviderResolution =
+  | { kind: 'column' }
+  | { kind: 'join'; table: string; column: string }
+
+export interface RefundStoreConfig {
+  table: 'booking_refunds' | 'product_refund_requests'
+  provider: RefundProviderResolution
+  /** `booking_refunds` has no reason/bank-detail columns — only select/patch them when the table has them. */
+  extendedFields: boolean
+}
+
+function createSupabaseRefundStore(config: RefundStoreConfig): RefundStore {
   const sb = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { auth: { persistSession: false, autoRefreshToken: false } },
   )
+
+  const joinSelect = config.provider.kind === 'join'
+    ? `, ${config.provider.table}(${config.provider.column})`
+    : ''
+  const extendedColumns = config.extendedFields
+    ? ', customer_reason, staff_reason, bank_account_number, bank_account_holder_name'
+    : ''
+  const columns = `id, ${config.provider.kind === 'column' ? 'provider, ' : ''}provider_refund_id, status, amount_rm, idempotency_key, bank_code, bank_account_last4, failure_reason, requested_at, confirmed_at${extendedColumns}${joinSelect}`
+
+  function resolveProvider(row: Record<string, unknown>): RefundRecord['provider'] {
+    if (config.provider.kind === 'column') return row.provider as RefundRecord['provider']
+    const related = row[config.provider.table]
+    const relatedRow = Array.isArray(related) ? related[0] : related
+    return (relatedRow as Record<string, unknown> | null | undefined)?.[config.provider.column] as RefundRecord['provider']
+  }
 
   function record(row: Record<string, unknown> | null): RefundRecord | null {
     if (!row) return null
@@ -90,7 +127,7 @@ function adminStore(): RefundStore {
       : null
     return {
       id: String(row.id),
-      provider: row.provider as RefundRecord['provider'],
+      provider: resolveProvider(row),
       providerRefundId: typeof row.provider_refund_id === 'string' ? row.provider_refund_id : null,
       status: row.status as RefundLifecycleStatus,
       amountRm: Number(row.amount_rm),
@@ -100,10 +137,13 @@ function adminStore(): RefundStore {
       failureReason,
       requestedAt: typeof row.requested_at === 'string' ? row.requested_at : null,
       confirmedAt: typeof row.confirmed_at === 'string' ? row.confirmed_at : null,
+      customerReason: typeof row.customer_reason === 'string' ? row.customer_reason : null,
+      staffReason: typeof row.staff_reason === 'string' ? row.staff_reason : null,
+      bankAccountNumber: typeof row.bank_account_number === 'string' ? row.bank_account_number : null,
+      bankAccountHolderName: typeof row.bank_account_holder_name === 'string' ? row.bank_account_holder_name : null,
     }
   }
 
-  const columns = 'id, provider, provider_refund_id, status, amount_rm, idempotency_key, bank_code, bank_account_last4, failure_reason, requested_at, confirmed_at'
   function updateValues(patch: RefundTransition) {
     return {
       ...(patch.providerRefundId !== undefined ? { provider_refund_id: patch.providerRefundId } : {}),
@@ -118,13 +158,13 @@ function adminStore(): RefundStore {
 
   return {
     async findById(id) {
-      const { data, error } = await sb.from('booking_refunds').select(columns).eq('id', id).maybeSingle()
+      const { data, error } = await sb.from(config.table).select(columns).eq('id', id).maybeSingle()
       if (error) throw new Error('Refund record lookup failed.')
       return record(data as Record<string, unknown> | null)
     },
     async findByProviderRefundId(providerRefundId) {
       const { data, error } = await sb
-        .from('booking_refunds')
+        .from(config.table)
         .select(columns)
         .eq('provider_refund_id', providerRefundId)
         .maybeSingle()
@@ -133,7 +173,7 @@ function adminStore(): RefundStore {
     },
     async findByIdempotencyKey(idempotencyKey) {
       const { data, error } = await sb
-        .from('booking_refunds')
+        .from(config.table)
         .select(columns)
         .eq('idempotency_key', idempotencyKey)
         .maybeSingle()
@@ -142,7 +182,7 @@ function adminStore(): RefundStore {
     },
     async claimAttempt(id, expected, requestedAt) {
       let query = sb
-        .from('booking_refunds')
+        .from(config.table)
         .update({ status: 'pending', requested_at: requestedAt }, { count: 'exact' })
         .eq('id', id)
         .eq('status', expected.status)
@@ -156,7 +196,7 @@ function adminStore(): RefundStore {
     },
     async completeAttempt(id, requestedAt, patch) {
       const { count, error } = await sb
-        .from('booking_refunds')
+        .from(config.table)
         .update(updateValues(patch), { count: 'exact' })
         .eq('id', id)
         .eq('status', 'pending')
@@ -167,7 +207,7 @@ function adminStore(): RefundStore {
     },
     async applyCallback(id, expectedProviderRefundId, patch) {
       let query = sb
-        .from('booking_refunds')
+        .from(config.table)
         .update(updateValues(patch), { count: 'exact' })
         .eq('id', id)
         .eq('status', 'pending')
@@ -178,11 +218,38 @@ function adminStore(): RefundStore {
       if (error) throw new Error('Refund callback update failed.')
       return count === 1
     },
+    async listPending(limit) {
+      const { data, error } = await sb
+        .from(config.table)
+        .select('id')
+        .eq('status', 'pending')
+        .not('provider_refund_id', 'is', null)
+        .order('requested_at', { ascending: true })
+        .limit(limit)
+      if (error) throw new Error('Refund pending lookup failed.')
+      return (data ?? []).map((row) => String((row as { id: unknown }).id))
+    },
   }
 }
 
-function runtimeDependencies(): RefundDependencies {
-  return { store: adminStore(), providerForName: getProviderByName, now: Date.now }
+export function bookingRefundDependencies(): RefundDependencies {
+  return {
+    store: createSupabaseRefundStore({ table: 'booking_refunds', provider: { kind: 'column' }, extendedFields: false }),
+    providerForName: getProviderByName,
+    now: Date.now,
+  }
+}
+
+export function productRefundDependencies(): RefundDependencies {
+  return {
+    store: createSupabaseRefundStore({
+      table: 'product_refund_requests',
+      provider: { kind: 'join', table: 'product_orders', column: 'payment_provider' },
+      extendedFields: true,
+    }),
+    providerForName: getProviderByName,
+    now: Date.now,
+  }
 }
 
 function safeResult(
@@ -235,7 +302,7 @@ function resultFromRecord(row: RefundRecord): ProviderRefundResult | null {
 
 export async function requestProviderRefund(
   args: RequestProviderRefundArgs,
-  dependencies: RefundDependencies = runtimeDependencies(),
+  dependencies: RefundDependencies = bookingRefundDependencies(),
 ): Promise<ProviderRefundResult> {
   const existing = await dependencies.store.findById(args.refundId)
   if (!existing) throw new ProviderRefundError('definitive')
@@ -329,7 +396,7 @@ async function applyStatus(
 
 export async function reconcileRefund(
   id: string,
-  dependencies: RefundDependencies = runtimeDependencies(),
+  dependencies: RefundDependencies = bookingRefundDependencies(),
 ): Promise<RefundRecord | null> {
   const row = await dependencies.store.findById(id)
   if (!row || row.status !== 'pending' || !row.providerRefundId) return row
@@ -340,14 +407,58 @@ export async function reconcileRefund(
   return applyStatus(row, status.status, dependencies)
 }
 
+export interface ReconcileTally {
+  checked: number
+  confirmed: number
+  exception: number
+  stillPending: number
+}
+
+/**
+ * Polls every refund still sitting at 'pending' through the provider's
+ * authoritative status lookup and resolves it. Billplz doesn't always
+ * confirm a refund instantly (bank-transfer refunds settle over hours) —
+ * without this, an 'approve refund' click that comes back 'pending' would
+ * never automatically complete.
+ */
+export async function reconcilePendingRefunds(
+  dependencies: RefundDependencies,
+  limit = 100,
+): Promise<ReconcileTally> {
+  const ids = await dependencies.store.listPending(limit)
+  const tally: ReconcileTally = { checked: ids.length, confirmed: 0, exception: 0, stillPending: 0 }
+  for (const id of ids) {
+    const row = await reconcileRefund(id, dependencies).catch((e) => {
+      console.error('[refund] reconcile failed for', id, e)
+      return null
+    })
+    if (row?.status === 'confirmed') tally.confirmed++
+    else if (row?.status === 'exception') tally.exception++
+    else if (row?.status === 'pending') tally.stillPending++
+  }
+  return tally
+}
+
+/** Best-effort reconciliation for page loads: never throws, never blocks the page. */
+export async function reconcilePendingRefundsSafe(
+  dependencies: RefundDependencies,
+  limit = 100,
+): Promise<ReconcileTally | null> {
+  try {
+    return await reconcilePendingRefunds(dependencies, limit)
+  } catch (e) {
+    console.error('[refund] reconcilePendingRefunds sweep failed:', e)
+    return null
+  }
+}
+
 export async function applyRefundCallback(
   callback: RefundCallbackResult,
-  dependencies: RefundDependencies = runtimeDependencies(),
+  dependencies: RefundDependencies = bookingRefundDependencies(),
 ): Promise<RefundRecord | null> {
   const safeForAnyProvider = callback.provider
     ? isSafeProviderRefundId(callback.provider, callback.providerRefundId)
-    : isSafeProviderRefundId('stripe', callback.providerRefundId)
-      || isSafeProviderRefundId('billplz', callback.providerRefundId)
+    : isSafeProviderRefundId('hitpay', callback.providerRefundId)
       || isSafeProviderRefundId('stub', callback.providerRefundId)
   if (!safeForAnyProvider) return null
 

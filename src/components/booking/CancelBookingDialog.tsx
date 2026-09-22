@@ -28,17 +28,12 @@ export default function CancelBookingDialog({
   anchorId,
   appointmentIds,
   wholeGroup,
-  refundEligibility,
-  provider,
   action,
 }: {
   anchorId: string
   /** IDs to cancel — anchor only or full active group */
   appointmentIds: string[]
   wholeGroup: boolean
-  refundEligibility: 'not_paid' | 'mistake_window' | 'advance_window' | 'not_eligible'
-  /** Payment provider for the booking, or null */
-  provider?: string | null
   action: CancelAction
 }) {
   const router = useRouter()
@@ -47,31 +42,24 @@ export default function CancelBookingDialog({
 
   const [open, setOpen] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
-  const [bankCode, setBankCode] = useState('')
-  const [accountNumber, setAccountNumber] = useState('')
-  const [accountHolderName, setAccountHolderName] = useState('')
+  const [reason, setReason] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [result, setResult] = useState<{ refunds: { appointmentId: string; refundStatus: string }[] } | null>(null)
+  const [done, setDone] = useState(false)
   const [pending, startTransition] = useTransition()
-
-  const isPaid = refundEligibility !== 'not_paid'
-  const needsRefund = isPaid && refundEligibility !== 'not_eligible'
-  const needsBankDetails = needsRefund && provider === 'billplz'
 
   function reset() {
     setOpen(false)
     setConfirmed(false)
-    setBankCode('')
-    setAccountNumber('')
-    setAccountHolderName('')
+    setReason('')
     setError(null)
-    setResult(null)
+    setDone(false)
   }
 
   function submit() {
     if (!confirmed) { setError('Please confirm that you understand this action cannot be undone.'); return }
-    if (needsBankDetails && (!bankCode.trim() || !accountNumber.trim() || !accountHolderName.trim())) {
-      setError('Please enter your bank, account number, and account holder name to receive your refund.')
+    const trimmed = reason.trim()
+    if (!trimmed) {
+      setError('Please tell us why you are cancelling so we can improve our service.')
       return
     }
     setError(null)
@@ -81,15 +69,13 @@ export default function CancelBookingDialog({
         appointmentIds,
         token: token ?? null,
         wholeGroup,
-        bank: needsBankDetails
-          ? { bankCode: bankCode.trim(), accountNumber: accountNumber.trim(), accountHolderName: accountHolderName.trim() }
-          : undefined,
+        reason: trimmed,
       }
       const res = await runCancelAction(action, input)
       if ('error' in res) {
         setError(res.error)
       } else {
-        setResult(res.data)
+        setDone(true)
         router.refresh()
       }
     })
@@ -109,20 +95,13 @@ export default function CancelBookingDialog({
     )
   }
 
-  if (result) {
-    const allRefundsOk = result.refunds.length === 0 || result.refunds.every((r) => r.refundStatus === 'confirmed')
-    const anyException = result.refunds.some((r) => r.refundStatus === 'exception')
+  if (done) {
     return (
       <div className="mt-4 rounded-2xl border border-green-100 bg-green-50/70 p-5">
         <p className="font-heading text-[13px] font-bold text-green-800">Booking cancelled</p>
         <p className="mt-1 font-body text-[13px] text-green-700">
-          {result.refunds.length === 0
-            ? 'This booking has been cancelled. No payment was made, so no refund is needed.'
-            : allRefundsOk
-              ? 'Your booking has been cancelled and your refund has been confirmed.'
-              : anyException
-                ? 'Your booking is cancelled. Our team is reviewing your refund and will be in touch.'
-                : 'Your booking is cancelled and your refund request is being processed. You will receive a confirmation email.'}
+          Your booking has been cancelled. If a payment was made and you are eligible for a refund,
+          you can submit a refund request from this page.
         </p>
       </div>
     )
@@ -137,62 +116,22 @@ export default function CancelBookingDialog({
             {wholeGroup ? 'Cancel all group bookings' : 'Cancel this booking'}
           </p>
           <p className="mt-1 font-body text-[13px] leading-5 text-red-700">
-            {needsRefund
-              ? 'A full refund will be submitted automatically. This action cannot be undone.'
-              : isPaid
-                ? 'This booking is not eligible for an automatic refund under our policy. This action cannot be undone.'
-                : 'This booking has not been paid. Cancelling will release the slot. This action cannot be undone.'}
+            This will cancel the selected booking and cannot be undone. Refunds are requested separately after cancellation.
           </p>
 
-          {needsBankDetails && (
-            <div className="mt-4 space-y-3">
-              <p className="font-heading text-[11px] font-bold uppercase tracking-wide text-red-700">
-                FPX refund recipient details
-              </p>
-              <div>
-                <label htmlFor="cancel-bank-code" className="block font-body text-[12px] text-dark/60">
-                  Bank (e.g. CIMB, Maybank, RHB)
-                </label>
-                <input
-                  id="cancel-bank-code"
-                  type="text"
-                  autoComplete="off"
-                  value={bankCode}
-                  onChange={(e) => setBankCode(e.target.value)}
-                  placeholder="MBBEMYKL"
-                  className="mt-1 w-full rounded-lg border border-accent/20 bg-white px-3 py-2 font-body text-[13px] text-dark placeholder:text-dark/30 focus:outline-none focus:ring-2 focus:ring-accent/40"
-                />
-              </div>
-              <div>
-                <label htmlFor="cancel-account-number" className="block font-body text-[12px] text-dark/60">
-                  Account number
-                </label>
-                <input
-                  id="cancel-account-number"
-                  type="text"
-                  autoComplete="off"
-                  value={accountNumber}
-                  onChange={(e) => setAccountNumber(e.target.value)}
-                  placeholder="1234567890"
-                  className="mt-1 w-full rounded-lg border border-accent/20 bg-white px-3 py-2 font-body text-[13px] text-dark placeholder:text-dark/30 focus:outline-none focus:ring-2 focus:ring-accent/40"
-                />
-              </div>
-              <div>
-                <label htmlFor="cancel-account-name" className="block font-body text-[12px] text-dark/60">
-                  Account holder name
-                </label>
-                <input
-                  id="cancel-account-name"
-                  type="text"
-                  autoComplete="off"
-                  value={accountHolderName}
-                  onChange={(e) => setAccountHolderName(e.target.value)}
-                  placeholder="As printed on bank card"
-                  className="mt-1 w-full rounded-lg border border-accent/20 bg-white px-3 py-2 font-body text-[13px] text-dark placeholder:text-dark/30 focus:outline-none focus:ring-2 focus:ring-accent/40"
-                />
-              </div>
-            </div>
-          )}
+          <div>
+            <label htmlFor="cancel-reason" className="block font-body text-[12px] text-dark/60">
+              Reason for cancelling <span className="text-red-600">*</span>
+            </label>
+            <textarea
+              id="cancel-reason"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder="Please let us know why you need to cancel..."
+              className="mt-1 w-full rounded-lg border border-accent/20 bg-white px-3 py-2 font-body text-[13px] text-dark placeholder:text-dark/30 focus:outline-none focus:ring-2 focus:ring-accent/40"
+            />
+          </div>
 
           <label className="mt-4 flex cursor-pointer items-start gap-2">
             <input

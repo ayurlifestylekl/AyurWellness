@@ -6,14 +6,13 @@ import { managementEligibility } from './management-policy'
 import { activeManagementMembers } from './group-management'
 import { voidBill } from './payment'
 import { notifyManagedCancellation } from './notify'
-import type { RefundArgs } from '@/lib/payments/provider'
 
 export interface CancelManagedBookingInput {
   anchorId: string
   appointmentIds: string[]
   token?: string | null
   wholeGroup: boolean
-  bank?: { bankCode: string; accountNumber: string; accountHolderName: string }
+  reason: string
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -26,11 +25,10 @@ export function validateCancellationInput(input: {
   provider: string | null | undefined
   paid: boolean
   refundEligible: boolean
-  bank: CancelManagedBookingInput['bank'] | undefined
+  bank: { bankCode: string; accountNumber: string; accountHolderName: string } | undefined
 }): { ok: true } | { error: string } {
-  if (input.paid && input.refundEligible && input.provider === 'billplz' && !input.bank) {
-    return { error: 'Bank details are required for an FPX refund.' }
-  }
+  // HitPay refunds go back to the original payment method, so bank details are optional.
+  void input
   return { ok: true }
 }
 
@@ -214,9 +212,11 @@ export async function cancelManagedBooking(
     }
   }
 
-  // Policy check per row + provider/bank validation
+  // Policy check per row + reason validation
   const nowMs = Date.now()
   const nowISO = new Date(nowMs).toISOString()
+  const cancellationReason = (input.reason ?? '').trim()
+  if (!cancellationReason) return fail('INVALID_INPUT', 'Please provide a reason for cancellation.')
 
   for (const row of rows) {
     const policy = managementEligibility({
@@ -227,15 +227,6 @@ export async function cancelManagedBooking(
       nowMs,
     })
     if (!policy.canCancel) return fail('POLICY_CLOSED', 'The online cancellation window is closed for this booking.')
-
-    // Validate bank details before the RPC — don't allow paid Billplz without them
-    const inputValidation = validateCancellationInput({
-      provider: row.payment_provider,
-      paid: row.payment_status === 'paid',
-      refundEligible: policy.refundEligibility !== 'not_paid' && policy.refundEligibility !== 'not_eligible',
-      bank: input.bank,
-    })
-    if ('error' in inputValidation) return fail('INVALID_INPUT', inputValidation.error)
   }
 
   // ── Call the atomic claim RPC ─────────────────────────────────────────────
@@ -244,6 +235,7 @@ export async function cancelManagedBooking(
     p_appointment_ids: appointmentIds,
     p_now: nowISO,
     p_actor_type: actorType,
+    p_reason: cancellationReason,
   })
   if (rpcError) {
     if (/POLICY_CLOSED/i.test(rpcError.message)) {
@@ -266,40 +258,19 @@ export async function cancelManagedBooking(
     })
   }
 
-  // ── Post-commit: request provider refunds using only RPC-authoritative data ─
+  // ── Post-commit: refunds are no longer handled automatically. ─
+  // Customers must submit a separate refund request after cancellation.
   const refundResults: { appointmentId: string; refundStatus: string }[] = []
-  const claimedRefunds: ClaimRefundRow[] = Array.isArray(claim.refunds) ? claim.refunds : []
-
-  for (const refundRow of claimedRefunds) {
-    // Only pass bank details to Billplz rows; never to Stripe or other providers.
-    const bankForProvider: RefundArgs['bank'] | undefined =
-      refundRow.provider === 'billplz' ? input.bank : undefined
-
-    try {
-      const { requestProviderRefund } = await import('@/lib/payments/refund')
-      const result = await requestProviderRefund({
-        refundId: refundRow.refund_id,
-        billId: refundRow.bill_id ?? '',
-        amountRm: refundRow.amount_rm,
-        idempotencyKey: refundRow.idempotency_key,
-        customerEmail: refundRow.customer_email ?? '',
-        bank: bankForProvider,
-      })
-      refundResults.push({ appointmentId: refundRow.appointment_id, refundStatus: result.status })
-    } catch (e) {
-      console.error('[booking-cancel] requestProviderRefund failed for', refundRow.appointment_id, (e as Error)?.message ?? 'unknown')
-      refundResults.push({ appointmentId: refundRow.appointment_id, refundStatus: 'exception' })
-    }
-  }
 
   // ── Notification (best-effort, never rolls back cancellation) ─────────────
   const lead = rows.find((r) => r.id === input.anchorId) ?? rows[0]
+  const refundable = rows.some((r) => r.payment_status === 'paid')
   await notifyManagedCancellation({
     to: lead?.patient_email,
     name: lead?.patient_name,
     treatmentName: lead?.treatment_name,
-    refundRequired: claim.refund_required,
-    refundResults,
+    reason: cancellationReason,
+    refundable,
   }).catch((e) => {
     console.error('[booking-cancel] notifyManagedCancellation failed:', e)
   })

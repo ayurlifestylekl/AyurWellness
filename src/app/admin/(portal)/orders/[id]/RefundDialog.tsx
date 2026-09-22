@@ -52,7 +52,7 @@ export default function RefundDialog({
             </h2>
             <p className="mt-1 text-[11px] text-[#12372D]/55">
               Order total: RM {totalRm.toFixed(2)}. The actual money movement
-              must be processed in Billplz / bank separately.
+              must be processed via HitPay / bank separately.
             </p>
 
             <label className="mt-3 block text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
@@ -99,7 +99,7 @@ export default function RefundDialog({
             <input
               value={ref}
               onChange={(e) => setRef(e.target.value)}
-              placeholder="Billplz refund ID or bank ref"
+              placeholder="HitPay refund ID or bank ref"
               className="mt-1 w-full rounded-lg border border-[#006B3C]/15 px-3 py-2 text-[13px]"
             />
 
