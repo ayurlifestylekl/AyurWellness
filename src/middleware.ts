@@ -34,6 +34,8 @@ function homepageOnlyGate(request: NextRequest): NextResponse | null {
   const { pathname } = request.nextUrl
   if (PUBLIC_PREVIEW_ROUTES.includes(pathname)) return null
   if (pathname.startsWith('/blog')) return null
+  if (pathname.startsWith('/treatments')) return null
+  if (pathname.startsWith('/products')) return null
   if (pathname.startsWith('/api/')) return null
   const home = request.nextUrl.clone()
   home.pathname = '/'
