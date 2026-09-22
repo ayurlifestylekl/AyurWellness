@@ -19,7 +19,8 @@ export default function CallingCard() {
     <section
       id="calling-card"
       aria-labelledby="calling-card-heading"
-      className="relative overflow-hidden bg-[#75B843]"
+      className="relative overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #0B1F16 0%, #12372D 55%, #0A1A12 100%)' }}
     >
       {/* Faint gold grid texture */}
       <div
@@ -284,13 +285,10 @@ export default function CallingCard() {
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-[#12372D]">
                 <span className="font-devanagari italic" style={{ fontSize: '16px', lineHeight: 1 }}>
-                  केरल
+                  आयुर्वेद
                 </span>
                 <span className="mt-1 font-heading text-[7px] font-bold uppercase tracking-[0.2em]">
-                  K · A · L
-                </span>
-                <span className="font-heading text-[7px] font-bold uppercase tracking-[0.18em]">
-                  MMVIII
+                  A · W · C
                 </span>
               </div>
             </div>
