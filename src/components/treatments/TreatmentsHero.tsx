@@ -2,11 +2,10 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowDown, Calendar, ShieldCheck, Star } from 'lucide-react'
 
 import CTAButton from '@/components/ui/CTAButton'
-import { BotanicalMandala } from '@/components/ui/Decorations'
 import { EASE_OUT_PREMIUM } from '@/lib/motion'
 
 interface TreatmentsHeroProps {
@@ -50,13 +49,47 @@ export default function TreatmentsHero({
   therapyCount,
   onBrowseTreatments,
 }: TreatmentsHeroProps) {
-  const reduce = useReducedMotion() ?? false
-
   return (
     <section
-      className="relative overflow-hidden bg-primary lg:h-[calc(100vh-113px)] lg:min-h-[620px]"
+      className="relative overflow-hidden bg-primary lg:h-[calc(100svh-97px)] lg:min-h-[620px]"
       aria-labelledby="treatments-heading"
     >
+      {/* ── L-1  Full-bleed background photo — a generated Shirodhara scene,
+              color-graded from its native warm-amber cast toward the brand's
+              green/gold duotone via a mix-blend "color" wash, since asking
+              the generator for green shadows directly kept losing to the
+              candlelight's warm tone. ─────────────────────────────────── */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <Image
+          src="/treatments-hero-bg.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: '68% 50%' }}
+        />
+        {/* Green/gold duotone wash */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(150deg, rgba(0,107,60,0.55) 0%, rgba(181,138,59,0.25) 55%, rgba(0,107,60,0.5) 100%)',
+            mixBlendMode: 'color',
+          }}
+        />
+        {/* Dark scrim — heavier on the left where the headline sits */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(90deg, rgba(8,26,20,0.92) 0%, rgba(8,26,20,0.72) 35%, rgba(8,26,20,0.25) 65%, rgba(8,26,20,0.45) 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(0deg, rgba(8,26,20,0.55) 0%, transparent 30%, transparent 75%, rgba(8,26,20,0.5) 100%)' }}
+        />
+      </div>
+
       {/* ── L0  Gold dot grid ───────────────────────────── */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -112,31 +145,20 @@ export default function TreatmentsHero({
 
       {/* ══════════ CONTENT ══════════════════════════════ */}
       <div
-        className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-16 pt-20 sm:px-10 md:pb-20 md:pt-24 lg:h-full lg:pb-10 lg:pt-16"
+        className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-16 pt-20 sm:px-10 md:pb-20 md:pt-24 lg:h-full lg:pb-14 lg:pt-14"
       >
-        {/* ── Masthead row — Vol. + specimen ref ────────── */}
-        <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease: EASE_OUT_PREMIUM }}
-            className="font-heading text-[10px] font-medium uppercase tracking-[0.42em] text-accent/75"
-          >
-            Vol. 01 · The Treatment Atlas
-          </motion.span>
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: EASE_OUT_PREMIUM }}
-            className="flex items-center gap-2 font-heading text-[10px] font-medium uppercase tracking-[0.35em] text-white/55"
-          >
-            <span className="inline-block h-1 w-1 rotate-45 bg-accent" />
-            Specimen N°01
-          </motion.span>
-        </div>
+        {/* ── Masthead row — Vol. ────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.35, ease: EASE_OUT_PREMIUM }}
+          className="mt-2 font-heading text-[10px] font-medium uppercase tracking-[0.42em] text-accent/75 lg:mt-4"
+        >
+          Vol. 01 · The Treatment Atlas
+        </motion.div>
 
         {/* ── Two-column editorial body ─────────────────── */}
-        <div className="mt-10 grid flex-1 grid-cols-1 items-center gap-12 lg:mt-6 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-8 grid flex-1 grid-cols-1 items-center gap-12 lg:mt-4 lg:grid-cols-12 lg:gap-10">
           {/* ═══════════ TYPE COLUMN (7) ═══════════════════ */}
           <div className="lg:col-span-7">
             {/* Rule + "The" */}
@@ -170,7 +192,7 @@ export default function TreatmentsHero({
                 animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
                 transition={{ duration: 0.9, delay: 0.7, ease: EASE_OUT_PREMIUM }}
                 className="block"
-                style={{ fontSize: 'clamp(3rem, 7.2vw, 5.4rem)' }}
+                style={{ fontSize: 'clamp(2.6rem, 6.2vw, 4.6rem)' }}
               >
                 Treatment
               </motion.span>
@@ -180,11 +202,11 @@ export default function TreatmentsHero({
                 initial={{ clipPath: 'inset(0 0 0 100%)', opacity: 0, rotate: -0.6 }}
                 animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1, rotate: 0 }}
                 transition={{ duration: 1.0, delay: 0.9, ease: EASE_OUT_PREMIUM }}
-                className="relative -mt-2 block font-body font-normal italic text-accent"
+                className="relative -mt-2 block pb-2 font-body font-normal italic text-accent"
                 style={{
-                  fontSize: 'clamp(3.8rem, 9.5vw, 6.8rem)',
+                  fontSize: 'clamp(3.4rem, 8.4vw, 6rem)',
                   letterSpacing: '-0.03em',
-                  lineHeight: '0.82',
+                  lineHeight: '1.05',
                 }}
               >
                 Library<span className="text-accent/70">.</span>
@@ -208,7 +230,7 @@ export default function TreatmentsHero({
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1.1, ease: EASE_OUT_PREMIUM }}
-              className="mt-6 max-w-[460px] lg:mt-5"
+              className="mt-4 max-w-[460px] lg:mt-3"
             >
               <p
                 className="font-body italic text-white/80"
@@ -227,11 +249,17 @@ export default function TreatmentsHero({
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.3, ease: EASE_OUT_PREMIUM }}
-              className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center lg:mt-6"
+              className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center lg:mt-4"
             >
               <button
                 type="button"
-                onClick={onBrowseTreatments}
+                onClick={
+                  onBrowseTreatments ??
+                  (() =>
+                    document
+                      .getElementById('category-grid')
+                      ?.scrollIntoView({ behavior: 'smooth' }))
+                }
                 className="group relative inline-flex min-h-[44px] items-center gap-2 overflow-hidden rounded-full bg-accent px-7 py-3 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-dark shadow-gold-glow transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_50px_-16px_rgba(181, 138, 59,0.95)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary active:scale-[0.97]"
               >
                 <span className="relative z-10">Browse Treatments</span>
@@ -263,7 +291,7 @@ export default function TreatmentsHero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.5, ease: EASE_OUT_PREMIUM }}
-              className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-heading text-[10.5px] font-medium uppercase tracking-[0.18em] text-white/55"
+              className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-heading text-[10.5px] font-medium uppercase tracking-[0.18em] text-white/55"
             >
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="h-3 w-3 text-accent/80" strokeWidth={2} />
@@ -273,128 +301,13 @@ export default function TreatmentsHero({
               <span>No Commitment</span>
               <span className="h-0.5 w-0.5 rounded-full bg-accent/60" />
               <span>Same-gender Therapists</span>
+              <span className="h-0.5 w-0.5 rounded-full bg-accent/60" />
+              <span>Certified Therapists</span>
             </motion.div>
           </div>
 
-          {/* ═══════════ SPECIMEN PLATE (5) ════════════════ */}
-          <div className="lg:col-span-5">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.0, delay: 0.8, ease: EASE_OUT_PREMIUM }}
-              className="relative mx-auto w-full max-w-[440px] lg:mx-0 lg:ml-auto lg:max-w-[360px] xl:max-w-[400px]"
-            >
-              {/* Mandala — behind the photo, offset left+up */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.4, delay: 1.0 }}
-                className="pointer-events-none absolute -left-10 -top-10 h-[200px] w-[200px] sm:-left-16 sm:-top-16 sm:h-[260px] sm:w-[260px]"
-                aria-hidden
-              >
-                <motion.div
-                  animate={reduce ? undefined : { rotate: 360 }}
-                  transition={
-                    reduce
-                      ? undefined
-                      : { duration: 120, repeat: Infinity, ease: 'linear' }
-                  }
-                  className="h-full w-full"
-                >
-                  <BotanicalMandala opacity={0.28} stroke="#B58A3B" />
-                </motion.div>
-              </motion.div>
-
-              {/* Photo plate (portrait, 4:5) */}
-              <motion.div
-                initial={{ clipPath: 'inset(100% 0 0 0)', opacity: 0 }}
-                animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
-                transition={{ duration: 1.1, delay: 0.85, ease: EASE_OUT_PREMIUM }}
-                className="relative aspect-[4/5] w-full overflow-hidden rounded-[2px]"
-                style={{
-                  boxShadow:
-                    '0 40px 80px -30px rgba(0,0,0,0.55), 0 18px 40px -20px rgba(181, 138, 59,0.25)',
-                }}
-              >
-                <Image
-                  src="/ayurvedic-lifestyle_1022134-20273.jpg.avif"
-                  alt="Ayurvedic flat-lay with herbs, brass vessels and warm amber oils arranged on a dark surface"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 85vw, 440px"
-                  className="object-cover"
-                />
-                {/* Green tint to harmonise */}
-                <div
-                  className="pointer-events-none absolute inset-0 mix-blend-multiply"
-                  style={{ backgroundColor: 'rgba(0,107,60,0.22)' }}
-                  aria-hidden
-                />
-                {/* Bottom gradient for legibility */}
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent"
-                  aria-hidden
-                />
-
-                {/* Gold foil frame (inner) */}
-                <div
-                  className="pointer-events-none absolute inset-2 border border-accent/60"
-                  aria-hidden
-                />
-                {/* Inner corner mitres */}
-                <div className="pointer-events-none absolute left-1 top-1 h-3 w-3 border-l-2 border-t-2 border-accent" />
-                <div className="pointer-events-none absolute right-1 top-1 h-3 w-3 border-r-2 border-t-2 border-accent" />
-                <div className="pointer-events-none absolute bottom-1 left-1 h-3 w-3 border-b-2 border-l-2 border-accent" />
-                <div className="pointer-events-none absolute bottom-1 right-1 h-3 w-3 border-b-2 border-r-2 border-accent" />
-
-                {/* Plate N°01 badge — top-left */}
-                <motion.div
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 1.4, ease: EASE_OUT_PREMIUM }}
-                  className="absolute left-5 top-5 flex items-center gap-1.5 rounded-full bg-accent/95 px-3 py-1 font-body text-[11px] italic text-primary shadow-[0_10px_24px_-10px_rgba(181, 138, 59,0.8)]"
-                >
-                  <span className="inline-block h-1 w-1 rotate-45 bg-primary/70" />
-                  Plate N°01
-                </motion.div>
-              </motion.div>
-
-              {/* Signature card — overlapping bottom-right */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.92, y: 12 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 1.5, ease: EASE_OUT_PREMIUM }}
-                className="absolute -bottom-6 right-2 flex w-[220px] items-center gap-3 rounded-sm bg-cream px-4 py-3 shadow-[0_24px_50px_-18px_rgba(0,0,0,0.45)] sm:-bottom-7 sm:-right-4"
-                style={{
-                  backdropFilter: 'blur(8px)',
-                }}
-              >
-                {/* Gold hairline top */}
-                <span
-                  aria-hidden
-                  className="absolute left-0 right-0 top-0 h-px"
-                  style={{
-                    background:
-                      'linear-gradient(to right, transparent, rgba(181, 138, 59,0.85) 20%, rgba(181, 138, 59,0.85) 80%, transparent)',
-                  }}
-                />
-                {/* Gold seal dot */}
-                <span
-                  aria-hidden
-                  className="relative h-2 w-2 shrink-0 rounded-full bg-accent shadow-[0_0_0_3px_rgba(181, 138, 59,0.2)]"
-                />
-                <div className="min-w-0 flex-1">
-                  <p className="font-body text-[11px] italic text-dark/55">Attended by</p>
-                  <p className="font-heading text-[14px] font-bold leading-tight text-primary">
-                    our therapists
-                  </p>
-                  <p className="mt-0.5 font-heading text-[9px] font-semibold uppercase tracking-[0.2em] text-accent">
-                    Certified · 14 Yrs
-                  </p>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
+          {/* ═══════════ RIGHT (5) — empty, lets the background photo show through ═══ */}
+          <div className="relative hidden lg:col-span-5 lg:block lg:min-h-[300px]" aria-hidden />
         </div>
 
         {/* ── Credentials masthead — inside frame, at bottom ── */}
@@ -402,7 +315,7 @@ export default function TreatmentsHero({
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.7, ease: EASE_OUT_PREMIUM }}
-          className="mt-16 lg:mt-6"
+          className="mt-10 lg:mt-4"
         >
           <div
             aria-hidden

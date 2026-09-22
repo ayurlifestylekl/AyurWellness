@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
 import type { Product } from '@/types/content'
 import AddToBagButton from './AddToBagButton'
+import { whatsappLink } from '@/lib/clinic'
 
 interface ProductMetaProps {
   product: Product
@@ -13,7 +14,8 @@ interface ProductMetaProps {
 }
 
 export default function ProductMeta({ product, categoryLabel }: ProductMetaProps) {
-  const outOfStock = product.stockQty === 0
+  const comingSoon = product.priceRm === 0
+  const outOfStock = !comingSoon && product.stockQty === 0
   const hasDiscount = !!product.oldPriceRm && product.oldPriceRm > product.priceRm
 
   return (
@@ -64,13 +66,21 @@ export default function ProductMeta({ product, categoryLabel }: ProductMetaProps
 
       {/* Price */}
       <motion.div variants={fadeUp(0)} className="flex items-baseline gap-3">
-        <span className="font-heading text-[28px] font-extrabold text-accent">
-          RM{product.priceRm}
-        </span>
-        {hasDiscount && (
-          <span className="font-body text-[15px] text-dark/35 line-through">
-            RM{product.oldPriceRm}
+        {comingSoon ? (
+          <span className="font-heading text-[16px] font-bold uppercase tracking-[0.12em] text-accent">
+            Coming Soon
           </span>
+        ) : (
+          <>
+            <span className="font-heading text-[28px] font-extrabold text-accent">
+              RM{product.priceRm}
+            </span>
+            {hasDiscount && (
+              <span className="font-body text-[15px] text-dark/35 line-through">
+                RM{product.oldPriceRm}
+              </span>
+            )}
+          </>
         )}
       </motion.div>
 
@@ -113,7 +123,16 @@ export default function ProductMeta({ product, categoryLabel }: ProductMetaProps
 
       {/* CTA */}
       <motion.div variants={fadeUp(0)} className="mt-2">
-        <AddToBagButton productId={product.id} disabled={outOfStock} />
+        {comingSoon ? (
+          <a
+            href={whatsappLink(`Hi, I'd like to be notified when ${product.name} is available.`)}
+            className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-accent/60 bg-white/40 px-6 font-heading text-[11px] font-bold uppercase tracking-[0.18em] text-accent backdrop-blur transition-colors duration-300 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+          >
+            Notify Me
+          </a>
+        ) : (
+          <AddToBagButton productId={product.id} disabled={outOfStock} />
+        )}
       </motion.div>
 
       {/* Trust row */}

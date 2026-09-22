@@ -40,7 +40,6 @@ export default function ProductPlateCard({ product, initialSaved = false }: { pr
           src={product.image}
           alt={`${product.name} — ${product.tagline}`}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          dimmed={outOfStock}
           imageClassName="transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           className="rounded-[2px]"
         >
@@ -60,7 +59,7 @@ export default function ProductPlateCard({ product, initialSaved = false }: { pr
                 className="font-display text-[11px] italic sm:text-[12px]"
                 style={{ color: 'rgba(255, 249, 242,0.8)' }}
               >
-                Out of stock
+                Coming soon
               </span>
             ) : (
               <span

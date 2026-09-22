@@ -1,291 +1,141 @@
 import type { Product } from '@/types/content'
 
 /**
- * Full product catalog for the /products page.
- * Covers all 8 shop categories + 2 combo bundles.
- * Data lives here until Supabase is wired in.
+ * The 5 real client-supplied products, transcribed from their product spec
+ * PDFs (name, description, ingredients, dosage, contraindications, SKU).
+ * price_rm and stock_qty are not in the source specs — the client hasn't
+ * finalised pricing yet, so these stay 0 and every product reads as
+ * "Coming Soon" across the site rather than showing a fabricated price.
  */
 export const products: Product[] = [
-  /* ── Hair Care ──────────────────────────────── */
   {
-    id: 'kesha-thailam',
-    name: 'Kesha Thailam',
-    tagline: 'Cooling Hair & Scalp Oil',
+    id: 'dandra-care-oil',
+    name: 'Dandra Care Oil',
+    tagline: 'Soothes itchy, flake-prone scalp and supports healthy hair',
     description:
-      'Hand-blended in small batches with brahmi, bhringraj and amla. Calms the scalp, deepens sleep, and restores natural shine over six weeks of daily use.',
+      'Dandra Care Oil by Ayurveda Wellness Centre is a modified, Ayurvedic topical formulation designed to support scalp hygiene and promote overall hair wellness naturally. Prepared using traditional Ayurvedic herbs and medicated oil bases, this formulation is valued for helping maintain a balanced scalp environment, supporting scalp comfort, and encouraging healthy hair care practices. This formulation helps support the scalp in managing Darunaka (dandruff), scalp discomfort, and visible flakes associated with environmental and lifestyle factors, while balancing aggravated Vata and Kapha doshas in the scalp. Net volume 200ml.',
     category: 'hair-care',
-    priceRm: 89,
-    badge: 'BESTSELLER',
-    image:
-      'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=80',
-    sku: 'KT-001',
-    stockQty: 42,
+    priceRm: 0,
+    image: '/products/dandra-care-oil.jpg',
+    sku: 'AWC-DANDRA-200',
+    stockQty: 0,
     isBundle: false,
-    createdAt: '2025-08-15T00:00:00Z',
-    doshas: ['vata', 'pitta'],
-    useCases: ['dry-hair', 'scalp-heat', 'sleep'],
+    createdAt: '2026-09-01T00:00:00Z',
+    ingredients: [
+      'Keratailam / Tila Taila (sesame oil base)',
+      'Coconut Oil',
+      'Karanja (Pongamia pinnata)',
+      'Datura Leaf (Thorn Apple) extract',
+      'Bermuda Grass (Durva)',
+      'Indian Coral Tree (Paribhadra)',
+      'Nimba (Neem)',
+    ],
+    dose:
+      'Apply an adequate quantity over the scalp. Gently massage with fingertips in circular motion for 5–10 minutes to improve local blood circulation. Leave on the scalp for 30–45 minutes, then rinse thoroughly with a mild herbal hair wash powder or sulfate-free herbal shampoo and lukewarm water. Use 2–3 times a week, or as directed by an Ayurveda vaidya.',
+    useCases: ['anti-dandruff', 'scalp-care', 'hair-oil'],
   },
   {
-    id: 'neelibhringadi-oil',
-    name: 'Neelibhringadi Kera Thailam',
-    tagline: 'Intense Hair Growth & Root Strengthener',
+    id: 'balashwagandhaadi-tailam',
+    name: 'Balashwagandhaadi Tailam',
+    tagline: 'Muscle strengthening & joint pain relief oil for recovery',
     description:
-      'A potent Ayurvedic formulation with indigo, bhringraj and coconut milk base. Traditionally used for premature greying, hair thinning and dandruff control.',
-    category: 'hair-care',
-    priceRm: 79,
-    image:
-      'https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=800&q=80',
-    sku: 'NB-002',
-    stockQty: 35,
-    isBundle: false,
-    createdAt: '2025-11-20T00:00:00Z',
-    doshas: ['vata', 'pitta'],
-    useCases: ['hair-thinning', 'premature-greying'],
-  },
-
-  /* ── Skin Care ──────────────────────────────── */
-  {
-    id: 'kumkumadi-serum',
-    name: 'Kumkumadi Serum',
-    tagline: 'Saffron Glow Elixir',
-    description:
-      'Luxurious night serum infused with saffron, sandalwood and lotus extract. Fades dark spots, evens skin tone and imparts a natural radiance within weeks.',
-    category: 'skin-care',
-    priceRm: 159,
-    oldPriceRm: 199,
-    badge: 'SALE',
-    image:
-      'https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=800&q=80',
-    sku: 'KS-003',
-    stockQty: 18,
-    isBundle: false,
-    createdAt: '2025-09-10T00:00:00Z',
-    doshas: ['pitta', 'vata'],
-    useCases: ['dark-spots', 'uneven-tone'],
-  },
-  {
-    id: 'nalpamaradi-turmeric',
-    name: 'Nalpamaradi Thailam',
-    tagline: 'Turmeric Brightening Body Oil',
-    description:
-      'Classical Ayurvedic body oil with wild turmeric, vetiver and sesame base. Evens skin tone, reduces blemishes and leaves a warm golden glow after abhyanga.',
-    category: 'skin-care',
-    priceRm: 110,
-    badge: 'NEW',
-    image:
-      'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=80',
-    sku: 'NT-004',
-    stockQty: 28,
-    isBundle: false,
-    createdAt: '2026-02-01T00:00:00Z',
-    doshas: ['pitta', 'kapha'],
-    useCases: ['blemishes', 'body-glow'],
-  },
-
-  /* ── Pain Relief ────────────────────────────── */
-  {
-    id: 'mahanarayan-oil',
-    name: 'Mahanarayan Oil',
-    tagline: 'Joint & Muscle Relief',
-    description:
-      'A warm, deeply penetrating oil with 50+ Ayurvedic herbs. Used for centuries for joint stiffness, muscular pain and post-exercise recovery.',
+      'Formulated according to the traditional text Yogaratnakaram, Balashwagandhaadi Tailam is an authentic Ayurvedic body oil crafted to restore physical strength, support neural health, and ease joint discomfort. It harmonises Vata and Pitta doshas, making it an ideal remedy for physical exhaustion, post-illness rehabilitation, and general vitality. Ideal for post-illness, post-injury or postpartum recovery, athletes and fitness enthusiasts, elderly individuals seeking joint and muscle support, and anyone experiencing persistent tiredness, stress or sleep disruption. Note: prepared using classical methods incorporating curd (dairy) — not suitable for vegans. Net volume 200ml.',
     category: 'pain-relief',
-    priceRm: 95,
-    image:
-      'https://images.unsplash.com/photo-1519415943484-9fa1873496d4?auto=format&fit=crop&w=800&q=80',
-    sku: 'MN-005',
-    stockQty: 30,
+    priceRm: 0,
+    image: '/products/balashwagandhaadi-tailam.jpg',
+    sku: 'AWC-BALASHWA-200',
+    stockQty: 0,
     isBundle: false,
-    createdAt: '2025-07-20T00:00:00Z',
-    doshas: ['vata', 'kapha'],
-    useCases: ['joint-pain', 'muscle-stiffness'],
+    createdAt: '2026-09-01T00:00:00Z',
+    ingredients: [
+      'Taila / Sesamum indicum oil (base)',
+      'Mastu (curd whey — liquid medium)',
+      'Bala (Sida cordifolia)',
+      'Ashwagandha (Withania somnifera)',
+      'Laksha (Laccifer lacca)',
+      'fine herbal paste extracts',
+    ],
+    dose:
+      'Warm the oil slightly. Apply to the body or affected area and massage gently. Leave on for 30–45 minutes before a warm bath. For age above 6 years. If the oil thickens or solidifies in colder temperatures, warm the container gently in warm water (98–105°F) before use.',
+    useCases: ['muscle-recovery', 'joint-pain', 'massage-oil'],
   },
   {
-    id: 'kottamchukkadi-thailam',
-    name: 'Kottamchukkadi Thailam',
-    tagline: 'Deep Tissue Pain Oil',
+    id: 'lakshadi-kera-tailam',
+    name: 'Lakshadi Kera Tailam',
+    tagline: "Kerala's trusted traditional baby & kids massage oil",
     description:
-      'Potent medicated oil for chronic joint pain, sciatica and sports injuries. Prepared with dry ginger, devil pepper and sesame oil base for deep warming action.',
-    category: 'pain-relief',
-    priceRm: 85,
-    image:
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80',
-    sku: 'KC-006',
-    stockQty: 22,
+      'Rooted in the ancient text Ashtanga Hridaya, Lakshadi Kera Tailam is a time-honoured herbal massage oil crafted for growing babies and adults alike. Traditionally used in body massage (Abhyanga) for children to promote healthy growth and immunity, it deeply moisturises and hydrates dry skin, improves skin texture, and soothes mild irritation, while supporting muscle health, tissue recovery and physical vitality (Balya). It also pacifies aggravated Pitta and Vata doshas. Safe for infants from the second month, and equally used by adults for full-body hydration, stress relief and youthful skin suppleness. Net volume 200ml.',
+    category: 'skin-care',
+    priceRm: 0,
+    image: '/products/lakshadi-kera-tailam.jpg',
+    sku: 'AWC-LAKSHADI-200',
+    stockQty: 0,
     isBundle: false,
-    createdAt: '2025-12-05T00:00:00Z',
-    doshas: ['vata', 'kapha'],
-    useCases: ['sciatica', 'sports-injury'],
-  },
-
-  /* ── Digestion ──────────────────────────────── */
-  {
-    id: 'triphala-churna',
-    name: 'Triphala Churna',
-    tagline: 'Daily Digestive Cleanse',
-    description:
-      'The cornerstone of Ayurvedic wellness — three fruits (amla, haritaki, bibhitaki) in precise ratio for gentle daily detoxification and bowel regularity.',
-    category: 'digestion',
-    priceRm: 45,
-    image:
-      'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=800&q=80',
-    sku: 'TC-007',
-    stockQty: 55,
-    isBundle: false,
-    createdAt: '2025-06-01T00:00:00Z',
-    doshas: ['vata', 'pitta', 'kapha'],
-    useCases: ['daily-cleanse', 'bowel-regularity'],
+    createdAt: '2026-09-01T00:00:00Z',
+    ingredients: [
+      'Kera Taila / Coconut Oil (Cocos nucifera — base)',
+      'Laksha (Laccifer lacca)',
+      'Ashwagandha (Withania somnifera)',
+      'Nisa / Haridra (Curcuma longa — turmeric)',
+      'Devadaru (Cedrus deodara)',
+    ],
+    dose:
+      'Apply a required quantity over the head (Moordhataila) or body (Abhyanga). Massage gently in circular motions. Leave on for 15–30 minutes before washing off with lukewarm water and a mild cleanser. Dosage as directed by an Ayurvedic practitioner.',
+    useCases: ['baby-massage-oil', 'kids-care', 'skin-nourishing'],
   },
   {
-    id: 'hingvashtak-churna',
-    name: 'Hingvashtak Churna',
-    tagline: 'Gas & Bloating Relief Blend',
+    id: 'himasagara-tailam',
+    name: 'Himasagara Tailam',
+    tagline: 'Classical oil for strength, restful sleep and joint comfort',
     description:
-      'An ancient eight-ingredient formula with asafoetida, cumin and black pepper. Kindles digestive fire, relieves bloating and supports healthy appetite.',
-    category: 'digestion',
-    priceRm: 42,
-    image:
-      'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=800&q=80',
-    sku: 'HC-008',
-    stockQty: 40,
-    isBundle: false,
-    createdAt: '2025-10-15T00:00:00Z',
-    doshas: ['vata', 'kapha'],
-    useCases: ['bloating', 'low-appetite'],
-  },
-
-  /* ── Stress Relief ──────────────────────────── */
-  {
-    id: 'ashwagandha-tablets',
-    name: 'Ashwagandha',
-    tagline: 'Stress & Vitality Support',
-    description:
-      'Premium-grade KSM-66 ashwagandha root extract. Clinically shown to lower cortisol, support deep sleep and restore energy without stimulants.',
+      "Himasagara Tailam is a medicated oil described in the classical text Bhaishajya Ratnavali, explained in the context of Vatavyadhi. Mostly prescribed during convalescence, massage with this oil helps regain strength and vitality and is used in general weakness and debility. Applied over the head it supports good sleep and helps reduce stress; regular use helps bring down excess body heat and reduce burning sensation of the skin. It is one of the Ayurvedic oils used for Sirodhaara to improve sleep, and also supports recovery from bone and joint injuries, frozen joints, muscle wasting and locomotor impairments from trauma or over-exertion. Balances Vata and Pitta doshas.",
     category: 'stress-relief',
-    priceRm: 75,
-    badge: 'NEW',
-    image:
-      'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=800&q=80',
-    sku: 'AW-009',
-    stockQty: 60,
+    priceRm: 0,
+    image: '/products/himasagara-tailam.jpg',
+    sku: 'AWC-HIMASAGARA-200',
+    stockQty: 0,
     isBundle: false,
-    createdAt: '2026-01-10T00:00:00Z',
-    doshas: ['vata', 'kapha'],
-    useCases: ['stress', 'sleep', 'vitality'],
+    createdAt: '2026-09-01T00:00:00Z',
+    ingredients: [
+      'Tila Taila / Sesame Oil',
+      'Narikela Ksheera (coconut milk)',
+      "Go-Ksheera (cow's milk)",
+      'Shatavari (Asparagus racemosus)',
+      'Chandana (Santalum album)',
+      'Jatamansi (Nardostachys jatamansi)',
+      'Madhuka (Glycyrrhiza glabra)',
+      'Amalaki (Emblica officinalis)',
+      'Gokshura (Tribulus terrestris)',
+    ],
+    dose:
+      'For body: apply a sufficient quantity over the affected area or full body for Abhyanga (massage) with gentle strokes for 10 minutes; leave on for 15–30 minutes before washing off with lukewarm water. For scalp: gentle massage for 10–15 minutes for stress and sleep support.',
+    useCases: ['sleep-support', 'stress-relief', 'sirodhaara', 'joint-stiffness'],
   },
   {
-    id: 'brahmi-ghritam',
-    name: 'Brahmi Ghritam',
-    tagline: 'Mind Clarity & Focus',
+    id: 'nalpamaradi-body-lotion',
+    name: 'AWC Nalpamaradi Body Lotion',
+    tagline: 'Deep hydration & daily nourishment — non-greasy, fast-absorbing',
     description:
-      'Medicated ghee infused with bacopa monnieri and calamus root. Nourishes neural tissue, sharpens memory and promotes calm, sustained mental clarity.',
-    category: 'stress-relief',
-    priceRm: 68,
-    image:
-      'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80',
-    sku: 'BG-010',
-    stockQty: 25,
+      'Nalpamaradi Body Lotion is a solution for dry, rough, scaly and itchy skin. Infused with Nalpamaradi Thailam and rich herbs, it penetrates deeply to replenish lost moisture and ease tightness, while forming a lightweight protective barrier that locks in hydration and keeps daily flakiness away. It calms persistent discomfort and itching, refines uneven or scaly texture, and its nutrient-dense blend of sesame oil, turmeric and botanicals supports long-term radiance and skin resilience. Combines the richness of Ayurvedic tradition with selected ingredients for gentle, effective daily skincare. Net volume 100ml.',
+    category: 'skin-care',
+    priceRm: 0,
+    image: '/products/nalpamaradi-body-lotion.jpg',
+    sku: 'AWC-NALPAMARADI-100',
+    stockQty: 0,
     isBundle: false,
-    createdAt: '2025-11-01T00:00:00Z',
-    doshas: ['pitta', 'vata'],
-    useCases: ['mental-clarity', 'memory', 'focus'],
-  },
-
-  /* ── Immunity ───────────────────────────────── */
-  {
-    id: 'chyawanprash',
-    name: 'Chyawanprash',
-    tagline: 'Daily Immunity Rasayana',
-    description:
-      'The king of Ayurvedic tonics — amla-rich herbal jam with 40+ botanicals. Builds ojas (immunity), supports respiratory health and rejuvenates all tissues.',
-    category: 'immunity',
-    priceRm: 55,
-    badge: 'BESTSELLER',
-    image:
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80',
-    sku: 'CP-011',
-    stockQty: 48,
-    isBundle: false,
-    createdAt: '2025-08-01T00:00:00Z',
-    doshas: ['vata', 'pitta'],
-    useCases: ['immunity', 'energy', 'respiratory'],
-  },
-
-  /* ── Women's Wellness ───────────────────────── */
-  {
-    id: 'shatavari-gulam',
-    name: 'Shatavari Gulam',
-    tagline: 'Hormonal Balance & Vitality',
-    description:
-      'Nourishing herbal jam formulated for women\'s health. Supports hormonal balance, menstrual comfort and reproductive vitality through all life stages.',
-    category: 'womens-wellness',
-    priceRm: 65,
-    image:
-      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80',
-    sku: 'SG-012',
-    stockQty: 32,
-    isBundle: false,
-    createdAt: '2025-12-20T00:00:00Z',
-    doshas: ['pitta', 'vata'],
-    useCases: ['hormonal-balance', 'menstrual'],
-  },
-
-  /* ── Detox & Cleanse ────────────────────────── */
-  {
-    id: 'kaishore-guggulu',
-    name: 'Kaishore Guggulu',
-    tagline: 'Blood Purifier & Detox Tablets',
-    description:
-      'Classical purification formula with guggulu resin, triphala and guduchi. Clears metabolic toxins, supports healthy uric acid levels and promotes clear skin.',
-    category: 'detox-cleanse',
-    priceRm: 52,
-    image:
-      'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=800&q=80',
-    sku: 'KG-013',
-    stockQty: 38,
-    isBundle: false,
-    createdAt: '2026-01-25T00:00:00Z',
-    doshas: ['pitta', 'kapha'],
-    useCases: ['detox', 'skin-clarity', 'uric-acid'],
-  },
-
-  /* ── Bundles / Combos ───────────────────────── */
-  {
-    id: 'complete-detox-kit',
-    name: 'Complete Detox Kit',
-    tagline: 'Triphala + Kaishore + Chyawanprash',
-    description:
-      'Our most popular cleanse bundle — a 30-day protocol combining Triphala Churna for digestion, Kaishore Guggulu for blood purification and Chyawanprash for immune rebuilding. Save RM 22 vs individual purchase.',
-    category: 'detox-cleanse',
-    priceRm: 130,
-    oldPriceRm: 152,
-    badge: 'COMBO',
-    image:
-      'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?auto=format&fit=crop&w=800&q=80',
-    sku: 'BDL-014',
-    stockQty: 15,
-    isBundle: true,
-    createdAt: '2026-03-01T00:00:00Z',
-    doshas: ['pitta', 'kapha'],
-    useCases: ['detox', 'cleanse'],
-  },
-  {
-    id: 'daily-wellness-combo',
-    name: 'Daily Wellness Combo',
-    tagline: 'Ashwagandha + Brahmi + Chyawanprash',
-    description:
-      'Your daily Ayurvedic wellness stack — stress relief, mental clarity and immune support in one bundle. Three bestsellers at a combined savings of RM 18.',
-    category: 'immunity',
-    priceRm: 180,
-    oldPriceRm: 198,
-    badge: 'COMBO',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-    sku: 'BDL-015',
-    stockQty: 20,
-    isBundle: true,
-    createdAt: '2026-03-10T00:00:00Z',
-    doshas: ['vata', 'pitta', 'kapha'],
-    useCases: ['daily-wellness', 'stress', 'immunity'],
+    createdAt: '2026-09-01T00:00:00Z',
+    ingredients: [
+      'Nalpamaradi Thailam (base brightening oil)',
+      'Turmeric (Haridra)',
+      'Vetiver (Usira)',
+      'Aloe Vera',
+      'Cocoa Butter',
+      'Shea Butter',
+      'Vitamin E',
+      'Sesame Oil',
+    ],
+    dose:
+      'After showering or bathing, towel dry gently. Dispense a generous amount into your palm and apply all over the body, focusing on areas prone to dryness, roughness or itchiness. Massage in using circular motions until fully absorbed. Use daily, especially after bathing, for best results.',
+    useCases: ['body-lotion', 'daily-hydration', 'skin-brightening'],
   },
 ]

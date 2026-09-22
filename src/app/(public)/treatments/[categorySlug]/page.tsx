@@ -4,33 +4,18 @@ import { notFound } from 'next/navigation'
 import CategoryPageHeader from '@/components/treatments/CategoryPageHeader'
 import FreeConsultationBlock from '@/components/treatments/FreeConsultationBlock'
 import TherapyGrid from '@/components/treatments/TherapyGrid'
-import { createClient } from '@/lib/supabase/server'
-import { getCategoryWithTreatments } from '@/lib/storefront/treatments'
-import { sortByDuration } from '@/lib/treatment-order'
-import type { TreatmentCategory, TreatmentSummary } from '@/types/treatments'
+import {
+  getAllCategories,
+  getCategoryBySlug,
+  getTreatmentsByCategorySlug,
+  sortByDuration,
+  toTreatmentSummary,
+} from '@/data/treatments'
+import { CLINIC_DOMAIN, CLINIC_NAME } from '@/lib/clinic'
 
-// Server-rendered on demand: these pages read auth cookies (Supabase server
-// client), which is incompatible with static/ISR rendering and 500s in prod.
-export const dynamic = 'force-dynamic'
-
-interface CategoryPageData extends TreatmentCategory {
-  treatments: TreatmentSummary[]
-}
-
-async function loadCategory(slug: string): Promise<CategoryPageData | null> {
-  try {
-    const supabase = await createClient()
-    return await getCategoryWithTreatments(supabase, slug)
-  } catch (err) {
-    console.error(`[treatments/${slug}] catalogue fetch failed:`, err)
-    return null
-  }
-}
-
+// Static catalogue — every category is known at build time.
 export async function generateStaticParams(): Promise<Array<{ categorySlug: string }>> {
-  // Categories are rendered on-demand (dynamicParams = true); skip build-time
-  // enumeration to avoid a DB round-trip during the build.
-  return []
+  return getAllCategories().map((c) => ({ categorySlug: c.slug }))
 }
 
 export async function generateMetadata({
@@ -38,48 +23,49 @@ export async function generateMetadata({
 }: {
   params: { categorySlug: string }
 }): Promise<Metadata> {
-  const category = await loadCategory(params.categorySlug)
+  const category = getCategoryBySlug(params.categorySlug)
   if (!category) {
     return {
       title: 'Category not found',
       robots: { index: false, follow: true },
     }
   }
+  const description = `Explore ${category.title} at ${CLINIC_NAME} — ${category.treatmentCount} authentic Ayurveda ${category.treatmentCount === 1 ? 'therapy' : 'therapies'} in Brickfields, Kuala Lumpur.`
   return {
-    title: `${category.title} — Ayurvedic Wellness Centre`,
-    description: category.description ?? undefined,
+    title: `${category.title} — ${CLINIC_NAME}`,
+    description,
     alternates: { canonical: `/treatments/${category.slug}` },
     openGraph: {
-      title: `${category.title} — Ayurvedic Wellness Centre`,
-      description: category.description ?? undefined,
+      title: `${category.title} — ${CLINIC_NAME}`,
+      description,
       type: 'website',
-      url: `https://ayurvedawellness.com.my/treatments/${category.slug}`,
+      url: `https://${CLINIC_DOMAIN}/treatments/${category.slug}`,
     },
   }
 }
 
-export default async function CategoryPage({
+export default function CategoryPage({
   params,
 }: {
   params: { categorySlug: string }
 }) {
-  const category = await loadCategory(params.categorySlug)
+  const category = getCategoryBySlug(params.categorySlug)
   if (!category) notFound()
+
+  const treatments = sortByDuration(getTreatmentsByCategorySlug(category.slug)).map(
+    toTreatmentSummary,
+  )
 
   return (
     <>
       <section className="relative overflow-hidden bg-cream pb-12">
         <CategoryPageHeader
           title={category.title}
-          description={category.description ?? null}
+          description={null}
           order={category.order}
-          treatmentCount={category.treatments.length}
+          treatmentCount={treatments.length}
         />
-        <TherapyGrid
-          // CATEGORY_BY_SLUG_QUERY always projects slug; non-null assertion is safe here.
-          categorySlug={category.slug!}
-          treatments={sortByDuration(category.treatments)}
-        />
+        <TherapyGrid categorySlug={category.slug} treatments={treatments} />
       </section>
       <FreeConsultationBlock />
     </>

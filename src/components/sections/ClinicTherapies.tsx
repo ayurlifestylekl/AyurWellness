@@ -33,7 +33,7 @@ const categories: Category[] = [
     tagline: 'Restore mobility',
     durationMin: 60,
     image: '/therapies/spine-joint.jpg',
-    href: '/treatments?category=spine-joint',
+    href: '/treatments/joint-care-therapies',
   },
   {
     slug: 'hair-skin',
@@ -41,7 +41,7 @@ const categories: Category[] = [
     tagline: 'Glow from within',
     durationMin: 50,
     image: '/therapies/hair-skin.jpg',
-    href: '/treatments?category=hair-skin',
+    href: '/treatments/hair-scalp-care-therapies',
   },
   {
     slug: 'post-delivery',
@@ -49,7 +49,7 @@ const categories: Category[] = [
     tagline: 'For new mothers',
     durationMin: 75,
     image: '/therapies/post-delivery.jpg',
-    href: '/treatments?category=post-delivery',
+    href: '/treatments/post-delivery-care-sutika-paricharya',
   },
   {
     slug: 'de-stress',
@@ -57,7 +57,7 @@ const categories: Category[] = [
     tagline: 'Quiet the mind',
     durationMin: 45,
     image: '/therapies/de-stress.jpg',
-    href: '/treatments?category=de-stress',
+    href: '/treatments/stress-relieving-sleep',
   },
   {
     slug: 'panchakarma',
@@ -65,7 +65,7 @@ const categories: Category[] = [
     tagline: 'Five-stage detox',
     durationMin: 90,
     image: '/therapies/panchakarma.jpg',
-    href: '/treatments?category=panchakarma',
+    href: '/treatments/panchakarma',
   },
 ]
 

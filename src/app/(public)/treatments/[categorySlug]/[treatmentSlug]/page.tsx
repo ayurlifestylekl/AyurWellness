@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { PortableText } from '@portabletext/react'
 
 import BookingSidebar from '@/components/treatments/BookingSidebar'
 import FreeConsultationBlock from '@/components/treatments/FreeConsultationBlock'
@@ -9,7 +8,6 @@ import MobileBookingBar from '@/components/treatments/MobileBookingBar'
 import RelatedTherapies from '@/components/treatments/RelatedTherapies'
 import TherapyBenefits from '@/components/treatments/TherapyBenefits'
 import TherapyContraindications from '@/components/treatments/TherapyContraindications'
-import TherapyGallery from '@/components/treatments/TherapyGallery'
 import TherapyHero from '@/components/treatments/TherapyHero'
 import TherapyMarginalia from '@/components/treatments/TherapyMarginalia'
 import TherapyMidCTA from '@/components/treatments/TherapyMidCTA'
@@ -17,46 +15,38 @@ import TherapyPager from '@/components/treatments/TherapyPager'
 import TherapyProcedure from '@/components/treatments/TherapyProcedure'
 import TherapyStickyBar from '@/components/treatments/TherapyStickyBar'
 import TherapySwitcher from '@/components/treatments/TherapySwitcher'
-import { portableTextComponents } from '@/components/blog/PortableTextComponents'
-import { urlForImage } from '@/sanity/image'
-import { createClient } from '@/lib/supabase/server'
 import {
+  findPrevNext,
+  getAllCategories,
+  getCategoryBySlug,
+  getSiblings,
   getTreatmentBySlug,
-  getTreatmentSiblings,
-} from '@/lib/storefront/treatments'
-import { findPrevNext } from '@/lib/treatments/pager'
-import type {
-  TreatmentDetail,
-  TreatmentSibling,
-} from '@/types/treatments'
+  getTreatmentsByCategorySlug,
+} from '@/data/treatments'
+import { CLINIC_DOMAIN, CLINIC_NAME, whatsappLink } from '@/lib/clinic'
 
-// Server-rendered on demand: reads auth cookies (Supabase server client),
-// which is incompatible with static/ISR rendering and 500s in production.
-export const dynamic = 'force-dynamic'
-
+// Practitioners administer these therapies in-clinic; consultations are led
+// by a Vaidya, but day-to-day sessions are with the therapist team.
 const PRACTITIONER = 'our therapists'
-
-async function loadDetail(
-  categorySlug: string,
-  treatmentSlug: string,
-): Promise<{ treatment: TreatmentDetail | null; siblings: TreatmentSibling[] }> {
-  try {
-    const supabase = await createClient()
-    const treatment = await getTreatmentBySlug(supabase, categorySlug, treatmentSlug)
-    if (!treatment) return { treatment: null, siblings: [] }
-    const siblings = await getTreatmentSiblings(supabase, treatment.category._id)
-    return { treatment, siblings }
-  } catch (err) {
-    console.error(`[treatments/${categorySlug}/${treatmentSlug}] fetch failed:`, err)
-    return { treatment: null, siblings: [] }
-  }
-}
 
 export async function generateStaticParams(): Promise<
   Array<{ categorySlug: string; treatmentSlug: string }>
 > {
-  // Rendered on-demand (dynamicParams = true); skip build-time enumeration.
-  return []
+  const params: Array<{ categorySlug: string; treatmentSlug: string }> = []
+  for (const category of getAllCategories()) {
+    for (const treatment of getTreatmentsByCategorySlug(category.slug)) {
+      params.push({ categorySlug: category.slug, treatmentSlug: treatment.slug })
+    }
+  }
+  return params
+}
+
+function loadDetail(categorySlug: string, treatmentSlug: string) {
+  const category = getCategoryBySlug(categorySlug)
+  if (!category) return null
+  const treatment = getTreatmentBySlug(categorySlug, treatmentSlug)
+  if (!treatment) return null
+  return { category, treatment }
 }
 
 export async function generateMetadata({
@@ -64,52 +54,40 @@ export async function generateMetadata({
 }: {
   params: { categorySlug: string; treatmentSlug: string }
 }): Promise<Metadata> {
-  const { treatment } = await loadDetail(params.categorySlug, params.treatmentSlug)
-  if (!treatment) {
+  const detail = loadDetail(params.categorySlug, params.treatmentSlug)
+  if (!detail) {
     return { title: 'Treatment not found', robots: { index: false, follow: true } }
   }
-  const ogImage = treatment.heroImage
-    ? urlForImage(treatment.heroImage).width(1200).height(630).fit('crop').url()
-    : undefined
+  const { category, treatment } = detail
   return {
-    title: `${treatment.title} — ${treatment.category.title} | Ayurvedic Wellness Centre`,
-    description: treatment.description ?? undefined,
+    title: `${treatment.title} — ${category.title} | ${CLINIC_NAME}`,
+    description: treatment.description,
     alternates: {
-      canonical: `/treatments/${treatment.category.slug}/${treatment.slug}`,
+      canonical: `/treatments/${category.slug}/${treatment.slug}`,
     },
     openGraph: {
-      title: `${treatment.title} — Ayurvedic Wellness Centre`,
-      description: treatment.description ?? undefined,
+      title: `${treatment.title} — ${CLINIC_NAME}`,
+      description: treatment.description,
       type: 'article',
-      url: `https://ayurvedawellness.com.my/treatments/${treatment.category.slug}/${treatment.slug}`,
-      images: ogImage ? [ogImage] : undefined,
+      url: `https://${CLINIC_DOMAIN}/treatments/${category.slug}/${treatment.slug}`,
+      images: [treatment.heroImageUrl],
     },
   }
 }
 
-export default async function TreatmentDetailPage({
+export default function TreatmentDetailPage({
   params,
 }: {
   params: { categorySlug: string; treatmentSlug: string }
 }) {
-  const { treatment, siblings } = await loadDetail(
-    params.categorySlug,
-    params.treatmentSlug,
-  )
-  if (!treatment) notFound()
+  const detail = loadDetail(params.categorySlug, params.treatmentSlug)
+  if (!detail) notFound()
+  const { category, treatment } = detail
 
-  // A hero-split pair: the gallery contains only 1–2 extra photos (already
-  // deduped of the hero in the data layer). Use the first/second as the
-  // secondary hero image and skip the separate Gallery section. If there are
-  // 3+ images, treat it as an ordinary editorial gallery instead.
-  const heroSplitImage =
-    treatment.gallery && treatment.gallery.length > 0 && treatment.gallery.length <= 2
-      ? (treatment.gallery[1] ?? treatment.gallery[0])
-      : null
-
+  const siblings = getSiblings(category.slug)
   const { prev, next } = findPrevNext(siblings, treatment.slug)
-  const whatsappMessage = `Hi, I'd like to book a ${treatment.title} session.`
-  const whatsappHref = `https://wa.me/601163393436?text=${encodeURIComponent(whatsappMessage)}`
+  const whatsappMessage = `Hi, I'd like to know more about the ${treatment.title} treatment.`
+  const whatsappHref = whatsappLink(whatsappMessage)
 
   // Related: siblings excluding current, max 3.
   const related = siblings
@@ -121,8 +99,9 @@ export default async function TreatmentDetailPage({
       slug: s.slug,
       categorySlug: s.categorySlug,
       duration: s.duration,
-      heroImage: s.heroImage,
-      categoryTitle: treatment.category.title,
+      heroImage: null,
+      heroImageUrl: s.heroImageUrl ?? null,
+      categoryTitle: category.title,
     }))
 
   // JSON-LD MedicalProcedure
@@ -131,15 +110,14 @@ export default async function TreatmentDetailPage({
     '@type': 'MedicalProcedure',
     name: treatment.title,
     description: treatment.description ?? undefined,
-    bodyLocation: undefined,
     procedureType: 'TherapeuticProcedure',
     performer: { '@type': 'Person', name: PRACTITIONER },
     provider: {
       '@type': 'MedicalBusiness',
-      name: 'Ayurvedic Wellness Centre',
-      url: 'https://ayurvedawellness.com.my',
+      name: CLINIC_NAME,
+      url: `https://${CLINIC_DOMAIN}`,
     },
-    url: `https://ayurvedawellness.com.my/treatments/${treatment.category.slug}/${treatment.slug}`,
+    url: `https://${CLINIC_DOMAIN}/treatments/${category.slug}/${treatment.slug}`,
   }
 
   return (
@@ -149,19 +127,18 @@ export default async function TreatmentDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <TherapyStickyBar treatmentId={treatment._id} treatmentTitle={treatment.title} />
+      <TherapyStickyBar treatmentTitle={treatment.title} />
       <TherapySwitcher
-        categoryTitle={treatment.category.title}
+        categoryTitle={category.title}
         siblings={siblings}
         currentSlug={treatment.slug}
       />
 
       <TherapyHero
-        image={treatment.heroImage}
+        image={null}
         imageUrl={treatment.heroImageUrl}
-        secondaryImageUrl={heroSplitImage?.url ?? null}
-        categoryTitle={treatment.category.title}
-        treatmentOrder={treatment.category.order}
+        categoryTitle={category.title}
+        treatmentOrder={category.order}
         treatmentTitle={treatment.title}
       />
 
@@ -171,11 +148,11 @@ export default async function TreatmentDetailPage({
           {/* LEFT — desktop marginalia (hidden <lg) */}
           <div className="hidden lg:block">
             <TherapyMarginalia
-              origin={treatment.origin}
+              origin={null}
               sanskritName={treatment.sanskritName}
               practitioner={PRACTITIONER}
-              categoryTitle={treatment.category.title}
-              categorySlug={treatment.category.slug}
+              categoryTitle={category.title}
+              categorySlug={category.slug}
               variant="desktop"
             />
           </div>
@@ -192,17 +169,17 @@ export default async function TreatmentDetailPage({
               </Link>
               <span className="mx-2 text-dark/30">/</span>
               <Link
-                href={`/treatments/${treatment.category.slug}`}
+                href={`/treatments/${category.slug}`}
                 className="text-accent hover:text-primary"
               >
-                {treatment.category.title}
+                {category.title}
               </Link>
               <span className="mx-2 text-dark/30">/</span>
               <span>{treatment.title}</span>
             </nav>
 
             <div className="mt-5 font-heading text-[10px] font-bold uppercase tracking-[0.28em] text-accent">
-              Therapy · No. {String((treatment.category.order ?? 0) + 1).padStart(2, '0')}
+              Therapy · No. {String(treatment.order + 1).padStart(2, '0')}
             </div>
             <h1
               className="mt-2 font-heading font-extrabold leading-[1.05] tracking-[-0.025em] text-primary"
@@ -219,42 +196,31 @@ export default async function TreatmentDetailPage({
             {/* Mobile-only marginalia (hidden ≥lg where the sidebar takes over) */}
             <div className="mt-8 lg:hidden">
               <TherapyMarginalia
-                origin={treatment.origin}
+                origin={null}
                 sanskritName={treatment.sanskritName}
                 practitioner={PRACTITIONER}
-                categoryTitle={treatment.category.title}
-                categorySlug={treatment.category.slug}
+                categoryTitle={category.title}
+                categorySlug={category.slug}
                 variant="mobile"
               />
             </div>
 
-            {/* I · Overview */}
-            {treatment.body && treatment.body.length > 0 && (
+            {/* I · Overview — plain paragraphs (source data has no rich text) */}
+            {treatment.body.length > 0 && (
               <section className="mt-12">
                 <SectionHead numeral="I" label="Overview" />
                 <div className="prose prose-journal mt-4 max-w-none">
-                  <PortableText
-                    value={treatment.body}
-                    components={portableTextComponents}
-                  />
+                  {treatment.body.map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
                 </div>
               </section>
             )}
 
-            {/* II · Gallery — skipped for a hero-split pair (both photos already shown above) */}
-            {!heroSplitImage && treatment.gallery && treatment.gallery.length > 0 && (
+            {/* II · Benefits */}
+            {treatment.benefits.length > 0 && (
               <section className="mt-12">
-                <SectionHead numeral="II" label="Gallery" />
-                <div className="mt-4">
-                  <TherapyGallery images={treatment.gallery} />
-                </div>
-              </section>
-            )}
-
-            {/* III · Benefits */}
-            {treatment.benefits && treatment.benefits.length > 0 && (
-              <section className="mt-12">
-                <SectionHead numeral="III" label="Benefits" />
+                <SectionHead numeral="II" label="Benefits" />
                 <h3 className="mt-4 font-heading text-[22px] font-extrabold tracking-[-0.02em] text-primary">
                   What this therapy supports
                 </h3>
@@ -264,10 +230,10 @@ export default async function TreatmentDetailPage({
               </section>
             )}
 
-            {/* IV · What to expect */}
-            {treatment.procedureSteps && treatment.procedureSteps.length > 0 && (
+            {/* III · What to expect */}
+            {treatment.procedureSteps.length > 0 && (
               <section className="mt-12">
-                <SectionHead numeral="IV" label="What to expect" />
+                <SectionHead numeral="III" label="What to expect" />
                 <h3 className="mt-4 font-heading text-[22px] font-extrabold tracking-[-0.02em] text-primary">
                   The session, step by step
                 </h3>
@@ -277,10 +243,10 @@ export default async function TreatmentDetailPage({
               </section>
             )}
 
-            {/* V · Not suitable for */}
+            {/* IV · Not suitable for */}
             {treatment.contraindications && (
               <section className="mt-12">
-                <SectionHead numeral="V" label="Not suitable for" />
+                <SectionHead numeral="IV" label="Not suitable for" />
                 <div className="mt-4">
                   <TherapyContraindications text={treatment.contraindications} />
                 </div>
@@ -288,16 +254,12 @@ export default async function TreatmentDetailPage({
             )}
 
             {/* Mid CTA */}
-            <TherapyMidCTA
-              treatmentId={treatment._id}
-              treatmentTitle={treatment.title}
-              whatsappHref={whatsappHref}
-            />
+            <TherapyMidCTA treatmentTitle={treatment.title} whatsappHref={whatsappHref} />
 
-            {/* VI · Related */}
+            {/* V · Related */}
             {related.length > 0 && (
               <section className="mt-12">
-                <SectionHead numeral="VI" label="You may also like" />
+                <SectionHead numeral="V" label="You may also like" />
                 <div className="mt-4">
                   <RelatedTherapies items={related} />
                 </div>
@@ -309,10 +271,9 @@ export default async function TreatmentDetailPage({
 
           {/* RIGHT — sticky desktop booking card */}
           <BookingSidebar
-            treatmentId={treatment._id}
             treatmentTitle={treatment.title}
             duration={treatment.duration}
-            sessionsRecommended={treatment.sessionsRecommended}
+            sessionsRecommended={null}
             whatsappHref={whatsappHref}
             pricing={{
               price: treatment.price,
@@ -324,7 +285,7 @@ export default async function TreatmentDetailPage({
         </div>
       </section>
 
-      <MobileBookingBar treatmentId={treatment._id} treatmentTitle={treatment.title} />
+      <MobileBookingBar treatmentTitle={treatment.title} />
 
       <div className="pb-16 lg:pb-0" aria-hidden />
       <FreeConsultationBlock whatsappMessage={whatsappMessage} />

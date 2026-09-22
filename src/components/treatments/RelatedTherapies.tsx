@@ -11,6 +11,8 @@ interface RelatedItem {
   categorySlug: string
   duration: string | null
   heroImage: SanityImageRef | null
+  /** Plain image URL (static catalogue) — preferred over `heroImage` when present. */
+  heroImageUrl?: string | null
   categoryTitle: string
 }
 
@@ -29,7 +31,16 @@ export default function RelatedTherapies({ items }: RelatedTherapiesProps) {
           className="group overflow-hidden rounded-lg border border-accent/25 bg-white transition-[transform,box-shadow] duration-300 hover:-translate-y-[2px] hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
         >
           <div className="relative aspect-[4/3] overflow-hidden bg-primary">
-            {t.heroImage ? (
+            {t.heroImageUrl ? (
+              <Image
+                src={t.heroImageUrl}
+                alt={t.title}
+                fill
+                sizes="(max-width: 640px) 100vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            ) : t.heroImage ? (
               <Image
                 src={urlForImage(t.heroImage).width(600).height(450).fit('crop').url()}
                 alt={t.heroImage.alt ?? t.title}

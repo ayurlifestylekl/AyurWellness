@@ -1,22 +1,33 @@
 import type { Metadata } from 'next'
-import ComingSoon from '@/components/ui/ComingSoon'
+
+import CategoryGrid from '@/components/treatments/CategoryGrid'
+import FreeConsultationBlock from '@/components/treatments/FreeConsultationBlock'
+import TreatmentsHero from '@/components/treatments/TreatmentsHero'
+import { getAllCategories, toTreatmentCategory, totalTreatmentCount } from '@/data/treatments'
+import { CLINIC_DOMAIN, CLINIC_NAME } from '@/lib/clinic'
 
 export const metadata: Metadata = {
-  title: 'Treatments — Coming Soon | Ayurvedic Wellness Centre',
+  title: 'Treatments — Authentic Traditional Ayurveda Therapies',
   description:
-    'Our full library of authentic traditional Ayurveda therapies is coming soon. In the meantime, book a consultation with our Vaidyas.',
+    'Browse the full library of authentic traditional Ayurveda therapies offered at Ayurvedic Wellness Centre in Brickfields, Kuala Lumpur — face care, massage, stress relief, joint care, rehabilitation, kids, and more. Free consultation with our therapists.',
   alternates: { canonical: '/treatments' },
-  robots: { index: true, follow: true },
+  openGraph: {
+    title: `Treatments — ${CLINIC_NAME}`,
+    description:
+      'Authentic Ayurveda therapies across the Centre catalogue. Personal protocols designed by KKM-registered therapists in Brickfields, KL.',
+    url: `https://${CLINIC_DOMAIN}/treatments`,
+    type: 'website',
+  },
 }
 
 export default function TreatmentsPage() {
+  const categories = getAllCategories().map(toTreatmentCategory)
+
   return (
-    <ComingSoon
-      eyebrow="Therapies"
-      title="Coming Soon"
-      subtitle="Our full library of authentic traditional Ayurveda therapies — face care, massage, stress relief, joint care and more — is being prepared with the same care as everything we do. In the meantime, book a consultation to begin your journey."
-      primaryHref="/book/consultation"
-      primaryLabel="Book a Consultation"
-    />
+    <>
+      <TreatmentsHero therapyCount={totalTreatmentCount} />
+      <CategoryGrid categories={categories} />
+      <FreeConsultationBlock />
+    </>
   )
 }
