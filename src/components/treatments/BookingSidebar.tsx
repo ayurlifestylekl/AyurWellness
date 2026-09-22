@@ -2,9 +2,10 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 import type { TreatmentPricing } from '@/types/treatments'
-import { formatPrice, leadTimeLabel } from '@/lib/treatments/price'
+import { formatPrice, leadTimeLabel } from '@/data/treatments'
 
 interface BookingSidebarProps {
+  treatmentId: string
   treatmentTitle: string
   duration: string | null
   sessionsRecommended: string | null
@@ -26,6 +27,7 @@ const ASSURANCES = [
 ]
 
 export default function BookingSidebar({
+  treatmentId,
   treatmentTitle,
   duration,
   sessionsRecommended,
@@ -34,6 +36,7 @@ export default function BookingSidebar({
 }: BookingSidebarProps) {
   const priceText = formatPrice(pricing)
   const lead = leadTimeLabel(pricing)
+  const isEnquiry = pricing.bookingType === 'enquiry'
   const needsConsult = pricing.bookingType === 'consultation'
 
   return (
@@ -64,16 +67,16 @@ export default function BookingSidebar({
           )}
 
           <Link
-            href="/book/consultation"
+            href={isEnquiry ? whatsappHref : `/book/treatment?id=${treatmentId}`}
             className="mt-4 block rounded bg-accent px-4 py-3 text-center font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           >
-            Book a Consultation
+            {isEnquiry ? 'Enquire to Book' : needsConsult ? 'Book Consultation' : 'Book Treatment'}
           </Link>
           <Link
             href={whatsappHref}
             className="mt-2 block rounded border border-primary/40 px-4 py-3 text-center font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-primary transition-colors hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            Enquire on WhatsApp
+            WhatsApp Us
           </Link>
         </div>
 

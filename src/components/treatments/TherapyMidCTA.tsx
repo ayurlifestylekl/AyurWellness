@@ -1,11 +1,13 @@
 import Link from 'next/link'
 
 interface TherapyMidCTAProps {
+  treatmentId: string
   treatmentTitle: string
   whatsappHref: string
 }
 
 export default function TherapyMidCTA({
+  treatmentId,
   treatmentTitle,
   whatsappHref,
 }: TherapyMidCTAProps) {
@@ -15,22 +17,28 @@ export default function TherapyMidCTA({
         Begin your journey
       </div>
       <h3 className="mt-3 font-heading text-[24px] font-extrabold leading-[1.15] tracking-[-0.02em] sm:text-[30px]">
-        Curious about {treatmentTitle}?
+        Book {treatmentTitle}
         <br />
-        Talk to our therapists
+        with our therapist
       </h3>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
         <Link
-          href="/book/consultation"
+          href={`/book/treatment?id=${treatmentId}`}
           className="rounded bg-accent px-5 py-3 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
         >
-          Book a Consultation
+          Book this treatment
+        </Link>
+        <Link
+          href="/book/consultation"
+          className="rounded border border-white/40 px-5 py-3 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+        >
+          Free Consultation
         </Link>
         <Link
           href={whatsappHref}
           className="rounded border border-white/40 px-5 py-3 font-heading text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
         >
-          Enquire on WhatsApp
+          WhatsApp
         </Link>
       </div>
     </div>

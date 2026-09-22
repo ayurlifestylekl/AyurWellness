@@ -127,7 +127,7 @@ export default function TreatmentDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <TherapyStickyBar treatmentTitle={treatment.title} />
+      <TherapyStickyBar treatmentId={treatment.id} treatmentTitle={treatment.title} />
       <TherapySwitcher
         categoryTitle={category.title}
         siblings={siblings}
@@ -254,7 +254,7 @@ export default function TreatmentDetailPage({
             )}
 
             {/* Mid CTA */}
-            <TherapyMidCTA treatmentTitle={treatment.title} whatsappHref={whatsappHref} />
+            <TherapyMidCTA treatmentId={treatment.id} treatmentTitle={treatment.title} whatsappHref={whatsappHref} />
 
             {/* V · Related */}
             {related.length > 0 && (
@@ -271,6 +271,7 @@ export default function TreatmentDetailPage({
 
           {/* RIGHT — sticky desktop booking card */}
           <BookingSidebar
+            treatmentId={treatment.id}
             treatmentTitle={treatment.title}
             duration={treatment.duration}
             sessionsRecommended={null}
@@ -285,7 +286,7 @@ export default function TreatmentDetailPage({
         </div>
       </section>
 
-      <MobileBookingBar treatmentTitle={treatment.title} />
+      <MobileBookingBar treatmentId={treatment.id} treatmentTitle={treatment.title} />
 
       <div className="pb-16 lg:pb-0" aria-hidden />
       <FreeConsultationBlock whatsappMessage={whatsappMessage} />

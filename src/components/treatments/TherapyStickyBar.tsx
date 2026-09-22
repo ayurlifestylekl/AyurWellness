@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 interface TherapyStickyBarProps {
+  treatmentId: string
   treatmentTitle: string
   /** Pixel scroll-Y above which the bar is hidden. */
   showAfter?: number
@@ -16,6 +17,7 @@ interface TherapyStickyBarProps {
  * the MobileBookingBar.
  */
 export default function TherapyStickyBar({
+  treatmentId,
   treatmentTitle,
   showAfter = 320,
 }: TherapyStickyBarProps) {
@@ -45,7 +47,7 @@ export default function TherapyStickyBar({
           </span>
         </div>
         <Link
-          href="/book/consultation"
+          href={`/book/treatment?id=${treatmentId}`}
           className="shrink-0 rounded bg-accent px-4 py-1.5 font-heading text-[9px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-accent/90"
         >
           Book →
