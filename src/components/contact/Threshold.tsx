@@ -383,7 +383,7 @@ export default function Threshold() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.6, ease: EASE_OUT_PREMIUM }}
               href="#bureau"
-              className="mt-3 inline-flex items-center gap-2 font-heading text-[10.5px] font-medium uppercase tracking-[0.22em] text-white/45 transition-colors duration-300 hover:text-accent"
+              className="mt-3 inline-flex min-h-[44px] items-center gap-2 font-heading text-[10.5px] font-medium uppercase tracking-[0.22em] text-white/45 transition-colors duration-300 hover:text-accent"
             >
               <MapPin className="h-3 w-3" strokeWidth={2} />
               Find the Centre →

@@ -172,20 +172,29 @@ export default function FAQs({
                   {String(items.length).padStart(2, '0')}
                 </span>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center">
                   {items.map((faq, i) => (
                     <button
                       key={faq.id}
                       type="button"
                       aria-label={`Question ${i + 1}`}
+                      aria-current={i === index ? 'true' : undefined}
                       onClick={() => setIndex(i)}
-                      className="rounded-full transition-all duration-300"
-                      style={{
-                        width: i === index ? '20px' : '6px',
-                        height: '6px',
-                        backgroundColor: i === index ? GOLD : GOLD_SOFT,
-                      }}
-                    />
+                      /* The dot stays 6px visually, but the button carries a
+                         44px-tall touch target so it's actually tappable on a
+                         phone. -my-4 keeps the row's visual height unchanged. */
+                      className="-my-4 flex h-11 w-6 items-center justify-center"
+                    >
+                      <span
+                        aria-hidden
+                        className="block rounded-full transition-all duration-300"
+                        style={{
+                          width: i === index ? '20px' : '6px',
+                          height: '6px',
+                          backgroundColor: i === index ? GOLD : GOLD_SOFT,
+                        }}
+                      />
+                    </button>
                   ))}
                 </div>
 

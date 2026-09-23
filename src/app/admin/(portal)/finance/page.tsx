@@ -67,7 +67,7 @@ export default async function AdminFinancePage({ searchParams }: PageProps) {
         <h2 className="font-heading text-[15px] font-semibold text-[#006B3C]">
           Affiliate commissions
         </h2>
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3 overflow-x-auto">
           <Kpi label="Accrued" value={f.commissionsAccruedRm} accent="neutral" />
           <Kpi label="Paid out" value={f.commissionsPaidRm} accent="green" />
           <Kpi label="Outstanding" value={f.commissionsOutstandingRm} accent="amber" />
@@ -85,26 +85,28 @@ export default async function AdminFinancePage({ searchParams }: PageProps) {
               No paid orders in this range.
             </p>
           ) : (
-            <table className="mt-3 w-full text-left text-[13px]">
-              <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
-                <tr>
-                  <th className="py-2">Product</th>
-                  <th className="py-2 text-right">Qty</th>
-                  <th className="py-2 text-right">Revenue</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#006B3C]/6">
-                {f.topProducts.map((p) => (
-                  <tr key={p.productId}>
-                    <td className="py-2">{p.name}</td>
-                    <td className="py-2 text-right">{p.qty}</td>
-                    <td className="py-2 text-right font-semibold">
-                      RM {p.revenueRm.toFixed(2)}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-[420px] mt-3 w-full text-left text-[13px]">
+                <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
+                  <tr>
+                    <th className="py-2">Product</th>
+                    <th className="py-2 text-right">Qty</th>
+                    <th className="py-2 text-right">Revenue</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-[#006B3C]/6">
+                  {f.topProducts.map((p) => (
+                    <tr key={p.productId}>
+                      <td className="py-2">{p.name}</td>
+                      <td className="py-2 text-right">{p.qty}</td>
+                      <td className="py-2 text-right font-semibold">
+                        RM {p.revenueRm.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </article>
 
@@ -117,28 +119,30 @@ export default async function AdminFinancePage({ searchParams }: PageProps) {
               No paid orders in this range.
             </p>
           ) : (
-            <table className="mt-3 w-full text-left text-[13px]">
-              <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
-                <tr>
-                  <th className="py-2">Channel</th>
-                  <th className="py-2 text-right">Orders</th>
-                  <th className="py-2 text-right">Revenue</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#006B3C]/6">
-                {f.channelBreakdown.map((c) => (
-                  <tr key={c.channel}>
-                    <td className="py-2">
-                      {EXTERNAL_CHANNEL_LABEL[c.channel] ?? c.channel}
-                    </td>
-                    <td className="py-2 text-right">{c.ordersCount}</td>
-                    <td className="py-2 text-right font-semibold">
-                      RM {c.revenueRm.toFixed(2)}
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-[420px] mt-3 w-full text-left text-[13px]">
+                <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
+                  <tr>
+                    <th className="py-2">Channel</th>
+                    <th className="py-2 text-right">Orders</th>
+                    <th className="py-2 text-right">Revenue</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-[#006B3C]/6">
+                  {f.channelBreakdown.map((c) => (
+                    <tr key={c.channel}>
+                      <td className="py-2">
+                        {EXTERNAL_CHANNEL_LABEL[c.channel] ?? c.channel}
+                      </td>
+                      <td className="py-2 text-right">{c.ordersCount}</td>
+                      <td className="py-2 text-right font-semibold">
+                        RM {c.revenueRm.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </article>
       </section>

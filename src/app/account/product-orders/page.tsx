@@ -20,8 +20,8 @@ export default async function AccountProductOrdersPage() {
         <p className="mt-1 font-body text-[13px] text-[#12372D]/65">Track and manage your apothecary orders.</p>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-[#12372D]/10 bg-white">
-        <table className="w-full text-left text-[13px]">
+      <div className="overflow-x-auto rounded-2xl border border-[#12372D]/10 bg-white">
+        <table className="min-w-[640px] w-full text-left text-[13px]">
           <thead className="bg-[#F7F2E8]">
             <tr>
               <th className="px-4 py-3 font-heading text-[11px] font-semibold uppercase tracking-wider text-[#12372D]/70">Order</th>

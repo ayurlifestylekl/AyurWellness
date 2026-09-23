@@ -204,7 +204,7 @@ export default function EmpathyBridge() {
 
             <Link
               href="/treatments"
-              className="font-heading text-[11px] font-bold uppercase tracking-[0.22em] underline decoration-1 underline-offset-[6px] transition-colors hover:opacity-80"
+              className="inline-flex min-h-[44px] items-center font-heading text-[11px] font-bold uppercase tracking-[0.22em] underline decoration-1 underline-offset-[6px] transition-colors hover:opacity-80"
               style={{
                 color: LOTUS,
                 textDecorationColor: `${LOTUS}80`,

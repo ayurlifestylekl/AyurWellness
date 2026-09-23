@@ -80,7 +80,7 @@ export default function Reviews() {
             href="https://www.google.com/search?q=Ayurvedic+Wellness+Centre+Brickfields+KL+reviews"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 border-b border-transparent pb-1 font-heading text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:border-[#12372D]"
+            className="group inline-flex min-h-[44px] items-center gap-2 border-b border-transparent pb-1 font-heading text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:border-[#12372D]"
             style={{ color: TEXT_DARK }}
           >
             Read all on Google Reviews

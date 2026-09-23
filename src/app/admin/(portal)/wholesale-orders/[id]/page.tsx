@@ -40,7 +40,7 @@ export default async function AdminWholesaleDetailPage({
 
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto">
             <h1 className="font-heading text-[24px] font-bold text-[#006B3C]">
               <code className="font-mono">{w.orderNumber}</code>
             </h1>
@@ -70,54 +70,56 @@ export default async function AdminWholesaleDetailPage({
         {/* Items + totals */}
         <article className="rounded-2xl border border-[#006B3C]/8 bg-white p-4 lg:col-span-2">
           <h2 className="font-heading text-[12.5px] font-semibold text-[#006B3C]">Items</h2>
-          <table className="mt-3 w-full text-left text-[13px]">
-            <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
-              <tr>
-                <th className="py-2">Product</th>
-                <th className="py-2">SKU</th>
-                <th className="py-2 text-right">Qty</th>
-                <th className="py-2 text-right">Unit</th>
-                <th className="py-2 text-right">Total</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#006B3C]/6">
-              {w.items.map((it) => (
-                <tr key={it.id}>
-                  <td className="py-2">{it.productName}</td>
-                  <td className="py-2 font-mono text-[11.5px] text-[#12372D]/60">
-                    {it.productSku ?? '—'}
+          <div className="overflow-x-auto">
+            <table className="min-w-[420px] mt-3 w-full text-left text-[13px]">
+              <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
+                <tr>
+                  <th className="py-2">Product</th>
+                  <th className="py-2">SKU</th>
+                  <th className="py-2 text-right">Qty</th>
+                  <th className="py-2 text-right">Unit</th>
+                  <th className="py-2 text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#006B3C]/6">
+                {w.items.map((it) => (
+                  <tr key={it.id}>
+                    <td className="py-2">{it.productName}</td>
+                    <td className="py-2 font-mono text-[11.5px] text-[#12372D]/60">
+                      {it.productSku ?? '—'}
+                    </td>
+                    <td className="py-2 text-right">{it.quantity}</td>
+                    <td className="py-2 text-right">RM {it.unitPriceRm.toFixed(2)}</td>
+                    <td className="py-2 text-right font-semibold">
+                      RM {it.lineTotalRm.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="text-[12.5px]">
+                <tr>
+                  <td colSpan={4} className="pt-3 text-right text-[#12372D]/65">
+                    Subtotal
                   </td>
-                  <td className="py-2 text-right">{it.quantity}</td>
-                  <td className="py-2 text-right">RM {it.unitPriceRm.toFixed(2)}</td>
-                  <td className="py-2 text-right font-semibold">
-                    RM {it.lineTotalRm.toFixed(2)}
+                  <td className="pt-3 text-right">RM {w.subtotalRm.toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td colSpan={4} className="text-right text-[#12372D]/65">
+                    Shipping
+                  </td>
+                  <td className="text-right">RM {w.shippingRm.toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td colSpan={4} className="pt-1 text-right font-semibold text-[#006B3C]">
+                    Total
+                  </td>
+                  <td className="pt-1 text-right font-semibold text-[#006B3C]">
+                    RM {w.totalRm.toFixed(2)}
                   </td>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot className="text-[12.5px]">
-              <tr>
-                <td colSpan={4} className="pt-3 text-right text-[#12372D]/65">
-                  Subtotal
-                </td>
-                <td className="pt-3 text-right">RM {w.subtotalRm.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan={4} className="text-right text-[#12372D]/65">
-                  Shipping
-                </td>
-                <td className="text-right">RM {w.shippingRm.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan={4} className="pt-1 text-right font-semibold text-[#006B3C]">
-                  Total
-                </td>
-                <td className="pt-1 text-right font-semibold text-[#006B3C]">
-                  RM {w.totalRm.toFixed(2)}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+              </tfoot>
+            </table>
+          </div>
 
           {w.agentNotes ? (
             <div className="mt-4 rounded-lg border border-[#006B3C]/8 bg-[#EDF4E7]/30 p-3">

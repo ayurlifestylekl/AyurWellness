@@ -55,8 +55,8 @@ export default function OrdersTable({ items }: { items: AdminOrderListItem[] }) 
     <div className="flex flex-col gap-3">
       <BulkActionsBar selectedIds={Array.from(selected)} />
 
-      <div className="overflow-hidden rounded-2xl border border-[#006B3C]/8 bg-white">
-        <table className="w-full text-left text-[13px]">
+      <div className="overflow-x-auto rounded-2xl border border-[#006B3C]/8 bg-white">
+        <table className="min-w-[640px] w-full text-left text-[13px]">
           <thead className="bg-[#EDF4E7]/40 text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
             <tr>
               <th className="px-4 py-3">

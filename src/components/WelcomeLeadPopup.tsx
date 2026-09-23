@@ -49,7 +49,7 @@ export default function WelcomeLeadPopup() {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
       <div className="relative w-full max-w-sm rounded-2xl bg-cream p-7 shadow-elevated">
-        <button onClick={close} aria-label="Close" className="absolute right-3 top-3 rounded p-1 text-dark/40 hover:text-primary">
+        <button onClick={close} aria-label="Close" className="absolute right-2 top-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-dark/40 hover:text-primary">
           <X className="h-5 w-5" />
         </button>
 

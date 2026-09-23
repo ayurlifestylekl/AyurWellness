@@ -230,7 +230,7 @@ export default function Letterhead() {
                             role="radio"
                             aria-checked={active}
                             onClick={() => setIntent(opt.value)}
-                            className={`group relative inline-flex items-center gap-2 pb-1 font-heading text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                            className={`group relative inline-flex min-h-[40px] items-center gap-2 pb-1 font-heading text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                               active
                                 ? 'text-primary'
                                 : 'text-primary/45 hover:text-primary/80'

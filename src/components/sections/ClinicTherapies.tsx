@@ -144,7 +144,7 @@ export default function ClinicTherapies() {
 
           <Link
             href="/treatments"
-            className="group inline-flex items-center gap-2 self-start pb-1 font-heading text-[11px] font-medium uppercase tracking-[0.24em] sm:self-end"
+            className="group inline-flex min-h-[44px] items-center gap-2 self-start pb-1 font-heading text-[11px] font-medium uppercase tracking-[0.24em] sm:self-end"
             style={{ color: LOTUS }}
           >
             <span className="relative">

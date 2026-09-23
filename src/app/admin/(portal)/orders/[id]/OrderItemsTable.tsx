@@ -11,7 +11,8 @@ export default function OrderItemsTable({ items }: { items: Item[] }) {
     0,
   )
   return (
-    <table className="w-full text-left text-[13px]">
+    <div className="overflow-x-auto">
+    <table className="min-w-[640px] w-full text-left text-[13px]">
       <thead className="text-[11px] font-semibold uppercase tracking-wider text-[#006B3C]/70">
         <tr>
           <th className="px-5 py-3">Item</th>
@@ -47,5 +48,6 @@ export default function OrderItemsTable({ items }: { items: Item[] }) {
         </tr>
       </tbody>
     </table>
+    </div>
   )
 }

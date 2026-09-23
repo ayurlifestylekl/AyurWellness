@@ -79,8 +79,8 @@ export default function CancellationsClient({
         </p>
       )}
 
-      <div className="overflow-hidden rounded-2xl border border-[#12372D]/10 bg-white">
-        <table className="w-full text-left text-[13px]">
+      <div className="overflow-x-auto rounded-2xl border border-[#12372D]/10 bg-white">
+        <table className="min-w-[640px] w-full text-left text-[13px]">
           <thead className="bg-[#EDF4E7]">
             <tr>
               <th className="px-4 py-3 font-heading text-[11px] font-semibold uppercase tracking-wider text-[#12372D]/70">Order</th>
@@ -109,8 +109,8 @@ export default function CancellationsClient({
             Approved refunds still settling with HitPay, or ones that need manual follow-up. Resolves
             automatically — no action needed unless marked &ldquo;Needs attention&rdquo;.
           </p>
-          <div className="mt-3 overflow-hidden rounded-2xl border border-[#12372D]/10 bg-white">
-            <table className="w-full text-left text-[13px]">
+          <div className="mt-3 overflow-x-auto rounded-2xl border border-[#12372D]/10 bg-white">
+            <table className="min-w-[640px] w-full text-left text-[13px]">
               <thead className="bg-[#EDF4E7]">
                 <tr>
                   <th className="px-4 py-3 font-heading text-[11px] font-semibold uppercase tracking-wider text-[#12372D]/70">Order</th>

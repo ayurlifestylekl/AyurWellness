@@ -2,9 +2,11 @@
 
 import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
 import { featuredProducts } from '@/data/featuredProducts'
+import { whatsappLink } from '@/lib/clinic'
 import type { FeaturedProduct, ProductBadge } from '@/types/content'
 
 /* ── Palette — deep forest-black backdrop, gold foil accents, ivory cards ── */
@@ -110,7 +112,7 @@ export default function FeaturedProducts() {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className="whitespace-nowrap rounded-full px-3.5 py-1.5 font-heading text-[10px] font-bold uppercase tracking-[0.18em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                  className="inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full px-3.5 py-1.5 font-heading text-[10px] font-bold uppercase tracking-[0.18em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                   style={
                     isActive
                       ? { backgroundColor: GOLD, color: '#0B1F16', border: `1px solid ${GOLD}`, boxShadow: `0 10px 26px -12px ${GOLD}bb` }
@@ -162,6 +164,15 @@ function ProductCard({ product }: { product: FeaturedProduct }) {
       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 32px 60px -22px rgba(0,0,0,0.55)' }}
       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 26px 50px -26px rgba(0,0,0,0.5)' }}
     >
+      {/* Stretched link — makes the whole card tappable without nesting the
+          "Notify Me" anchor inside another anchor (invalid HTML). */}
+      <Link
+        href={`/products/${product.id}`}
+        className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B] focus-visible:ring-offset-2"
+      >
+        <span className="sr-only">View {product.name}</span>
+      </Link>
+
       {/* ── Photo — full-bleed, seamless into the card (same studio backdrop tone) ── */}
       <div className="relative aspect-[4/5] w-full overflow-hidden">
         <Image
@@ -221,10 +232,14 @@ function ProductCard({ product }: { product: FeaturedProduct }) {
           >
             Coming Soon
           </span>
-          <button
-            type="button"
+          <a
+            href={whatsappLink(`Hi, please notify me when ${product.name} is available.`)}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label={`Notify me when ${product.name} is available`}
-            className="rounded-full px-3.5 py-1.5 font-heading text-[8.5px] font-bold uppercase tracking-[0.16em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-[9.5px]"
+            // Sits above the stretched card link so the tap opens chat
+            // rather than navigating to the product page.
+            className="relative z-20 inline-flex min-h-[36px] items-center rounded-full px-3.5 py-1.5 font-heading text-[8.5px] font-bold uppercase tracking-[0.16em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-[9.5px]"
             style={{ backgroundColor: CARD_INK, color: '#FFFFFF' }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#004d2c'
@@ -236,7 +251,7 @@ function ProductCard({ product }: { product: FeaturedProduct }) {
             }}
           >
             Notify Me
-          </button>
+          </a>
         </div>
       </div>
     </article>

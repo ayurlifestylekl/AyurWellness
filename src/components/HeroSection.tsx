@@ -200,7 +200,7 @@ export default function HeroSection() {
 
             <a
               href="/treatments"
-              className="group inline-flex items-center gap-1.5 font-heading text-[12px] font-semibold uppercase tracking-[0.2em] text-white/80 transition-colors hover:text-white"
+              className="group inline-flex min-h-[44px] items-center gap-1.5 font-heading text-[12px] font-semibold uppercase tracking-[0.2em] text-white/80 transition-colors hover:text-white"
               style={{ textShadow: '0 1px 10px rgba(18,55,45,0.5)' }}
             >
               Explore Treatments

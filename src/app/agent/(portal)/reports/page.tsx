@@ -146,8 +146,8 @@ export default async function AgentEarningsPage({ searchParams }: PageProps) {
         payouts.length === 0 ? (
           <EmptyState text="No payouts yet. Admin pays out monthly once your commissions clear." />
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-[#12372D]/8 bg-white">
-            <table className="w-full text-left text-[13px]">
+          <div className="overflow-x-auto rounded-2xl border border-[#12372D]/8 bg-white">
+            <table className="min-w-[640px] w-full text-left text-[13px]">
               <thead className="bg-[#EDF4E7]/40 text-[11px] font-semibold uppercase tracking-wider text-[#12372D]/70">
                 <tr>
                   <th className="px-4 py-3">Date</th>
@@ -178,8 +178,8 @@ export default async function AgentEarningsPage({ searchParams }: PageProps) {
       ) : commissions.length === 0 ? (
         <EmptyState text="No commission entries in this view." />
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-[#12372D]/8 bg-white">
-          <table className="w-full text-left text-[13px]">
+        <div className="overflow-x-auto rounded-2xl border border-[#12372D]/8 bg-white">
+          <table className="min-w-[640px] w-full text-left text-[13px]">
             <thead className="bg-[#EDF4E7]/40 text-[11px] font-semibold uppercase tracking-wider text-[#12372D]/70">
               <tr>
                 <th className="px-4 py-3">Date</th>

@@ -105,8 +105,8 @@ export default async function AgentMarketplaceOrdersPage() {
           No marketplace sales yet. Click <strong>Submit sale</strong> after your next order.
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-[#12372D]/8 bg-white">
-          <table className="w-full text-left text-[13px]">
+        <div className="overflow-x-auto rounded-2xl border border-[#12372D]/8 bg-white">
+          <table className="min-w-[640px] w-full text-left text-[13px]">
             <thead className="bg-[#EDF4E7]/40 text-[11px] font-semibold uppercase tracking-wider text-[#12372D]/70">
               <tr>
                 <th className="px-4 py-3">Date</th>
