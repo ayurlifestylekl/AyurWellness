@@ -197,7 +197,7 @@ export default async function AppointmentsPage({
       {/* ── POLICY + SUPPORT ─────────────────────────────────────── */}
       <div className="flex flex-col gap-2 pt-1 text-center">
         <p className="font-body text-[12px] text-[#12372D]/55">
-          To reschedule, cancel, or ask about a refund, message us on WhatsApp and our team will assist you directly.
+          Open a booking above to reschedule, cancel, or request a refund — our team reviews every refund request.
         </p>
         {/* Quick links to book again */}
         {!isEmptyOverall && (
