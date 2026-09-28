@@ -18,8 +18,8 @@ export default function StaffLoginSplit({
   image = '/about/centre-lounge.jpg',
 }: StaffLoginSplitProps) {
   return (
-    <div className="grid min-h-screen bg-[#12372D] text-white lg:grid-cols-2">
-      <aside className="relative h-56 overflow-hidden sm:h-72 lg:sticky lg:top-0 lg:h-screen">
+    <div className="grid min-h-screen bg-[#F5F4EE] lg:grid-cols-2">
+      <aside className="relative h-56 text-white overflow-hidden sm:h-72 lg:sticky lg:top-0 lg:h-screen">
         <Image src={image} alt="" fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
         <div
           aria-hidden
@@ -61,31 +61,31 @@ export default function StaffLoginSplit({
         </div>
       </aside>
 
-      <section className="relative flex flex-col">
+      <section className="relative flex flex-col bg-[#F5F4EE]">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              'radial-gradient(68% 52% at 80% -8%, rgba(181,138,59,0.14), transparent 60%), radial-gradient(58% 62% at 0% 105%, rgba(0,107,60,0.5), transparent 62%)',
+              'radial-gradient(60% 40% at 100% 0%, rgba(181,138,59,0.12), transparent 70%), radial-gradient(50% 40% at 0% 100%, rgba(0,107,60,0.08), transparent 70%)',
           }}
         />
         <header className="relative z-10 flex justify-end px-4 py-5 sm:px-8">
           <Link
             href="/"
-            className="group inline-flex min-h-[44px] items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55 transition-colors hover:text-[#B58A3B]"
+            className="group inline-flex min-h-[44px] items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/50 transition-colors hover:text-[#B58A3B]"
           >
             <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Back to site
           </Link>
         </header>
 
-        <main className="relative z-10 mx-auto flex w-full max-w-md flex-1 items-center px-4 pb-10 sm:px-6">
+        <main className="relative z-10 mx-auto flex w-full max-w-[480px] flex-1 items-center px-4 pb-12 pt-2 sm:px-6">
           {children}
         </main>
 
         <footer className="relative z-10 px-4 pb-6 text-center">
-          <p className="font-body text-[11px] text-white/35">© Ayurvedic Wellness Centre · Brickfields, KL</p>
+          <p className="font-body text-[11px] text-[#12372D]/35">© Ayurvedic Wellness Centre · Brickfields, KL</p>
         </footer>
       </section>
     </div>
