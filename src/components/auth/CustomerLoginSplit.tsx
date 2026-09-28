@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, Sparkles, Gift, Star } from 'lucide-react'
+import { ArrowLeft, Sparkles, Gift } from 'lucide-react'
 
 /**
  * Split shell for /auth/login (customer only): photo + brand story on the
@@ -77,12 +77,9 @@ export default function CustomerLoginSplit({ children }: { children: React.React
             <div className="mt-8 hidden items-center gap-4 border-t border-white/15 pt-5 font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55 lg:flex">
               <span>Brickfields, KL</span>
               <span className="h-px w-4 bg-white/25" />
-              <span className="inline-flex items-center gap-1">
-                <Star className="h-2.5 w-2.5 fill-[#E4C384] text-[#E4C384]" />
-                4.9
-              </span>
+              <span>Classical Ayurveda</span>
               <span className="h-px w-4 bg-white/25" />
-              <span>5,000+ members</span>
+              <span>B.A.M.S. Vaidyas</span>
             </div>
           </div>
         </div>

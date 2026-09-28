@@ -33,10 +33,8 @@ type Credential = {
 
 const credentials: Credential[] = [
   { key: 'therapies', value: '62+', label: 'Therapies', valueFirst: true },
-  { key: 'years', value: '14', label: 'Years', valueFirst: true },
-  { key: 'rating', value: '4.9', label: 'Rating', icon: Star, valueFirst: true },
+  { key: 'vaidyas', value: 'B.A.M.S.', label: 'Vaidyas', valueFirst: true },
   { key: 'location', value: 'Brickfields, KL' },
-  { key: 'est', value: '2011', label: 'Est.', valueFirst: false },
 ]
 
 /**
@@ -330,13 +328,12 @@ export default function TreatmentsHero({
             role="list"
           >
             {credentials.map((c, i) => {
-              const hiddenOnMobile = c.key === 'years' || c.key === 'rating'
               const displayValue = c.key === 'therapies' ? `${therapyCount}+` : c.value
               const Icon = c.icon
               return (
                 <React.Fragment key={c.key}>
                   <li
-                    className={`flex items-center gap-2 ${hiddenOnMobile ? 'hidden lg:flex' : 'flex'}`}
+                    className="flex items-center gap-2"
                   >
                     {Icon ? (
                       <Icon
@@ -355,9 +352,7 @@ export default function TreatmentsHero({
                   {i < credentials.length - 1 && (
                     <li
                       aria-hidden
-                      className={`hidden h-3 w-px bg-accent/35 sm:inline-block ${
-                        hiddenOnMobile ? 'lg:inline-block' : ''
-                      }`}
+                      className="hidden h-3 w-px bg-accent/35 sm:inline-block"
                     />
                   )}
                 </React.Fragment>

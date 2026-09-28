@@ -4,7 +4,6 @@ import EmpathyBridge from '@/components/sections/EmpathyBridge'
 import ClinicTherapies from '@/components/sections/ClinicTherapies'
 import PromoBanners from '@/components/sections/PromoBanners'
 import FeaturedProducts from '@/components/sections/FeaturedProducts'
-import Reviews from '@/components/sections/Reviews'
 import FAQs from '@/components/sections/FAQs'
 import FinalBookingCTA from '@/components/sections/FinalBookingCTA'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
@@ -74,7 +73,6 @@ export default async function Home() {
       <ClinicTherapies />
       <FeaturedProducts />
       {COMMERCE_ENABLED && <PromoBanners />}
-      <Reviews />
       <FAQs items={homeFaqs} />
       <FinalBookingCTA />
     </>

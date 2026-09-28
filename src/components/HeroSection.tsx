@@ -276,9 +276,9 @@ export default function HeroSection() {
 
         <div className="relative mx-auto flex max-w-7xl items-center px-6 py-3 sm:px-8 lg:px-12">
           {[
-            { n: '15+',    l: 'Years Experience'    },
-            { n: '5,000+', l: 'Patients Healed'     },
-            { n: '20+',    l: 'Authentic Therapies' },
+            { n: '60+',      l: 'Traditional Therapies' },
+            { n: 'B.A.M.S.', l: 'Qualified Vaidyas'     },
+            { n: 'KL',       l: 'Brickfields Centre'    },
           ].map((s, i, arr) => (
             <React.Fragment key={s.l}>
               <div className="flex flex-col items-start text-left sm:flex-1 sm:flex-row sm:items-baseline sm:gap-3">

@@ -17,9 +17,9 @@ const fadeIn = (delay: number) => ({
 })
 
 const defaultStats = [
-  { value: '17+', label: 'Years in Brickfields' },
-  { value: '5,000+', label: 'Patients Healed' },
-  { value: '20+', label: 'Traditional Therapies' },
+  { value: '60+', label: 'Traditional Therapies' },
+  { value: 'B.A.M.S.', label: 'Qualified Vaidyas' },
+  { value: 'Brickfields', label: 'Kuala Lumpur' },
 ]
 
 const defaults = {
