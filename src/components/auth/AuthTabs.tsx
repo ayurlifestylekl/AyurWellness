@@ -58,7 +58,7 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={[
-        'flex h-10 items-center justify-center rounded-lg font-heading text-[12.5px] font-semibold tracking-[-0.005em] transition-all duration-200',
+        'flex h-10 items-center justify-center rounded-lg font-heading text-[12.5px] font-semibold tracking-[-0.005em] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B]/60',
         active
           ? 'bg-white text-[#12372D] shadow-[0_2px_8px_-2px_rgba(18,55,45,0.18)]'
           : 'text-[#12372D]/50 hover:text-[#12372D]',
