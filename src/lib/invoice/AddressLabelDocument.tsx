@@ -2,6 +2,10 @@ import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
 // A6 = 105×148mm. react-pdf uses points (72 = 1in). 1mm = 2.83465pt.
 const A6 = { width: 297.6, height: 419.5 }
+// Standard courier thermal label, 4×6 in.
+const THERMAL = { width: 288, height: 432 }
+
+export type LabelFormat = 'a6' | 'thermal' | 'a4'
 
 const styles = StyleSheet.create({
   page: { padding: 14, fontSize: 9, fontFamily: 'Helvetica' },
@@ -53,12 +57,33 @@ export interface AddressLabelProps {
   carrier?: string | null
   trackingNumber?: string | null
   sender: { name: string; addressLine: string; phone: string }
+  format?: LabelFormat
 }
 
 export default function AddressLabelDocument(p: AddressLabelProps) {
+  const body = <LabelBody {...p} />
+  if (p.format === 'a4') {
+    return (
+      <Document>
+        <Page size="A4" style={{ padding: 28, fontFamily: 'Helvetica' }}>
+          <Text style={{ fontSize: 7, color: '#999', marginBottom: 6 }}>Cut along the dashed line and attach to the parcel.</Text>
+          <View style={{ width: A6.width, height: A6.height, padding: 14, fontSize: 9, border: '1pt dashed #999' }}>{body}</View>
+        </Page>
+      </Document>
+    )
+  }
   return (
     <Document>
-      <Page size={A6} style={styles.page}>
+      <Page size={p.format === 'thermal' ? THERMAL : A6} style={styles.page}>
+        {body}
+      </Page>
+    </Document>
+  )
+}
+
+function LabelBody(p: AddressLabelProps) {
+  return (
+    <>
         <View style={styles.sender}>
           <Text>FROM: {p.sender.name}</Text>
           <Text>{p.sender.addressLine}</Text>
@@ -86,7 +111,6 @@ export default function AddressLabelDocument(p: AddressLabelProps) {
             ) : null}
           </View>
         </View>
-      </Page>
-    </Document>
+    </>
   )
 }

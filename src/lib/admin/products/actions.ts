@@ -14,9 +14,9 @@ export type ActionResult<T = void> =
 // Auth guard
 // ---------------------------------------------------------------------------
 
-export async function requireAdminSession() {
+export async function requireCatalogSession() {
   const me = await getCurrentUser()
-  if (!me || me.role !== 'admin') throw new Error('Not authorised.')
+  if (!me || (me.role !== 'admin' && me.role !== 'product_manager')) throw new Error('Not authorised.')
   return me
 }
 
@@ -76,7 +76,7 @@ export async function createProduct(
   raw: unknown,
 ): Promise<ActionResult<{ id: string; slug: string }>> {
   try {
-    const me = await requireAdminSession()
+    const me = await requireCatalogSession()
     const input = ProductInputSchema.parse(raw)
     const supabase = await createClient()
 
@@ -124,7 +124,7 @@ export async function updateProduct(
   raw: unknown,
 ): Promise<ActionResult> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     const input = ProductInputSchema.partial().parse(raw)
     const supabase = await createClient()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -154,7 +154,7 @@ export async function setProductStatus(
   status: 'active' | 'draft' | 'archived',
 ): Promise<ActionResult> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     const supabase = await createClient()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from('products') as any)
@@ -174,7 +174,7 @@ export async function setProductFeatured(
   featured: boolean,
 ): Promise<ActionResult> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     const supabase = await createClient()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from('products') as any)
@@ -191,7 +191,7 @@ export async function setProductFeatured(
 export async function bulkArchive(
   productIds: string[],
 ): Promise<ActionResult<{ updated: number }>> {
-  await requireAdminSession()
+  await requireCatalogSession()
   let updated = 0
   for (const id of productIds) {
     const r = await setProductStatus(id, 'archived')
@@ -212,7 +212,7 @@ export async function receiveStock(input: {
   notes?: string
 }): Promise<ActionResult> {
   try {
-    const me = await requireAdminSession()
+    const me = await requireCatalogSession()
     if (input.quantity <= 0) return { ok: false, error: 'Quantity must be > 0.' }
     const supabase = await createClient()
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -240,7 +240,7 @@ export async function writeOffStock(input: {
   reason: string
 }): Promise<ActionResult> {
   try {
-    const me = await requireAdminSession()
+    const me = await requireCatalogSession()
     if (input.quantity <= 0) return { ok: false, error: 'Quantity must be > 0.' }
     if (!input.reason || input.reason.trim().length < 3) {
       return { ok: false, error: 'Reason required (at least 3 characters).' }
@@ -269,7 +269,7 @@ export async function recountStock(input: {
   reason: string
 }): Promise<ActionResult> {
   try {
-    const me = await requireAdminSession()
+    const me = await requireCatalogSession()
     if (input.newPhysicalCount < 0) {
       return { ok: false, error: 'Count cannot be negative.' }
     }
@@ -310,7 +310,7 @@ export async function addBundleItem(input: {
   quantity: number
 }): Promise<ActionResult> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     if (input.bundleId === input.componentProductId) {
       return { ok: false, error: 'A bundle cannot contain itself.' }
     }
@@ -335,7 +335,7 @@ export async function removeBundleItem(input: {
   itemId: string
 }): Promise<ActionResult> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     const supabase = await createClient()
     const { error } = await supabase
       .from('bundle_items')
@@ -361,7 +361,7 @@ export async function uploadProductImage(input: {
   contentType: string
 }): Promise<ActionResult<{ url: string }>> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     const supabase = await createClient()
     const safe = input.fileName.replace(/[^a-zA-Z0-9._-]/g, '_')
     const path = `${input.productId}/${Date.now()}-${safe}`
@@ -403,7 +403,7 @@ export async function deleteProductImage(input: {
   imageUrl: string
 }): Promise<ActionResult> {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
     const supabase = await createClient()
     // strip the public URL prefix to get the storage path
     const marker = '/object/public/product-images/'
@@ -448,7 +448,7 @@ export async function importProductsFromCsvText(
   csvText: string,
 ): Promise<ActionResult<{ imported: number; failed: number; errors: string[] }>> {
   try {
-    const me = await requireAdminSession()
+    const me = await requireCatalogSession()
     const supabase = await createClient()
     const { rows, errors } = parseProductsCsv(csvText)
     const errMsgs: string[] = errors.map((e) => `Line ${e.line}: ${e.message}`)

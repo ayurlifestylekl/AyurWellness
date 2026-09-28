@@ -5,16 +5,12 @@ import { requireAdminSession } from '@/lib/admin/orders/actions'
 import { getAdminOrderById } from '@/lib/admin/orders/queries'
 import { createClient } from '@/lib/supabase/server'
 import AddressLabelDocument from '@/lib/invoice/AddressLabelDocument'
+import { PARCEL_SENDER } from '@/lib/clinic'
 import PackingSlipDocument from '@/lib/invoice/PackingSlipDocument'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const SENDER = {
-  name: 'Ayurvedic Wellness Centre',
-  addressLine: '12 Jln Tun Sambanthan 4, Brickfields, 50470 Kuala Lumpur',
-  phone: '+6011-6339 3436',
-}
 
 export async function GET(req: Request) {
   try {
@@ -63,7 +59,7 @@ export async function GET(req: Request) {
               customerPhone={cust?.phone_number}
               carrier={o.courier_service}
               trackingNumber={o.tracking_number}
-              sender={SENDER}
+              sender={PARCEL_SENDER}
             />
           )
         : await renderToBuffer(

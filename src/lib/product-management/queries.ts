@@ -25,8 +25,13 @@ export interface ProductOrderListItem {
   item_count: number
 }
 
+/** Strips characters that carry meaning inside a PostgREST or() filter. */
+function sanitiseSearch(term: string): string {
+  return term.replace(/[,()*%\\:"']/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80)
+}
+
 export async function listProductOrders(filters?: {
-  status?: string
+  status?: string | string[]
   paymentStatus?: string
   search?: string
   limit?: number
@@ -41,11 +46,12 @@ export async function listProductOrders(filters?: {
     )
     .order('created_at', { ascending: false })
 
-  if (filters?.status) q = q.eq('status', filters.status)
+  if (Array.isArray(filters?.status)) q = q.in('status', filters.status)
+  else if (filters?.status) q = q.eq('status', filters.status)
   if (filters?.paymentStatus) q = q.eq('payment_status', filters.paymentStatus)
   if (filters?.search) {
-    const s = filters.search.trim()
-    q = q.or(`order_number.ilike.%${s}%,email.ilike.%${s}%`)
+    const s = sanitiseSearch(filters.search)
+    if (s) q = q.or(`order_number.ilike.%${s}%,email.ilike.%${s}%,phone.ilike.%${s}%`)
   }
 
   const limit = filters?.limit ?? 50
@@ -71,6 +77,63 @@ export async function listProductOrders(filters?: {
   }))
 
   return { items, total: count ?? 0 }
+}
+
+export interface FulfilmentQueueItem {
+  id: string
+  order_number: string
+  status: 'paid' | 'processing' | 'shipped'
+  recipient: string
+  city: string
+  state: string
+  country: string
+  phone: string | null
+  item_count: number
+  items_summary: string
+  total_rm: number
+  courier: string | null
+  tracking_number: string | null
+  paid_at: string | null
+  shipped_at: string | null
+}
+
+/** Paid orders still to pack or ship, plus anything shipped in the last 7 days. */
+export async function listFulfilmentQueue(): Promise<FulfilmentQueueItem[]> {
+  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+  const { data, error } = await admin()
+    .from('product_orders')
+    .select(
+      'id, order_number, status, phone, total_rm, courier, tracking_number, paid_at, shipped_at, created_at, product_order_items(product_name, quantity), product_order_addresses(name, phone, city, state, country)',
+    )
+    .eq('payment_status', 'paid')
+    .or(`status.in.(paid,processing),and(status.eq.shipped,shipped_at.gte.${since})`)
+    .order('paid_at', { ascending: true, nullsFirst: false })
+    .limit(300)
+  if (error) {
+    console.error('[product-management] listFulfilmentQueue failed', error)
+    return []
+  }
+  return (data ?? []).map((r: any) => {
+    const addr = Array.isArray(r.product_order_addresses) ? r.product_order_addresses[0] : r.product_order_addresses
+    const items = (r.product_order_items ?? []) as { product_name: string; quantity: number }[]
+    return {
+      id: r.id,
+      order_number: r.order_number,
+      status: r.status,
+      recipient: addr?.name ?? '—',
+      city: addr?.city ?? '',
+      state: addr?.state ?? '',
+      country: addr?.country ?? '',
+      phone: addr?.phone ?? r.phone,
+      item_count: items.reduce((n, i) => n + i.quantity, 0),
+      items_summary: items.map((i) => `${i.quantity}× ${i.product_name}`).join(', '),
+      total_rm: Number(r.total_rm),
+      courier: r.courier,
+      tracking_number: r.tracking_number,
+      paid_at: r.paid_at,
+      shipped_at: r.shipped_at,
+    }
+  })
 }
 
 export interface ProductOrderDetail {
@@ -152,8 +215,9 @@ export async function getProductOrderById(id: string): Promise<ProductOrderDetai
   }
 
   const d = data as any
-  const addressArr = d.product_order_addresses as any[]
-  const address = addressArr?.[0] ?? null
+  // Many-to-one embeds come back as a single object, not an array.
+  const one = (v: any) => (Array.isArray(v) ? v[0] : v) ?? null
+  const address = one(d.product_order_addresses)
 
   return {
     id: d.id,
@@ -170,7 +234,7 @@ export async function getProductOrderById(id: string): Promise<ProductOrderDetai
     member_discount_rm: Number(d.member_discount_rm),
     total_rm: Number(d.total_rm),
     shipping_country_code: d.shipping_country_code ?? null,
-    shipping_zone_name: d.shipping_zones?.[0]?.name ?? null,
+    shipping_zone_name: one(d.shipping_zones)?.name ?? null,
     total_weight_grams: Number(d.total_weight_grams ?? 0),
     billplz_bill_id: d.billplz_bill_id,
     provider_bill_id: d.provider_bill_id ?? null,

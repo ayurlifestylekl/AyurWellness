@@ -51,3 +51,9 @@ export function mailtoLink(subject?: string): string {
   if (!subject) return base
   return `${base}?subject=${encodeURIComponent(subject)}`
 }
+
+export const PARCEL_SENDER = {
+  name: CLINIC_NAME,
+  addressLine: 'No. 68-G, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur',
+  phone: '+6011-6339 3436',
+}

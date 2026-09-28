@@ -169,7 +169,12 @@ export async function middleware(request: NextRequest) {
 
     // Role mismatch on any portal route → redirect to the user's own home.
     // Cleaner UX than 404; access decision is invisible to the wrong-role user.
-    const wrongRoleForAdmin = isAdminRoute && role !== 'admin'
+    // Product managers run the catalogue, so they may use the admin Products
+    // and Inventory screens — and nothing else under /admin.
+    const isCatalogAdminRoute =
+      pathname.startsWith('/admin/products') || pathname.startsWith('/admin/inventory')
+    const wrongRoleForAdmin =
+      isAdminRoute && role !== 'admin' && !(role === 'product_manager' && isCatalogAdminRoute)
     const wrongRoleForAgent = isAgentRoute && role !== 'sales_agent'
     const wrongRoleForAccount = isAccountRoute && role !== 'customer'
     // /console = admin + front desk; /doctor = doctor + admin.

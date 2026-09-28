@@ -35,12 +35,20 @@ function admin() {
   )
 }
 
+// Fulfilment only moves forward on paid orders. Cancellations and refunds go
+// through approveProductCancellation so stock is restored and money returned.
+const FULFILMENT_FROM: Record<'processing' | 'shipped' | 'delivered', string[]> = {
+  processing: ['paid'],
+  shipped: ['paid', 'processing'],
+  delivered: ['shipped'],
+}
+
 const UpdateStatusSchema = z.object({
   orderId: z.string().uuid(),
-  status: z.enum(['paid', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded']),
-  trackingNumber: z.string().optional(),
-  courier: z.string().optional(),
-  notes: z.string().optional(),
+  status: z.enum(['processing', 'shipped', 'delivered']),
+  trackingNumber: z.string().trim().max(80).optional(),
+  courier: z.string().trim().max(60).optional(),
+  notes: z.string().trim().max(2000).optional(),
 })
 
 export async function updateProductOrderStatus(raw: unknown): Promise<ActionResult> {
@@ -49,26 +57,59 @@ export async function updateProductOrderStatus(raw: unknown): Promise<ActionResu
   if (!parsed.success) return { ok: false, error: parsed.error.errors[0]?.message ?? 'Invalid input.' }
   const { orderId, status, trackingNumber, courier, notes } = parsed.data
 
-  const sb = admin()
   const update: Record<string, unknown> = { status }
   if (status === 'shipped') {
-    if (trackingNumber) update.tracking_number = trackingNumber
-    if (courier) update.courier = courier
+    if (!courier || !trackingNumber) return { ok: false, error: 'Enter the courier and tracking number before marking as shipped.' }
+    update.tracking_number = trackingNumber
+    update.courier = courier
     update.shipped_at = new Date().toISOString()
   }
   if (status === 'delivered') update.delivered_at = new Date().toISOString()
-  if (status === 'cancelled') update.cancelled_at = new Date().toISOString()
   if (notes) update.internal_notes = notes
 
-  const { error } = await sb.from('product_orders').update(update).eq('id', orderId)
+  const { data, error } = await admin()
+    .from('product_orders')
+    .update(update)
+    .eq('id', orderId)
+    .eq('payment_status', 'paid')
+    .in('status', FULFILMENT_FROM[status])
+    .select('id')
   if (error) {
     console.error('[product-management] updateProductOrderStatus failed', error)
     return { ok: false, error: 'Could not update order status.' }
   }
+  if (!data || data.length === 0) {
+    return { ok: false, error: 'This order can’t move to that status — it may be unpaid, cancelled, or already updated. Refresh and try again.' }
+  }
 
   revalidatePath('/product-management/orders')
+  revalidatePath('/product-management/fulfillment')
   revalidatePath(`/product-management/orders/${orderId}`)
   return { ok: true }
+}
+
+const BulkPackingSchema = z.object({ orderIds: z.array(z.string().uuid()).min(1).max(100) })
+
+/** Moves paid orders into packing; orders in any other state are left untouched. */
+export async function markProductOrdersPacking(raw: unknown): Promise<ActionResult<{ updated: number }>> {
+  await requireProductManagementSession()
+  const parsed = BulkPackingSchema.safeParse(raw)
+  if (!parsed.success) return { ok: false, error: 'Select at least one order.' }
+
+  const { data, error } = await admin()
+    .from('product_orders')
+    .update({ status: 'processing' })
+    .in('id', parsed.data.orderIds)
+    .eq('payment_status', 'paid')
+    .eq('status', 'paid')
+    .select('id')
+  if (error) {
+    console.error('[product-management] markProductOrdersPacking failed', error)
+    return { ok: false, error: 'Could not update the selected orders.' }
+  }
+  revalidatePath('/product-management/orders')
+  revalidatePath('/product-management/fulfillment')
+  return { ok: true, data: { updated: data?.length ?? 0 } }
 }
 
 const ApproveCancellationSchema = z.object({

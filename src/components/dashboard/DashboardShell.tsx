@@ -26,6 +26,7 @@ import {
   Star,
   BarChart3,
   History,
+  Truck,
   type LucideIcon,
 } from 'lucide-react'
 import type { IconName, NavItem, PortalChrome } from '@/lib/dashboard/nav-types'
@@ -62,6 +63,7 @@ const ICONS: Record<IconName, LucideIcon> = {
   'star':            Star,
   'bar-chart':       BarChart3,
   'history':         History,
+  'truck':           Truck,
 }
 
 interface DashboardShellProps {

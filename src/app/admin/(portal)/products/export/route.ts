@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { requireAdminSession } from '@/lib/admin/products/actions'
+import { requireCatalogSession } from '@/lib/admin/products/actions'
 import { createClient } from '@/lib/supabase/server'
 import { productsToCsv, type ProductCsvRow } from '@/lib/admin/products/csv'
 
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    await requireAdminSession()
+    await requireCatalogSession()
   } catch {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }

@@ -56,15 +56,10 @@ export default async function CheckoutSuccessPage({ searchParams }: PageProps) {
     unit_price_rm: number
     line_total_rm: number
   }>
-  const address = (order.product_order_addresses as unknown as Array<{
-    name: string
-    line_1: string
-    line_2: string | null
-    city: string
-    postcode: string
-    state: string
-    country: string
-  }>)[0]
+  type Address = { name: string; line_1: string; line_2: string | null; city: string; postcode: string; state: string; country: string }
+  // Many-to-one embeds come back as a single object, not an array.
+  const rawAddress = order.product_order_addresses as unknown as Address | Address[] | null
+  const address = Array.isArray(rawAddress) ? rawAddress[0] : rawAddress
 
   return (
     <section className="relative min-h-screen bg-cream">

@@ -23,6 +23,7 @@ export type IconName =
   | 'star'
   | 'bar-chart'
   | 'history'
+  | 'truck'
 
 export interface NavItem {
   label: string

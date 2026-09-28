@@ -5,12 +5,13 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { updateProductOrderStatus } from '@/lib/product-management/actions'
 import type { ProductOrderDetail } from '@/lib/product-management/queries'
+import { COURIERS } from '../../fulfillment/FulfilmentQueue'
 
 export default function OrderDetailClient({ order }: { order: ProductOrderDetail }) {
   const [status, setStatus] = useState(order.status)
   const [tracking, setTracking] = useState(order.tracking_number ?? '')
   const [courier, setCourier] = useState(order.courier ?? '')
-  const [message, setMessage] = useState<string | null>(null)
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
   const [pending, startTransition] = useTransition()
 
   function change(newStatus: string) {
@@ -24,9 +25,9 @@ export default function OrderDetailClient({ order }: { order: ProductOrderDetail
       })
       if (result.ok) {
         setStatus(newStatus)
-        setMessage('Order updated.')
+        setMessage({ ok: true, text: 'Order updated.' })
       } else {
-        setMessage(result.error ?? 'Update failed.')
+        setMessage({ ok: false, text: result.error ?? 'Update failed.' })
       }
     })
   }
@@ -108,20 +109,21 @@ export default function OrderDetailClient({ order }: { order: ProductOrderDetail
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <label className="flex flex-col gap-1 text-[12px]">
               <span className="font-semibold text-[#12372D]/70">Courier</span>
-              <input value={courier} onChange={(e) => setCourier(e.target.value)} className={inputCls} />
+              <input list="couriers" value={courier} onChange={(e) => setCourier(e.target.value)} placeholder="e.g. Pos Laju" className={inputCls} />
+              <datalist id="couriers">{COURIERS.map((c) => <option key={c} value={c} />)}</datalist>
             </label>
             <label className="flex flex-col gap-1 text-[12px]">
               <span className="font-semibold text-[#12372D]/70">Tracking number</span>
               <input value={tracking} onChange={(e) => setTracking(e.target.value)} className={inputCls} />
             </label>
             <div className="flex items-end gap-2">
-              {status !== 'processing' && (
-                <ActionButton onClick={() => change('processing')} pending={pending} label="Mark processing" />
+              {status === 'paid' && (
+                <ActionButton onClick={() => change('processing')} pending={pending} label="Mark packing" />
               )}
-              {status !== 'shipped' && (
+              {(status === 'paid' || status === 'processing') && (
                 <ActionButton onClick={() => change('shipped')} pending={pending} label="Mark shipped" />
               )}
-              {status !== 'delivered' && (
+              {status === 'shipped' && (
                 <ActionButton onClick={() => change('delivered')} pending={pending} label="Mark delivered" />
               )}
             </div>
@@ -140,6 +142,13 @@ export default function OrderDetailClient({ order }: { order: ProductOrderDetail
               className="rounded-md border border-[#12372D]/20 bg-white px-3 py-2 text-[12px] font-semibold text-[#12372D] hover:bg-[#EDF4E7]/60"
             >
               Print 4×6 label
+            </Link>
+            <Link
+              href={`/product-management/orders/${order.id}/label?type=slip`}
+              target="_blank"
+              className="rounded-md border border-[#12372D]/20 bg-white px-3 py-2 text-[12px] font-semibold text-[#12372D] hover:bg-[#EDF4E7]/60"
+            >
+              Packing slip
             </Link>
           </div>
         </div>
@@ -162,7 +171,7 @@ export default function OrderDetailClient({ order }: { order: ProductOrderDetail
       </div>
 
       {message && (
-        <p className={`text-[13px] ${message.includes('failed') ? 'text-red-700' : 'text-emerald-700'}`}>{message}</p>
+        <p className={`text-[13px] ${message.ok ? 'text-emerald-700' : 'text-red-700'}`}>{message.text}</p>
       )}
 
       <div className="flex gap-3">
