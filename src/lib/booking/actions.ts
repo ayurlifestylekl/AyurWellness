@@ -17,7 +17,7 @@ import { therapistsForGender, getAllVaidyas, VAIDYA_BLOCK_CODE, type Vaidya } fr
 import { requireStaff } from '@/lib/staff/guard'
 import { mytDayKey } from '@/lib/datetime'
 import { validateLegacyParentConsultationLink } from './consultation-rules'
-import { freeVaidyaIn, type ConsultationAvailabilityContext } from './consultation-availability'
+import { freeVaidyaIn, selectBookableVaidyas, type ConsultationAvailabilityContext } from './consultation-availability'
 
 /** Service-role client — bypasses RLS for guest bookings + server writes. */
 function admin() {
@@ -384,14 +384,11 @@ export async function getAvailableSlots(dateYMD: string, treatmentId: string | n
   return computeSlots(dateYMD, treatmentId, { male: gender === 'male' ? 1 : 0, female: gender === 'female' ? 1 : 0 })
 }
 
-/** Every active Vaidya is eligible for public consultation booking. The admin
- * roster UI can deactivate a doctor to hide them; VAIDYA (the primary doctor)
- * is preferred first when both are free — getAllVaidyas() orders by code,
- * which would otherwise favour LYMAT alphabetically. */
+/** Active Vaidyas eligible for public consultation booking, VAIDYA (the
+ * primary doctor) preferred first — getAllVaidyas() orders by code, which
+ * would otherwise favour LYMAT alphabetically. */
 async function bookableVaidyas(): Promise<Vaidya[]> {
-  const candidates = (await getAllVaidyas()).filter((v) => v.active !== false)
-  return candidates.sort((a, b) =>
-    a.code === VAIDYA_BLOCK_CODE ? -1 : b.code === VAIDYA_BLOCK_CODE ? 1 : a.code.localeCompare(b.code))
+  return selectBookableVaidyas(await getAllVaidyas())
 }
 
 /** Per-Vaidya busy Slot[] for a day's consultations. A legacy/unassigned row

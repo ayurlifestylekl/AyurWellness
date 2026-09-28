@@ -2,7 +2,7 @@ import type { Slot } from './scheduling'
 import { findClash } from './scheduling'
 import type { BlockedInterval } from './blocks'
 import { isBlocked } from './blocks'
-import type { Vaidya } from '@/lib/staff/therapists'
+import { VAIDYA_BLOCK_CODE, type Vaidya } from '@/lib/staff/therapists'
 
 /** Everything needed to decide, for any time on a given day, which Vaidya
  * (if any) is free — loaded once per day so a slot list can be scored
@@ -24,4 +24,13 @@ export function freeVaidyaIn(ctx: ConsultationAvailabilityContext, iso: string, 
     }
   }
   return null
+}
+
+/** Every active Vaidya is eligible for public consultation booking. The admin
+ * roster UI can deactivate a doctor to hide them; VAIDYA (the primary doctor)
+ * is preferred first when both are free. */
+export function selectBookableVaidyas(allVaidyas: Vaidya[]): Vaidya[] {
+  const candidates = allVaidyas.filter((v) => v.active !== false)
+  return candidates.sort((a, b) =>
+    a.code === VAIDYA_BLOCK_CODE ? -1 : b.code === VAIDYA_BLOCK_CODE ? 1 : a.code.localeCompare(b.code))
 }
