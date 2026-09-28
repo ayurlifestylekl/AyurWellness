@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Mail } from 'lucide-react'
-import { mailtoLink, telLink, whatsappLink, CLINIC_ADDRESS, CLINIC_MAPS_URL, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
+import { mailtoLink, telLink, whatsappLink, CLINIC_ADDRESS, CLINIC_MAPS_URL, CLINIC_PHONE_PRIMARY, CLINIC_LEGAL_NAME, CLINIC_REG_NO } from '@/lib/clinic'
 
 const quickLinks = [
   { label: 'Treatments',    href: '/treatments' },
@@ -194,8 +194,8 @@ export default function Footer() {
 
             {/* Legal entity */}
             <div className="font-body text-xs text-white/30">
-              <p className="font-semibold text-white/50">Ayurvedic Wellness Centre</p>
-              <p>Reg. No: [BUSINESS REGISTRATION NO.] · Brickfields, Kuala Lumpur, Malaysia</p>
+              <p className="font-semibold text-white/50">{CLINIC_LEGAL_NAME}</p>
+              <p>Reg. No: {CLINIC_REG_NO} · Brickfields, Kuala Lumpur, Malaysia</p>
             </div>
 
             {/* Legal links + copyright */}

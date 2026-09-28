@@ -8,7 +8,7 @@ import Reviews from '@/components/sections/Reviews'
 import FAQs from '@/components/sections/FAQs'
 import FinalBookingCTA from '@/components/sections/FinalBookingCTA'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
-import { CLINIC_DOMAIN, CLINIC_EMAIL, CLINIC_NAME, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
+import { CLINIC_DOMAIN, CLINIC_EMAIL, CLINIC_LEGAL_NAME, CLINIC_NAME, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
 import { faqs as homeFaqsFallback } from '@/data/faqs'
 import { fetchFaqs } from '@/sanity/fetchFaqs'
 
@@ -19,6 +19,7 @@ const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': ['LocalBusiness', 'HealthAndBeautyBusiness'],
   name: CLINIC_NAME,
+  legalName: CLINIC_LEGAL_NAME,
   description:
     'Authentic traditional Ayurveda centre and apothecary in Brickfields, Kuala Lumpur.',
   url: `https://${CLINIC_DOMAIN}`,

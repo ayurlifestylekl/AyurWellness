@@ -1,6 +1,6 @@
 -- ================================================================
 -- AYURVEDIC DIGITAL ECOSYSTEM — COMPLETE DATABASE SETUP
--- Ayurvedic Wellness Centre ([BUSINESS REGISTRATION NO.])
+-- Ayurvedic Wellness Centre Sdn. Bhd. (202001033351 / 1389672-T)
 -- ----------------------------------------------------------------
 -- HOW TO USE:
 --   1. Go to your Supabase Dashboard

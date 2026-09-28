@@ -6,6 +6,7 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer'
 import type { OrderWithItems } from '@/lib/dashboard/order-queries'
+import { CLINIC_ADDRESS, CLINIC_LEGAL_NAME, CLINIC_REG_NO } from '@/lib/clinic'
 
 interface InvoiceDocumentProps {
   order: OrderWithItems
@@ -312,8 +313,8 @@ export function InvoiceDocument({ order, customer }: InvoiceDocumentProps) {
         {/* Footer */}
         <View style={styles.footer} fixed>
           <Text style={styles.footerNote}>
-            Ayurvedic Wellness Centre{'\n'}
-            For HR reimbursement, contact us for our SSM registration.
+            {CLINIC_LEGAL_NAME} · Reg. No. {CLINIC_REG_NO}{'\n'}
+            {CLINIC_ADDRESS}
           </Text>
           <Text style={styles.footerThanks}>Thank you for your practice.</Text>
         </View>

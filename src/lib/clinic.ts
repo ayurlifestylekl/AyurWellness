@@ -10,6 +10,10 @@
 export const CLINIC_NAME = 'Ayurvedic Wellness Centre'
 export const CLINIC_LONG_NAME = 'Ayurvedic Wellness Centre'
 
+// Registered with SSM (Suruhanjaya Syarikat Malaysia); renamed 18 June 2026.
+export const CLINIC_LEGAL_NAME = 'Ayurvedic Wellness Centre Sdn. Bhd.'
+export const CLINIC_REG_NO = '202001033351 (1389672-T)'
+
 export const CLINIC_DOMAIN = 'ayurvedawellness.com.my'
 
 /** Bare digits, used in `wa.me/…` deep links. */
