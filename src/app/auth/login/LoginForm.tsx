@@ -61,27 +61,35 @@ export default function LoginForm({
       <AuthTabs active={tab} />
 
       <h1
-        className="font-heading text-[24px] font-bold leading-tight text-white"
-        style={{ letterSpacing: '-0.02em' }}
+        className="font-heading text-[30px] font-bold leading-[1.1] text-[#12372D] sm:text-[34px]"
+        style={{ letterSpacing: '-0.025em' }}
       >
         {tab === 'signin' ? 'Welcome back.' : 'Create your account.'}
+        <span className="block font-display text-[26px] font-normal italic text-[#B58A3B] sm:text-[30px]">
+          {tab === 'signin' ? 'Good to see you.' : 'Your wellness, personalised.'}
+        </span>
       </h1>
-      <p className="mt-1.5 font-body text-[12.5px] leading-relaxed text-white/55">
+      <p className="mt-3 font-body text-[14px] leading-relaxed text-[#12372D]/60">
         {tab === 'signin'
           ? 'Track orders, manage consultations.'
           : 'Join the wellness program.'}
       </p>
 
       {resetSuccess && (
-        <div className="mt-5 flex items-start gap-2.5 rounded-xl border border-green-400/40 bg-green-400/10 px-3 py-2.5">
-          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-green-300" />
-          <p className="font-body text-[11.5px] leading-relaxed text-white/85">
+        <div className="mt-5 flex items-start gap-2.5 rounded-xl border border-[#006B3C]/20 bg-[#EDF4E7] px-3 py-2.5">
+          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#006B3C]" />
+          <p className="font-body text-[12.5px] leading-relaxed text-[#12372D]/85">
             Password reset. Sign in with your new password.
           </p>
         </div>
       )}
 
-      <div className="mt-5">
+      <div aria-hidden className="mt-6 flex items-center gap-3">
+        <span className="h-px w-10 bg-[#B58A3B]" />
+        <span className="h-px flex-1 bg-[#12372D]/10" />
+      </div>
+
+      <div className="mt-6">
         {tab === 'signin' ? (
           <SignInPane nextPath={nextPath} />
         ) : (
@@ -89,7 +97,7 @@ export default function LoginForm({
         )}
       </div>
 
-      <div className="mt-5 text-center font-body text-[12.5px] text-white/55">
+      <div className="mt-6 text-center font-body text-[13px] text-[#12372D]/55">
         {tab === 'signin' ? (
           <>
             New to Ayurvedic Wellness Centre?{' '}
@@ -99,7 +107,7 @@ export default function LoginForm({
                 window.history.pushState(null, '', '?tab=signup')
                 setTab('signup')
               }}
-              className="font-semibold text-[#B58A3B] underline-offset-4 transition-colors hover:text-[#FFF9F2] hover:underline"
+              className="font-semibold text-[#006B3C] underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
             >
               Create an account
             </button>
@@ -113,7 +121,7 @@ export default function LoginForm({
                 window.history.pushState(null, '', '?')
                 setTab('signin')
               }}
-              className="font-semibold text-[#B58A3B] underline-offset-4 transition-colors hover:text-[#FFF9F2] hover:underline"
+              className="font-semibold text-[#006B3C] underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
             >
               Sign in
             </button>
@@ -181,8 +189,9 @@ function SignInPane({ nextPath }: { nextPath?: string }) {
 
   return (
     <div className="space-y-4">
-      <form onSubmit={submitCredentials} className="space-y-3" noValidate>
+      <form onSubmit={submitCredentials} className="space-y-4" noValidate>
         <AuthInput
+          tone="light"
           label="Email or phone"
           type="text"
           autoComplete="username"
@@ -195,6 +204,7 @@ function SignInPane({ nextPath }: { nextPath?: string }) {
           placeholder="you@example.com  or  +60 12 345 6789"
         />
         <AuthInput
+          tone="light"
           label="Password"
           type="password"
           autoComplete="current-password"
@@ -206,7 +216,7 @@ function SignInPane({ nextPath }: { nextPath?: string }) {
         <div className="flex items-center justify-end">
           <Link
             href="/auth/forgot-password"
-            className="font-body text-[11.5px] text-white/55 underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
+            className="font-body text-[12.5px] font-medium text-[#006B3C] underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
           >
             Forgot password?
           </Link>
@@ -215,7 +225,7 @@ function SignInPane({ nextPath }: { nextPath?: string }) {
         <button
           type="submit"
           disabled={isPending}
-          className="inline-flex h-11 w-full items-center justify-center rounded-full bg-[#B58A3B] px-7 font-heading text-[13px] font-bold uppercase tracking-wider text-[#12372D] transition-all hover:bg-[#B58A3B] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex h-[52px] w-full items-center justify-center rounded-xl bg-[#12372D] px-7 font-heading text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_18px_36px_-18px_rgba(18,55,45,0.65)] transition-all hover:bg-[#0E2C24] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? 'Sending code…' : 'Continue'}
         </button>
@@ -285,8 +295,9 @@ function SignUpPane({ nextPath }: { nextPath?: string }) {
 
   return (
     <div className="space-y-4">
-      <form onSubmit={submitForm} className="space-y-3" noValidate>
+      <form onSubmit={submitForm} className="space-y-4" noValidate>
         <AuthInput
+          tone="light"
           label="Full name"
           type="text"
           autoComplete="name"
@@ -296,6 +307,7 @@ function SignUpPane({ nextPath }: { nextPath?: string }) {
           placeholder="Priya Nair"
         />
         <AuthInput
+          tone="light"
           label="Email"
           type="email"
           autoComplete="email"
@@ -305,6 +317,7 @@ function SignUpPane({ nextPath }: { nextPath?: string }) {
           placeholder="you@example.com"
         />
         <AuthInput
+          tone="light"
           label="Phone (Malaysia)"
           type="tel"
           autoComplete="tel"
@@ -314,6 +327,7 @@ function SignUpPane({ nextPath }: { nextPath?: string }) {
           placeholder="+60 12 345 6789"
         />
         <AuthInput
+          tone="light"
           label="Password"
           type="password"
           autoComplete="new-password"
@@ -327,7 +341,7 @@ function SignUpPane({ nextPath }: { nextPath?: string }) {
         <button
           type="submit"
           disabled={isPending}
-          className="inline-flex h-11 w-full items-center justify-center rounded-full bg-[#B58A3B] px-7 font-heading text-[13px] font-bold uppercase tracking-wider text-[#12372D] transition-all hover:bg-[#B58A3B] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex h-[52px] w-full items-center justify-center rounded-xl bg-[#12372D] px-7 font-heading text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_18px_36px_-18px_rgba(18,55,45,0.65)] transition-all hover:bg-[#0E2C24] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? 'Creating account…' : 'Create account'}
         </button>
@@ -347,11 +361,11 @@ function SignUpPane({ nextPath }: { nextPath?: string }) {
 function OrDivider() {
   return (
     <div className="flex items-center gap-3">
-      <span className="h-px flex-1 bg-white/10" />
-      <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40">
+      <span className="h-px flex-1 bg-[#12372D]/10" />
+      <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.3em] text-[#12372D]/40">
         or
       </span>
-      <span className="h-px flex-1 bg-white/10" />
+      <span className="h-px flex-1 bg-[#12372D]/10" />
     </div>
   )
 }
@@ -370,6 +384,7 @@ function OAuthRow({
         <GoogleButton
           nextPath={nextPath}
           onError={onError}
+          tone="light"
           label={bothEnabled ? 'Google' : 'Continue with Google'}
         />
       )}
@@ -388,7 +403,7 @@ function ErrorBox({ text }: { text: string }) {
   return (
     <p
       role="alert"
-      className="rounded-xl border border-red-400/40 bg-red-400/10 px-3 py-2 font-body text-[11.5px] text-red-200"
+      className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 font-body text-[12.5px] text-red-700"
     >
       {text}
     </p>

@@ -34,7 +34,7 @@ export default function AuthTabs({ active }: AuthTabsProps) {
     <div
       role="tablist"
       aria-label="Sign in or create account"
-      className="mb-7 grid grid-cols-2 gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1"
+      className="mb-7 grid grid-cols-2 gap-1 rounded-xl bg-[#F1F2EC] p-1"
     >
       <TabButton label="Sign In" active={active === 'signin'} onClick={() => setTab('signin')} />
       <TabButton label="Create Account" active={active === 'signup'} onClick={() => setTab('signup')} />
@@ -58,10 +58,10 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={[
-        'flex h-10 items-center justify-center rounded-full font-heading text-[12.5px] font-semibold tracking-[-0.005em] transition-all duration-200',
+        'flex h-10 items-center justify-center rounded-lg font-heading text-[12.5px] font-semibold tracking-[-0.005em] transition-all duration-200',
         active
-          ? 'bg-[#B58A3B] text-[#12372D] shadow-sm'
-          : 'text-white/55 hover:text-white/85',
+          ? 'bg-white text-[#12372D] shadow-[0_2px_8px_-2px_rgba(18,55,45,0.18)]'
+          : 'text-[#12372D]/50 hover:text-[#12372D]',
       ].join(' ')}
     >
       {label}

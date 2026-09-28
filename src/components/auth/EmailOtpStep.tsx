@@ -94,25 +94,26 @@ export default function EmailOtpStep({
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55 transition-colors hover:text-[#B58A3B]"
+          className="inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55 transition-colors hover:text-[#B58A3B]"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back
         </button>
       )}
 
-      <div className="flex items-start gap-3 rounded-2xl border border-[#B58A3B]/30 bg-[#B58A3B]/[0.08] px-4 py-3">
+      <div className="flex items-start gap-3 rounded-xl border border-[#B58A3B]/25 bg-[#FBF6EC] px-4 py-3">
         <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#B58A3B]" />
-        <p className="font-body text-[12.5px] leading-relaxed text-white/80">
-          {title ? <span className="block font-semibold text-white">{title}</span> : null}
+        <p className="font-body text-[12.5px] leading-relaxed text-[#12372D]/75">
+          {title ? <span className="block font-semibold text-[#12372D]">{title}</span> : null}
           We sent a 6-digit code to{' '}
-          <span className="font-semibold text-white">{email}</span>. It expires in 25 minutes.
+          <span className="font-semibold text-[#12372D]">{email}</span>. It expires in 25 minutes.
         </p>
       </div>
 
       <AuthInput
         ref={codeRef}
         label="6-digit code"
+        tone="light"
         type="text"
         inputMode="numeric"
         autoComplete="one-time-code"
@@ -134,7 +135,7 @@ export default function EmailOtpStep({
       {error && (
         <p
           role="alert"
-          className="rounded-xl border border-red-400/40 bg-red-400/10 px-3 py-2 font-body text-[12px] text-red-200"
+          className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 font-body text-[12.5px] text-red-700"
         >
           {error}
         </p>
@@ -143,7 +144,7 @@ export default function EmailOtpStep({
       {resentNotice && (
         <p
           role="status"
-          className="rounded-xl border border-green-400/40 bg-green-400/10 px-3 py-2 font-body text-[12px] text-green-200"
+          className="rounded-xl border border-[#006B3C]/20 bg-[#EDF4E7] px-3 py-2 font-body text-[12.5px] text-[#006B3C]"
         >
           A new code was sent. Check your inbox.
         </p>
@@ -153,18 +154,18 @@ export default function EmailOtpStep({
         type="button"
         onClick={() => submit()}
         disabled={isPending || code.length !== 6}
-        className="inline-flex h-11 w-full items-center justify-center rounded-full bg-[#B58A3B] px-7 font-heading text-[13px] font-bold uppercase tracking-wider text-[#12372D] transition-all hover:bg-[#B58A3B] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex h-[52px] w-full items-center justify-center rounded-xl bg-[#12372D] px-7 font-heading text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_18px_36px_-18px_rgba(18,55,45,0.65)] transition-all hover:bg-[#0E2C24] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isPending ? 'Verifying…' : submitLabel ?? 'Verify & sign in'}
       </button>
 
-      <div className="pt-1 text-center font-body text-[12px] text-white/55">
+      <div className="pt-1 text-center font-body text-[12.5px] text-[#12372D]/55">
         Didn&apos;t get it?{' '}
         <button
           type="button"
           onClick={resend}
           disabled={resendIn > 0 || isPending}
-          className="font-semibold text-[#B58A3B] underline-offset-4 transition-colors hover:text-[#FFF9F2] hover:underline disabled:cursor-not-allowed disabled:text-white/35 disabled:no-underline disabled:hover:text-white/35"
+          className="font-semibold text-[#006B3C] underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline disabled:cursor-not-allowed disabled:text-[#12372D]/35 disabled:no-underline disabled:hover:text-[#12372D]/35"
         >
           {resendIn > 0 ? `Resend in ${resendIn}s` : 'Resend code'}
         </button>

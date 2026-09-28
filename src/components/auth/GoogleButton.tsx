@@ -12,10 +12,12 @@ export default function GoogleButton({
   label = 'Continue with Google',
   nextPath,
   onError,
+  tone = 'dark',
 }: {
   label?: string
   nextPath?: string
   onError?: (msg: string) => void
+  tone?: 'dark' | 'light'
 }) {
   const [isPending, startTransition] = useTransition()
 
@@ -35,7 +37,11 @@ export default function GoogleButton({
       type="button"
       onClick={handleClick}
       disabled={isPending}
-      className="group relative inline-flex h-12 w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/[0.04] px-5 font-heading text-[14px] font-semibold text-white transition-colors duration-200 hover:border-white/35 hover:bg-white/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12372D] disabled:cursor-not-allowed disabled:opacity-60"
+      className={
+        tone === 'light'
+          ? 'group relative inline-flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-[#12372D]/12 bg-white px-5 font-heading text-[13.5px] font-semibold text-[#12372D] transition-all duration-200 hover:border-[#12372D]/25 hover:bg-[#FAFAF7] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60'
+          : 'group relative inline-flex h-12 w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/[0.04] px-5 font-heading text-[14px] font-semibold text-white transition-colors duration-200 hover:border-white/35 hover:bg-white/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12372D] disabled:cursor-not-allowed disabled:opacity-60'
+      }
     >
       <GoogleSvg className="h-5 w-5 shrink-0" />
       <span>{isPending ? 'Opening Google…' : label}</span>
