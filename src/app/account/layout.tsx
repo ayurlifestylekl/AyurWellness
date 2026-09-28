@@ -2,8 +2,7 @@ import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth/getCurrentUser'
 import { createClient } from '@/lib/supabase/server'
 import { listNotifications } from '@/lib/notifications/queries'
-import DashboardShell from '@/components/dashboard/DashboardShell'
-import { accountNav, accountChrome } from '@/lib/dashboard/account-nav'
+import CustomerShell from '@/components/account/CustomerShell'
 import { homeForRole } from '@/lib/auth/getCurrentUser'
 
 export default async function AccountLayout({ children }: { children: React.ReactNode }) {
@@ -16,19 +15,16 @@ export default async function AccountLayout({ children }: { children: React.Reac
   const initialNotifications = await listNotifications(supabase, me.authId, 30)
 
   return (
-    <DashboardShell
+    <CustomerShell
       user={{
         id: me.authId,
         fullName: me.profile.full_name ?? 'Member',
         email: me.identifier,
-        role: me.role,
         avatarUrl: me.profile.avatar_url,
       }}
-      nav={accountNav}
-      portal={accountChrome}
       initialNotifications={initialNotifications}
     >
       {children}
-    </DashboardShell>
+    </CustomerShell>
   )
 }

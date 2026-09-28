@@ -55,7 +55,10 @@ export async function getRecentOrders(
   }))
 }
 
-/** Next N scheduled appointments in the future. */
+/** Booking states that still lead to a visit (paid, awaiting payment, or on the day). */
+export const ACTIVE_APPOINTMENT_STATUSES = ['pending', 'scheduled', 'confirmed', 'awaiting_payment', 'checked_in', 'in_progress'] as const
+
+/** Next N active appointments in the future. */
 export async function getUpcomingAppointments(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase: SupabaseClient<any, 'public', any>,
@@ -67,7 +70,7 @@ export async function getUpcomingAppointments(
     .from('appointments')
     .select('*')
     .eq('customer_id', customerId)
-    .eq('status', 'scheduled')
+    .in('status', ACTIVE_APPOINTMENT_STATUSES as unknown as string[])
     .gte('appointment_date_time', nowIso)
     .order('appointment_date_time', { ascending: true })
     .limit(limit)
@@ -119,4 +122,25 @@ export async function getSampleProducts(
     return []
   }
   return (data ?? []) as ProductRow[]
+}
+
+/** Most recent completed visit, for the "from your last visit" aftercare note. */
+export async function getLastCompletedVisit(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: SupabaseClient<any, 'public', any>,
+  customerId: string
+): Promise<AppointmentRow | null> {
+  const { data, error } = await supabase
+    .from('appointments')
+    .select('*')
+    .eq('customer_id', customerId)
+    .eq('status', 'completed')
+    .order('appointment_date_time', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  if (error) {
+    console.error('[dashboard/getLastCompletedVisit] failed:', error.message)
+    return null
+  }
+  return (data as AppointmentRow | null) ?? null
 }

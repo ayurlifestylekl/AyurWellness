@@ -297,20 +297,23 @@ export async function listCustomerProductOrders(
   email: string,
 ): Promise<ProductOrderListItem[]> {
   const sb = admin()
-  const { data, error } = await sb
-    .from('product_orders')
-    .select(
-      'id, order_number, email, phone, status, payment_status, total_rm, created_at, product_order_items(count)',
-    )
-    .or(`customer_id.eq.${customerId},email.eq.${email}`)
-    .order('created_at', { ascending: false })
-
+  const cols = 'id, order_number, email, phone, status, payment_status, total_rm, created_at, product_order_items(count)'
+  // Two equality filters rather than one interpolated or(): the email is
+  // user-supplied and must never be parsed as filter syntax on a service client.
+  const [byId, byEmail] = await Promise.all([
+    sb.from('product_orders').select(cols).eq('customer_id', customerId),
+    email ? sb.from('product_orders').select(cols).eq('email', email) : Promise.resolve({ data: [], error: null }),
+  ])
+  const error = byId.error ?? byEmail.error
   if (error) {
     console.error('[product-management] listCustomerProductOrders failed', error)
     return []
   }
+  const merged = new Map<string, any>()
+  for (const r of [...(byId.data ?? []), ...(byEmail.data ?? [])]) merged.set((r as any).id, r)
+  const data = Array.from(merged.values()).sort((a, b) => (a.created_at < b.created_at ? 1 : -1))
 
-  return (data ?? []).map((r: any) => ({
+  return data.map((r: any) => ({
     id: r.id,
     order_number: r.order_number,
     email: r.email,

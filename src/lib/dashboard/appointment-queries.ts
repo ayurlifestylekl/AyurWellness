@@ -1,3 +1,4 @@
+import { ACTIVE_APPOINTMENT_STATUSES } from './queries'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
 
@@ -92,7 +93,7 @@ export async function getAppointmentStats(
   for (const r of rows) {
     const t = new Date(r.appointment_date_time).getTime()
     if (Number.isNaN(t)) continue
-    if (r.status === 'scheduled' && t >= now) upcomingCount += 1
+    if ((ACTIVE_APPOINTMENT_STATUSES as readonly string[]).includes(r.status) && t >= now) upcomingCount += 1
     if (r.status === 'completed' && t >= yearStart) completedThisYear += 1
     if (r.status === 'completed' && t > lastCompletedMs) {
       lastCompletedMs = t
