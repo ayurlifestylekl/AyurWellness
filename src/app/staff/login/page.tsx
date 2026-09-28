@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import AuthCanvas from '@/components/auth/AuthCanvas'
+import StaffLoginSplit from '@/components/auth/StaffLoginSplit'
 import AdminLoginForm from '@/app/admin/login/AdminLoginForm'
 
 export const metadata: Metadata = {
@@ -15,11 +15,16 @@ export default function StaffLoginPage({
   searchParams: { reset?: string; next?: string }
 }) {
   return (
-    <AuthCanvas>
+    <StaffLoginSplit
+      eyebrow="Front Desk"
+      headline="Welcome guests. Keep the day flowing."
+      blurb="Check-ins, therapist assignment and today’s schedule."
+      image="/about/gallery-frontdesk.jpg"
+    >
       <AdminLoginForm
         resetSuccess={searchParams.reset === 'success'}
         nextPath={searchParams.next}
       />
-    </AuthCanvas>
+    </StaffLoginSplit>
   )
 }
