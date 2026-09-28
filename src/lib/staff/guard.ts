@@ -20,13 +20,13 @@ export async function requireStaff(
   const {
     data: { user },
   } = await s.auth.getUser()
-  if (!user) redirect('/staff/login')
+  if (!user) redirect('/frontdesk')
 
   const { data: profileRaw } = await s.from('users').select('role').eq('id', user.id).maybeSingle()
   const profile = profileRaw as { role: string } | null
   const role = (profile?.role ?? null) as StaffRole | null
   if (!role || !allowed.includes(role)) {
-    redirect(allowed.includes('doctor') && !allowed.includes('front_desk') ? '/doctor/login' : '/staff/login')
+    redirect(allowed.includes('doctor') && !allowed.includes('front_desk') ? '/doctor/login' : '/frontdesk')
   }
 
   const db = createSb(

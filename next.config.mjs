@@ -9,6 +9,9 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.supabase.co' },
     ],
   },
+  async redirects() {
+    return [{ source: '/staff/login', destination: '/frontdesk', permanent: true }];
+  },
 };
 
 export default nextConfig;

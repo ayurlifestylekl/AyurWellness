@@ -5,7 +5,7 @@ import AdminLoginForm from '@/app/admin/login/AdminLoginForm'
 export const metadata: Metadata = {
   title: 'Front Desk · Staff Sign In',
   description: 'Ayurvedic Wellness Centre — front desk & admin console access.',
-  alternates: { canonical: '/staff/login' },
+  alternates: { canonical: '/frontdesk' },
   robots: { index: false, follow: false },
 }
 

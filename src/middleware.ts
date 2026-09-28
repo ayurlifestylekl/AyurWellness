@@ -96,7 +96,7 @@ export async function middleware(request: NextRequest) {
   // Only the dashboard parts (under the (portal) route group) are role-gated.
   const isAdminLogin = pathname === '/admin/login'
   const isAgentLogin = pathname === '/agent/login'
-  const isStaffLogin = pathname === '/staff/login'
+  const isStaffLogin = pathname === '/frontdesk'
   const isDoctorLogin = pathname === '/doctor/login'
   const isProductManagementLogin = pathname === '/product-management/login'
   const isAdminRoute = pathname.startsWith('/admin') && !isAdminLogin
@@ -139,7 +139,7 @@ export async function middleware(request: NextRequest) {
       : isDoctorRoute
       ? '/doctor/login'
       : isConsoleRoute
-      ? '/staff/login'
+      ? '/frontdesk'
       : isProductManagementRoute
       ? '/product-management/login'
       : '/auth/login'
