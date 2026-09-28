@@ -59,7 +59,7 @@ export default function TeamOrgChart() {
               Founder
             </span>
             <h3 className="mt-1 font-display italic" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', color: INK_DEEP, lineHeight: 1.05 }}>
-              Founder
+              Vizshnu Supramaniam
             </h3>
             <p className="mt-3 max-w-xs font-body text-[13.5px] leading-[1.65]" style={{ color: 'rgba(0,42,25,0.62)' }}>
               Guiding the centre&apos;s mission, standards, and every protocol we practice — rooted in classical Ayurvedic training.

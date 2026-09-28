@@ -15,8 +15,8 @@ const defaults = {
   ],
   pullQuote:
     'True wellness is not just about therapies, but about restoring balance and harmony within.',
-  name: 'Ayurvedic Wellness Centre',
-  role: 'Our Philosophy',
+  name: 'Vizshnu Supramaniam',
+  role: 'Founder',
 }
 
 interface FoundersVisionProps {
@@ -124,8 +124,8 @@ export default function FoundersVision({
                 className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_24px_60px_-20px_rgba(0, 107, 60,0.35),0_8px_20px_rgba(0, 107, 60,0.1)]"
               >
                 <Image
-                  src="/Ayurvedic-wellness-flat-lay-arrangement-1024x683.png"
-                  alt="Traditional Ayurvedic herbs, oils and lotus flowers — the practice behind Ayurvedic Wellness Centre"
+                  src="/about/founder-vizshnu-supramaniam.jpg"
+                  alt="Vizshnu Supramaniam, Founder of Ayurvedic Wellness Centre"
                   fill
                   sizes="(max-width: 1024px) 100vw, 35vw"
                   className="object-cover object-top"
