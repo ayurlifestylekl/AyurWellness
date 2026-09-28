@@ -53,17 +53,17 @@ export default async function MessagesPage({
       {/* ── HEADER ────────────────────────────────────────────────── */}
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <span className="inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             <Inbox className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={2} />
             Messages & Support
           </span>
           <h1
-            className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#006B3C] sm:text-[36px]"
+            className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#12372D] sm:text-[36px]"
             style={{ letterSpacing: '-0.025em' }}
           >
             Hello, {firstName}.{' '}
             <span
-              className="italic font-normal text-[#006B3C]/70"
+              className="italic font-normal text-[#12372D]/70"
               style={{ fontFamily: 'var(--font-playfair)' }}
             >
               How can we help?
@@ -89,19 +89,19 @@ export default async function MessagesPage({
 
       {/* ── ACTIVE TICKETS ───────────────────────────────────────── */}
       <section>
-        <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+        <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
           Active conversations
           {active.length > 0 && (
-            <span className="ml-2 font-mono text-[10.5px] text-[#006B3C]/45">
+            <span className="ml-2 font-mono text-[10.5px] text-[#12372D]/45">
               {active.length}
             </span>
           )}
         </h2>
         {active.length === 0 ? (
           <div
-            className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-white px-5 py-6 text-center"
+            className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-[#FBF7EE] px-5 py-6 text-center"
           >
-            <p className="font-heading text-[13px] font-semibold text-[#006B3C]">
+            <p className="font-heading text-[13px] font-semibold text-[#12372D]">
               No active conversations.
             </p>
             <p className="mt-1 font-body text-[12px] text-[#12372D]/55" style={{ lineHeight: 1.55 }}>
@@ -110,10 +110,10 @@ export default async function MessagesPage({
           </div>
         ) : (
           <ul
-            className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+            className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
             style={{
               boxShadow:
-                '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+                '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
             }}
           >
             {active.map((ticket) => (
@@ -125,24 +125,24 @@ export default async function MessagesPage({
 
       {/* ── RESOLVED TICKETS ─────────────────────────────────────── */}
       <section>
-        <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+        <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
           Resolved
           {resolved.length > 0 && (
-            <span className="ml-2 font-mono text-[10.5px] text-[#006B3C]/45">
+            <span className="ml-2 font-mono text-[10.5px] text-[#12372D]/45">
               {resolved.length}
             </span>
           )}
         </h2>
         {resolved.length === 0 ? (
-          <p className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-white px-5 py-4 text-center font-body text-[12px] italic text-[#12372D]/55">
+          <p className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-[#FBF7EE] px-5 py-4 text-center font-body text-[12px] italic text-[#12372D]/55">
             No resolved conversations yet.
           </p>
         ) : (
           <ul
-            className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+            className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
             style={{
               boxShadow:
-                '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+                '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
             }}
           >
             {resolved.map((ticket) => (

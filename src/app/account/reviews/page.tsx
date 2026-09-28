@@ -31,7 +31,7 @@ export default async function MyReviewsPage() {
         <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-[#B58A3B]">
           Your voice
         </span>
-        <h1 className="mt-2 font-heading text-[26px] font-bold leading-tight text-[#006B3C]">
+        <h1 className="mt-2 font-heading text-[26px] font-bold leading-tight text-[#12372D]">
           My reviews
         </h1>
         <p className="mt-1 font-body text-[13px] text-[#12372D]/65">
@@ -54,7 +54,7 @@ export default async function MyReviewsPage() {
       ) : (
         <ul className="flex flex-col gap-3">
           {reviews.map((r) => (
-            <li key={r.id} className="rounded-2xl border border-[#006B3C]/8 bg-white p-4">
+            <li key={r.id} className="rounded-2xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ export default async function MyReviewsPage() {
                     </span>
                   </div>
                   {r.title ? (
-                    <h2 className="mt-2 font-heading text-[15px] font-semibold text-[#006B3C]">
+                    <h2 className="mt-2 font-heading text-[15px] font-semibold text-[#12372D]">
                       {r.title}
                     </h2>
                   ) : null}
@@ -74,7 +74,7 @@ export default async function MyReviewsPage() {
                     on{' '}
                     <Link
                       href={`/shop/${r.productId}`}
-                      className="font-semibold text-[#006B3C] hover:text-[#B58A3B]"
+                      className="font-semibold text-[#12372D] hover:text-[#B58A3B]"
                     >
                       {r.productName}
                     </Link>{' '}
@@ -105,7 +105,7 @@ function Stars({ value }: { value: number }) {
         <Star
           key={n}
           className={`h-3.5 w-3.5 ${
-            n <= value ? 'fill-[#B58A3B] text-[#B58A3B]' : 'text-[#006B3C]/20'
+            n <= value ? 'fill-[#B58A3B] text-[#B58A3B]' : 'text-[#12372D]/20'
           }`}
           strokeWidth={1.5}
         />

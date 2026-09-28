@@ -41,8 +41,8 @@ export default function CancelOrderButton({ orderId, orderShortId }: CancelOrder
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-md rounded-3xl border border-[#006B3C]/8 bg-white p-6">
-            <h3 className="font-heading text-[16px] font-bold text-[#006B3C]">
+          <div className="w-full max-w-md rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-6">
+            <h3 className="font-heading text-[16px] font-bold text-[#12372D]">
               Cancel order #{orderShortId}?
             </h3>
             <p className="mt-2 font-body text-[13px] text-[#12372D]/70">
@@ -61,7 +61,7 @@ export default function CancelOrderButton({ orderId, orderShortId }: CancelOrder
                 type="button"
                 onClick={() => setOpen(false)}
                 disabled={isPending}
-                className="rounded-full border border-[#006B3C]/15 px-4 py-2 font-heading text-[12px] font-semibold text-[#006B3C]"
+                className="rounded-full border border-[#006B3C]/15 px-4 py-2 font-heading text-[12px] font-semibold text-[#12372D]"
               >
                 Keep order
               </button>

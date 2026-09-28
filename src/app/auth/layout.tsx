@@ -6,8 +6,7 @@ export const metadata: Metadata = {
 
 /**
  * Pass-through. Each /auth/* page chooses its own outer chrome —
- * /auth/login uses the editorial split (CustomerLoginSplit), forgot/reset
- * each wrap in AuthCanvas inline.
+ * /auth/login, /auth/register, forgot and reset all use CustomerLoginSplit.
  */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>

@@ -21,17 +21,17 @@ export default function AftercarePanel({ lastCompleted }: AftercarePanelProps) {
   return (
     <section
       id="aftercare"
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="flex items-center gap-2.5 border-b border-[#006B3C]/6 px-5 py-3 sm:px-6">
         <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-          <ScrollText className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+          <ScrollText className="h-3.5 w-3.5 text-[#12372D]" strokeWidth={1.8} />
         </span>
-        <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+        <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
           Aftercare
         </h2>
         <span className="ml-auto font-body text-[11.5px] text-[#12372D]/50">
@@ -43,7 +43,7 @@ export default function AftercarePanel({ lastCompleted }: AftercarePanelProps) {
         {hasNotes ? (
           <article>
             <p
-              className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55"
+              className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55"
             >
               From your last visit with {lastCompleted.doctor_name}
             </p>
@@ -60,7 +60,7 @@ export default function AftercarePanel({ lastCompleted }: AftercarePanelProps) {
               <Sparkles className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={1.8} />
             </span>
             <div>
-              <p className="font-heading text-[13px] font-semibold text-[#006B3C]">
+              <p className="font-heading text-[13px] font-semibold text-[#12372D]">
                 Vaidya will add personal notes after your next visit.
               </p>
               <p

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { homeForRole, type UserRole } from '@/lib/auth/getCurrentUser'
+import { customerOtpRequired } from '@/lib/auth/otp'
 import type { AuthResult } from './types'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -44,5 +45,11 @@ export async function signInWithPassword(
 
   const profile = profileRaw as { role: UserRole } | null
   const role = profile?.role ?? 'customer'
+  // Staff logins skip the emailed code; customers must not be able to use
+  // them as a way around it.
+  if (role === 'customer' && customerOtpRequired()) {
+    await supabase.auth.signOut()
+    return { ok: false, error: 'This sign-in is for staff. Members, please use the member sign-in.' }
+  }
   return { ok: true, redirectTo: homeForRole(role) }
 }

@@ -13,29 +13,29 @@ import {
 export default function ClinicInfoCard() {
   return (
     <section
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="flex items-center gap-2.5 border-b border-[#006B3C]/6 px-5 py-3 sm:px-6">
         <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-          <MapPin className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+          <MapPin className="h-3.5 w-3.5 text-[#12372D]" strokeWidth={1.8} />
         </span>
-        <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
-          The Vaidyasalai
+        <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
+          Visit the centre
         </h2>
       </div>
 
       <div className="grid grid-cols-1 gap-5 px-5 py-5 sm:grid-cols-3 sm:px-6">
         {/* Address */}
         <div>
-          <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+          <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
             Visit us
           </p>
           <p
-            className="mt-2 font-heading text-[13px] font-bold text-[#006B3C]"
+            className="mt-2 font-heading text-[13px] font-bold text-[#12372D]"
             style={{ letterSpacing: '-0.005em' }}
           >
             {CLINIC_LONG_NAME}
@@ -56,7 +56,7 @@ export default function ClinicInfoCard() {
 
         {/* Hours */}
         <div>
-          <p className="inline-flex items-center gap-1.5 font-heading text-[10px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+          <p className="inline-flex items-center gap-1.5 font-heading text-[10px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
             <Clock className="h-3 w-3" strokeWidth={2} />
             Hours
           </p>
@@ -66,7 +66,7 @@ export default function ClinicInfoCard() {
                 key={h.day}
                 className="flex items-center justify-between font-body text-[12px] text-[#12372D]/75"
               >
-                <span className="font-heading font-semibold text-[#006B3C]/80">
+                <span className="font-heading font-semibold text-[#12372D]/80">
                   {h.day}
                 </span>
                 <span>{h.hours}</span>
@@ -77,14 +77,14 @@ export default function ClinicInfoCard() {
 
         {/* Phones + email */}
         <div>
-          <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+          <p className="font-heading text-[10px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
             Reach the clinic
           </p>
           <ul className="mt-2 space-y-2">
             <li>
               <a
                 href={telLink(CLINIC_PHONE_PRIMARY)}
-                className="inline-flex items-center gap-2 font-heading text-[12.5px] font-semibold text-[#006B3C] hover:text-[#B58A3B]"
+                className="inline-flex items-center gap-2 font-heading text-[12.5px] font-semibold text-[#12372D] hover:text-[#B58A3B]"
               >
                 <Phone className="h-3 w-3" strokeWidth={2} />
                 {CLINIC_PHONE_PRIMARY}

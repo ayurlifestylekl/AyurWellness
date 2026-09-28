@@ -20,8 +20,8 @@ const ACCENT_BG: Record<NonNullable<StatTileProps['accent']>, string> = {
 }
 const ACCENT_TEXT: Record<NonNullable<StatTileProps['accent']>, string> = {
   gold: 'text-[#B58A3B]',
-  olive: 'text-[#006B3C]',
-  sage: 'text-[#006B3C]',
+  olive: 'text-[#12372D]',
+  sage: 'text-[#12372D]',
 }
 
 export default function StatTile({
@@ -33,14 +33,14 @@ export default function StatTile({
 }: StatTileProps) {
   return (
     <article
-      className="relative overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white p-4 sm:p-5"
+      className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-4 sm:p-5"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="flex items-start justify-between gap-3">
-        <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+        <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
           {label}
         </span>
         <span
@@ -51,7 +51,7 @@ export default function StatTile({
       </div>
 
       <p
-        className="mt-2.5 font-heading text-[22px] font-bold leading-none text-[#006B3C] sm:text-[26px]"
+        className="mt-2.5 font-heading text-[22px] font-bold leading-none text-[#12372D] sm:text-[26px]"
         style={{ letterSpacing: '-0.02em' }}
       >
         {value}

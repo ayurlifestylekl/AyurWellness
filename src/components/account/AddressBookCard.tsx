@@ -39,7 +39,7 @@ export default function AddressBookCard({ address }: AddressBookCardProps) {
         <button
           type="button"
           onClick={() => setEditing(false)}
-          className="absolute right-3 top-3 z-10 inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#006B3C]/15 bg-white text-[#006B3C]/55 hover:text-[#006B3C]"
+          className="absolute right-3 top-3 z-10 inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#006B3C]/15 bg-white text-[#12372D]/55 hover:text-[#12372D]"
           aria-label="Close edit"
         >
           <X className="h-3.5 w-3.5" />
@@ -51,19 +51,19 @@ export default function AddressBookCard({ address }: AddressBookCardProps) {
 
   return (
     <article
-      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white p-5"
+      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-5"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-[#006B3C]/8">
-            <MapPin className="h-4 w-4 text-[#006B3C]" strokeWidth={1.8} />
+            <MapPin className="h-4 w-4 text-[#12372D]" strokeWidth={1.8} />
           </span>
           <div>
-            <h3 className="font-heading text-[14px] font-bold text-[#006B3C]">{address.label}</h3>
+            <h3 className="font-heading text-[14px] font-bold text-[#12372D]">{address.label}</h3>
             <p className="font-body text-[11.5px] text-[#12372D]/55">{address.country}</p>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function AddressBookCard({ address }: AddressBookCardProps) {
       </div>
 
       <div className="mt-4 flex-1 font-body text-[13px] leading-[1.6] text-[#12372D]/80">
-        <p className="font-heading font-semibold text-[#006B3C]">{address.recipient}</p>
+        <p className="font-heading font-semibold text-[#12372D]">{address.recipient}</p>
         <p>{address.line1}</p>
         {address.line2 && <p>{address.line2}</p>}
         <p>{address.postcode} {address.city}, {address.state}</p>
@@ -89,7 +89,7 @@ export default function AddressBookCard({ address }: AddressBookCardProps) {
             type="button"
             onClick={handleSetDefault}
             disabled={isPending}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#006B3C]/15 px-3 py-1.5 font-heading text-[11px] font-semibold text-[#006B3C] hover:bg-[#006B3C]/[0.04] disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#006B3C]/15 px-3 py-1.5 font-heading text-[11px] font-semibold text-[#12372D] hover:bg-[#006B3C]/[0.04] disabled:opacity-50"
           >
             <Star className="h-3 w-3" />
             Set default
@@ -99,7 +99,7 @@ export default function AddressBookCard({ address }: AddressBookCardProps) {
           type="button"
           onClick={() => setEditing(true)}
           disabled={isPending}
-          className="inline-flex items-center gap-1.5 rounded-full border border-[#006B3C]/15 px-3 py-1.5 font-heading text-[11px] font-semibold text-[#006B3C] hover:bg-[#006B3C]/[0.04] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-full border border-[#006B3C]/15 px-3 py-1.5 font-heading text-[11px] font-semibold text-[#12372D] hover:bg-[#006B3C]/[0.04] disabled:opacity-50"
         >
           <Pencil className="h-3 w-3" />
           Edit

@@ -75,7 +75,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
         className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/25 bg-[#EDF4E7]/55 px-4 py-3 sm:px-5"
         style={{
           boxShadow:
-            '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+            '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
         }}
       >
         <span
@@ -85,11 +85,11 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
         <div className="flex flex-wrap items-center justify-between gap-3 pl-2">
           <div className="flex items-center gap-3 min-w-0">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white">
-              <Truck className="h-4 w-4 text-[#006B3C]" strokeWidth={1.8} />
+              <Truck className="h-4 w-4 text-[#12372D]" strokeWidth={1.8} />
             </span>
             <div className="min-w-0">
               <p
-                className="font-heading text-[13px] font-semibold text-[#006B3C]"
+                className="font-heading text-[13px] font-semibold text-[#12372D]"
                 style={{ letterSpacing: '-0.005em' }}
               >
                 1 package in transit
@@ -115,7 +115,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
               href={whatsappFallbackUrl(shortId(order.id))}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-5 font-heading text-[11.5px] font-bold uppercase tracking-[0.16em] text-[#006B3C] transition-all hover:border-[#006B3C]/35 active:scale-[0.98]"
+              className="group inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-5 font-heading text-[11.5px] font-bold uppercase tracking-[0.16em] text-[#12372D] transition-all hover:border-[#006B3C]/35 active:scale-[0.98]"
             >
               <MessageCircle className="h-3.5 w-3.5" />
               WhatsApp us
@@ -140,7 +140,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
       className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/25 bg-[#EDF4E7]/55 px-4 py-3 sm:px-5"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <span
@@ -150,11 +150,11 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
       <div className="flex flex-wrap items-center justify-between gap-3 pl-2">
         <div className="flex items-center gap-3 min-w-0">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white">
-            <Truck className="h-4 w-4 text-[#006B3C]" strokeWidth={1.8} />
+            <Truck className="h-4 w-4 text-[#12372D]" strokeWidth={1.8} />
           </span>
           <div className="min-w-0">
             <p
-              className="font-heading text-[13px] font-semibold text-[#006B3C]"
+              className="font-heading text-[13px] font-semibold text-[#12372D]"
               style={{ letterSpacing: '-0.005em' }}
             >
               {resolved.length} packages in transit
@@ -188,11 +188,11 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
           style={{
             top: '100%',
             boxShadow:
-              '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+              '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
           }}
         >
           <div className="border-b border-[#006B3C]/6 px-4 py-2">
-            <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+            <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
               Pick a shipment
             </p>
           </div>
@@ -214,7 +214,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
                       className={`group flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-[#EDF4E7]/55 ${borderCls}`}
                     >
                       <div className="min-w-0">
-                        <p className="font-heading text-[12.5px] font-semibold text-[#006B3C]">
+                        <p className="font-heading text-[12.5px] font-semibold text-[#12372D]">
                           #{sid} · {order.courier_service}
                         </p>
                         {order.tracking_number && (
@@ -224,7 +224,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
                         )}
                       </div>
                       <ExternalLink
-                        className="h-3.5 w-3.5 shrink-0 text-[#006B3C]/45 transition-colors group-hover:text-[#B58A3B]"
+                        className="h-3.5 w-3.5 shrink-0 text-[#12372D]/45 transition-colors group-hover:text-[#B58A3B]"
                         strokeWidth={2}
                       />
                     </a>
@@ -243,7 +243,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
                     className={`group flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-[#EDF4E7]/55 ${borderCls}`}
                   >
                     <div className="min-w-0">
-                      <p className="font-heading text-[12.5px] font-semibold text-[#006B3C]">
+                      <p className="font-heading text-[12.5px] font-semibold text-[#12372D]">
                         #{sid}
                       </p>
                       <p className="truncate font-body text-[11px] italic text-[#12372D]/55">
@@ -251,7 +251,7 @@ export default function LiveShipmentTracker({ shipments }: LiveShipmentTrackerPr
                       </p>
                     </div>
                     <MessageCircle
-                      className="h-3.5 w-3.5 shrink-0 text-[#006B3C]/45 transition-colors group-hover:text-[#B58A3B]"
+                      className="h-3.5 w-3.5 shrink-0 text-[#12372D]/45 transition-colors group-hover:text-[#B58A3B]"
                       strokeWidth={2}
                     />
                   </a>

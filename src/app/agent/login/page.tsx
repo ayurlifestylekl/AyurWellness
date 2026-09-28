@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import AuthCanvas from '@/components/auth/AuthCanvas'
+import StaffLoginSplit from '@/components/auth/StaffLoginSplit'
 import AgentLoginForm from './AgentLoginForm'
 
 export const metadata: Metadata = {
@@ -15,11 +15,16 @@ export default function AgentLoginPage({
   searchParams: { reset?: string; next?: string }
 }) {
   return (
-    <AuthCanvas>
+    <StaffLoginSplit
+      eyebrow="Partner Hub"
+      headline="Share what heals. Grow together."
+      blurb="Referrals, commissions and payouts for our Brand Partners."
+      image="/hero-shirodhara.jpg"
+    >
       <AgentLoginForm
         resetSuccess={searchParams.reset === 'success'}
         nextPath={searchParams.next}
       />
-    </AuthCanvas>
+    </StaffLoginSplit>
   )
 }

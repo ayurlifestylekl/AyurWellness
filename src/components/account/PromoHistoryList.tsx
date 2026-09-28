@@ -21,7 +21,7 @@ export default function PromoHistoryList({ used, expired }: PromoHistoryListProp
 
   if (rows.length === 0) {
     return (
-      <p className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-white px-5 py-4 text-center font-body text-[12px] italic text-[#12372D]/55">
+      <p className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-[#FBF7EE] px-5 py-4 text-center font-body text-[12px] italic text-[#12372D]/55">
         Used and expired vouchers will live here.
       </p>
     )
@@ -29,10 +29,10 @@ export default function PromoHistoryList({ used, expired }: PromoHistoryListProp
 
   return (
     <ul
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {rows.map(({ item, status }, idx) => {
@@ -49,7 +49,7 @@ export default function PromoHistoryList({ used, expired }: PromoHistoryListProp
           >
             <div className="flex-1 min-w-0">
               <p
-                className="truncate font-heading text-[13px] font-semibold text-[#006B3C]/75"
+                className="truncate font-heading text-[13px] font-semibold text-[#12372D]/75"
                 style={{ letterSpacing: '-0.005em' }}
               >
                 {item.promo.title}

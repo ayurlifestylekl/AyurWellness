@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import AuthCanvas from '@/components/auth/AuthCanvas'
+import CustomerLoginSplit from '@/components/auth/CustomerLoginSplit'
 import ForgotPasswordForm from './ForgotPasswordForm'
 
 export const metadata: Metadata = {
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function ForgotPasswordPage() {
   return (
-    <AuthCanvas>
+    <CustomerLoginSplit>
       <ForgotPasswordForm />
-    </AuthCanvas>
+    </CustomerLoginSplit>
   )
 }

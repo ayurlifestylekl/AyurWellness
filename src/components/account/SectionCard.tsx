@@ -24,12 +24,12 @@ export default function SectionCard({
 
   return (
     <section
-      className={`relative overflow-hidden rounded-3xl border bg-white ${
-        isSensitive ? 'border-[#B58A3B]/25' : 'border-[#006B3C]/8'
+      className={`relative overflow-hidden rounded-3xl border bg-[#FBF7EE] ${
+        isSensitive ? 'border-[#B58A3B]/25' : 'border-[#B58A3B]/15'
       }`}
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {isSensitive && (
@@ -47,13 +47,13 @@ export default function SectionCard({
             }`}
           >
             <Icon
-              className={`h-4 w-4 ${isSensitive ? 'text-[#B58A3B]' : 'text-[#006B3C]'}`}
+              className={`h-4 w-4 ${isSensitive ? 'text-[#B58A3B]' : 'text-[#12372D]'}`}
               strokeWidth={1.8}
             />
           </span>
           <div>
             <h2
-              className="font-heading text-[14px] font-bold text-[#006B3C]"
+              className="font-heading text-[14px] font-bold text-[#12372D]"
               style={{ letterSpacing: '-0.005em' }}
             >
               {title}

@@ -45,10 +45,10 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
     isJoinableNow(appointment.appointment_date_time, appointment.duration_mins)
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/30 bg-white"
+      className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/30 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 18px 36px -20px rgba(0,107,60,0.22)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <span aria-hidden className="absolute inset-y-0 left-0 w-[3px] bg-[#B58A3B]" />
@@ -59,23 +59,23 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
           <div className="flex items-stretch gap-5">
             {/* Date block */}
             <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl bg-[#EDF4E7] px-4 py-3 text-center min-w-[76px]">
-              <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#006B3C]/55">
+              <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#12372D]/55">
                 {dayFormat.format(start)}
               </span>
               <span
-                className="mt-0.5 font-heading text-[28px] font-bold leading-none text-[#006B3C]"
+                className="mt-0.5 font-heading text-[28px] font-bold leading-none text-[#12372D]"
                 style={{ letterSpacing: '-0.02em' }}
               >
                 {dayNumFormat.format(start)}
               </span>
-              <span className="mt-0.5 font-heading text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#006B3C]/55">
+              <span className="mt-0.5 font-heading text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#12372D]/55">
                 {monthFormat.format(start)}
               </span>
             </div>
 
             {/* Treatment + Vaidya + time */}
             <div className="flex flex-col justify-center">
-              <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+              <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
                 Your next visit
               </span>
               {therapy?.tagline && (
@@ -87,7 +87,7 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
                 </p>
               )}
               <h2
-                className="mt-0.5 font-heading text-[24px] font-bold leading-tight text-[#006B3C] sm:text-[28px]"
+                className="mt-0.5 font-heading text-[24px] font-bold leading-tight text-[#12372D] sm:text-[28px]"
                 style={{ letterSpacing: '-0.02em' }}
               >
                 {appointment.treatment_name}
@@ -102,12 +102,12 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
               </div>
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
                 {isVirtual ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006B3C]/10 px-2.5 py-0.5 font-heading text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#006B3C]">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006B3C]/10 px-2.5 py-0.5 font-heading text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#12372D]">
                     <Video className="h-3 w-3" strokeWidth={2} />
                     Virtual
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006B3C]/[0.06] px-2.5 py-0.5 font-heading text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#006B3C]/65">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006B3C]/[0.06] px-2.5 py-0.5 font-heading text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#12372D]/65">
                     <MapPin className="h-3 w-3" strokeWidth={2} />
                     Brickfields, KL
                   </span>
@@ -147,7 +147,7 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
               href={CLINIC_MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#006B3C] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98]"
+              className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#12372D] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98]"
             >
               <Navigation className="h-3.5 w-3.5" strokeWidth={2.2} />
               Get directions
@@ -159,7 +159,7 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
           <a
             href={`/account/appointments/${appointment.id}/ics`}
             download
-            className="group inline-flex h-11 items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-5 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#006B3C] transition-all hover:border-[#006B3C]/35"
+            className="group inline-flex h-11 items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-5 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#12372D] transition-all hover:border-[#006B3C]/35"
           >
             <CalendarPlus className="h-3.5 w-3.5" strokeWidth={2} />
             Add to calendar
@@ -167,7 +167,7 @@ export default function NextAppointmentHero({ appointment }: NextAppointmentHero
 
           <Link
             href={`/book/request/${appointment.id}/manage`}
-            className="inline-flex h-11 items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-5 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#006B3C] transition-all hover:border-[#006B3C]/35"
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-5 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#12372D] transition-all hover:border-[#006B3C]/35"
           >
             Manage booking
           </Link>

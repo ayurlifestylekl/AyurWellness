@@ -15,11 +15,11 @@ interface InitialsAvatarProps {
 }
 
 const PALETTES = [
-  { bg: '#006B3C', fg: '#EDF4E7' }, // herbal green
-  { bg: '#006B3C', fg: '#EDF4E7' }, // olive
+  { bg: '#12372D', fg: '#E4C384' }, // forest
+  { bg: '#2F5A45', fg: '#F4E8CC' }, // sage
   { bg: '#B58A3B', fg: '#12372D' }, // turmeric gold
-  { bg: '#006B3C', fg: '#EDF4E7' }, // deep green
-  { bg: '#B58A3B', fg: '#EDF4E7' }, // warm amber
+  { bg: '#12372D', fg: '#E4C384' }, // forest
+  { bg: '#8A5A3B', fg: '#F4E8CC' }, // clay
 ] as const
 
 const SIZE_CLASSES: Record<NonNullable<InitialsAvatarProps['size']>, {
@@ -63,7 +63,7 @@ export default function InitialsAvatar({
         alt={name ?? ''}
         className={`inline-block shrink-0 rounded-2xl object-cover ${sizes.box}`}
         style={{
-          boxShadow: '0 1px 0 0 rgba(0,107,60,0.08), 0 12px 30px -16px rgba(0,107,60,0.35)',
+          boxShadow: '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
         }}
       />
     )
@@ -80,7 +80,7 @@ export default function InitialsAvatar({
         backgroundColor: palette.bg,
         color: palette.fg,
         letterSpacing: '-0.02em',
-        boxShadow: '0 1px 0 0 rgba(0,107,60,0.08), 0 12px 30px -16px rgba(0,107,60,0.35)',
+        boxShadow: '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {letter}

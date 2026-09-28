@@ -78,7 +78,7 @@ export default async function OrderDetailPage({
       {/* ── Back link ─────────────────────────────────────────────── */}
       <Link
         href="/account/orders"
-        className="group inline-flex w-fit items-center gap-1.5 font-heading text-[11.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55 transition-colors hover:text-[#B58A3B]"
+        className="group inline-flex w-fit items-center gap-1.5 font-heading text-[11.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55 transition-colors hover:text-[#B58A3B]"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
         All orders
@@ -86,11 +86,11 @@ export default async function OrderDetailPage({
 
       {/* ── Header ────────────────────────────────────────────────── */}
       <header>
-        <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-[#006B3C]/60">
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-[#12372D]/60">
           Order #{shortId(order.id)}
         </span>
         <h1
-          className="mt-1.5 font-heading text-[26px] font-bold leading-tight text-[#006B3C] sm:text-[30px]"
+          className="mt-1.5 font-heading text-[26px] font-bold leading-tight text-[#12372D] sm:text-[30px]"
           style={{ letterSpacing: '-0.02em' }}
         >
           {title}
@@ -133,20 +133,20 @@ export default async function OrderDetailPage({
       {/* ── Refunds (only when present) ──────────────────────────── */}
       {refunds.length > 0 ? (
         <section
-          className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+          className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
           style={{
             boxShadow:
-              '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+              '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
           }}
         >
-          <header className="border-b border-[#006B3C]/6 px-5 py-3 font-heading text-[13px] font-semibold text-[#006B3C] sm:px-6">
+          <header className="border-b border-[#006B3C]/6 px-5 py-3 font-heading text-[13px] font-semibold text-[#12372D] sm:px-6">
             Refunds
           </header>
           <ul className="divide-y divide-[#006B3C]/6">
             {refunds.map((r) => (
               <li key={r.id} className="px-5 py-3 sm:px-6">
                 <div className="flex items-center justify-between">
-                  <span className="font-heading text-[14px] font-semibold text-[#006B3C]">
+                  <span className="font-heading text-[14px] font-semibold text-[#12372D]">
                     RM {Number(r.amount_rm).toFixed(2)}
                   </span>
                   <span className="font-body text-[11px] text-[#12372D]/55">

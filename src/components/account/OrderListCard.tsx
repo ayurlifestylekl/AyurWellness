@@ -41,10 +41,10 @@ export default function OrderListCard({ order }: OrderListCardProps) {
 
   return (
     <article
-      className="group relative overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B58A3B]/35"
+      className="group relative overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B58A3B]/35"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <Link
@@ -63,7 +63,7 @@ export default function OrderListCard({ order }: OrderListCardProps) {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center">
-              <Leaf className="h-5 w-5 text-[#006B3C]/40" strokeWidth={1.6} />
+              <Leaf className="h-5 w-5 text-[#12372D]/40" strokeWidth={1.6} />
             </div>
           )}
         </div>
@@ -71,7 +71,7 @@ export default function OrderListCard({ order }: OrderListCardProps) {
         {/* Order info */}
         <div className="flex flex-1 flex-col gap-1.5 min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-[#006B3C]/60">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-[#12372D]/60">
               #{shortId(order.id)}
             </span>
             <span className="font-body text-[11.5px] text-[#12372D]/45">
@@ -79,7 +79,7 @@ export default function OrderListCard({ order }: OrderListCardProps) {
             </span>
           </div>
 
-          <p className="truncate font-heading text-[13.5px] font-semibold text-[#006B3C]" style={{ letterSpacing: '-0.005em' }}>
+          <p className="truncate font-heading text-[13.5px] font-semibold text-[#12372D]" style={{ letterSpacing: '-0.005em' }}>
             {itemSummary(order)}
           </p>
 
@@ -89,7 +89,7 @@ export default function OrderListCard({ order }: OrderListCardProps) {
               paymentStatus={order.payment_status}
             />
             {order.courier_service && order.tracking_number && (
-              <span className="inline-flex items-center gap-1 font-body text-[11.5px] text-[#006B3C]/55">
+              <span className="inline-flex items-center gap-1 font-body text-[11.5px] text-[#12372D]/55">
                 <Truck className="h-3 w-3" />
                 {order.courier_service} · {order.tracking_number}
               </span>
@@ -100,14 +100,14 @@ export default function OrderListCard({ order }: OrderListCardProps) {
         {/* Total + arrow */}
         <div className="flex shrink-0 flex-col items-end justify-between gap-2">
           <span
-            className="font-heading text-[17px] font-bold leading-none text-[#006B3C]"
+            className="font-heading text-[17px] font-bold leading-none text-[#12372D]"
             style={{ letterSpacing: '-0.01em' }}
           >
             {order.total_amount_rm != null
               ? `RM ${Number(order.total_amount_rm).toFixed(2)}`
               : '—'}
           </span>
-          <span className="inline-flex items-center gap-1 font-heading text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#006B3C]/45 transition-colors group-hover:text-[#B58A3B]">
+          <span className="inline-flex items-center gap-1 font-heading text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#12372D]/45 transition-colors group-hover:text-[#B58A3B]">
             View
             <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
           </span>
@@ -121,7 +121,7 @@ export default function OrderListCard({ order }: OrderListCardProps) {
             href={trackingUrl!}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#006B3C]/60 transition-colors hover:text-[#B58A3B]"
+            className="inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#12372D]/60 transition-colors hover:text-[#B58A3B]"
           >
             Track on {order.courier_service}
             <ExternalLink className="h-3 w-3" />
@@ -132,7 +132,7 @@ export default function OrderListCard({ order }: OrderListCardProps) {
           <a
             href={`/account/orders/${order.id}/invoice`}
             download
-            className="group/btn inline-flex items-center gap-1.5 rounded-full border border-[#006B3C]/12 bg-white px-3 py-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#006B3C]/65 transition-all hover:border-[#006B3C]/25 hover:text-[#006B3C]"
+            className="group/btn inline-flex items-center gap-1.5 rounded-full border border-[#006B3C]/12 bg-white px-3 py-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#12372D]/65 transition-all hover:border-[#006B3C]/25 hover:text-[#12372D]"
             aria-label="Download receipt PDF"
           >
             <FileText className="h-3 w-3" strokeWidth={2} />

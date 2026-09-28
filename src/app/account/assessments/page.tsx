@@ -80,23 +80,23 @@ export default async function AssessmentsHubPage() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:gap-8">
       {/* ── HERO ──────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white px-6 py-8 sm:px-10 sm:py-12">
+      <header className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] px-6 py-8 sm:px-10 sm:py-12">
         <div
           aria-hidden
           className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-[#EDF4E7] to-transparent"
         />
         <div className="relative">
-          <span className="inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             <Compass className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={2} />
             Assessments
           </span>
           <h1
-            className="mt-3 font-heading text-[32px] font-bold leading-tight text-[#006B3C] sm:text-[44px]"
+            className="mt-3 font-heading text-[32px] font-bold leading-tight text-[#12372D] sm:text-[44px]"
             style={{ letterSpacing: '-0.025em' }}
           >
             Hello, {firstName}.<br className="hidden sm:block" />
             <span
-              className="italic font-normal text-[#006B3C]/70"
+              className="italic font-normal text-[#12372D]/70"
               style={{ fontFamily: 'var(--font-playfair)' }}
             >
               Know your nature.
@@ -116,7 +116,7 @@ export default async function AssessmentsHubPage() {
       {/* ── PRAKRITI — FLAGSHIP ───────────────────────────────────── */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <h2 className="font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Begin here
           </h2>
           {latest && (
@@ -147,7 +147,7 @@ export default async function AssessmentsHubPage() {
       {/* ── DEEPER DIVES — LOCKED ─────────────────────────────────── */}
       <section>
         <div className="mb-3">
-          <h2 className="font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <h2 className="font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Deeper dives
           </h2>
           <p className="mt-1 font-body text-[12.5px] text-[#12372D]/55">

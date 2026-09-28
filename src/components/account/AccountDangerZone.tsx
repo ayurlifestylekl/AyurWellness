@@ -9,13 +9,13 @@ export default function AccountDangerZone() {
   const [showDelete, setShowDelete] = useState(false)
 
   return (
-    <section className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-white px-5 py-5 sm:px-6">
+    <section className="rounded-3xl border border-dashed border-[#006B3C]/12 bg-[#FBF7EE] px-5 py-5 sm:px-6">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
           <HeartCrack className="h-3.5 w-3.5 text-[#12372D]/55" strokeWidth={1.8} />
         </span>
         <div className="flex-1 min-w-0">
-          <h2 className="font-heading text-[14px] font-semibold text-[#006B3C]">
+          <h2 className="font-heading text-[14px] font-semibold text-[#12372D]">
             Account & data
           </h2>
           <p className="mt-1 font-body text-[12.5px] text-[#12372D]/65" style={{ lineHeight: 1.6 }}>

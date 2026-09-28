@@ -35,14 +35,14 @@ export default function OrderActions({
 
   return (
     <section
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="border-b border-[#006B3C]/6 px-5 py-3 sm:px-6">
-        <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+        <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
           Need something else?
         </h2>
       </div>
@@ -61,7 +61,7 @@ export default function OrderActions({
           <button
             type="button"
             disabled
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#006B3C]/12 bg-[#EDF4E7]/40 px-4 font-heading text-[12px] font-semibold text-[#006B3C]/45"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#006B3C]/12 bg-[#EDF4E7]/40 px-4 font-heading text-[12px] font-semibold text-[#12372D]/45"
           >
             Reorder
           </button>
@@ -72,7 +72,7 @@ export default function OrderActions({
           <a
             href={`/account/orders/${orderId}/invoice`}
             download
-            className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-4 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#006B3C] transition-all hover:border-[#006B3C]/35 hover:bg-[#006B3C]/[0.03] active:scale-[0.98]"
+            className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-4 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#12372D] transition-all hover:border-[#006B3C]/35 hover:bg-[#006B3C]/[0.03] active:scale-[0.98]"
           >
             <FileText className="h-3.5 w-3.5" strokeWidth={2} />
             Download receipt
@@ -86,7 +86,7 @@ export default function OrderActions({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#006B3C] px-4 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98]"
+          className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#12372D] px-4 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98]"
         >
           <MessageCircle className="h-3.5 w-3.5" />
           Contact support

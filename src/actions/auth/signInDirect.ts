@@ -3,15 +3,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { detectIdentifier } from '@/lib/auth/detectIdentifier'
 import { homeForRole, type UserRole } from '@/lib/auth/getCurrentUser'
+import { customerOtpRequired } from '@/lib/auth/otp'
 import type { AuthResult } from './types'
 
 /**
  * Direct password sign-in WITHOUT the email-OTP second step.
  *
- * Used only when NEXT_PUBLIC_REQUIRE_OTP=false (local dev) — see
- * LoginForm for the flag-driven branching. In production builds this
- * action is never invoked because LoginForm hard-codes OTP_REQUIRED=true
- * regardless of the env var.
+ * Only available when customerOtpRequired() is false (local dev). Server
+ * actions are publicly callable, so the guard lives here, not in the form.
  *
  * Mirrors the password+identifier-detect logic of `requestSignInOtp`
  * but skips the signOut+sendOTP dance: it keeps the session immediately
@@ -21,6 +20,9 @@ export async function signInDirect(
   identifierRaw: string,
   password: string
 ): Promise<AuthResult> {
+  if (customerOtpRequired()) {
+    return { ok: false, error: 'Please sign in with the code sent to your email.' }
+  }
   const id = detectIdentifier(identifierRaw)
   if (!id) {
     return { ok: false, error: 'Enter a valid email or Malaysian phone number.' }

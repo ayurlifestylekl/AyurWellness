@@ -47,7 +47,7 @@ export default async function TicketThreadPage({
       {/* Back link */}
       <Link
         href="/account/messages"
-        className="group inline-flex w-fit items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55 transition-colors hover:text-[#B58A3B]"
+        className="group inline-flex w-fit items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55 transition-colors hover:text-[#B58A3B]"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
         All conversations
@@ -63,7 +63,7 @@ export default async function TicketThreadPage({
           </span>
         </div>
         <h1
-          className="mt-2 font-heading text-[24px] font-bold leading-tight text-[#006B3C] sm:text-[28px]"
+          className="mt-2 font-heading text-[24px] font-bold leading-tight text-[#12372D] sm:text-[28px]"
           style={{ letterSpacing: '-0.02em' }}
         >
           {ticket.subject}
@@ -72,10 +72,10 @@ export default async function TicketThreadPage({
 
       {/* Message thread */}
       <section
-        className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+        className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
         style={{
           boxShadow:
-            '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+            '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
         }}
       >
         <ul className="flex flex-col gap-4 px-5 py-6 sm:px-7 sm:py-7">

@@ -15,6 +15,7 @@ interface StaffSignInFormProps {
   ctaLabel: string
   defaultRedirect: string
   crossLink: { prompt: string; label: string; href: string }
+  extra?: React.ReactNode
   resetSuccess?: boolean
   nextPath?: string
 }
@@ -28,6 +29,7 @@ export default function StaffSignInForm({
   ctaLabel,
   defaultRedirect,
   crossLink,
+  extra,
   resetSuccess,
   nextPath,
 }: StaffSignInFormProps) {
@@ -174,6 +176,7 @@ export default function StaffSignInForm({
           {crossLink.label}
         </Link>
       </p>
+      {extra}
     </div>
   )
 }

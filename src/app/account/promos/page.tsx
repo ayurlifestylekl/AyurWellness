@@ -40,17 +40,17 @@ export default async function PromosPage() {
     <div className="mx-auto flex max-w-5xl flex-col gap-6 sm:gap-7">
       {/* ── HEADER ────────────────────────────────────────────────── */}
       <header>
-        <span className="inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+        <span className="inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
           <Gift className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={2} />
           Promo Wallet
         </span>
         <h1
-          className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#006B3C] sm:text-[36px]"
+          className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#12372D] sm:text-[36px]"
           style={{ letterSpacing: '-0.025em' }}
         >
           Hello, {firstName}.{' '}
           <span
-            className="italic font-normal text-[#006B3C]/70"
+            className="italic font-normal text-[#12372D]/70"
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
             Your vouchers.
@@ -64,7 +64,7 @@ export default async function PromosPage() {
       {/* ── FEATURED VOUCHER (the soonest-expiring active) ──────── */}
       {featured && (
         <section>
-          <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Featured
           </h2>
           <PromoCard item={featured} variant="featured" />
@@ -77,7 +77,7 @@ export default async function PromosPage() {
       {/* ── OTHER ACTIVE VOUCHERS ────────────────────────────────── */}
       {others.length > 0 && (
         <section>
-          <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Also in your wallet
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -91,7 +91,7 @@ export default async function PromosPage() {
       {/* ── EARN MORE — LOCKED ROADMAP ───────────────────────────── */}
       <section>
         <div className="mb-3">
-          <h2 className="font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <h2 className="font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Earn more
           </h2>
           <p className="mt-1 font-body text-[12.5px] text-[#12372D]/55">
@@ -119,7 +119,7 @@ export default async function PromosPage() {
 
       {/* ── REDEMPTION HISTORY ──────────────────────────────────── */}
       <section>
-        <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+        <h2 className="mb-3 font-heading text-[12px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
           History
         </h2>
         <PromoHistoryList used={used} expired={expired} />
@@ -127,17 +127,17 @@ export default async function PromosPage() {
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────── */}
       <section
-        className="rounded-3xl border border-[#006B3C]/8 bg-white px-5 py-5 sm:px-6"
+        className="rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] px-5 py-5 sm:px-6"
         style={{
           boxShadow:
-            '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+            '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
         }}
       >
         <div className="flex items-center gap-2.5">
           <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-            <Sparkles className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+            <Sparkles className="h-3.5 w-3.5 text-[#12372D]" strokeWidth={1.8} />
           </span>
-          <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+          <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
             How it works
           </h2>
         </div>
@@ -167,7 +167,7 @@ export default async function PromosPage() {
       <div className="flex items-center justify-center pt-1">
         <Link
           href="/products"
-          className="group inline-flex items-center gap-1.5 font-heading text-[11.5px] font-semibold uppercase tracking-[0.16em] text-[#006B3C]/55 transition-colors hover:text-[#B58A3B]"
+          className="group inline-flex items-center gap-1.5 font-heading text-[11.5px] font-semibold uppercase tracking-[0.16em] text-[#12372D]/55 transition-colors hover:text-[#B58A3B]"
         >
           Browse products to redeem
           <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />

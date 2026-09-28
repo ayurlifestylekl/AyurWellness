@@ -24,10 +24,10 @@ export default function ComingSoonCard({
 }: ComingSoonCardProps) {
   return (
     <article
-      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {/* Header */}
@@ -37,7 +37,7 @@ export default function ComingSoonCard({
             <Icon className="h-4 w-4 text-[#B58A3B]" strokeWidth={1.8} />
           </span>
           <div>
-            <h2 className="font-heading text-[14px] font-semibold text-[#006B3C]">
+            <h2 className="font-heading text-[14px] font-semibold text-[#12372D]">
               {title}
             </h2>
             <p className="mt-0.5 font-body text-[11px] text-[#12372D]/50">

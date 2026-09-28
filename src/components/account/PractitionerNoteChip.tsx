@@ -12,7 +12,7 @@ export default function PractitionerNoteChip({ note }: PractitionerNoteChipProps
         <Stethoscope className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={1.8} />
       </span>
       <div className="flex-1 min-w-0">
-        <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/65">
+        <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/65">
           Note from Vaidya
         </p>
         <p className="mt-1 font-body text-[13px] leading-[1.6] text-[#12372D]/80 whitespace-pre-wrap">

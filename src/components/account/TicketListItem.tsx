@@ -17,7 +17,7 @@ export default function TicketListItem({ ticket }: TicketListItemProps) {
   return (
     <Link
       href={href}
-      className="group flex items-center gap-4 overflow-hidden border-b border-[#006B3C]/6 bg-white px-5 py-4 transition-colors hover:bg-[#EDF4E7]/45 sm:px-6 last:border-b-0"
+      className="group flex items-center gap-4 overflow-hidden border-b border-[#B58A3B]/10 bg-[#FBF7EE] px-5 py-4 transition-colors hover:bg-[#F4ECDD] sm:px-6 last:border-b-0"
     >
       {/* Unread indicator dot */}
       <span
@@ -37,7 +37,7 @@ export default function TicketListItem({ ticket }: TicketListItemProps) {
         </div>
         <h3
           className={`truncate font-heading text-[14px] ${
-            isUnread ? 'font-bold text-[#006B3C]' : 'font-semibold text-[#006B3C]/85'
+            isUnread ? 'font-bold text-[#12372D]' : 'font-semibold text-[#12372D]/85'
           }`}
           style={{ letterSpacing: '-0.005em' }}
         >
@@ -52,7 +52,7 @@ export default function TicketListItem({ ticket }: TicketListItemProps) {
       </div>
 
       <ArrowRight
-        className="h-3.5 w-3.5 shrink-0 text-[#006B3C]/35 transition-all group-hover:translate-x-0.5 group-hover:text-[#B58A3B]"
+        className="h-3.5 w-3.5 shrink-0 text-[#12372D]/35 transition-all group-hover:translate-x-0.5 group-hover:text-[#B58A3B]"
         strokeWidth={2}
       />
     </Link>

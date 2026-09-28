@@ -33,7 +33,7 @@ function Toggle({ checked, onChange, label, disabled }: ToggleProps) {
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
-        checked ? 'bg-[#006B3C]' : 'bg-[#006B3C]/15'
+        checked ? 'bg-[#12372D]' : 'bg-[#006B3C]/15'
       } disabled:cursor-not-allowed disabled:opacity-50`}
     >
       <span
@@ -123,7 +123,7 @@ export default function PreferencesForm({ initial }: PreferencesFormProps) {
         <button
           type="submit"
           disabled={isPending || !isDirty}
-          className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#006B3C] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#12372D] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? 'Saving…' : 'Save preferences'}
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -164,13 +164,13 @@ function PreferenceRow({
         }`}
       >
         <Icon
-          className={`h-3.5 w-3.5 ${marketing ? 'text-[#B58A3B]' : 'text-[#006B3C]'}`}
+          className={`h-3.5 w-3.5 ${marketing ? 'text-[#B58A3B]' : 'text-[#12372D]'}`}
           strokeWidth={1.8}
         />
       </span>
       <div className="flex-1 min-w-0">
         <p
-          className="font-heading text-[13px] font-semibold text-[#006B3C]"
+          className="font-heading text-[13px] font-semibold text-[#12372D]"
           style={{ letterSpacing: '-0.005em' }}
         >
           {label}

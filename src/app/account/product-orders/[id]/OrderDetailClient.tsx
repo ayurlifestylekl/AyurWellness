@@ -36,7 +36,7 @@ export default function AccountOrderDetailClient({ order }: { order: ProductOrde
         </p>
       </div>
 
-      <div className="rounded-2xl border border-[#12372D]/10 bg-white p-5">
+      <div className="rounded-2xl border border-[#12372D]/10 bg-[#FBF7EE] p-5">
         <h2 className="font-heading text-[14px] font-bold uppercase tracking-wider text-[#12372D]/70">Items</h2>
         <ul className="mt-3 flex flex-col gap-2">
           {order.items.map((item) => (
@@ -53,7 +53,7 @@ export default function AccountOrderDetailClient({ order }: { order: ProductOrde
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#12372D]/10 bg-white p-5">
+      <div className="rounded-2xl border border-[#12372D]/10 bg-[#FBF7EE] p-5">
         <h2 className="font-heading text-[14px] font-bold uppercase tracking-wider text-[#12372D]/70">Status</h2>
         <p className="mt-2 capitalize text-[#12372D]/80">{order.status.replace(/_/g, ' ')}</p>
         {order.tracking_number && (
@@ -64,7 +64,7 @@ export default function AccountOrderDetailClient({ order }: { order: ProductOrde
       </div>
 
       {canCancel && (
-        <form onSubmit={submitCancel} className="rounded-2xl border border-[#12372D]/10 bg-white p-5">
+        <form onSubmit={submitCancel} className="rounded-2xl border border-[#12372D]/10 bg-[#FBF7EE] p-5">
           <h2 className="font-heading text-[14px] font-bold uppercase tracking-wider text-[#12372D]/70">Request cancellation</h2>
           <textarea
             value={reason}

@@ -15,17 +15,17 @@ export default function OrderItemsTable({ items, orderTotal }: OrderItemsTablePr
 
   return (
     <section
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="flex items-center gap-2.5 border-b border-[#006B3C]/6 px-5 py-3 sm:px-6">
         <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-          <Package className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+          <Package className="h-3.5 w-3.5 text-[#12372D]" strokeWidth={1.8} />
         </span>
-        <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+        <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
           Items in this order
         </h2>
       </div>
@@ -56,7 +56,7 @@ export default function OrderItemsTable({ items, orderTotal }: OrderItemsTablePr
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
-                      <Package className="h-4 w-4 text-[#006B3C]/35" strokeWidth={1.6} />
+                      <Package className="h-4 w-4 text-[#12372D]/35" strokeWidth={1.6} />
                     </div>
                   )}
                 </div>
@@ -64,7 +64,7 @@ export default function OrderItemsTable({ items, orderTotal }: OrderItemsTablePr
                 {/* Name + qty */}
                 <div className="flex-1 min-w-0">
                   <p
-                    className="truncate font-heading text-[13px] font-semibold text-[#006B3C] sm:text-[14px]"
+                    className="truncate font-heading text-[13px] font-semibold text-[#12372D] sm:text-[14px]"
                     style={{ letterSpacing: '-0.005em' }}
                   >
                     {item.product?.name ?? 'Product unavailable'}
@@ -77,7 +77,7 @@ export default function OrderItemsTable({ items, orderTotal }: OrderItemsTablePr
 
                 {/* Line total */}
                 <span
-                  className="shrink-0 font-heading text-[14px] font-bold text-[#006B3C]"
+                  className="shrink-0 font-heading text-[14px] font-bold text-[#12372D]"
                   style={{ letterSpacing: '-0.005em' }}
                 >
                   RM {line.toFixed(2)}
@@ -94,7 +94,7 @@ export default function OrderItemsTable({ items, orderTotal }: OrderItemsTablePr
           <span>Subtotal</span>
           <span>RM {subtotal.toFixed(2)}</span>
         </div>
-        <div className="flex items-center justify-between pt-1.5 font-heading text-[14px] font-bold text-[#006B3C]">
+        <div className="flex items-center justify-between pt-1.5 font-heading text-[14px] font-bold text-[#12372D]">
           <span>Total</span>
           <span style={{ letterSpacing: '-0.005em' }}>
             RM {Number(orderTotal).toFixed(2)}

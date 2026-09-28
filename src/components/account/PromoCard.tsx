@@ -40,15 +40,15 @@ export default function PromoCard({ item, variant = 'compact' }: PromoCardProps)
 
   return (
     <article
-      className={`relative overflow-hidden rounded-3xl border bg-white transition-all ${
+      className={`relative overflow-hidden rounded-3xl border bg-[#FBF7EE] transition-all ${
         isFeatured
           ? 'border-[#B58A3B]/35'
-          : 'border-[#006B3C]/8 hover:-translate-y-0.5 hover:border-[#B58A3B]/35'
+          : 'border-[#B58A3B]/15 hover:-translate-y-0.5 hover:border-[#B58A3B]/35'
       }`}
       style={{
         boxShadow: isFeatured
           ? '0 1px 0 0 rgba(0,107,60,0.04), 0 18px 36px -22px rgba(181, 138, 59,0.5)'
-          : '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          : '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {isFeatured && (
@@ -58,13 +58,13 @@ export default function PromoCard({ item, variant = 'compact' }: PromoCardProps)
       <div className={isFeatured ? 'px-5 py-6 sm:px-8 sm:py-7' : 'px-5 py-5 sm:px-6'}>
         {/* Top — applies-to + expiry chip */}
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006B3C]/[0.06] px-2.5 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-[0.14em] text-[#006B3C]/65">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006B3C]/[0.06] px-2.5 py-0.5 font-heading text-[10px] font-semibold uppercase tracking-[0.14em] text-[#12372D]/65">
             {applies}
           </span>
           {expiry && (
             <span
               className={`font-heading text-[10.5px] font-semibold uppercase tracking-[0.14em] ${
-                expiresSoon ? 'text-[#B58A3B]' : 'text-[#006B3C]/45'
+                expiresSoon ? 'text-[#B58A3B]' : 'text-[#12372D]/45'
               }`}
             >
               {expiry}
@@ -75,7 +75,7 @@ export default function PromoCard({ item, variant = 'compact' }: PromoCardProps)
         {/* Value + Title */}
         <div className={isFeatured ? 'mt-4' : 'mt-3'}>
           <p
-            className={`font-heading font-bold text-[#006B3C] ${
+            className={`font-heading font-bold text-[#12372D] ${
               isFeatured ? 'text-[34px] sm:text-[40px]' : 'text-[24px]'
             }`}
             style={{ letterSpacing: '-0.025em', lineHeight: 1 }}
@@ -83,7 +83,7 @@ export default function PromoCard({ item, variant = 'compact' }: PromoCardProps)
             {value}
           </p>
           <h3
-            className={`mt-1.5 font-heading font-semibold text-[#006B3C] ${
+            className={`mt-1.5 font-heading font-semibold text-[#12372D] ${
               isFeatured ? 'text-[15px]' : 'text-[13.5px]'
             }`}
             style={{ letterSpacing: '-0.005em' }}
@@ -99,11 +99,11 @@ export default function PromoCard({ item, variant = 'compact' }: PromoCardProps)
           }`}
         >
           <div>
-            <p className="font-heading text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+            <p className="font-heading text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
               Code
             </p>
             <p
-              className={`font-mono font-bold text-[#006B3C] ${
+              className={`font-mono font-bold text-[#12372D] ${
                 isFeatured ? 'text-[18px] sm:text-[20px]' : 'text-[15px]'
               }`}
               style={{ letterSpacing: '0.04em' }}
@@ -137,7 +137,7 @@ export default function PromoCard({ item, variant = 'compact' }: PromoCardProps)
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="group inline-flex w-full items-center justify-between gap-3 font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55 transition-colors hover:text-[#B58A3B]"
+              className="group inline-flex w-full items-center justify-between gap-3 font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55 transition-colors hover:text-[#B58A3B]"
               aria-expanded={open}
             >
               <span className="inline-flex items-center gap-1.5">

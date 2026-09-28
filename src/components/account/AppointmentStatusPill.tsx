@@ -12,12 +12,12 @@ const STYLES: Record<AppointmentBucket, { bg: string; text: string; label: strin
   },
   upcoming: {
     bg: 'bg-[#006B3C]/10',
-    text: 'text-[#006B3C]',
+    text: 'text-[#12372D]',
     label: 'Upcoming',
   },
   past: {
     bg: 'bg-[#006B3C]/[0.08]',
-    text: 'text-[#006B3C]/65',
+    text: 'text-[#12372D]/65',
     label: 'Completed',
   },
   cancelled: {

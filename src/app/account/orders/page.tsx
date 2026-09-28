@@ -100,10 +100,10 @@ export default async function OrdersListPage({
       {/* Order cards */}
       {isEmptyOverall ? (
         <div
-          className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+          className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
           style={{
             boxShadow:
-              '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+              '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
           }}
         >
           <EmptyState
@@ -118,10 +118,10 @@ export default async function OrdersListPage({
         </div>
       ) : isEmptyInFilter ? (
         <div
-          className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+          className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
           style={{
             boxShadow:
-              '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+              '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
           }}
         >
           <EmptyState

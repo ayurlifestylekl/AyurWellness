@@ -24,10 +24,10 @@ export default function ProfileHero({
 
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 18px 36px -22px rgba(0,107,60,0.22)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div
@@ -39,12 +39,12 @@ export default function ProfileHero({
         <InitialsAvatar name={displayName} seed={userId} size="xl" />
 
         <div className="flex-1 min-w-0">
-          <span className="inline-flex items-center gap-2 font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="inline-flex items-center gap-2 font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             <Sparkles className="h-3 w-3 text-[#B58A3B]" strokeWidth={2} />
             Member since {memberSinceLabel}
           </span>
           <h1
-            className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#006B3C] sm:text-[36px]"
+            className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#12372D] sm:text-[36px]"
             style={{ letterSpacing: '-0.025em' }}
           >
             {displayName}
@@ -58,7 +58,7 @@ export default function ProfileHero({
           {archetype ? (
             <Link
               href="/account/assessments/prakriti/results"
-              className="group mt-3 inline-flex items-center gap-1.5 rounded-full border border-[#B58A3B]/30 bg-[#EDF4E7]/55 px-3 py-1 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#006B3C] transition-all hover:border-[#B58A3B]/55 hover:bg-[#EDF4E7]"
+              className="group mt-3 inline-flex items-center gap-1.5 rounded-full border border-[#B58A3B]/30 bg-[#EDF4E7]/55 px-3 py-1 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#12372D] transition-all hover:border-[#B58A3B]/55 hover:bg-[#EDF4E7]"
             >
               <span
                 className="italic text-[#B58A3B]"
@@ -66,14 +66,14 @@ export default function ProfileHero({
               >
                 {archetype.sanskrit}
               </span>
-              <span className="text-[#006B3C]/50">·</span>
+              <span className="text-[#12372D]/50">·</span>
               <span>{archetype.title}</span>
               <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
           ) : (
             <Link
               href="/account/assessments/prakriti"
-              className="group mt-3 inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#006B3C]/55 underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
+              className="group mt-3 inline-flex items-center gap-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#12372D]/55 underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
             >
               Take the Prakriti assessment
               <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

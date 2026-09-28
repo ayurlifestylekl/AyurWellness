@@ -20,7 +20,7 @@ export default function VaidyaNote() {
       </div>
 
       <blockquote
-        className="mx-auto max-w-2xl font-display italic text-[#006B3C] sm:text-[22px]"
+        className="mx-auto max-w-2xl font-display italic text-[#12372D] sm:text-[22px]"
         style={{ fontSize: 18, lineHeight: 1.5, letterSpacing: '-0.005em' }}
       >
         &ldquo;{tip.quote}&rdquo;

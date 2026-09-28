@@ -14,31 +14,13 @@ import { verifySignInOtp } from '@/actions/auth/verifySignInOtp'
 import { verifySignUpOtp } from '@/actions/auth/verifySignUpOtp'
 import { signUpCustomer } from '@/actions/auth/signUpCustomer'
 import { signInDirect } from '@/actions/auth/signInDirect'
+import { customerOtpRequired } from '@/lib/auth/otp'
 
 const APPLE_ENABLED = process.env.NEXT_PUBLIC_APPLE_AUTH_ENABLED === 'true'
 // Google defaults to ON — flip to "false" only if Supabase Google provider is not configured.
 const GOOGLE_ENABLED = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED !== 'false'
 
-/**
- * OTP requirement flag with hard production guard.
- *
- * In production builds (NODE_ENV='production'), this is ALWAYS true — the
- * email-OTP second factor cannot be disabled even if someone sets the
- * NEXT_PUBLIC_REQUIRE_OTP env var on Vercel. This is by design: the flag
- * is dev-only, enforced at compile time, not just documented.
- *
- * Set NEXT_PUBLIC_REQUIRE_OTP=false to skip the email-OTP step
- * (avoids Supabase free-tier email rate limits during demo / dev /
- * iterative testing). When unset, defaults to ON for safety.
- *
- * For sign-up to also skip the email-confirmation link, you must
- * additionally toggle OFF "Confirm email" in Supabase Dashboard →
- * Authentication → Providers → Email.
- *
- * ⚠ Turn this back ON for real launch — without OTP, anyone who
- * guesses or phishes a password gets full account access.
- */
-const OTP_REQUIRED = process.env.NEXT_PUBLIC_REQUIRE_OTP !== 'false'
+const OTP_REQUIRED = customerOtpRequired()
 
 interface LoginFormProps {
   initialTab: AuthTab

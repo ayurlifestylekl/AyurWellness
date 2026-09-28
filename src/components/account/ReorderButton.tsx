@@ -55,7 +55,7 @@ export default function ReorderButton({ items, variant = 'primary' }: ReorderBut
         type="button"
         onClick={handleClick}
         disabled={disabled || busy}
-        className="group inline-flex items-center gap-1.5 rounded-full border border-[#B58A3B]/45 bg-[#B58A3B]/[0.08] px-3 py-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#006B3C] transition-all hover:border-[#B58A3B] hover:bg-[#B58A3B]/[0.14] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50"
+        className="group inline-flex items-center gap-1.5 rounded-full border border-[#B58A3B]/45 bg-[#B58A3B]/[0.08] px-3 py-1.5 font-heading text-[11px] font-semibold uppercase tracking-[0.14em] text-[#12372D] transition-all hover:border-[#B58A3B] hover:bg-[#B58A3B]/[0.14] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50"
         aria-label="Reorder these items"
       >
         <RotateCw className="h-3 w-3 transition-transform duration-300 group-hover:rotate-[-90deg]" strokeWidth={2} />
@@ -69,7 +69,7 @@ export default function ReorderButton({ items, variant = 'primary' }: ReorderBut
       type="button"
       onClick={handleClick}
       disabled={disabled || busy}
-      className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#B58A3B] bg-[#B58A3B]/[0.12] px-4 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#006B3C] transition-all hover:bg-[#B58A3B] hover:text-[#12372D] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+      className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#B58A3B] bg-[#B58A3B]/[0.12] px-4 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-[#12372D] transition-all hover:bg-[#B58A3B] hover:text-[#12372D] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
     >
       <RotateCw className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-[-90deg]" strokeWidth={2} />
       Reorder items

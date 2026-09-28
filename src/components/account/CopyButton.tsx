@@ -35,7 +35,7 @@ export default function CopyButton({
         type="button"
         onClick={handleClick}
         aria-label={copied ? 'Copied!' : `Copy ${value}`}
-        className="inline-flex items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-3.5 py-1.5 font-heading text-[11.5px] font-semibold text-[#006B3C]/75 transition-all hover:border-[#B58A3B]/45 hover:text-[#006B3C]"
+        className="inline-flex items-center gap-2 rounded-full border border-[#006B3C]/15 bg-white px-3.5 py-1.5 font-heading text-[11.5px] font-semibold text-[#12372D]/75 transition-all hover:border-[#B58A3B]/45 hover:text-[#12372D]"
       >
         {copied ? (
           <>
@@ -58,7 +58,7 @@ export default function CopyButton({
       type="button"
       onClick={handleClick}
       aria-label={copied ? 'Copied!' : `Copy ${value}`}
-      className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-[#006B3C]/55 transition-colors hover:bg-[#006B3C]/[0.06] hover:text-[#006B3C]"
+      className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.1em] text-[#12372D]/55 transition-colors hover:bg-[#006B3C]/[0.06] hover:text-[#12372D]"
     >
       {copied ? (
         <>

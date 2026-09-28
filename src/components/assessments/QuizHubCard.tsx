@@ -129,7 +129,7 @@ export default function QuizHubCard({
   )
 
   const baseClass =
-    'group relative flex h-full flex-col overflow-hidden rounded-3xl border bg-white p-5 transition-all sm:p-6'
+    'group relative flex h-full flex-col overflow-hidden rounded-3xl border bg-[#FBF7EE] p-5 transition-all sm:p-6'
   const styleByStatus: Record<typeof status, string> = {
     active: emphasised
       ? 'border-[#B58A3B]/30 bg-[#EDF4E7]/55 hover:-translate-y-0.5 hover:border-[#B58A3B]/55'

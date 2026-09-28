@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import RegisterForm from './RegisterForm'
+import CustomerLoginSplit from '@/components/auth/CustomerLoginSplit'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
   title: 'Create Account',
-  description: 'Create a Ayurvedic Wellness Centre account to track orders and consultations.',
+  description: 'Create an Ayurvedic Wellness Centre account to track orders and consultations.',
   alternates: { canonical: '/auth/register' },
   robots: { index: false, follow: false },
 }
@@ -45,5 +46,9 @@ export default async function RegisterPage({
   }
 
   const invite = await lookupInvite(searchParams.invite)
-  return <RegisterForm invite={invite} inviteTokenRaw={searchParams.invite} nextPath={searchParams.next} />
+  return (
+    <CustomerLoginSplit>
+      <RegisterForm invite={invite} inviteTokenRaw={searchParams.invite} nextPath={searchParams.next} />
+    </CustomerLoginSplit>
+  )
 }

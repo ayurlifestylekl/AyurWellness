@@ -63,7 +63,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
       <div>
         <label
           htmlFor="profile-name"
-          className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55"
+          className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55"
         >
           Full name
         </label>
@@ -74,14 +74,14 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
           onChange={(e) => setFullName(e.target.value)}
           maxLength={120}
           disabled={isPending}
-          className="mt-2 w-full rounded-2xl border border-[#006B3C]/15 bg-white px-4 py-2.5 font-body text-[13.5px] text-[#006B3C] placeholder:text-[#12372D]/40 focus:border-[#B58A3B] focus:outline-none focus:ring-2 focus:ring-[#B58A3B]/30 disabled:opacity-50"
+          className="mt-2 w-full rounded-2xl border border-[#006B3C]/15 bg-white px-4 py-2.5 font-body text-[13.5px] text-[#12372D] placeholder:text-[#12372D]/40 focus:border-[#B58A3B] focus:outline-none focus:ring-2 focus:ring-[#B58A3B]/30 disabled:opacity-50"
         />
       </div>
 
       {/* Email + phone (read-only, auth-managed) */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+          <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
             Email
           </label>
           <div className="relative mt-2">
@@ -89,10 +89,10 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
               type="email"
               value={initial.email ?? ''}
               readOnly
-              className="w-full cursor-not-allowed rounded-2xl border border-[#006B3C]/10 bg-[#EDF4E7]/40 px-4 py-2.5 pr-10 font-body text-[13.5px] text-[#006B3C]/70"
+              className="w-full cursor-not-allowed rounded-2xl border border-[#006B3C]/10 bg-[#EDF4E7]/40 px-4 py-2.5 pr-10 font-body text-[13.5px] text-[#12372D]/70"
             />
             <Lock
-              className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#006B3C]/35"
+              className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#12372D]/35"
               strokeWidth={2}
             />
           </div>
@@ -101,7 +101,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
           </p>
         </div>
         <div>
-          <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+          <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
             Phone
           </label>
           <div className="relative mt-2">
@@ -109,10 +109,10 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
               type="tel"
               value={initial.phone_number ?? ''}
               readOnly
-              className="w-full cursor-not-allowed rounded-2xl border border-[#006B3C]/10 bg-[#EDF4E7]/40 px-4 py-2.5 pr-10 font-body text-[13.5px] text-[#006B3C]/70"
+              className="w-full cursor-not-allowed rounded-2xl border border-[#006B3C]/10 bg-[#EDF4E7]/40 px-4 py-2.5 pr-10 font-body text-[13.5px] text-[#12372D]/70"
             />
             <Lock
-              className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#006B3C]/35"
+              className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#12372D]/35"
               strokeWidth={2}
             />
           </div>
@@ -125,7 +125,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
       {/* Gender + DOB */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
-          <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+          <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
             Gender
           </label>
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -146,7 +146,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
                   className={`inline-flex items-center rounded-full border px-3 py-1.5 font-heading text-[11.5px] font-semibold transition-all ${
                     isActive
                       ? 'border-[#B58A3B] bg-[#B58A3B] text-[#12372D]'
-                      : 'border-[#006B3C]/12 bg-white text-[#006B3C]/65 hover:border-[#B58A3B]/40 hover:text-[#006B3C]'
+                      : 'border-[#006B3C]/12 bg-white text-[#12372D]/65 hover:border-[#B58A3B]/40 hover:text-[#12372D]'
                   } disabled:opacity-50`}
                 >
                   {opt.label}
@@ -161,7 +161,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
         <div>
           <label
             htmlFor="profile-dob"
-            className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55"
+            className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55"
           >
             Date of birth
           </label>
@@ -173,14 +173,14 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
             min="1900-01-01"
             max={new Date().toISOString().slice(0, 10)}
             disabled={isPending}
-            className="mt-2 w-full rounded-2xl border border-[#006B3C]/15 bg-white px-4 py-2.5 font-body text-[13.5px] text-[#006B3C] focus:border-[#B58A3B] focus:outline-none focus:ring-2 focus:ring-[#B58A3B]/30 disabled:opacity-50"
+            className="mt-2 w-full rounded-2xl border border-[#006B3C]/15 bg-white px-4 py-2.5 font-body text-[13.5px] text-[#12372D] focus:border-[#B58A3B] focus:outline-none focus:ring-2 focus:ring-[#B58A3B]/30 disabled:opacity-50"
           />
         </div>
       </div>
 
       {/* Language */}
       <div>
-        <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+        <label className="block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
           Language
         </label>
         <div className="mt-2 flex flex-wrap gap-1.5">
@@ -200,7 +200,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
                 className={`inline-flex items-center rounded-full border px-3 py-1.5 font-heading text-[11.5px] font-semibold transition-all ${
                   isActive
                     ? 'border-[#B58A3B] bg-[#B58A3B] text-[#12372D]'
-                    : 'border-[#006B3C]/12 bg-white text-[#006B3C]/65 hover:border-[#B58A3B]/40 hover:text-[#006B3C]'
+                    : 'border-[#006B3C]/12 bg-white text-[#12372D]/65 hover:border-[#B58A3B]/40 hover:text-[#12372D]'
                 } disabled:opacity-50`}
               >
                 {opt.label}
@@ -214,7 +214,7 @@ export default function IdentityForm({ initial }: IdentityFormProps) {
         <button
           type="submit"
           disabled={isPending || !isDirty}
-          className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#006B3C] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#12372D] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? 'Saving…' : 'Save identity'}
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />

@@ -41,13 +41,13 @@ export default function MfaSetupPanel({ enrolled: initialEnrolled }: MfaSetupPan
   }
 
   return (
-    <div className="rounded-2xl border border-[#006B3C]/8 bg-white p-4">
+    <div className="rounded-2xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-4">
       <div className="flex items-start gap-3">
         <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${enrolled ? 'bg-[#006B3C]/[0.10]' : 'bg-[#006B3C]/[0.06]'}`}>
-          {enrolled ? <ShieldCheck className="h-4 w-4 text-[#006B3C]" /> : <ShieldOff className="h-4 w-4 text-[#006B3C]/55" />}
+          {enrolled ? <ShieldCheck className="h-4 w-4 text-[#12372D]" /> : <ShieldOff className="h-4 w-4 text-[#12372D]/55" />}
         </span>
         <div className="flex-1">
-          <p className="font-heading text-[13px] font-semibold text-[#006B3C]">
+          <p className="font-heading text-[13px] font-semibold text-[#12372D]">
             Two-factor authentication
           </p>
           <p className="mt-0.5 font-body text-[11.5px] text-[#12372D]/65">
@@ -70,7 +70,7 @@ export default function MfaSetupPanel({ enrolled: initialEnrolled }: MfaSetupPan
                 type="button"
                 onClick={handleEnroll}
                 disabled={isPending}
-                className="rounded-full bg-[#006B3C] px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-white hover:bg-[#006B3C] disabled:opacity-50"
+                className="rounded-full bg-[#12372D] px-4 py-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-white hover:bg-[#006B3C] disabled:opacity-50"
               >
                 {isPending ? 'Starting…' : 'Enable 2FA'}
               </button>

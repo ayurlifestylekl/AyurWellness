@@ -16,7 +16,7 @@ export default function MessageBubble({ message, customerName }: MessageBubblePr
       <li className="my-2 flex justify-center">
         <p className="rounded-full bg-[#006B3C]/[0.05] px-3 py-1 font-body text-[11px] italic text-[#12372D]/55">
           {message.body}
-          <span className="ml-2 text-[#006B3C]/35">· {time}</span>
+          <span className="ml-2 text-[#12372D]/35">· {time}</span>
         </p>
       </li>
     )
@@ -29,7 +29,7 @@ export default function MessageBubble({ message, customerName }: MessageBubblePr
       <div className={`max-w-[85%] sm:max-w-[78%] ${isCustomer ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
         <span
           className={`font-heading text-[10px] font-semibold uppercase tracking-[0.14em] ${
-            isCustomer ? 'text-[#006B3C]/55' : 'text-[#B58A3B]'
+            isCustomer ? 'text-[#12372D]/55' : 'text-[#B58A3B]'
           }`}
         >
           {label}
@@ -37,12 +37,12 @@ export default function MessageBubble({ message, customerName }: MessageBubblePr
         <div
           className={`rounded-3xl px-4 py-3 ${
             isCustomer
-              ? 'rounded-tr-md bg-[#006B3C] text-white'
-              : 'rounded-tl-md border border-[#B58A3B]/35 bg-[#EDF4E7]/55 text-[#006B3C]'
+              ? 'rounded-tr-md bg-[#12372D] text-white'
+              : 'rounded-tl-md border border-[#B58A3B]/35 bg-[#EDF4E7]/55 text-[#12372D]'
           }`}
           style={{
             boxShadow: isCustomer
-              ? '0 1px 0 0 rgba(0,107,60,0.12), 0 12px 30px -18px rgba(0,107,60,0.35)'
+              ? '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)'
               : '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -18px rgba(181, 138, 59,0.4)',
           }}
         >

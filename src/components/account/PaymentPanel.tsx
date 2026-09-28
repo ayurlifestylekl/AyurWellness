@@ -9,7 +9,7 @@ interface PaymentPanelProps {
 }
 
 const STATUS_LABEL: Record<PaymentStatus, { label: string; tone: string }> = {
-  paid:     { label: 'Paid',     tone: 'text-[#006B3C] bg-[#006B3C]/[0.08] border-[#006B3C]/25' },
+  paid:     { label: 'Paid',     tone: 'text-[#12372D] bg-[#006B3C]/[0.08] border-[#006B3C]/25' },
   pending:  { label: 'Pending',  tone: 'text-amber-700 bg-amber-50 border-amber-200' },
   failed:   { label: 'Failed',   tone: 'text-red-700 bg-red-50 border-red-200' },
   refunded: { label: 'Refunded', tone: 'text-slate-700 bg-slate-100 border-slate-300' },
@@ -19,17 +19,17 @@ export default function PaymentPanel({ paymentStatus, total }: PaymentPanelProps
   const status = STATUS_LABEL[paymentStatus]
   return (
     <section
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       <div className="flex items-center gap-2.5 border-b border-[#006B3C]/6 px-5 py-3 sm:px-6">
         <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-          <CreditCard className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+          <CreditCard className="h-3.5 w-3.5 text-[#12372D]" strokeWidth={1.8} />
         </span>
-        <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+        <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
           Payment
         </h2>
       </div>
@@ -37,7 +37,7 @@ export default function PaymentPanel({ paymentStatus, total }: PaymentPanelProps
       <div className="space-y-3 px-5 py-4 sm:px-6">
         {/* Status row */}
         <div className="flex items-center justify-between gap-3">
-          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Status
           </span>
           <span
@@ -49,21 +49,21 @@ export default function PaymentPanel({ paymentStatus, total }: PaymentPanelProps
 
         {/* Method row */}
         <div className="flex items-center justify-between gap-3 border-t border-[#006B3C]/6 pt-3">
-          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Method
           </span>
-          <span className="font-heading text-[13px] font-semibold text-[#006B3C]">
+          <span className="font-heading text-[13px] font-semibold text-[#12372D]">
             Billplz
           </span>
         </div>
 
         {/* Total row */}
         <div className="flex items-center justify-between gap-3 border-t border-[#006B3C]/6 pt-3">
-          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             Total
           </span>
           <span
-            className="font-heading text-[16px] font-bold text-[#006B3C]"
+            className="font-heading text-[16px] font-bold text-[#12372D]"
             style={{ letterSpacing: '-0.01em' }}
           >
             RM {Number(total).toFixed(2)}

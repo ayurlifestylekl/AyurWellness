@@ -32,7 +32,7 @@ interface ActionTileProps {
 function ActionTile({ href, icon: Icon, label, detail, external, primary }: ActionTileProps) {
   const className = primary
     ? 'group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#B58A3B]/30 bg-[#EDF4E7]/55 p-4 transition-all hover:-translate-y-0.5 hover:border-[#B58A3B]/60 sm:p-5'
-    : 'group flex h-full flex-col overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-[#B58A3B]/35 sm:p-5'
+    : 'group flex h-full flex-col overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-4 transition-all hover:-translate-y-0.5 hover:border-[#B58A3B]/35 sm:p-5'
 
   return (
     <a
@@ -43,7 +43,7 @@ function ActionTile({ href, icon: Icon, label, detail, external, primary }: Acti
       style={{
         boxShadow: primary
           ? '0 1px 0 0 rgba(0,107,60,0.04), 0 18px 36px -22px rgba(181, 138, 59,0.4)'
-          : '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -18px rgba(0,107,60,0.18)',
+          : '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {primary && (
@@ -56,23 +56,23 @@ function ActionTile({ href, icon: Icon, label, detail, external, primary }: Acti
           }`}
         >
           <Icon
-            className={`h-4 w-4 ${primary ? 'text-[#B58A3B]' : 'text-[#006B3C]'}`}
+            className={`h-4 w-4 ${primary ? 'text-[#B58A3B]' : 'text-[#12372D]'}`}
             strokeWidth={1.8}
           />
         </span>
         {external && (
           <ExternalLink
-            className="h-3 w-3 text-[#006B3C]/35 transition-colors group-hover:text-[#B58A3B]"
+            className="h-3 w-3 text-[#12372D]/35 transition-colors group-hover:text-[#B58A3B]"
             strokeWidth={2}
           />
         )}
       </div>
       <div className="mt-4 flex-1">
-        <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
+        <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55">
           {label}
         </p>
         <p
-          className="mt-1 font-heading text-[13.5px] font-semibold text-[#006B3C]"
+          className="mt-1 break-words font-heading text-[13.5px] font-semibold text-[#12372D] [overflow-wrap:anywhere]"
           style={{ letterSpacing: '-0.005em' }}
         >
           {detail}

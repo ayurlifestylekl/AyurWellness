@@ -38,7 +38,7 @@ export default function WalletBalanceHero({ active }: WalletBalanceHeroProps) {
 
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/30 bg-white"
+      className="relative overflow-hidden rounded-3xl border border-[#B58A3B]/30 bg-[#FBF7EE]"
       style={{
         boxShadow:
           '0 1px 0 0 rgba(0,107,60,0.04), 0 18px 36px -22px rgba(181, 138, 59,0.4)',
@@ -49,7 +49,7 @@ export default function WalletBalanceHero({ active }: WalletBalanceHeroProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2">
         {/* Left — balance */}
         <div className="flex flex-col gap-3 px-5 py-7 sm:px-9 sm:py-9">
-          <span className="inline-flex w-fit items-center gap-2 font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+          <span className="inline-flex w-fit items-center gap-2 font-heading text-[10.5px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
             <Gift className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={2} />
             Wallet balance
           </span>
@@ -57,27 +57,27 @@ export default function WalletBalanceHero({ active }: WalletBalanceHeroProps) {
           {fixedCount > 0 ? (
             <div className="flex items-baseline gap-2">
               <span
-                className="font-heading text-[44px] font-bold leading-none text-[#006B3C] sm:text-[56px]"
+                className="font-heading text-[44px] font-bold leading-none text-[#12372D] sm:text-[56px]"
                 style={{ letterSpacing: '-0.03em' }}
               >
                 RM {totalRm.toFixed(0)}
               </span>
               <span
-                className="font-heading text-[14px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55"
+                className="font-heading text-[14px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55"
               >
                 available
               </span>
             </div>
           ) : voucherCount > 0 ? (
             <p
-              className="font-heading text-[28px] font-bold leading-tight text-[#006B3C] sm:text-[32px]"
+              className="font-heading text-[28px] font-bold leading-tight text-[#12372D] sm:text-[32px]"
               style={{ letterSpacing: '-0.02em' }}
             >
               {voucherCount} {voucherCount === 1 ? 'voucher' : 'vouchers'} ready
             </p>
           ) : (
             <p
-              className="font-heading text-[24px] font-semibold text-[#006B3C]/70"
+              className="font-heading text-[24px] font-semibold text-[#12372D]/70"
               style={{ letterSpacing: '-0.01em' }}
             >
               No vouchers yet
@@ -122,13 +122,13 @@ export default function WalletBalanceHero({ active }: WalletBalanceHeroProps) {
               Featured
             </span>
             <p
-              className="font-heading text-[15px] font-bold text-[#006B3C]"
+              className="font-heading text-[15px] font-bold text-[#12372D]"
               style={{ letterSpacing: '-0.01em' }}
             >
               {featured.promo.title}
             </p>
             <p
-              className="font-mono text-[13px] font-semibold text-[#006B3C]/85"
+              className="font-mono text-[13px] font-semibold text-[#12372D]/85"
               style={{ letterSpacing: '0.05em' }}
             >
               {featured.promo.code}

@@ -30,26 +30,26 @@ function shortId(id: string): string {
 export default function RecentOrdersCard({ orders }: RecentOrdersCardProps) {
   return (
     <section
-      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE]"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
       }}
     >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[#006B3C]/6 px-5 py-3 sm:px-5">
         <div className="flex items-center gap-2.5">
           <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-            <Package className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+            <Package className="h-3.5 w-3.5 text-[#12372D]" strokeWidth={1.8} />
           </span>
-          <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+          <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
             Recent orders
           </h2>
         </div>
         {orders.length > 0 && (
           <Link
             href="/account/orders"
-            className="group inline-flex items-center gap-1 font-heading text-[11.5px] font-semibold text-[#006B3C]/55 transition-colors hover:text-[#B58A3B]"
+            className="group inline-flex items-center gap-1 font-heading text-[11.5px] font-semibold text-[#12372D]/55 transition-colors hover:text-[#B58A3B]"
           >
             View all
             <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -77,7 +77,7 @@ export default function RecentOrdersCard({ orders }: RecentOrdersCardProps) {
                 {/* Left — order info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-[#006B3C]/60">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wide text-[#12372D]/60">
                       #{shortId(order.id)}
                     </span>
                     <span className="font-body text-[11px] text-[#12372D]/45">
@@ -93,7 +93,7 @@ export default function RecentOrdersCard({ orders }: RecentOrdersCardProps) {
                       {order.itemCount} {order.itemCount === 1 ? 'item' : 'items'}
                     </span>
                     {order.tracking_number && order.courier_service && (
-                      <span className="inline-flex items-center gap-1 font-body text-[11px] text-[#006B3C]/55">
+                      <span className="inline-flex items-center gap-1 font-body text-[11px] text-[#12372D]/55">
                         <Truck className="h-3 w-3" />
                         {order.courier_service}
                       </span>
@@ -104,12 +104,12 @@ export default function RecentOrdersCard({ orders }: RecentOrdersCardProps) {
                 {/* Right — total */}
                 <div className="flex shrink-0 flex-col items-end">
                   <span
-                    className="font-heading text-[15px] font-bold text-[#006B3C]"
+                    className="font-heading text-[15px] font-bold text-[#12372D]"
                     style={{ letterSpacing: '-0.01em' }}
                   >
                     RM {Number(order.total_amount_rm).toFixed(2)}
                   </span>
-                  <ArrowRight className="mt-1 h-3.5 w-3.5 text-[#006B3C]/25 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#B58A3B]" />
+                  <ArrowRight className="mt-1 h-3.5 w-3.5 text-[#12372D]/25 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[#B58A3B]" />
                 </div>
               </Link>
             </li>

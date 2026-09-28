@@ -69,13 +69,13 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
             href="https://wa.me/601163393436?text=Hi%2C%20my%20Brand%20Partner%20invite%20link%20isn%27t%20working."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#B58A3B] px-7 font-heading text-sm font-bold uppercase tracking-wider text-[#12372D] transition-all hover:bg-[#B58A3B] active:scale-[0.98]"
+            className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#12372D] px-7 font-heading text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_18px_36px_-18px_rgba(18,55,45,0.65)] transition-all hover:bg-[#0E2C24] active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Message us on WhatsApp
           </a>
           <Link
             href="/auth/login"
-            className="inline-flex h-12 w-full items-center justify-center rounded-full border border-white/20 bg-white/[0.04] px-7 font-heading text-sm font-semibold text-white/85 transition-colors hover:border-white/35 hover:bg-white/[0.08]"
+            className="inline-flex h-12 w-full items-center justify-center rounded-xl border border-[#12372D]/12 bg-white px-7 font-heading text-[13px] font-semibold text-[#12372D] transition-colors hover:border-[#12372D]/25 hover:bg-[#FAFAF7]"
           >
             I already have an account
           </Link>
@@ -98,7 +98,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
           Already have an account?{' '}
           <Link
             href={nextPath ? `/auth/login?next=${encodeURIComponent(nextPath)}` : '/auth/login'}
-            className="font-semibold text-[#B58A3B] underline-offset-4 transition-colors hover:text-[#FFF9F2] hover:underline"
+            className="font-semibold text-[#006B3C] underline-offset-4 transition-colors hover:text-[#B58A3B] hover:underline"
           >
             Sign in
           </Link>
@@ -107,10 +107,10 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
     >
       {/* Invite badge */}
       {isInviteMode && (
-        <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[#B58A3B]/35 bg-[#B58A3B]/10 px-4 py-3.5">
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-[#B58A3B]/25 bg-[#FBF6EC] px-4 py-3.5">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#B58A3B]" />
-          <p className="font-body text-[12.5px] leading-relaxed text-white/80">
-            Your invite is tied to <span className="font-semibold text-white">{invite!.email}</span>. Commission terms are locked in from your admin — you don&apos;t need to enter them.
+          <p className="font-body text-[12.5px] leading-relaxed text-[#12372D]/75">
+            Your invite is tied to <span className="font-semibold text-[#12372D]">{invite!.email}</span>. Commission terms are locked in from your admin — you don&apos;t need to enter them.
           </p>
         </div>
       )}
@@ -118,13 +118,13 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
       {/* Google button — only for customer flow */}
       {!isInviteMode && (
         <>
-          <GoogleButton nextPath={nextPath} onError={setError} label="Sign up with Google" />
+          <GoogleButton nextPath={nextPath} onError={setError} label="Sign up with Google" tone="light" />
           <div className="my-6 flex items-center gap-3">
-            <span className="h-px flex-1 bg-white/10" />
-            <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.32em] text-white/40">
+            <span className="h-px flex-1 bg-[#12372D]/10" />
+            <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.32em] text-[#12372D]/45">
               or
             </span>
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-[#12372D]/10" />
           </div>
         </>
       )}
@@ -133,6 +133,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
         {!isInviteMode && (
           <>
             <AuthInput
+            tone="light"
               label="Full name"
               type="text"
               name="fullName"
@@ -143,6 +144,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
               placeholder="Priya Nair"
             />
             <AuthInput
+            tone="light"
               label="Email"
               type="email"
               name="email"
@@ -153,6 +155,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
               placeholder="you@example.com"
             />
             <AuthInput
+            tone="light"
               label="Phone (Malaysia)"
               type="tel"
               name="phone"
@@ -168,6 +171,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
 
         {isInviteMode && (
           <AuthInput
+            tone="light"
             label="Email"
             type="email"
             value={invite!.email}
@@ -178,6 +182,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
         )}
 
         <AuthInput
+            tone="light"
           label="Password"
           type="password"
           name="password"
@@ -193,7 +198,7 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
         {error && (
           <p
             role="alert"
-            className="rounded-2xl border border-red-400/40 bg-red-400/10 px-4 py-3 font-body text-[12.5px] text-red-200"
+            className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-body text-[12.5px] text-red-700"
           >
             {error}
           </p>
@@ -202,12 +207,12 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
         <button
           type="submit"
           disabled={isPending}
-          className="group relative mt-2 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#B58A3B] px-7 font-heading text-sm font-bold uppercase tracking-wider text-[#12372D] transition-all duration-200 hover:bg-[#B58A3B] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#12372D] disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-2 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#12372D] px-7 font-heading text-[12.5px] font-semibold uppercase tracking-[0.18em] text-white shadow-[0_18px_36px_-18px_rgba(18,55,45,0.65)] transition-all hover:bg-[#0E2C24] active:scale-[0.99] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B58A3B] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isPending ? 'Creating account…' : isInviteMode ? 'Accept invite' : 'Create account'}
         </button>
 
-        <p className="pt-1 font-body text-[11px] leading-relaxed text-white/40">
+        <p className="pt-1 font-body text-[11px] leading-relaxed text-[#12372D]/45">
           By continuing you agree to our terms of service. We protect your data per our privacy policy.
         </p>
       </form>

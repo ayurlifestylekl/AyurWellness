@@ -20,13 +20,13 @@ const MALAYSIAN_STATES = [
 ]
 
 function inputClass(disabled: boolean) {
-  return `w-full rounded-2xl border border-[#006B3C]/15 bg-white px-4 py-2.5 font-body text-[13.5px] text-[#006B3C] placeholder:text-[#12372D]/40 focus:border-[#B58A3B] focus:outline-none focus:ring-2 focus:ring-[#B58A3B]/30 ${
+  return `w-full rounded-2xl border border-[#006B3C]/15 bg-white px-4 py-2.5 font-body text-[13.5px] text-[#12372D] placeholder:text-[#12372D]/40 focus:border-[#B58A3B] focus:outline-none focus:ring-2 focus:ring-[#B58A3B]/30 ${
     disabled ? 'opacity-50' : ''
   }`
 }
 
 function labelClass() {
-  return 'block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55'
+  return 'block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/55'
 }
 
 export default function AddressForm({ initial, onSaved }: AddressFormProps) {
@@ -66,7 +66,7 @@ export default function AddressForm({ initial, onSaved }: AddressFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-3xl border border-[#006B3C]/8 bg-white p-5 sm:p-6">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-3xl border border-[#B58A3B]/15 bg-[#FBF7EE] p-5 sm:p-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className={labelClass()}>Label</label>
@@ -110,13 +110,13 @@ export default function AddressForm({ initial, onSaved }: AddressFormProps) {
         </div>
       </div>
 
-      <label className="flex items-center gap-2 font-body text-[12.5px] text-[#006B3C]/75">
+      <label className="flex items-center gap-2 font-body text-[12.5px] text-[#12372D]/75">
         <input
           type="checkbox"
           checked={isDefault}
           onChange={(e) => setIsDefault(e.target.checked)}
           disabled={isPending}
-          className="h-4 w-4 rounded border-[#006B3C]/30 text-[#006B3C] focus:ring-[#B58A3B]"
+          className="h-4 w-4 rounded border-[#006B3C]/30 text-[#12372D] focus:ring-[#B58A3B]"
         />
         Use as default shipping address
       </label>
@@ -125,7 +125,7 @@ export default function AddressForm({ initial, onSaved }: AddressFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#006B3C] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="group inline-flex h-11 items-center gap-2 rounded-full bg-[#12372D] px-6 font-heading text-[12px] font-bold uppercase tracking-[0.16em] text-white transition-all hover:bg-[#006B3C] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isPending ? 'Saving…' : isEdit ? 'Save changes' : 'Add address'}
           <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />

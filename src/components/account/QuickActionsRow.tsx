@@ -44,7 +44,7 @@ const ACTIONS: Action[] = COMMERCE_ENABLED
 export default function QuickActionsRow() {
   return (
     <section>
-      <h2 className="mb-2 font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-[#006B3C]/55">
+      <h2 className="mb-2 font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-[#12372D]/55">
         Quick actions
       </h2>
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
@@ -56,10 +56,10 @@ export default function QuickActionsRow() {
                 <Icon className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={1.8} />
               </span>
               <span className="flex flex-1 items-center justify-between gap-2">
-                <span className="font-heading text-[12px] font-semibold text-[#006B3C] sm:text-[13px]">
+                <span className="font-heading text-[12px] font-semibold text-[#12372D] sm:text-[13px]">
                   {action.label}
                 </span>
-                <ArrowUpRight className="h-3 w-3 -translate-x-1 text-[#006B3C]/30 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
+                <ArrowUpRight className="h-3 w-3 -translate-x-1 text-[#12372D]/30 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100" />
               </span>
             </>
           )
@@ -67,7 +67,7 @@ export default function QuickActionsRow() {
             'group flex items-center gap-2.5 rounded-2xl border border-[#006B3C]/8 bg-white px-3.5 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B58A3B]/35 sm:px-4'
           const style = {
             boxShadow:
-              '0 1px 0 0 rgba(0,107,60,0.04), 0 8px 22px -14px rgba(0,107,60,0.18)',
+              '0 1px 2px rgba(18,55,45,0.05), 0 26px 50px -34px rgba(60,45,20,0.45)',
           }
           return action.external ? (
             <a

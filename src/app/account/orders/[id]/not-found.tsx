@@ -5,10 +5,10 @@ export default function OrderNotFound() {
   return (
     <div className="mx-auto flex max-w-md flex-col items-center px-4 py-12 text-center sm:py-16">
       <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#006B3C]/[0.06]">
-        <Package className="h-6 w-6 text-[#006B3C]" strokeWidth={1.6} />
+        <Package className="h-6 w-6 text-[#12372D]" strokeWidth={1.6} />
       </span>
       <h1
-        className="mt-5 font-heading text-[22px] font-bold text-[#006B3C]"
+        className="mt-5 font-heading text-[22px] font-bold text-[#12372D]"
         style={{ letterSpacing: '-0.02em' }}
       >
         Order not found.
