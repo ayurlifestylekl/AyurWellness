@@ -15,10 +15,10 @@ export default function TodayConsultationsCard({
 }) {
   return (
     <article
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-[24px] border border-[#12372D]/[0.06] bg-white"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.04), 0 24px 48px -32px rgba(18,55,45,0.35)',
       }}
     >
       <header className="flex items-center justify-between border-b border-[#006B3C]/6 px-5 py-3.5">
@@ -27,7 +27,7 @@ export default function TodayConsultationsCard({
             <CalendarDays className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={1.8} />
           </span>
           <div>
-            <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+            <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
               Today&apos;s consultations
             </h2>
             <p className="font-body text-[10.5px] text-[#12372D]/55">
@@ -57,12 +57,12 @@ export default function TodayConsultationsCard({
                 className="flex items-center justify-between gap-3 px-5 py-3 transition-colors hover:bg-[#EDF4E7]/40"
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <span className="font-mono text-[12px] font-semibold tabular-nums text-[#006B3C]">
+                  <span className="font-mono text-[12px] font-semibold tabular-nums text-[#12372D]">
                     {TIME_FMT.format(new Date(c.startsAt))}
                   </span>
                   <span className="h-4 w-px bg-[#006B3C]/10" />
                   <div className="min-w-0">
-                    <p className="truncate font-heading text-[12.5px] font-semibold text-[#006B3C]">
+                    <p className="truncate font-heading text-[12.5px] font-semibold text-[#12372D]">
                       {c.treatmentName}
                     </p>
                     <p className="truncate font-body text-[11px] text-[#12372D]/55">
@@ -70,7 +70,7 @@ export default function TodayConsultationsCard({
                     </p>
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#006B3C]/[0.06] px-2 py-0.5 font-heading text-[10px] font-semibold text-[#006B3C]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#006B3C]/[0.06] px-2 py-0.5 font-heading text-[10px] font-semibold text-[#12372D]">
                   {c.mode === 'virtual' ? (
                     <Video className="h-2.5 w-2.5" />
                   ) : (

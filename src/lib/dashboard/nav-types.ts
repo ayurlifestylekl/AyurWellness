@@ -34,6 +34,8 @@ export interface NavItem {
    * (server-component layouts → client DashboardShell).
    */
   icon: IconName
+  /** Optional sidebar section heading; consecutive items sharing it are grouped. */
+  group?: string
 }
 
 export interface PortalChrome {

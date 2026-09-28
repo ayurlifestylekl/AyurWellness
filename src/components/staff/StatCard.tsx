@@ -10,18 +10,21 @@ interface StatCardProps {
 }
 
 const TONE: Record<NonNullable<StatCardProps['tone']>, string> = {
-  default: 'border-accent/20 bg-white',
-  alert: 'border-amber-300 bg-amber-50',
-  good: 'border-green-200 bg-green-50/60',
+  default: 'border-[#12372D]/[0.06] bg-white',
+  alert: 'border-[#B58A3B]/40 bg-[#FBF6EC]',
+  good: 'border-[#006B3C]/15 bg-[#EDF4E7]/70',
 }
 
 export default function StatCard({ label, value, hint, href, tone = 'default' }: StatCardProps) {
   const inner = (
-    <div className={`rounded-2xl border p-5 transition-shadow ${TONE[tone]} ${href ? 'hover:shadow-elevated' : ''}`}>
-      <div className="font-heading text-[10.5px] font-bold uppercase tracking-[0.16em] text-dark/50">{label}</div>
-      <div className="mt-1.5 font-heading text-[30px] font-extrabold leading-none text-primary">{value}</div>
-      {hint && <div className="mt-1.5 font-body text-[12px] text-dark/55">{hint}</div>}
+    <div
+      className={`h-full rounded-[22px] border p-5 transition-all duration-300 ${TONE[tone]} ${href ? 'hover:-translate-y-0.5 hover:border-[#B58A3B]/40' : ''}`}
+      style={{ boxShadow: '0 1px 2px rgba(18,55,45,0.04), 0 20px 40px -30px rgba(18,55,45,0.35)' }}
+    >
+      <div className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#12372D]/50">{label}</div>
+      <div className="mt-3 font-heading text-[32px] font-bold leading-none tabular-nums text-[#12372D]" style={{ letterSpacing: '-0.03em' }}>{value}</div>
+      {hint && <div className="mt-2 font-body text-[12px] text-[#12372D]/50">{hint}</div>}
     </div>
   )
-  return href ? <Link href={href}>{inner}</Link> : inner
+  return href ? <Link href={href} className="block h-full">{inner}</Link> : inner
 }

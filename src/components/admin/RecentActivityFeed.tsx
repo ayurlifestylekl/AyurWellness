@@ -56,16 +56,16 @@ export default function RecentActivityFeed({ initial }: { initial: ActivityEvent
 
   return (
     <article
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
+      className="overflow-hidden rounded-[24px] border border-[#12372D]/[0.06] bg-white"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.04), 0 24px 48px -32px rgba(18,55,45,0.35)',
       }}
     >
       <header className="flex items-center justify-between border-b border-[#006B3C]/6 px-5 py-3.5">
         <div className="flex items-center gap-2.5">
-          <Activity className="h-3.5 w-3.5 text-[#006B3C]" />
-          <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+          <Activity className="h-3.5 w-3.5 text-[#12372D]" />
+          <h2 className="font-heading text-[13px] font-semibold text-[#12372D]">
             Recent activity
           </h2>
         </div>
@@ -92,10 +92,10 @@ export default function RecentActivityFeed({ initial }: { initial: ActivityEvent
                   className="flex items-start gap-3 px-5 py-3 transition-colors hover:bg-[#EDF4E7]/40"
                 >
                   <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-                    <Icon className="h-3.5 w-3.5 text-[#006B3C]" />
+                    <Icon className="h-3.5 w-3.5 text-[#12372D]" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-heading text-[12.5px] font-semibold text-[#006B3C]">
+                    <p className="truncate font-heading text-[12.5px] font-semibold text-[#12372D]">
                       {e.title}
                     </p>
                     <p className="truncate font-body text-[11px] text-[#12372D]/65">

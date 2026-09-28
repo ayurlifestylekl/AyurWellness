@@ -17,14 +17,14 @@ export default function OrdersBarChart({ data }: Props) {
   const isEmpty = max === 1 && data.every((d) => d.count === 0)
   return (
     <article
-      className="overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white p-5"
+      className="overflow-hidden rounded-[24px] border border-[#12372D]/[0.06] bg-white p-5"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.04), 0 24px 48px -32px rgba(18,55,45,0.35)',
       }}
     >
       <header className="flex items-baseline justify-between">
-        <h3 className="font-heading text-[13px] font-semibold text-[#006B3C]">
+        <h3 className="font-heading text-[13px] font-semibold text-[#12372D]">
           Orders · last 7 days
         </h3>
         <span className="font-body text-[11px] text-[#12372D]/55">Peak {max}</span>

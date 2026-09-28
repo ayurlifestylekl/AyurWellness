@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Package,
   Truck,
@@ -59,6 +60,10 @@ function relativeTime(iso: string): string {
 export default async function AdminDashboardPage() {
   const me = await getCurrentUser()
   const firstName = me?.profile.full_name?.split(' ')[0] ?? 'Admin'
+  const now = new Date()
+  const klHour = Number(new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', hour: 'numeric', hourCycle: 'h23' }).format(now))
+  const greeting = klHour < 12 ? 'Good morning' : klHour < 17 ? 'Good afternoon' : 'Good evening'
+  const todayLong = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(now)
 
   const supabase = await createClient()
   const [
@@ -101,30 +106,28 @@ export default async function AdminDashboardPage() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:gap-7">
       {/* ── HERO ────────────────────────────────────────────────────── */}
-      <header>
-        <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-[#B58A3B]">
-          Command Center
-        </span>
-        <h1
-          className="mt-2 font-heading text-[28px] font-bold leading-tight text-[#006B3C] sm:text-[36px]"
-          style={{ letterSpacing: '-0.025em' }}
-        >
-          Good day,{' '}
-          <span
-            className="italic font-normal text-[#006B3C]/70"
-            style={{ fontFamily: 'var(--font-playfair)' }}
-          >
-            {firstName}.
+      <header
+        className="relative overflow-hidden rounded-[28px] px-6 py-8 text-white sm:px-10 sm:py-10"
+        style={{ background: 'linear-gradient(135deg, #14402F 0%, #12372D 55%, #0D2A22 100%)', boxShadow: '0 30px 60px -34px rgba(18,55,45,0.75)' }}
+      >
+        <Image src="/about/centre-lounge.jpg" alt="" fill sizes="(min-width: 1024px) 60vw, 100vw" className="object-cover opacity-[0.16] mix-blend-luminosity" priority />
+        <span aria-hidden className="absolute inset-0 bg-gradient-to-r from-[#12372D] via-[#12372D]/85 to-transparent" />
+        <span aria-hidden className="absolute -right-20 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: 'radial-gradient(circle, rgba(228,195,132,0.28), transparent 70%)' }} />
+        <span aria-hidden className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[#E4C384]/70 to-transparent" />
+        <div className="relative">
+          <span className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.24em] text-[#E4C384]">
+            {todayLong}
           </span>
-        </h1>
-        <p
-          className="mt-3 max-w-2xl font-body text-[14px] text-[#12372D]/65"
-          style={{ lineHeight: 1.65 }}
-        >
-          Today&apos;s snapshot. Anything below needs your attention &mdash; click through to action it.
-        </p>
-        <div className="mt-4">
-          <UniversalSearch />
+          <h1 className="mt-3 font-heading text-[30px] font-bold leading-[1.08] sm:text-[42px]" style={{ letterSpacing: '-0.025em' }}>
+            {greeting},{' '}
+            <span className="font-display font-normal italic text-[#E4C384]">{firstName}.</span>
+          </h1>
+          <p className="mt-3 max-w-xl font-body text-[14px] leading-relaxed text-white/65">
+            Today&apos;s snapshot of the centre. Anything below that needs you is one click away.
+          </p>
+          <div className="mt-6 max-w-md">
+            <UniversalSearch />
+          </div>
         </div>
       </header>
 
@@ -132,7 +135,7 @@ export default async function AdminDashboardPage() {
       <QuickActionsRow />
 
       {/* ── KPI TILES (8) ──────────────────────────────────────────── */}
-      <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         {/* Shop KPIs — archived while the clinic runs on bookings only. */}
         {COMMERCE_ENABLED && (
           <>
@@ -387,19 +390,16 @@ function AttentionCard({
 }: AttentionCardProps) {
   return (
     <article
-      className="flex h-full flex-col overflow-hidden rounded-3xl border border-[#006B3C]/8 bg-white"
-      style={{
-        boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
-      }}
+      className="flex h-full flex-col overflow-hidden rounded-[24px] border border-[#12372D]/[0.06] bg-white"
+      style={{ boxShadow: '0 1px 2px rgba(18,55,45,0.04), 0 24px 48px -32px rgba(18,55,45,0.35)' }}
     >
       <header className="flex items-center justify-between gap-3 border-b border-[#006B3C]/6 px-5 py-3.5">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#006B3C]/[0.06]">
-            <Icon className="h-3.5 w-3.5 text-[#006B3C]" strokeWidth={1.8} />
+          <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#B58A3B]/10">
+            <Icon className="h-3.5 w-3.5 text-[#B58A3B]" strokeWidth={1.8} />
           </span>
           <div>
-            <h2 className="font-heading text-[13px] font-semibold text-[#006B3C]">{title}</h2>
+            <h2 className="font-heading text-[14px] font-semibold text-[#12372D]">{title}</h2>
             <p className="font-body text-[10.5px] text-[#12372D]/55">{subtitle}</p>
           </div>
         </div>

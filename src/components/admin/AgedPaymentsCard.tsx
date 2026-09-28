@@ -12,10 +12,10 @@ export default function AgedPaymentsCard({ orders }: { orders: AgedPendingOrder[
   if (orders.length === 0) return null
   return (
     <article
-      className="overflow-hidden rounded-3xl border border-amber-200 bg-amber-50/40"
+      className="overflow-hidden rounded-[24px] border border-amber-200 bg-amber-50/40"
       style={{
         boxShadow:
-          '0 1px 0 0 rgba(0,107,60,0.04), 0 12px 30px -16px rgba(0,107,60,0.18)',
+          '0 1px 2px rgba(18,55,45,0.04), 0 24px 48px -32px rgba(18,55,45,0.35)',
       }}
     >
       <header className="flex items-center gap-2.5 border-b border-amber-200/70 px-5 py-3.5">

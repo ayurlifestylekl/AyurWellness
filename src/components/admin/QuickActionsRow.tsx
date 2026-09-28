@@ -12,7 +12,7 @@ export default function QuickActionsRow() {
   const [showInvite, setShowInvite] = useState(false)
 
   return (
-    <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+    <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
       {/* Shop actions — archived while the clinic runs on bookings only. */}
       {COMMERCE_ENABLED && (
         <>
@@ -46,19 +46,19 @@ function ActionTile({
 }) {
   const body = (
     <div
-      className="flex items-center gap-3 rounded-3xl border border-[#006B3C]/8 bg-white px-4 py-3.5 transition-all hover:border-[#B58A3B]/40 hover:bg-[#EDF4E7]/40"
-      style={{ boxShadow: '0 1px 0 0 rgba(0,107,60,0.04)' }}
+      className="group flex h-full items-center gap-3 rounded-2xl border border-[#12372D]/[0.06] bg-white px-4 py-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#B58A3B]/40 lg:flex-col lg:items-start lg:gap-4 lg:p-4"
+      style={{ boxShadow: '0 1px 2px rgba(18,55,45,0.04)' }}
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#006B3C]/10">
-        <Icon className="h-4 w-4 text-[#006B3C]" strokeWidth={1.8} />
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#12372D] text-[#E4C384] transition-colors group-hover:bg-[#B58A3B] group-hover:text-white">
+        <Icon className="h-4 w-4" strokeWidth={1.9} />
       </span>
-      <span className="font-heading text-[12.5px] font-semibold text-[#006B3C]">{label}</span>
+      <span className="font-heading text-[12.5px] font-semibold leading-snug text-[#12372D]">{label}</span>
     </div>
   )
   return href ? (
-    <Link href={href}>{body}</Link>
+    <Link href={href} className="block h-full">{body}</Link>
   ) : (
-    <button type="button" onClick={onClick} className="w-full text-left">
+    <button type="button" onClick={onClick} className="h-full w-full text-left">
       {body}
     </button>
   )
