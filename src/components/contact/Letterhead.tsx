@@ -308,7 +308,7 @@ export default function Letterhead() {
                           maxLength={30}
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="11 6504 3436"
+                          placeholder="12 345 6789"
                           autoComplete="tel"
                           className={`${underlineClass} pl-10`}
                         />

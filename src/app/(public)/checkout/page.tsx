@@ -5,8 +5,8 @@ import { getStorefrontProducts } from '@/lib/storefront/products'
 import CheckoutContents from './CheckoutContents'
 
 export const metadata: Metadata = {
-  title: 'Checkout | Kerala Ayurvedic Lifestyle',
-  description: 'Complete your order of authentic Kerala Ayurvedic products.',
+  title: 'Checkout',
+  description: 'Complete your order of authentic Ayurvedic products from Ayurvedic Wellness Centre.',
   robots: { index: false, follow: false },
 }
 

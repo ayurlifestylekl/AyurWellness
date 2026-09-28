@@ -5,7 +5,7 @@ import { createClient as createSb } from '@supabase/supabase-js'
 import ClearCart from './ClearCart'
 
 export const metadata: Metadata = {
-  title: 'Order Confirmation | Kerala Ayurvedic Lifestyle',
+  title: 'Order Confirmation',
   robots: { index: false, follow: false },
 }
 
