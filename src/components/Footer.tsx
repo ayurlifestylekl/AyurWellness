@@ -12,6 +12,8 @@ const quickLinks = [
 ]
 
 const legalLinks = [
+  { label: 'Privacy Notice',      href: '/privacy' },
+  { label: 'Terms of Service',    href: '/terms' },
   { label: 'Cancellation Policy', href: '/cancellation' },
 ]
 

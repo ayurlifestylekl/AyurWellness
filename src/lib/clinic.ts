@@ -24,7 +24,7 @@ export const CLINIC_PHONE_PRIMARY = '+603 2260 3435'
 
 export const CLINIC_EMAIL = 'admin@ayurvedawellness.com.my'
 
-export const CLINIC_ADDRESS = 'No. 68-G, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur, Malaysia'
+export const CLINIC_ADDRESS = 'No. 68-3, Jalan Padang Belia, Brickfields, 50470 Kuala Lumpur, Malaysia'
 export const CLINIC_MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=Ayurvedic+Wellness+Centre+Brickfields+Kuala+Lumpur'
 
@@ -58,6 +58,6 @@ export function mailtoLink(subject?: string): string {
 
 export const PARCEL_SENDER = {
   name: CLINIC_NAME,
-  addressLine: 'No. 68-G, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur',
+  addressLine: 'No. 68-3, Jalan Padang Belia, Brickfields, 50470 Kuala Lumpur',
   phone: '+6011-6339 3436',
 }

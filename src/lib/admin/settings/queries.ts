@@ -40,7 +40,7 @@ const DEFAULTS: SiteSettings = {
   updatedAt: null,
   business: {
     clinic_name: 'Ayurvedic Wellness Centre',
-    address: 'No. 68-G, Jalan Tun Sambanthan, Brickfields, 50470 Kuala Lumpur',
+    address: 'No. 68-3, Jalan Padang Belia, Brickfields, 50470 Kuala Lumpur',
     phone: '+603 2260 3435',
     email: 'admin@ayurvedawellness.com.my',
     whatsapp: '+6011-6339 3436',
