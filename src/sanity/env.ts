@@ -29,4 +29,6 @@ export const readToken =
   process.env.SANITY_API_READ_TOKEN || process.env.SANITY_API_WRITE_TOKEN
 
 /** True only when the public project id has actually been configured. */
-export const isSanityConfigured = projectId.length > 0
+// Sanity project ids are short lowercase alphanumerics; anything else (e.g. a
+// copied `your-sanity-project-id` placeholder) is treated as not configured.
+export const isSanityConfigured = /^[a-z0-9]{6,12}$/.test(projectId)

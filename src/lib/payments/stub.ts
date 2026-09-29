@@ -29,6 +29,8 @@ export const stubProvider: PaymentProvider = {
     return {
       billId: searchParams.get('bill_id') ?? '',
       paid: searchParams.get('paid') === 'true',
+      // Local test stub only — getPaymentProvider refuses it in production.
+      verified: true,
       redirectTo: searchParams.get('redirect') ?? undefined,
     }
   },

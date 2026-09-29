@@ -211,10 +211,6 @@ export default function RegisterForm({ invite, inviteTokenRaw, nextPath }: Regis
         >
           {isPending ? 'Creating account…' : isInviteMode ? 'Accept invite' : 'Create account'}
         </button>
-
-        <p className="pt-1 font-body text-[11px] leading-relaxed text-[#12372D]/45">
-          By continuing you agree to our terms of service. We protect your data per our privacy policy.
-        </p>
       </form>
     </AuthCard>
   )

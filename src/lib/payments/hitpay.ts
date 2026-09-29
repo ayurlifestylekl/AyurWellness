@@ -148,14 +148,14 @@ export const hitpayProvider: PaymentProvider = {
       const object = data.object as Record<string, unknown> | undefined
       const id = typeof object?.id === 'string' ? object.id : (typeof data.id === 'string' ? data.id : '')
       const status = parseStatus(object?.status ?? data.status)
-      return { billId: id || '', paid: status.paid }
+      return { billId: id || '', paid: status.paid, verified: true }
     }
 
     // Customer browser return (GET, best-effort)
     const url = new URL(req.url)
     const reference = url.searchParams.get('reference') || ''
     const status = url.searchParams.get('status') || ''
-    return { billId: reference, paid: status.toLowerCase() === 'completed' }
+    return { billId: reference, paid: status.toLowerCase() === 'completed', verified: false }
   },
 
   async fetchBillStatus(billId: string): Promise<{ paid: boolean } | null> {

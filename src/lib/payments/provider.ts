@@ -25,6 +25,12 @@ export interface CreateBillResult {
 export interface CallbackResult {
   billId: string
   paid: boolean
+  /**
+   * True only when `paid` comes from an authenticated source (a signed webhook).
+   * Browser return URLs are attacker-controlled and must be re-checked with the
+   * provider before anything is marked paid.
+   */
+  verified: boolean
   /** Optional URL to redirect the browser to (used by the stub return flow). */
   redirectTo?: string
 }

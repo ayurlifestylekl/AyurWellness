@@ -10,9 +10,12 @@ async function handle(req: NextRequest) {
   try {
     const provider = getPaymentProvider()
     const result = await provider.verifyCallback(req)
+    // Only a signed webhook may confirm payment directly. Anything else (e.g. a
+    // browser return URL carrying status=completed) is re-checked with the provider.
+    const confirmedPaid = result.paid && result.verified
     if (result.billId) {
       // Try product orders first; if this bill isn't one, fall through to bookings.
-      const productResult = result.paid
+      const productResult = confirmedPaid
         ? await markProductBillPaid(result.billId)
         : await reconcileProductOrderByBill(result.billId)
       if (!productResult.ok) {
@@ -27,7 +30,7 @@ async function handle(req: NextRequest) {
         return NextResponse.json({ ok: true })
       }
       // No product order matched — this is a booking payment.
-      if (result.paid) {
+      if (confirmedPaid) {
         const confirmation = await markBillPaid(result.billId)
         const response = paymentCallbackResponse(confirmation)
         if (!response.ok) {
@@ -35,8 +38,8 @@ async function handle(req: NextRequest) {
           return NextResponse.json(response, { status: response.status })
         }
       } else {
-        // Signature check failed or the paid flag wasn't set — don't silently drop
-        // it. Ask the provider's API directly; confirm only if it's genuinely paid.
+        // Unverified or unpaid — ask the provider's API directly and confirm only
+        // if it's genuinely paid.
         const reconciliation = await reconcileByBill(result.billId)
         if ('disposition' in reconciliation) {
           const response = paymentCallbackResponse(reconciliation)
