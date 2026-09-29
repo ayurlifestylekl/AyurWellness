@@ -77,15 +77,15 @@ export default function TherapySwitcher({
         </div>
 
         {(prev || next) && (
-          <div className="mt-3 flex items-center justify-between font-heading text-[10px] font-bold uppercase tracking-[0.18em] text-primary/55">
+          <div className="mt-3 flex items-center justify-between gap-4 font-heading text-[10px] font-bold uppercase tracking-[0.18em] text-primary/55">
             {prev ? (
               <Link
                 href={`/treatments/${prev.categorySlug}/${prev.slug}`}
-                className="flex items-center gap-2 transition-colors hover:text-primary"
+                className="flex min-w-0 max-w-[48%] items-center gap-2 transition-colors hover:text-primary"
               >
                 <span>←</span>
-                <span>Previous</span>
-                <span className="font-body text-[12px] italic tracking-normal normal-case text-primary">
+                <span className="shrink-0">Previous</span>
+                <span className="truncate font-body text-[12px] italic tracking-normal normal-case text-primary">
                   {prev.title}
                 </span>
               </Link>
@@ -93,12 +93,12 @@ export default function TherapySwitcher({
             {next ? (
               <Link
                 href={`/treatments/${next.categorySlug}/${next.slug}`}
-                className="flex items-center gap-2 transition-colors hover:text-primary"
+                className="flex min-w-0 max-w-[48%] items-center gap-2 transition-colors hover:text-primary"
               >
-                <span className="font-body text-[12px] italic tracking-normal normal-case text-primary">
+                <span className="truncate font-body text-[12px] italic tracking-normal normal-case text-primary">
                   {next.title}
                 </span>
-                <span>Next</span>
+                <span className="shrink-0">Next</span>
                 <span>→</span>
               </Link>
             ) : <span />}

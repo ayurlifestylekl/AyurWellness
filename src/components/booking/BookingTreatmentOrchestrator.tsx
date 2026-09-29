@@ -36,7 +36,8 @@ export default function BookingTreatmentOrchestrator({
   const id = searchParams.get('id')
   const fromConsultation = searchParams.get('from') // set when a cleared consultation unlocks a treatment
   const consultationToken = searchParams.get('ct')
-  const selected = id ? treatments.find((t) => t._id === id) ?? null : null
+  // Treatment pages link with the catalogue key (category__slug); older links use the row id.
+  const selected = id ? treatments.find((t) => t._id === id || t.catalogueKey === id) ?? null : null
 
   const [acceptedPolicies, setAcceptedPolicies] = useState(false)
   const [healthIntake, setHealthIntake] = useState<HealthIntake>({})

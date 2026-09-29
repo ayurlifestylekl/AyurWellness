@@ -118,6 +118,8 @@ export interface Treatment extends TreatmentPricing {
   categoryId: string
   categoryTitle: string
   categoryOrder: number | null
+  /** `${categoryId}__${slug}` — the id treatment pages link to /book/treatment with. */
+  catalogueKey?: string
   /** Hero photo for this specific treatment (Supabase Storage URL). */
   imageUrl?: string | null
 }
