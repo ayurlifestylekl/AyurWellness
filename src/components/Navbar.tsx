@@ -100,12 +100,13 @@ export default function Navbar() {
               priority
               className="h-8 w-auto transition-transform duration-300 group-hover:scale-[1.03] sm:h-9"
             />
+            {/* Centre name leads; the motto sits beneath it as a strapline. */}
             <span className="flex flex-col">
-              <span className="hidden font-heading text-[8px] font-semibold uppercase tracking-[0.2em] text-secondary sm:block">
-                Wellness · Heritage · Harmony
-              </span>
-              <span className="font-heading text-[14px] font-extrabold leading-tight text-primary sm:text-[15px]">
+              <span className="font-heading text-[15px] font-extrabold leading-[1.15] tracking-[-0.01em] text-primary sm:text-[17px]">
                 Ayurvedic Wellness Centre
+              </span>
+              <span className="hidden font-heading text-[8.5px] font-semibold uppercase leading-tight tracking-[0.22em] text-secondary sm:block">
+                Wellness · Heritage · Harmony
               </span>
             </span>
           </Link>

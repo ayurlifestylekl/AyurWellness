@@ -52,21 +52,21 @@ export default function EmpathyBridge() {
 
           <h3 className="mt-6 flex flex-col gap-3">
             <span
-              className="font-heading font-extrabold leading-[1.02] tracking-tight text-white"
-              style={{ fontSize: 'clamp(2rem, 4.2vw, 3.5rem)' }}
+              className="font-heading font-extrabold leading-[1.06] tracking-tight text-white"
+              style={{ fontSize: 'clamp(1.6rem, 3.1vw, 2.5rem)' }}
             >
-              Painkillers hide the pain.
+              Hiding the pain doesn&apos;t mean fixing the problem.
             </span>
             <span
-              className="font-display italic leading-[1.1]"
+              className="font-display italic leading-[1.2]"
               style={{
                 color: LOTUS_SOFT,
-                fontSize: 'clamp(1.75rem, 3.6vw, 3rem)',
+                fontSize: 'clamp(1.35rem, 2.6vw, 2.05rem)',
                 letterSpacing: '-0.01em',
                 textShadow: '0 2px 18px rgba(184, 117, 42,0.25)',
               }}
             >
-              They don&apos;t fix the cause.
+              Ayurveda focuses on the root cause, not just the symptoms.
             </span>
           </h3>
 
@@ -93,8 +93,9 @@ export default function EmpathyBridge() {
 
           {/* Quiet supporting line */}
           <p className="mt-7 max-w-md font-body text-[14px] leading-[1.65] text-white/55 sm:text-[15px]">
-            A pill can quiet a symptom for a day. But if what&apos;s actually
-            causing it never gets treated, it always comes back.
+            Relieving a symptom brings comfort, and it has its place. Ayurveda
+            works a layer deeper — understanding why the imbalance began, so
+            the results hold.
           </p>
         </div>
       </Reveal>

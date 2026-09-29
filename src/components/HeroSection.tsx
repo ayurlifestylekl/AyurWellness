@@ -9,7 +9,6 @@ import CTAButton from '@/components/ui/CTAButton'
 
 /* ── Palette (hero-local) — Amber Wash ──────────────────── */
 const SAFFRON      = '#B58A3B'   // gold — minor decorative accents only
-const SAFFRON_SOFT = '#B58A3B'   // eyebrow on warm base
 const SCRIPT_LOTUS = '#E4C384'   // main accent — italic "Ayurveda"
 const INK          = '#12372D'   // espresso-oxblood warm base (was forest green)
 // Oxblood ground (#12372D) is applied inline with alpha on the stats bar / overlays
@@ -136,7 +135,14 @@ export default function HeroSection() {
             </svg>
             <span
               className="font-heading text-[11px] font-bold uppercase tracking-[0.3em] sm:text-[12px]"
-              style={{ color: SAFFRON_SOFT }}
+              style={{
+                // Cream, not gold: the tag sits over the bright brass area of the
+                // hero photo, where mid-gold had almost the same luminosity as the
+                // background and became unreadable. The shadow keeps it legible
+                // whatever the image is doing behind it.
+                color: '#FFF9F2',
+                textShadow: '0 2px 12px rgba(18,55,45,0.85), 0 1px 3px rgba(0,0,0,0.55)',
+              }}
             >
               Brickfields, KL
             </span>
