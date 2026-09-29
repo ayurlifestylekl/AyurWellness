@@ -1,11 +1,12 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
-import { staggerParent, inViewOnce } from '@/lib/motion'
+
+import { staggerParent } from '@/lib/motion'
 import type { Product } from '@/types/content'
 import ProductPlateCard from './ProductPlateCard'
 import BotanicalSprig from './atmosphere/BotanicalSprig'
+import Reveal from '@/components/ui/Reveal'
 
 interface ProductGridProps {
   products: Product[]
@@ -44,16 +45,10 @@ export default function ProductGrid({ products, onClearFilters }: ProductGridPro
   }
 
   return (
-    <motion.div
-      variants={staggerParent(0.06, 0.05)}
-      initial="initial"
-      whileInView="animate"
-      viewport={inViewOnce}
-      className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3"
-    >
+    <Reveal variants={staggerParent(0.06, 0.05)} className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
       {products.map((p) => (
         <ProductPlateCard key={p.id} product={p} />
       ))}
-    </motion.div>
+    </Reveal>
   )
 }

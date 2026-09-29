@@ -6,10 +6,11 @@ import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 
 import { BotanicalMandala, FloatingLeaf } from '@/components/ui/Decorations'
-import { fadeUp, inViewOnce, staggerParent } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
 import type { PostListItem } from '@/types/blog'
 
 import PostCard from './PostCard'
+import Reveal from '@/components/ui/Reveal'
 
 interface BlogIndexProps {
   posts: PostListItem[]
@@ -69,13 +70,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
 
       {/* ── Header ──────────────────────────────────── */}
       <div className="relative mx-auto max-w-7xl px-6 pt-10 sm:px-8 md:pt-14 lg:px-12">
-        <motion.div
-          variants={staggerParent(0.1, 0.05)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="flex flex-col items-start gap-6"
-        >
+        <Reveal variants={staggerParent(0.1, 0.05)} className="flex flex-col items-start gap-6">
           {/* Section marker */}
           <div className="flex w-full items-center justify-between">
             <motion.span
@@ -132,7 +127,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
             our Vaidya. Read at your own pace — these articles are written for
             anyone curious about authentic Ayurveda, not just the initiated.
           </motion.p>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* ── Content ─────────────────────────────────── */}
@@ -156,13 +151,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
             </Link>
           </div>
         ) : (
-          <motion.div
-            variants={staggerParent(0.08, 0.05)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="flex flex-col gap-10"
-          >
+          <Reveal variants={staggerParent(0.08, 0.05)} className="flex flex-col gap-10">
             {/* Featured */}
             {featured && (
               <PostCard post={featured} index={1} total={total} variant="feature" />
@@ -182,7 +171,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
                 ))}
               </div>
             )}
-          </motion.div>
+          </Reveal>
         )}
       </div>
     </section>

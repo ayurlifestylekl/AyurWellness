@@ -3,10 +3,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { kalsDifferences } from '@/data/about'
+import Reveal from '@/components/ui/Reveal'
 import {
   fadeUp,
   staggerParent,
-  inViewOnce,
   EASE_OUT_PREMIUM,
 } from '@/lib/motion'
 
@@ -45,20 +45,7 @@ export default function KalsDifference() {
       />
 
       {/* Botanical watermark — bottom-left, hidden on mobile */}
-      <motion.svg
-        aria-hidden
-        viewBox="0 0 400 400"
-        initial={{ opacity: 0, y: -16 }}
-        whileInView={{ opacity: 0.055, y: 0 }}
-        viewport={inViewOnce}
-        transition={{ duration: 2.2, ease: EASE_OUT_PREMIUM }}
-        className="pointer-events-none absolute -bottom-16 -left-14 hidden h-[360px] w-[360px] -rotate-[18deg] scale-x-[-1] text-primary lg:block"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
+      <Reveal as="svg" aria-hidden viewBox="0 0 400 400" initial={{ opacity: 0, y: -16 }} animate={{ opacity: 0.055, y: 0 }} transition={{ duration: 2.2, ease: EASE_OUT_PREMIUM }} className="pointer-events-none absolute -bottom-16 -left-14 hidden h-[360px] w-[360px] -rotate-[18deg] scale-x-[-1] text-primary lg:block" fill="none" stroke="currentColor" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round">
         <path d="M 200 388 C 200 310, 222 256, 210 188 C 198 128, 180 86, 202 14" />
         <path d="M 210 310 C 242 302, 272 286, 292 262" />
         <path d="M 210 310 C 244 314, 274 320, 292 262" />
@@ -69,17 +56,11 @@ export default function KalsDifference() {
         <path d="M 202 116 C 170 110, 144 96, 120 70" />
         <path d="M 202 116 C 172 118, 148 126, 120 70" />
         <circle cx="202" cy="18" r="3.5" />
-      </motion.svg>
+      </Reveal>
 
       <div className="relative mx-auto max-w-7xl px-6 py-14 sm:px-8 md:py-16 lg:px-12">
         {/* ── Header band ─────────────────────── */}
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="flex flex-col items-start gap-6 lg:flex-row lg:items-end lg:justify-between"
-        >
+        <Reveal variants={fadeUp(0)} className="flex flex-col items-start gap-6 lg:flex-row lg:items-end lg:justify-between">
           {/* Left — headline */}
           <div className="max-w-2xl lg:max-w-[62%]">
             <div className="flex items-center gap-3">
@@ -131,17 +112,11 @@ export default function KalsDifference() {
               One&nbsp;Inheritance
             </span>
           </div>
-        </motion.div>
+        </Reveal>
 
         {/* ── Top double-hairline ─────────────── */}
         <div className="relative mt-10 md:mt-12">
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={inViewOnce}
-            transition={{ duration: 1.2, ease: EASE_OUT_PREMIUM }}
-            className="origin-left"
-          >
+          <Reveal initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: EASE_OUT_PREMIUM }} className="origin-left">
             <div
               className="h-px"
               style={{
@@ -158,17 +133,11 @@ export default function KalsDifference() {
                 }}
               />
             </div>
-          </motion.div>
+          </Reveal>
         </div>
 
         {/* ── Frieze: 4 columns on desktop, stacked rows on mobile ── */}
-        <motion.div
-          variants={staggerParent(0.09, 0.15)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative grid grid-cols-1 md:grid-cols-4"
-        >
+        <Reveal variants={staggerParent(0.09, 0.15)} className="relative grid grid-cols-1 md:grid-cols-4">
           {kalsDifferences.map((item, i) => {
             const Icon = item.icon
             const roman = ROMAN[i] ?? String(i + 1)
@@ -192,28 +161,20 @@ export default function KalsDifference() {
 
                 {/* Vertical colonnade rule (right side, skip last column) — desktop only */}
                 {!isLastColumn && (
-                  <motion.span
-                    aria-hidden
-                    initial={{ scaleY: 0 }}
-                    whileInView={{ scaleY: 1 }}
-                    viewport={inViewOnce}
-                    transition={{
+                  <Reveal as="span" aria-hidden initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{
                       duration: 0.9,
                       delay: 0.25 + i * 0.08,
                       ease: EASE_OUT_PREMIUM,
-                    }}
-                    className="pointer-events-none absolute right-0 top-4 bottom-4 hidden w-px origin-top md:block"
-                    style={{
+                    }} className="pointer-events-none absolute right-0 top-4 bottom-4 hidden w-px origin-top md:block" style={{
                       backgroundImage:
                         'linear-gradient(to bottom, transparent, rgba(181, 138, 59,0.55) 22%, rgba(181, 138, 59,0.55) 78%, transparent)',
-                    }}
-                  >
+                    }}>
                     {/* Midpoint diamond ornament */}
                     <span
                       aria-hidden
                       className="absolute left-1/2 top-1/2 h-[5px] w-[5px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-accent/55 transition-[background-color,box-shadow] duration-500 group-hover:bg-accent group-hover:shadow-[0_0_8px_rgba(181, 138, 59,0.7)]"
                     />
-                  </motion.span>
+                  </Reveal>
                 )}
 
                 {/* Mobile horizontal hairline — between rows */}
@@ -326,16 +287,10 @@ export default function KalsDifference() {
               </motion.article>
             )
           })}
-        </motion.div>
+        </Reveal>
 
         {/* ── Bottom hairline with embedded fleuron ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={inViewOnce}
-          transition={{ duration: 1.2, delay: 0.4, ease: EASE_OUT_PREMIUM }}
-          className="relative flex items-center gap-4"
-        >
+        <Reveal initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, delay: 0.4, ease: EASE_OUT_PREMIUM }} className="relative flex items-center gap-4">
           <span
             className="h-px flex-1"
             style={{
@@ -365,7 +320,7 @@ export default function KalsDifference() {
                 'linear-gradient(to left, transparent, rgba(181, 138, 59,0.55) 20%, rgba(181, 138, 59,0.35) 70%, transparent)',
             }}
           />
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EASE_OUT_PREMIUM } from '@/lib/motion'
@@ -29,6 +29,15 @@ const fadeIn = (delay: number) => ({
 export default function ProductsHeroManifesto({ productCount }: ProductsHeroManifestoProps) {
   const [revealed, setRevealed] = useState(false)
 
+  // Guaranteed fallback: the hero copy must never stay hidden forever if the
+  // video fails to load/decode, autoplay is blocked (common on mobile data-
+  // saver modes), or `onEnded` simply never fires. The clip is ~10s; give it
+  // a generous margin before revealing regardless.
+  useEffect(() => {
+    const t = setTimeout(() => setRevealed(true), 12000)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <section
       aria-labelledby="products-hero-heading"
@@ -41,6 +50,7 @@ export default function ProductsHeroManifesto({ productCount }: ProductsHeroMani
         muted
         playsInline
         onEnded={() => setRevealed(true)}
+        onError={() => setRevealed(true)}
       >
         <source src="/products-hero.mp4" type="video/mp4" />
       </video>

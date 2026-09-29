@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
-import { inViewOnce } from '@/lib/motion'
+
+import Reveal from '@/components/ui/Reveal'
 
 interface BotanicalSprigProps {
   /** Stroke color — defaults to the project gold accent. */
@@ -24,21 +24,7 @@ export default function BotanicalSprig({
   style,
 }: BotanicalSprigProps) {
   return (
-    <motion.svg
-      aria-hidden
-      viewBox="0 0 200 260"
-      fill="none"
-      stroke={color}
-      strokeWidth={1.1}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity, y: 0 }}
-      viewport={inViewOnce}
-      transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-      className={className}
-      style={style}
-    >
+    <Reveal as="svg" aria-hidden viewBox="0 0 200 260" fill="none" stroke={color} strokeWidth={1.1} strokeLinecap="round" strokeLinejoin="round" initial={{ opacity: 0, y: 18 }} animate={{ opacity, y: 0 }} transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }} className={className} style={style}>
       <path d="M 100 250 C 100 190, 112 140, 105 85 C 100 48, 90 20, 100 5" />
       <path d="M 108 200 C 136 195, 156 184, 170 164" />
       <path d="M 108 200 C 138 206, 158 214, 170 164" />
@@ -49,6 +35,6 @@ export default function BotanicalSprig({
       <path d="M 101 55 C 78 50, 62 42, 50 26" />
       <path d="M 101 55 C 78 60, 62 66, 50 26" />
       <circle cx="100" cy="6" r="3" />
-    </motion.svg>
+    </Reveal>
   )
 }

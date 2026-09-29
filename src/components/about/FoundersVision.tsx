@@ -2,8 +2,9 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { clipReveal, fadeUp, inViewOnce, EASE_OUT_PREMIUM } from '@/lib/motion'
+
+import { clipReveal, fadeUp, EASE_OUT_PREMIUM } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 const defaults = {
   eyebrow: 'Our Story',
@@ -116,13 +117,7 @@ export default function FoundersVision({
           <div className="relative lg:sticky lg:top-32 lg:self-start">
             <div className="relative mx-auto max-w-[420px] lg:mx-0">
               {/* Portrait */}
-              <motion.div
-                variants={clipReveal('left', 0)}
-                initial="initial"
-                whileInView="animate"
-                viewport={inViewOnce}
-                className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_24px_60px_-20px_rgba(0, 107, 60,0.35),0_8px_20px_rgba(0, 107, 60,0.1)]"
-              >
+              <Reveal variants={clipReveal('left', 0)} className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_24px_60px_-20px_rgba(0, 107, 60,0.35),0_8px_20px_rgba(0, 107, 60,0.1)]">
                 <Image
                   src="/about/founder-vizshnu-supramaniam.jpg"
                   alt="Vizshnu Supramaniam, Founder of Ayurvedic Wellness Centre"
@@ -155,16 +150,10 @@ export default function FoundersVision({
                       'inset 0 0 0 1px rgba(255,255,255,0.25), 0 1px 2px rgba(0,0,0,0.08)',
                   }}
                 />
-              </motion.div>
+              </Reveal>
 
               {/* Founder name + signature flourish */}
-              <motion.div
-                variants={fadeUp(0.3)}
-                initial="initial"
-                whileInView="animate"
-                viewport={inViewOnce}
-                className="relative mt-4"
-              >
+              <Reveal variants={fadeUp(0.3)} className="relative mt-4">
                 <p className="font-body text-[18px] font-medium italic text-primary">
                   {copy.name}
                 </p>
@@ -186,25 +175,17 @@ export default function FoundersVision({
                     strokeLinecap="round"
                   />
                 </svg>
-              </motion.div>
+              </Reveal>
             </div>
           </div>
 
           {/* ── RIGHT: Editorial text ──────────────────── */}
           <div className="relative flex flex-col">
             {/* Vertical gold divider (desktop only) */}
-            <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 1.0, ease: EASE_OUT_PREMIUM }}
-              className="absolute -left-7 bottom-0 top-0 hidden w-px origin-center lg:block"
-              style={{
+            <Reveal initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 1.0, ease: EASE_OUT_PREMIUM }} className="absolute -left-7 bottom-0 top-0 hidden w-px origin-center lg:block" style={{
                 background:
                   'linear-gradient(to bottom, transparent, rgba(181, 138, 59,0.35), transparent)',
-              }}
-              aria-hidden
-            />
+              }} aria-hidden/>
 
             {/* Mobile horizontal divider */}
             <div
@@ -216,12 +197,7 @@ export default function FoundersVision({
               aria-hidden
             />
 
-            <motion.div
-              variants={fadeUp(0)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-            >
+            <Reveal variants={fadeUp(0)}>
               {/* Eyebrow with hairline */}
               <div className="flex items-center gap-3">
                 <span
@@ -250,15 +226,9 @@ export default function FoundersVision({
                   </>
                 ) : null}
               </h2>
-            </motion.div>
+            </Reveal>
 
-            <motion.div
-              variants={fadeUp(0.15)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="mt-6 flex flex-col gap-4"
-            >
+            <Reveal variants={fadeUp(0.15)} className="mt-6 flex flex-col gap-4">
               {copy.paragraphs.map((para, idx) => (
                 <p
                   key={idx}
@@ -267,20 +237,14 @@ export default function FoundersVision({
                   {para}
                 </p>
               ))}
-            </motion.div>
+            </Reveal>
 
             {/* Pull quote — thin left border, no oversized quote marks */}
-            <motion.blockquote
-              variants={fadeUp(0.3)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="mt-6 border-l-2 border-accent/50 pl-6"
-            >
+            <Reveal as="blockquote" variants={fadeUp(0.3)} className="mt-6 border-l-2 border-accent/50 pl-6">
               <p className="max-w-md font-body text-[17px] italic leading-[1.6] text-primary/80">
                 &ldquo;{copy.pullQuote}&rdquo;
               </p>
-            </motion.blockquote>
+            </Reveal>
           </div>
         </div>
       </div>

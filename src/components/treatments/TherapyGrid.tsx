@@ -1,10 +1,9 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 import TherapyCard from '@/components/treatments/TherapyCard'
-import { staggerParent, inViewOnce } from '@/lib/motion'
+import { staggerParent } from '@/lib/motion'
 import type { TreatmentSummary } from '@/types/treatments'
+import Reveal from '@/components/ui/Reveal'
 
 interface TherapyGridProps {
   categorySlug: string
@@ -35,13 +34,7 @@ export default function TherapyGrid({ categorySlug, treatments }: TherapyGridPro
   }
 
   return (
-    <motion.div
-      variants={staggerParent(0.05, 0.03)}
-      initial="initial"
-      whileInView="animate"
-      viewport={inViewOnce}
-      className="mx-auto grid max-w-5xl grid-cols-1 gap-5 px-6 pb-20 pt-10 sm:px-8 md:grid-cols-2 md:pb-28 lg:px-12"
-    >
+    <Reveal variants={staggerParent(0.05, 0.03)} className="mx-auto grid max-w-5xl grid-cols-1 gap-5 px-6 pb-20 pt-10 sm:px-8 md:grid-cols-2 md:pb-28 lg:px-12">
       {treatments.map((t, i) => (
         <TherapyCard
           key={t._id}
@@ -50,6 +43,6 @@ export default function TherapyGrid({ categorySlug, treatments }: TherapyGridPro
           romanIndex={`${ROMAN[i] ?? String(i + 1)}.`}
         />
       ))}
-    </motion.div>
+    </Reveal>
   )
 }

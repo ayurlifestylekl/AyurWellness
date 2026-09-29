@@ -186,8 +186,8 @@ export default function TreatmentsHero({
             >
               {/* "Treatment" — clipReveal from left */}
               <motion.span
-                initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
-                animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
+                initial={{ clipPath: 'inset(0% 100% 0% 0%)', opacity: 0 }}
+                animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
                 transition={{ duration: 0.9, delay: 0.7, ease: EASE_OUT_PREMIUM }}
                 className="block"
                 style={{ fontSize: 'clamp(2.6rem, 6.2vw, 4.6rem)' }}
@@ -197,8 +197,8 @@ export default function TreatmentsHero({
 
               {/* "Library." — oversized serif italic, breaks the grid */}
               <motion.span
-                initial={{ clipPath: 'inset(0 0 0 100%)', opacity: 0, rotate: -0.6 }}
-                animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1, rotate: 0 }}
+                initial={{ clipPath: 'inset(0% 0% 0% 100%)', opacity: 0, rotate: -0.6 }}
+                animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, rotate: 0 }}
                 transition={{ duration: 1.0, delay: 0.9, ease: EASE_OUT_PREMIUM }}
                 className="relative -mt-2 block pb-2 font-body font-normal italic text-accent"
                 style={{

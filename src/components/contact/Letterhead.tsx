@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useEffect, useMemo, useState, useTransition } from 'react'
-import { motion } from 'framer-motion'
+
 import { Check, Feather, Loader2 } from 'lucide-react'
 
 import CTAButton from '@/components/ui/CTAButton'
-import { fadeUp, inViewOnce } from '@/lib/motion'
+import { fadeUp } from '@/lib/motion'
 import { submitContactMessage, type ContactIntent } from '@/actions/contact'
+import Reveal from '@/components/ui/Reveal'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -117,13 +118,7 @@ export default function Letterhead() {
       <div aria-hidden className="grain-overlay pointer-events-none absolute inset-0" />
 
       <div className="relative mx-auto w-full max-w-5xl px-6 py-8 sm:px-10 sm:py-10 lg:px-0 lg:py-12">
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative"
-        >
+        <Reveal variants={fadeUp(0)} className="relative">
           {/* The letter — paper ground */}
           <div className="relative overflow-hidden rounded-[2px] bg-white px-5 py-6 shadow-floating sm:px-10 sm:py-8 md:px-14 md:py-9">
             {/* Paper texture (very faint) */}
@@ -378,7 +373,7 @@ export default function Letterhead() {
               )}
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

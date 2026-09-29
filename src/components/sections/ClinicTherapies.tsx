@@ -4,7 +4,8 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 /* ── Minimal-luxury layout, harmonized to the homepage palette ── */
 const GOLD = '#B58A3B' // brand gold — minor decorative accents only
@@ -119,13 +120,7 @@ export default function ClinicTherapies() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-7 py-8 sm:px-10 lg:px-12 lg:py-10">
         {/* ── Header — editorial, lots of air ── */}
-        <motion.header
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
-        >
+        <Reveal as="header" variants={fadeUp(0)} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
             <span className="font-heading text-[10px] font-medium uppercase tracking-[0.42em]" style={{ color: GOLD }}>
               At the Centre
@@ -153,16 +148,10 @@ export default function ClinicTherapies() {
             </span>
             <span className="opacity-60 transition-transform duration-300 group-hover:translate-x-1" style={{ color: LOTUS }}>→</span>
           </Link>
-        </motion.header>
+        </Reveal>
 
         {/* ── The collection — bento mosaic, text lives on the photo ── */}
-        <motion.ol
-          variants={staggerParent(0.06, 0.12)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mt-6 grid grid-cols-2 grid-rows-3 gap-3 sm:grid-cols-4 sm:grid-rows-2 lg:mt-7 lg:gap-4"
-        >
+        <Reveal as="ol" variants={staggerParent(0.06, 0.12)} className="mt-6 grid grid-cols-2 grid-rows-3 gap-3 sm:grid-cols-4 sm:grid-rows-2 lg:mt-7 lg:gap-4">
           {(() => {
             const feature = categories[categories.length - 1]
             const rest = categories.slice(0, categories.length - 1)
@@ -244,7 +233,7 @@ export default function ClinicTherapies() {
               )
             })
           })()}
-        </motion.ol>
+        </Reveal>
       </div>
     </section>
   )

@@ -3,10 +3,11 @@
 import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
 import type { Product } from '@/types/content'
 import AddToBagButton from './AddToBagButton'
 import { whatsappLink } from '@/lib/clinic'
+import Reveal from '@/components/ui/Reveal'
 
 interface ProductMetaProps {
   product: Product
@@ -19,13 +20,7 @@ export default function ProductMeta({ product, categoryLabel }: ProductMetaProps
   const hasDiscount = !!product.oldPriceRm && product.oldPriceRm > product.priceRm
 
   return (
-    <motion.div
-      variants={staggerParent(0.08, 0.04)}
-      initial="initial"
-      whileInView="animate"
-      viewport={inViewOnce}
-      className="flex flex-col gap-6 lg:sticky lg:top-[108px] lg:self-start"
-    >
+    <Reveal variants={staggerParent(0.08, 0.04)} className="flex flex-col gap-6 lg:sticky lg:top-[108px] lg:self-start">
       {/* Breadcrumb */}
       <motion.nav
         variants={fadeUp(0)}
@@ -161,6 +156,6 @@ export default function ProductMeta({ product, categoryLabel }: ProductMetaProps
           B.A.M.S
         </p>
       </motion.aside>
-    </motion.div>
+    </Reveal>
   )
 }

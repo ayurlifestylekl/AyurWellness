@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Calendar, MessageCircle } from 'lucide-react'
 import CTAButton from '@/components/ui/CTAButton'
-import { clipReveal, fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { clipReveal, fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 const defaults = {
   eyebrow: 'Our Commitment to You',
@@ -146,13 +147,7 @@ export default function CommitmentCTA({
             aria-hidden
           />
 
-          <motion.div
-            variants={staggerParent(0.12, 0.05)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="relative z-10 max-w-md"
-          >
+          <Reveal variants={staggerParent(0.12, 0.05)} className="relative z-10 max-w-md">
             <motion.span
               variants={fadeUp(0)}
               className="inline-block font-heading text-[10px] font-semibold uppercase tracking-[0.35em] text-accent"
@@ -229,7 +224,7 @@ export default function CommitmentCTA({
                 </React.Fragment>
               ))}
             </motion.div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

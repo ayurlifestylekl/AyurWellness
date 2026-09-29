@@ -3,7 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { HeartHandshake, Leaf, Flower2 } from 'lucide-react'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 const items = [
   {
@@ -39,13 +40,7 @@ export default function TrustStrip() {
         Why Ayurvedic Wellness Centre
       </h2>
 
-      <motion.div
-        variants={staggerParent(0.08, 0.05)}
-        initial="initial"
-        whileInView="animate"
-        viewport={inViewOnce}
-        className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:px-8 sm:py-12 lg:px-12"
-      >
+      <Reveal variants={staggerParent(0.08, 0.05)} className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:px-8 sm:py-12 lg:px-12">
         {items.map((item, i) => (
           <React.Fragment key={item.title}>
             <motion.div
@@ -69,7 +64,7 @@ export default function TrustStrip() {
             )}
           </React.Fragment>
         ))}
-      </motion.div>
+      </Reveal>
     </section>
   )
 }

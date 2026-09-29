@@ -5,8 +5,9 @@ import { motion } from 'framer-motion'
 import { MessageCircle, Calendar } from 'lucide-react'
 
 import CTAButton from '@/components/ui/CTAButton'
-import { staggerParent, fadeUp, inViewOnce } from '@/lib/motion'
+import { staggerParent, fadeUp } from '@/lib/motion'
 import { whatsappLink } from '@/lib/clinic'
+import Reveal from '@/components/ui/Reveal'
 
 /* Gold-diamond pattern — duplicated from the original site so this
  * component stands alone. */
@@ -59,13 +60,7 @@ export default function FreeConsultationBlock({
       <div className="pointer-events-none absolute bottom-3 left-3 h-4 w-4 border-b-2 border-l-2 border-accent/20 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8" aria-hidden />
       <div className="pointer-events-none absolute bottom-3 right-3 h-4 w-4 border-b-2 border-r-2 border-accent/20 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8" aria-hidden />
 
-      <motion.div
-        variants={staggerParent(0.1, 0.05)}
-        initial="initial"
-        whileInView="animate"
-        viewport={inViewOnce}
-        className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-8 py-12 sm:px-10 md:py-14 lg:grid-cols-[3fr_2fr] lg:gap-12 lg:px-12 lg:py-16"
-      >
+      <Reveal variants={staggerParent(0.1, 0.05)} className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-8 py-12 sm:px-10 md:py-14 lg:grid-cols-[3fr_2fr] lg:gap-12 lg:px-12 lg:py-16">
         <div className="flex flex-col gap-3.5">
           <motion.div variants={fadeUp(0)} className="flex items-center gap-3">
             <span className="h-[2px] w-14 rounded-full bg-accent" aria-hidden />
@@ -140,7 +135,7 @@ export default function FreeConsultationBlock({
             </div>
           </div>
         </motion.aside>
-      </motion.div>
+      </Reveal>
     </section>
   )
 }

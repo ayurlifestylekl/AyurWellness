@@ -5,7 +5,8 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Calendar, MessageCircle } from 'lucide-react'
 import CTAButton from '@/components/ui/CTAButton'
-import { clipReveal, fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { clipReveal, fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 /* ── Palette ── */
 const EMERALD       = '#006B3C'
@@ -116,13 +117,7 @@ export default function FinalBookingCTA() {
             aria-hidden
           />
 
-          <motion.div
-            variants={staggerParent(0.12, 0.05)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="relative z-10 max-w-md"
-          >
+          <Reveal variants={staggerParent(0.12, 0.05)} className="relative z-10 max-w-md">
             {/* Eyebrow with line */}
             <motion.div variants={fadeUp(0)} className="flex items-center gap-3">
               <span
@@ -215,7 +210,7 @@ export default function FinalBookingCTA() {
               />
               <span>Certified Vaidyas</span>
             </motion.div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

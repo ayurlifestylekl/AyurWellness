@@ -3,7 +3,8 @@
 import React, { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Play, Volume2, VolumeX } from 'lucide-react'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 /* ── Palette ── */
 const EMERALD       = '#75B843'
@@ -115,13 +116,7 @@ export default function VideoTestimonials() {
       <div className="relative mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-10">
 
         {/* ── COMPACT INLINE HEADER ── single row on desktop */}
-        <motion.header
-          variants={staggerParent(0.09, 0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="grid grid-cols-1 items-end gap-y-4 lg:grid-cols-12 lg:gap-x-8"
-        >
+        <Reveal as="header" variants={staggerParent(0.09, 0)} className="grid grid-cols-1 items-end gap-y-4 lg:grid-cols-12 lg:gap-x-8">
           {/* Title block */}
           <div className="lg:col-span-7">
             <motion.div variants={fadeUp(0)} className="flex items-center gap-3">
@@ -195,16 +190,10 @@ export default function VideoTestimonials() {
               </span>
             </motion.div>
           </div>
-        </motion.header>
+        </Reveal>
 
         {/* ── 4 EQUAL FILM CARDS — compact 4:5 aspect ── */}
-        <motion.div
-          variants={staggerParent(0.09, 0.15)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="no-scrollbar -mx-5 mt-7 flex w-[calc(100%+2.5rem)] gap-4 overflow-x-auto px-5 pb-2 snap-x snap-mandatory sm:mx-0 sm:w-full sm:gap-5 sm:px-0 lg:mt-8 lg:grid lg:grid-cols-4 xl:gap-6 lg:pb-0"
-        >
+        <Reveal variants={staggerParent(0.09, 0.15)} className="no-scrollbar -mx-5 mt-7 flex w-[calc(100%+2.5rem)] gap-4 overflow-x-auto px-5 pb-2 snap-x snap-mandatory sm:mx-0 sm:w-full sm:gap-5 sm:px-0 lg:mt-8 lg:grid lg:grid-cols-4 xl:gap-6 lg:pb-0">
           {testimonials.map((item, idx) => (
             <motion.div
               key={item.id}
@@ -214,7 +203,7 @@ export default function VideoTestimonials() {
               <VideoCard item={item} index={idx} />
             </motion.div>
           ))}
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

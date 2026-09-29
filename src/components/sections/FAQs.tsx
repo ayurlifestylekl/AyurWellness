@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, MessageCircle, ArrowUpRight } from 'lucide-react'
-import { fadeUp, inViewOnce, EASE_OUT_PREMIUM } from '@/lib/motion'
+import { fadeUp, EASE_OUT_PREMIUM } from '@/lib/motion'
 import { faqs as defaultFaqs, type FAQ } from '@/data/faqs'
+import Reveal from '@/components/ui/Reveal'
 
 interface FAQsProps {
   items?: FAQ[]
@@ -64,13 +65,7 @@ export default function FAQs({
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
 
           {/* ── LEFT: Title + copy + CTA ── */}
-          <motion.aside
-            variants={fadeUp(0)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="lg:col-span-5"
-          >
+          <Reveal as="aside" variants={fadeUp(0)} className="lg:col-span-5">
             <span className="font-heading text-[11px] font-bold uppercase tracking-[0.36em]" style={{ color: GOLD }}>
               {eyebrow}
             </span>
@@ -113,16 +108,10 @@ export default function FAQs({
                 <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
             </div>
-          </motion.aside>
+          </Reveal>
 
           {/* ── RIGHT: Spotlight reader — one question at a time, not another accordion ── */}
-          <motion.div
-            variants={fadeUp(0.1)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="lg:col-span-7"
-          >
+          <Reveal variants={fadeUp(0.1)} className="lg:col-span-7">
             <div
               className="relative overflow-hidden rounded-3xl px-7 py-9 sm:px-10 sm:py-11"
               style={{
@@ -220,7 +209,7 @@ export default function FAQs({
                 </div>
               </div>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

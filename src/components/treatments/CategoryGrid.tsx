@@ -1,10 +1,9 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 import CategoryBox from '@/components/treatments/CategoryBox'
-import { staggerParent, inViewOnce } from '@/lib/motion'
+import { staggerParent } from '@/lib/motion'
 import type { TreatmentCategory } from '@/types/treatments'
+import Reveal from '@/components/ui/Reveal'
 
 interface CategoryGridProps {
   categories: TreatmentCategory[]
@@ -63,17 +62,11 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
             </p>
           </div>
         ) : (
-          <motion.div
-            variants={staggerParent(0.06, 0.04)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <Reveal variants={staggerParent(0.06, 0.04)} className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((cat, i) => (
               <CategoryBox key={cat._id} category={cat} index={i} />
             ))}
-          </motion.div>
+          </Reveal>
         )}
       </div>
     </section>

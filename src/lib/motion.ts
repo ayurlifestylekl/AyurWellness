@@ -40,14 +40,14 @@ export const clipReveal = (
   delay = 0
 ): Variants => {
   const clipMap = {
-    left: 'inset(0 100% 0 0)',
-    right: 'inset(0 0 0 100%)',
-    bottom: 'inset(0 0 100% 0)',
+    left: 'inset(0% 100% 0% 0%)',
+    right: 'inset(0% 0% 0% 100%)',
+    bottom: 'inset(0% 0% 100% 0%)',
   }
   return {
     initial: { clipPath: clipMap[direction], opacity: 0 },
     animate: {
-      clipPath: 'inset(0 0 0 0)',
+      clipPath: 'inset(0% 0% 0% 0%)',
       opacity: 1,
       transition: { duration: 1.0, delay, ease: EASE_OUT_PREMIUM },
     },

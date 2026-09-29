@@ -1,10 +1,11 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { slideIn, inViewOnce } from '@/lib/motion'
+import { slideIn } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 /* ── Palette (section-local; mirrors the hero so the homepage reads as one piece) ── */
 const EMERALD      = '#006B3C'   // dark base, matches hero ink
@@ -32,14 +33,7 @@ export default function EmpathyBridge() {
       </h2>
 
       {/* ── LEFT: Dark panel — Modern Life (45%) ─────────── */}
-      <motion.div
-        variants={slideIn('left', 0)}
-        initial="initial"
-        whileInView="animate"
-        viewport={inViewOnce}
-        className="relative flex w-full flex-col justify-center px-6 py-14 sm:px-10 sm:py-16 lg:w-[45%] lg:px-16 lg:py-12 xl:px-20"
-        style={{ backgroundColor: EMERALD_DEEP }}
-      >
+      <Reveal variants={slideIn('left', 0)} className="relative flex w-full flex-col justify-center px-6 py-14 sm:px-10 sm:py-16 lg:w-[45%] lg:px-16 lg:py-12 xl:px-20" style={{ backgroundColor: EMERALD_DEEP }}>
         <div className="relative z-10 mx-auto w-full max-w-lg lg:ml-auto lg:mr-8 xl:mr-16">
           {/* Eyebrow */}
           <div className="flex items-center gap-3">
@@ -103,17 +97,10 @@ export default function EmpathyBridge() {
             causing it never gets treated, it always comes back.
           </p>
         </div>
-      </motion.div>
+      </Reveal>
 
       {/* ── RIGHT: Cream panel — Ancient Healing (55%) ──── */}
-      <motion.div
-        variants={slideIn('right', 0.15)}
-        initial="initial"
-        whileInView="animate"
-        viewport={inViewOnce}
-        className="relative flex w-full flex-col justify-center px-6 py-14 sm:px-10 sm:py-16 lg:w-[55%] lg:px-20 lg:py-12 xl:px-32"
-        style={{ backgroundColor: CREAM }}
-      >
+      <Reveal variants={slideIn('right', 0.15)} className="relative flex w-full flex-col justify-center px-6 py-14 sm:px-10 sm:py-16 lg:w-[55%] lg:px-20 lg:py-12 xl:px-32" style={{ backgroundColor: CREAM }}>
         <div className="relative z-10 max-w-xl">
           {/* Eyebrow */}
           <div className="flex items-center gap-3">
@@ -214,7 +201,7 @@ export default function EmpathyBridge() {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </Reveal>
     </section>
   )
 }

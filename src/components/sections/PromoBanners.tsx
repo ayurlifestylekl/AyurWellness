@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+
 import { EASE_OUT_PREMIUM } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 /**
  * Single-line benefits bar — Net-a-Porter style.
@@ -11,13 +12,7 @@ import { EASE_OUT_PREMIUM } from '@/lib/motion'
 export default function PromoBanners() {
   return (
     <section aria-label="Promotional offers" className="bg-[#EDF4E7]">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: '-40px' }}
-        transition={{ duration: 0.5, ease: EASE_OUT_PREMIUM }}
-        className="mx-auto max-w-4xl border-y border-primary/10 px-6 py-5 sm:px-8 lg:px-12"
-      >
+      <Reveal margin="-40px" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: EASE_OUT_PREMIUM }} className="mx-auto max-w-4xl border-y border-primary/10 px-6 py-5 sm:px-8 lg:px-12">
         {/* Desktop: single horizontal line */}
         <div className="hidden items-center justify-center gap-0 sm:flex">
           <span className="font-heading text-[10px] font-bold uppercase tracking-[0.25em] text-primary/70">
@@ -59,7 +54,7 @@ export default function PromoBanners() {
             Bundle &amp; Save 25%
           </span>
         </div>
-      </motion.div>
+      </Reveal>
     </section>
   )
 }

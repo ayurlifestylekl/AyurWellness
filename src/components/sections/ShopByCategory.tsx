@@ -5,8 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
 import { categories } from '@/data/categories'
+import Reveal from '@/components/ui/Reveal'
 
 /**
  * Tightly packed, dense editorial grid.
@@ -21,13 +22,7 @@ export default function ShopByCategory() {
     >
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
         {/* Header - Tightened margins */}
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mb-8 flex flex-col items-center text-center lg:mb-12"
-        >
+        <Reveal variants={fadeUp(0)} className="mb-8 flex flex-col items-center text-center lg:mb-12">
           <span className="font-heading text-[10px] font-bold uppercase tracking-[0.4em] text-accent">
             Our Apothecary
           </span>
@@ -38,16 +33,10 @@ export default function ShopByCategory() {
             Shop by Concern
           </h2>
           <div className="mt-5 h-[1px] w-12 bg-accent/30" aria-hidden />
-        </motion.div>
+        </Reveal>
 
         {/* ── TIGHT CATEGORY GRID ── */}
-        <motion.div
-          variants={staggerParent(0.05, 0.1)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-6 snap-x snap-mandatory sm:mx-0 sm:gap-3 sm:px-0 lg:grid lg:grid-cols-4 lg:gap-4 xl:gap-5 lg:pb-0"
-        >
+        <Reveal variants={staggerParent(0.05, 0.1)} className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-6 snap-x snap-mandatory sm:mx-0 sm:gap-3 sm:px-0 lg:grid lg:grid-cols-4 lg:gap-4 xl:gap-5 lg:pb-0">
           {categories.map((cat) => (
             <motion.div
               key={cat.slug}
@@ -99,16 +88,10 @@ export default function ShopByCategory() {
               </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </Reveal>
 
         {/* ── TIGHT PROMO BANNER ── */}
-        <motion.div
-          variants={fadeUp(0.1)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-y border-primary/10 py-5 text-center lg:mt-16 lg:py-6"
-        >
+        <Reveal variants={fadeUp(0.1)} className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-y border-primary/10 py-5 text-center lg:mt-16 lg:py-6">
           <span className="font-heading text-[10px] font-bold uppercase tracking-[0.2em] text-primary/70">
             Free shipping over RM150
           </span>
@@ -123,7 +106,7 @@ export default function ShopByCategory() {
           <span className="font-heading text-[10px] font-bold uppercase tracking-[0.2em] text-primary/70">
             Bundle & Save 25%
           </span>
-        </motion.div>
+        </Reveal>
 
       </div>
     </section>

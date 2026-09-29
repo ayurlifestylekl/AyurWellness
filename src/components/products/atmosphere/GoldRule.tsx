@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
-import { inViewOnce } from '@/lib/motion'
+
+import Reveal from '@/components/ui/Reveal'
 
 interface GoldRuleProps {
   /** 'vertical' (scaleY from top) or 'horizontal' (scaleX from left). */
@@ -29,10 +29,7 @@ export default function GoldRule({
 }: GoldRuleProps) {
   const isVertical = orientation === 'vertical'
   return (
-    <motion.span
-      aria-hidden
-      className={className}
-      style={{
+    <Reveal as="span" aria-hidden className={className} style={{
         display: 'block',
         background: isVertical
           ? 'linear-gradient(to bottom, rgba(181, 138, 59,0.9) 0%, rgba(181, 138, 59,0.4) 60%, rgba(181, 138, 59,0) 100%)'
@@ -41,11 +38,6 @@ export default function GoldRule({
         height: isVertical ? length : '1px',
         transformOrigin: isVertical ? 'top' : 'left',
         ...style,
-      }}
-      initial={{ scaleX: isVertical ? 1 : 0, scaleY: isVertical ? 0 : 1, opacity: 0 }}
-      whileInView={{ scaleX: 1, scaleY: 1, opacity: 1 }}
-      viewport={inViewOnce}
-      transition={{ duration, ease: [0.16, 1, 0.3, 1] }}
-    />
+      }} initial={{ scaleX: isVertical ? 1 : 0, scaleY: isVertical ? 0 : 1, opacity: 0 }} animate={{ scaleX: 1, scaleY: 1, opacity: 1 }} transition={{ duration, ease: [0.16, 1, 0.3, 1] }}/>
   )
 }

@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 
-import { fadeUp, inViewOnce } from '@/lib/motion'
+import { fadeUp } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 /**
  * Zone 3 — "The Manifesto"
@@ -79,13 +79,7 @@ export default function CallingCard() {
           {/* ═══════════ LEFT — main editorial column (8/12) ═══════════ */}
           <div className="lg:col-span-8">
             {/* Eyebrow with No. 02 */}
-            <motion.div
-              variants={fadeUp(0)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="flex items-center gap-4"
-            >
+            <Reveal variants={fadeUp(0)} className="flex items-center gap-4">
               <span
                 aria-hidden
                 className="block h-px w-12"
@@ -104,22 +98,14 @@ export default function CallingCard() {
               >
                 No. 02
               </span>
-            </motion.div>
+            </Reveal>
 
             {/* Display quote */}
-            <motion.blockquote
-              variants={fadeUp(0.05)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              id="calling-card-heading"
-              className="mt-5 font-body text-white/95"
-              style={{
+            <Reveal as="blockquote" variants={fadeUp(0.05)} id="calling-card-heading" className="mt-5 font-body text-white/95" style={{
                 fontSize: 'clamp(1.7rem, 3.8vw, 2.9rem)',
                 lineHeight: '1.08',
                 letterSpacing: '-0.02em',
-              }}
-            >
+              }}>
               <span
                 aria-hidden
                 className="mr-1 inline-block align-top font-fell text-accent/55"
@@ -136,32 +122,19 @@ export default function CallingCard() {
               >
                 The dispensary opens after.
               </span>
-            </motion.blockquote>
+            </Reveal>
 
             {/* Gold ornament divider */}
-            <motion.div
-              variants={fadeUp(0.1)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="mt-6 flex items-center gap-3"
-              aria-hidden
-            >
+            <Reveal variants={fadeUp(0.1)} className="mt-6 flex items-center gap-3" aria-hidden>
               <span className="block h-px w-12 bg-accent/40" />
               <span className="text-accent/80" style={{ fontSize: '13px', lineHeight: 1 }}>
                 ✦
               </span>
               <span className="block h-px w-12 bg-accent/40" />
-            </motion.div>
+            </Reveal>
 
             {/* Two-column body paragraphs */}
-            <motion.div
-              variants={fadeUp(0.15)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="mt-5 grid max-w-[640px] grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2"
-            >
+            <Reveal variants={fadeUp(0.15)} className="mt-5 grid max-w-[640px] grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2">
               <p
                 className="font-body italic text-cream"
                 style={{ fontSize: '13.5px', lineHeight: '1.65', color: '#EDF4E7' }}
@@ -180,16 +153,10 @@ export default function CallingCard() {
                 teachers kept theirs — by hand, in small batches, to proportions older
                 than the building itself.
               </p>
-            </motion.div>
+            </Reveal>
 
             {/* Trust-promise stat row */}
-            <motion.div
-              variants={fadeUp(0.2)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="mt-7 grid max-w-[600px] grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6 lg:gap-8"
-            >
+            <Reveal variants={fadeUp(0.2)} className="mt-7 grid max-w-[600px] grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6 lg:gap-8">
               <div>
                 <p
                   className="whitespace-nowrap font-body font-medium italic text-accent"
@@ -232,16 +199,10 @@ export default function CallingCard() {
                   Treatment rooms · oils pressed by hand
                 </p>
               </div>
-            </motion.div>
+            </Reveal>
 
             {/* Signature */}
-            <motion.div
-              variants={fadeUp(0.25)}
-              initial="initial"
-              whileInView="animate"
-              viewport={inViewOnce}
-              className="mt-8 flex items-center gap-4"
-            >
+            <Reveal variants={fadeUp(0.25)} className="mt-8 flex items-center gap-4">
               <span
                 aria-hidden
                 className="block h-px w-16"
@@ -253,17 +214,11 @@ export default function CallingCard() {
               <span className="font-heading text-[9.5px] font-semibold uppercase tracking-[0.4em] text-accent/85">
                 — The Ayurvedic Wellness Centre Practice
               </span>
-            </motion.div>
+            </Reveal>
           </div>
 
           {/* ═══════════ RIGHT — marginalia column (4/12) ═══════════ */}
-          <motion.div
-            variants={fadeUp(0.1)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="hidden self-start pr-2 pt-2 lg:col-span-4 lg:flex lg:flex-col lg:items-end lg:gap-8"
-          >
+          <Reveal variants={fadeUp(0.1)} className="hidden self-start pr-2 pt-2 lg:col-span-4 lg:flex lg:flex-col lg:items-end lg:gap-8">
             {/* Wax seal */}
             <div
               aria-hidden
@@ -301,17 +256,11 @@ export default function CallingCard() {
             >
               Brickfields · Kuala Lumpur · Malaysia
             </div>
-          </motion.div>
+          </Reveal>
         </div>
 
         {/* Bottom postscript credits band */}
-        <motion.div
-          variants={fadeUp(0.3)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mt-7 flex flex-wrap items-center justify-between gap-y-3 border-t border-accent/25 pt-4 text-white/55"
-        >
+        <Reveal variants={fadeUp(0.3)} className="mt-7 flex flex-wrap items-center justify-between gap-y-3 border-t border-accent/25 pt-4 text-white/55">
           <span className="font-heading text-[9px] uppercase tracking-[0.4em]">
             Vol. II · The Correspondence
           </span>
@@ -326,7 +275,7 @@ export default function CallingCard() {
           >
             — printed in Brickfields
           </span>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

@@ -3,7 +3,8 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { clipReveal, fadeUp, slideIn, staggerParent, inViewOnce } from '@/lib/motion'
+import { clipReveal, fadeUp, slideIn, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 interface Credential {
   label: string
@@ -43,13 +44,7 @@ export default function MedicalAuthority() {
     >
       <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr]">
         {/* ── LEFT: Credentials panel ─────────────────── */}
-        <motion.div
-          variants={slideIn('left', 0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative flex flex-col justify-center bg-[#75B843] px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-11"
-        >
+        <Reveal variants={slideIn('left', 0)} className="relative flex flex-col justify-center bg-[#75B843] px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-11">
           {/* Grain */}
           <div className="grain-overlay-dark pointer-events-none absolute inset-0" aria-hidden />
 
@@ -63,13 +58,7 @@ export default function MedicalAuthority() {
             aria-hidden
           />
 
-          <motion.div
-            variants={staggerParent(0.1, 0.05)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="relative z-10 max-w-lg"
-          >
+          <Reveal variants={staggerParent(0.1, 0.05)} className="relative z-10 max-w-lg">
             <motion.span
               variants={fadeUp(0)}
               className="font-heading text-[10px] font-semibold uppercase tracking-[0.35em] text-accent/70"
@@ -163,17 +152,11 @@ export default function MedicalAuthority() {
                 care and consistency.
               </p>
             </motion.div>
-          </motion.div>
-        </motion.div>
+          </Reveal>
+        </Reveal>
 
         {/* ── RIGHT: Full-bleed photograph ─────────────── */}
-        <motion.div
-          variants={clipReveal('right', 0.15)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative hidden min-h-[400px] lg:block"
-        >
+        <Reveal variants={clipReveal('right', 0.15)} className="relative hidden min-h-[400px] lg:block">
           <Image
             src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=80"
             alt="Our Vaidya, B.A.M.S., M.D. (Ayu) — Lead Ayurvedic Physician at Ayurvedic Wellness Centre"
@@ -196,16 +179,10 @@ export default function MedicalAuthority() {
             }}
             aria-hidden
           />
-        </motion.div>
+        </Reveal>
 
         {/* ── MOBILE: Image band ───────────────────────── */}
-        <motion.div
-          variants={clipReveal('bottom', 0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative h-[40vh] min-h-[250px] lg:hidden"
-        >
+        <Reveal variants={clipReveal('bottom', 0)} className="relative h-[40vh] min-h-[250px] lg:hidden">
           <Image
             src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=900&q=80"
             alt="Our Vaidya, B.A.M.S., M.D. (Ayu)"
@@ -218,7 +195,7 @@ export default function MedicalAuthority() {
             style={{ backgroundColor: 'rgba(0, 107, 60,0.35)' }}
             aria-hidden
           />
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

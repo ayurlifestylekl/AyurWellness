@@ -4,10 +4,11 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus } from 'lucide-react'
 
-import { EASE_OUT_PREMIUM, fadeUp, inViewOnce } from '@/lib/motion'
+import { EASE_OUT_PREMIUM, fadeUp } from '@/lib/motion'
 import { contactFaqs as contactFaqsFallback } from '@/data/contactFaqs'
 import type { FAQ } from '@/data/faqs'
 import { CLINIC_ADDRESS, CLINIC_LEGAL_NAME, CLINIC_REG_NO } from '@/lib/clinic'
+import Reveal from '@/components/ui/Reveal'
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
 
@@ -125,13 +126,7 @@ export default function Footnotes({ items = contactFaqsFallback }: FootnotesProp
 
       <div className="relative mx-auto w-full max-w-5xl px-8 sm:px-10 lg:px-8">
         {/* Eyebrow */}
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="flex items-center justify-center gap-4 text-center"
-        >
+        <Reveal variants={fadeUp(0)} className="flex items-center justify-center gap-4 text-center">
           <span
             aria-hidden
             className="h-px w-14 sm:w-20"
@@ -149,31 +144,19 @@ export default function Footnotes({ items = contactFaqsFallback }: FootnotesProp
               background: 'linear-gradient(to left, transparent, rgba(181, 138, 59,0.7))',
             }}
           />
-        </motion.div>
+        </Reveal>
 
         {/* 2-column body */}
         <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-10 lg:mt-7">
           {/* LEFT — pinned note */}
-          <motion.aside
-            variants={fadeUp(0)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="md:col-span-5 lg:col-span-4"
-          >
+          <Reveal as="aside" variants={fadeUp(0)} className="md:col-span-5 lg:col-span-4">
             <div className="md:sticky md:top-28">
               <NoteCard />
             </div>
-          </motion.aside>
+          </Reveal>
 
           {/* RIGHT — accordion */}
-          <motion.div
-            variants={fadeUp(0.05)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="md:col-span-7 lg:col-span-8"
-          >
+          <Reveal variants={fadeUp(0.05)} className="md:col-span-7 lg:col-span-8">
             {/* Section title */}
             <div className="flex items-baseline justify-between gap-4">
               <h2
@@ -305,7 +288,7 @@ export default function Footnotes({ items = contactFaqsFallback }: FootnotesProp
                 {CLINIC_LEGAL_NAME} · Reg. {CLINIC_REG_NO} · {CLINIC_ADDRESS}
               </p>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

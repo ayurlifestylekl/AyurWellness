@@ -3,7 +3,8 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 const GOLD = '#B58A3B'
 const INK = '#006B3C'
@@ -66,7 +67,7 @@ export default function CentreGallery() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-10 sm:px-8 lg:py-12">
         {/* Header */}
-        <motion.div variants={fadeUp(0)} initial="initial" whileInView="animate" viewport={inViewOnce} className="mx-auto max-w-xl text-center">
+        <Reveal variants={fadeUp(0)} className="mx-auto max-w-xl text-center">
           <div className="flex items-center justify-center gap-3">
             <span aria-hidden className="h-px w-8" style={{ backgroundColor: GOLD, opacity: 0.7 }} />
             <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.4em]" style={{ color: GOLD }}>
@@ -87,16 +88,10 @@ export default function CentreGallery() {
           <p className="mt-2 font-body text-[13.5px] italic leading-[1.55]" style={{ color: 'rgba(0,42,25,0.6)' }}>
             A real look at the space — from our Brickfields storefront to the room your treatment happens in.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Gallery — one even row, four equal tiles */}
-        <motion.div
-          variants={staggerParent(0.06, 0.15)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mx-auto mt-8 grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
-        >
+        <Reveal variants={staggerParent(0.06, 0.15)} className="mx-auto mt-8 grid max-w-6xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           <motion.div variants={fadeUp(0)}>
             <Tile
               src="/about/gallery-exterior.jpg"
@@ -125,7 +120,7 @@ export default function CentreGallery() {
               label="Treatment Room"
             />
           </motion.div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

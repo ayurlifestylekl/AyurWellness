@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { wellnessFocusAreas } from '@/data/about'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 const GOLD = '#B58A3B'
 const GOLD_LIGHT = '#E4C384'
@@ -40,7 +41,7 @@ export default function WellnessFocus() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-8 sm:px-8 md:py-10 lg:px-12">
         {/* Header — centered, matching this page's other section headers */}
-        <motion.div variants={fadeUp(0)} initial="initial" whileInView="animate" viewport={inViewOnce} className="mx-auto max-w-xl text-center">
+        <Reveal variants={fadeUp(0)} className="mx-auto max-w-xl text-center">
           <div className="flex items-center justify-center gap-3">
             <span aria-hidden className="h-px w-8" style={{ backgroundColor: GOLD_LIGHT, opacity: 0.7 }} />
             <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.4em]" style={{ color: GOLD_LIGHT }}>
@@ -61,16 +62,10 @@ export default function WellnessFocus() {
           <p className="mt-2 font-body text-[13px] italic leading-[1.5]" style={{ color: 'rgba(237,244,231,0.6)' }}>
             Eight living rituals — one for each season of the body.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Menu — all eight, two columns, hairline-divided, no picker */}
-        <motion.div
-          variants={staggerParent(0.04, 0.1)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mx-auto mt-6 grid max-w-5xl grid-cols-1 md:grid-cols-2 md:gap-x-10"
-        >
+        <Reveal variants={staggerParent(0.04, 0.1)} className="mx-auto mt-6 grid max-w-5xl grid-cols-1 md:grid-cols-2 md:gap-x-10">
           {items.map((area, i) => {
             const Icon = area.icon
             const isLeftCol = i % 2 === 0
@@ -105,10 +100,10 @@ export default function WellnessFocus() {
               </motion.div>
             )
           })}
-        </motion.div>
+        </Reveal>
 
         {/* Closing CTA */}
-        <motion.div variants={fadeUp(0.1)} initial="initial" whileInView="animate" viewport={inViewOnce} className="mt-6 flex justify-center">
+        <Reveal variants={fadeUp(0.1)} className="mt-6 flex justify-center">
           <Link
             href="/treatments"
             className="group inline-flex items-center gap-2 border px-5 py-2.5 transition-[background-color,border-color] duration-500 hover:bg-white/5"
@@ -119,7 +114,7 @@ export default function WellnessFocus() {
             </span>
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" style={{ color: GOLD_LIGHT }} strokeWidth={1.5} />
           </Link>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

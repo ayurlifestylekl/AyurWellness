@@ -3,10 +3,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-import { fadeUp, inViewOnce, staggerParent } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
 import type { PostListItem } from '@/types/blog'
 
 import PostCard from './PostCard'
+import Reveal from '@/components/ui/Reveal'
 
 interface RelatedPostsProps {
   posts: PostListItem[]
@@ -25,13 +26,7 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
       className="relative mx-auto max-w-7xl px-6 pt-24 sm:px-8 md:pt-32 lg:px-12"
     >
       {/* Section marker */}
-      <motion.div
-        variants={staggerParent(0.1, 0.05)}
-        initial="initial"
-        whileInView="animate"
-        viewport={inViewOnce}
-        className="flex flex-col items-start gap-5"
-      >
+      <Reveal variants={staggerParent(0.1, 0.05)} className="flex flex-col items-start gap-5">
         <motion.div variants={fadeUp(0)} className="flex items-center gap-3">
           <span className="font-heading text-[10px] font-bold uppercase tracking-[0.3em] text-accent/85">
             <span className="text-primary/40">009</span> &nbsp;/&nbsp; Continue reading
@@ -53,20 +48,14 @@ export default function RelatedPosts({ posts }: RelatedPostsProps) {
           aria-hidden
           className="h-px w-full max-w-md bg-gradient-to-r from-accent/55 via-primary/15 to-transparent"
         />
-      </motion.div>
+      </Reveal>
 
       {/* Grid */}
-      <motion.div
-        variants={staggerParent(0.08, 0.1)}
-        initial="initial"
-        whileInView="animate"
-        viewport={inViewOnce}
-        className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
+      <Reveal variants={staggerParent(0.08, 0.1)} className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((p) => (
           <PostCard key={p._id} post={p} variant="compact" />
         ))}
-      </motion.div>
+      </Reveal>
     </section>
   )
 }

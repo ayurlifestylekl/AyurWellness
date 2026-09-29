@@ -147,8 +147,8 @@ export default function Threshold() {
 
               {/* Photo plate — 4:5 portrait crop */}
               <motion.div
-                initial={{ clipPath: 'inset(0 0 100% 0)', opacity: 0 }}
-                animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
+                initial={{ clipPath: 'inset(0% 0% 100% 0%)', opacity: 0 }}
+                animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
                 transition={{ duration: 1.1, delay: 0.75, ease: EASE_OUT_PREMIUM }}
                 className="relative aspect-[4/5] w-full overflow-hidden rounded-[2px]"
                 style={{
@@ -299,8 +299,8 @@ export default function Threshold() {
               style={{ letterSpacing: '-0.05em' }}
             >
               <motion.span
-                initial={{ clipPath: 'inset(0 100% 0 0)', opacity: 0 }}
-                animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1 }}
+                initial={{ clipPath: 'inset(0% 100% 0% 0%)', opacity: 0 }}
+                animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1 }}
                 transition={{ duration: 0.9, delay: 0.65, ease: EASE_OUT_PREMIUM }}
                 className="block"
                 style={{ fontSize: 'clamp(1.9rem, 4.6vw, 3.4rem)' }}
@@ -308,8 +308,8 @@ export default function Threshold() {
                 Cross the
               </motion.span>
               <motion.span
-                initial={{ clipPath: 'inset(0 0 0 100%)', opacity: 0, rotate: 0.4 }}
-                animate={{ clipPath: 'inset(0 0 0 0)', opacity: 1, rotate: -0.4 }}
+                initial={{ clipPath: 'inset(0% 0% 0% 100%)', opacity: 0, rotate: 0.4 }}
+                animate={{ clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, rotate: -0.4 }}
                 transition={{ duration: 1.0, delay: 0.85, ease: EASE_OUT_PREMIUM }}
                 className="relative -mt-1 block font-body font-semibold italic text-accent"
                 style={{

@@ -3,7 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { philosophyPillars } from '@/data/about'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 const GOLD = '#B58A3B'
 const GOLD_LIGHT = '#E4C384'
@@ -45,13 +46,7 @@ export default function OurPhilosophy() {
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-10 sm:px-8 lg:px-12 lg:py-12">
         {/* ── Header — centered, not sticky-left, so the section reads as one balanced block ── */}
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mx-auto max-w-xl text-center"
-        >
+        <Reveal variants={fadeUp(0)} className="mx-auto max-w-xl text-center">
           <div className="flex items-center justify-center gap-3">
             <span aria-hidden className="h-px w-8" style={{ backgroundColor: GOLD_LIGHT, opacity: 0.7 }} />
             <span className="font-heading text-[10px] font-semibold uppercase tracking-[0.4em]" style={{ color: GOLD_LIGHT }}>
@@ -89,16 +84,10 @@ export default function OurPhilosophy() {
             <path d="M 40 6 L 48 2 L 56 6 L 48 10 Z" />
             <line x1="62" y1="6" x2="96" y2="6" />
           </svg>
-        </motion.div>
+        </Reveal>
 
         {/* ── Three equal pillar cards ─────────────────────── */}
-        <motion.div
-          variants={staggerParent(0.1, 0.15)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:gap-5"
-        >
+        <Reveal variants={staggerParent(0.1, 0.15)} className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:gap-5">
           {philosophyPillars.map((pillar) => {
             const Icon = pillar.icon
             return (
@@ -176,19 +165,12 @@ export default function OurPhilosophy() {
               </motion.div>
             )
           })}
-        </motion.div>
+        </Reveal>
 
         {/* Signature */}
-        <motion.p
-          variants={fadeUp(0.2)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mt-10 text-center font-body text-[13px] italic"
-          style={{ color: 'rgba(237,244,231,0.45)' }}
-        >
+        <Reveal as="p" variants={fadeUp(0.2)} className="mt-10 text-center font-body text-[13px] italic" style={{ color: 'rgba(237,244,231,0.45)' }}>
           — the Ayurvedic Wellness Centre
-        </motion.p>
+        </Reveal>
       </div>
     </section>
   )

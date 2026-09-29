@@ -4,10 +4,11 @@ import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { fadeUp, staggerParent, inViewOnce } from '@/lib/motion'
+import { fadeUp, staggerParent } from '@/lib/motion'
 import { featuredProducts } from '@/data/featuredProducts'
 import { whatsappLink } from '@/lib/clinic'
 import type { FeaturedProduct, ProductBadge } from '@/types/content'
+import Reveal from '@/components/ui/Reveal'
 
 /* ── Palette — deep forest-black backdrop, gold foil accents, ivory cards ── */
 const GOLD       = '#B58A3B'
@@ -69,13 +70,7 @@ export default function FeaturedProducts() {
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 py-8 sm:px-10 lg:px-12 lg:py-10">
 
         {/* ── HEADER ── */}
-        <motion.header
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
-        >
+        <Reveal as="header" variants={fadeUp(0)} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
             <span className="font-heading text-[10px] font-medium uppercase tracking-[0.42em]" style={{ color: GOLD_LIGHT }}>
               Curated Collection
@@ -124,16 +119,10 @@ export default function FeaturedProducts() {
               )
             })}
           </div>
-        </motion.header>
+        </Reveal>
 
         {/* ── PRODUCT ROW — all products, one row on desktop ── */}
-        <motion.div
-          variants={staggerParent(0.08, 0.05)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-7 lg:grid-cols-5 lg:gap-4"
-        >
+        <Reveal variants={staggerParent(0.08, 0.05)} className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:mt-7 lg:grid-cols-5 lg:gap-4">
           <AnimatePresence mode="popLayout">
             {filteredProducts.map((p) => (
               <motion.div
@@ -148,7 +137,7 @@ export default function FeaturedProducts() {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

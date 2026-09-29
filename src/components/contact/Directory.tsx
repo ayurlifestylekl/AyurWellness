@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 
-import { EASE_OUT_PREMIUM, fadeUp, inViewOnce, staggerParent } from '@/lib/motion'
+import { EASE_OUT_PREMIUM, fadeUp, staggerParent } from '@/lib/motion'
 import { mailtoLink } from '@/lib/clinic'
+import Reveal from '@/components/ui/Reveal'
 
 type Channel = {
   serial: string
@@ -90,13 +91,7 @@ export default function Directory() {
 
       <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-8">
         {/* Section header */}
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mx-auto max-w-2xl text-center"
-        >
+        <Reveal variants={fadeUp(0)} className="mx-auto max-w-2xl text-center">
           <div className="flex items-center justify-center gap-4">
             <span
               aria-hidden
@@ -129,16 +124,10 @@ export default function Directory() {
             Pick the channel that fits. Each one lands with a real person; none of them
             funnel into a queue.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* ─── DESKTOP — 4-up editorial spread ──────────────────── */}
-        <motion.div
-          variants={fadeUp(0.1)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative mx-auto mt-10 hidden w-full rounded-[4px] bg-white/55 shadow-elevated lg:block"
-        >
+        <Reveal variants={fadeUp(0.1)} className="relative mx-auto mt-10 hidden w-full rounded-[4px] bg-white/55 shadow-elevated lg:block">
           {/* Outer double hairline */}
           <div
             aria-hidden
@@ -163,27 +152,15 @@ export default function Directory() {
           />
 
           {/* 4-up grid — 2×2 at lg, 4 columns at xl */}
-          <motion.div
-            variants={staggerParent(0.08, 0.15)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className="relative grid grid-cols-2 divide-accent/20 xl:grid-cols-4 [&>*:nth-child(2n)]:border-l [&>*:nth-child(2n)]:border-accent/20 [&>*:nth-child(n+3)]:border-t [&>*:nth-child(n+3)]:border-accent/20 xl:[&>*:nth-child(2n)]:border-l-0 xl:[&>*:nth-child(n+3)]:border-t-0 xl:[&>*+*]:border-l xl:[&>*+*]:border-accent/20"
-          >
+          <Reveal variants={staggerParent(0.08, 0.15)} className="relative grid grid-cols-2 divide-accent/20 xl:grid-cols-4 [&>*:nth-child(2n)]:border-l [&>*:nth-child(2n)]:border-accent/20 [&>*:nth-child(n+3)]:border-t [&>*:nth-child(n+3)]:border-accent/20 xl:[&>*:nth-child(2n)]:border-l-0 xl:[&>*:nth-child(n+3)]:border-t-0 xl:[&>*+*]:border-l xl:[&>*+*]:border-accent/20">
             {CHANNELS.map((channel) => (
               <ChannelCell key={channel.serial} channel={channel} />
             ))}
-          </motion.div>
-        </motion.div>
+          </Reveal>
+        </Reveal>
 
         {/* ─── MOBILE — inline accordion ──────────────────────────── */}
-        <motion.div
-          variants={fadeUp(0.1)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative mx-auto mt-8 w-full rounded-[4px] bg-white/60 shadow-elevated lg:hidden"
-        >
+        <Reveal variants={fadeUp(0.1)} className="relative mx-auto mt-8 w-full rounded-[4px] bg-white/60 shadow-elevated lg:hidden">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-[8px] rounded-[3px] border border-accent/30"
@@ -215,7 +192,7 @@ export default function Directory() {
               />
             ))}
           </ul>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )

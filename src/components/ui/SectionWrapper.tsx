@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
-import { fadeUp, inViewOnce } from '@/lib/motion'
+
+import { fadeUp } from '@/lib/motion'
+import Reveal from '@/components/ui/Reveal'
 
 type PaddingVariant = 'tight' | 'standard' | 'immersive'
 
@@ -60,17 +61,11 @@ export default function SectionWrapper({
         className={`mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 ${paddingStyles[padding]} ${innerClassName}`}
       >
         {(eyebrow || title || subtitle) && (
-          <motion.div
-            variants={fadeUp(0)}
-            initial="initial"
-            whileInView="animate"
-            viewport={inViewOnce}
-            className={`mb-14 flex flex-col gap-4 ${alignment} ${
+          <Reveal variants={fadeUp(0)} className={`mb-14 flex flex-col gap-4 ${alignment} ${
               align === 'left'
                 ? 'md:flex-row md:items-end md:justify-between md:gap-10'
                 : ''
-            }`}
-          >
+            }`}>
             <div className={`flex flex-col gap-4 ${alignment}`}>
               {eyebrow && (
                 <span className="font-heading text-[11px] font-bold uppercase tracking-[0.28em] text-accent">
@@ -98,7 +93,7 @@ export default function SectionWrapper({
             {headerActions && (
               <div className="flex shrink-0 items-center">{headerActions}</div>
             )}
-          </motion.div>
+          </Reveal>
         )}
 
         {children}

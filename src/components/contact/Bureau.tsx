@@ -4,8 +4,9 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 
-import { EASE_OUT_PREMIUM, fadeUp, inViewOnce, staggerParent } from '@/lib/motion'
+import { EASE_OUT_PREMIUM, fadeUp, staggerParent } from '@/lib/motion'
 import { CLINIC_ADDRESS, CLINIC_EMAIL, CLINIC_PHONE_PRIMARY, mailtoLink, telLink, whatsappLink } from '@/lib/clinic'
+import Reveal from '@/components/ui/Reveal'
 
 const heroDiamondPattern = {
   backgroundImage: `
@@ -57,31 +58,18 @@ export default function Bureau() {
       <div className="grain-overlay-dark pointer-events-none absolute inset-0" aria-hidden />
 
       {/* L4  Gold double frame + corner brackets */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.985 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={inViewOnce}
-        transition={{ duration: 1.2, ease: EASE_OUT_PREMIUM }}
-        className="pointer-events-none absolute inset-4 sm:inset-6 md:inset-8 lg:inset-10"
-        aria-hidden
-      >
+      <Reveal initial={{ opacity: 0, scale: 0.985 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: EASE_OUT_PREMIUM }} className="pointer-events-none absolute inset-4 sm:inset-6 md:inset-8 lg:inset-10" aria-hidden>
         <div className="absolute inset-0 rounded-[2px] border border-accent/55" />
         <div className="absolute inset-[10px] rounded-[2px] border border-accent/25 sm:inset-3" />
         <div className="absolute -left-[1px] -top-[1px] h-4 w-4 border-l-2 border-t-2 border-accent/80" />
         <div className="absolute -right-[1px] -top-[1px] h-4 w-4 border-r-2 border-t-2 border-accent/80" />
         <div className="absolute -bottom-[1px] -left-[1px] h-4 w-4 border-b-2 border-l-2 border-accent/80" />
         <div className="absolute -bottom-[1px] -right-[1px] h-4 w-4 border-b-2 border-r-2 border-accent/80" />
-      </motion.div>
+      </Reveal>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-8 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-10">
         {/* Masthead */}
-        <motion.div
-          variants={fadeUp(0)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="mx-auto max-w-3xl text-center"
-        >
+        <Reveal variants={fadeUp(0)} className="mx-auto max-w-3xl text-center">
           <div className="flex items-center justify-center gap-4">
             <span
               aria-hidden
@@ -120,16 +108,10 @@ export default function Bureau() {
             incense and the curry houses. Step through the teak door; the Centre
             is on the ground floor.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Three-column frieze */}
-        <motion.div
-          variants={staggerParent(0.1, 0.2)}
-          initial="initial"
-          whileInView="animate"
-          viewport={inViewOnce}
-          className="relative mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_1fr_1fr] lg:gap-0"
-        >
+        <Reveal variants={staggerParent(0.1, 0.2)} className="relative mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_1fr_1fr] lg:gap-0">
           {/* Vertical gold hairlines between columns (desktop) */}
           <span
             aria-hidden
@@ -336,7 +318,7 @@ export default function Bureau() {
               </div>
             </div>
           </motion.div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   )
