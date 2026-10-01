@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ShoppingCart, User, ChevronRight, Phone, Mail, MapPin, Calendar, Sparkles } from 'lucide-react'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
-import { CLINIC_ADDRESS, CLINIC_EMAIL, CLINIC_MAPS_URL, CLINIC_PHONE_PRIMARY, mailtoLink, telLink } from '@/lib/clinic'
+import { CLINIC_ADDRESS, CLINIC_EMAIL, CLINIC_MAPS_URL, CLINIC_PHONE_PRIMARY, CLINIC_SOCIALS, mailtoLink, telLink } from '@/lib/clinic'
+import { SOCIAL_ICON } from '@/components/ui/socialIcons'
 
 const navLinks = [
   { label: 'Home',        href: '/'           },
@@ -68,15 +69,20 @@ export default function Navbar() {
 
           {/* Right: social */}
           <div className="flex items-center gap-2">
-            {/* Placeholders until the brand's social accounts are confirmed.
-                Rendered inert rather than as href="#" links, so they can't be
-                clicked into a dead navigation. */}
-            <span aria-hidden title="Coming soon" className="flex h-6 w-6 items-center justify-center text-white/30">
-              <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </span>
-            <span aria-hidden title="Coming soon" className="flex h-6 w-6 items-center justify-center text-white/30">
-              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-            </span>
+            {CLINIC_SOCIALS.map((s) => (
+              <a
+                key={s.name}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.name}
+                className="flex h-6 w-6 items-center justify-center text-white/60 transition-colors hover:text-accent"
+              >
+                <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d={SOCIAL_ICON[s.name]} />
+                </svg>
+              </a>
+            ))}
           </div>
         </div>
       </div>

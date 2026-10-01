@@ -7,7 +7,7 @@ import FeaturedProducts from '@/components/sections/FeaturedProducts'
 import FAQs from '@/components/sections/FAQs'
 import FinalBookingCTA from '@/components/sections/FinalBookingCTA'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
-import { CLINIC_DOMAIN, CLINIC_EMAIL, CLINIC_LEGAL_NAME, CLINIC_NAME, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
+import { CLINIC_DOMAIN, CLINIC_EMAIL, CLINIC_LEGAL_NAME, CLINIC_NAME, CLINIC_PHONE_PRIMARY, CLINIC_SOCIALS } from '@/lib/clinic'
 import { faqs as homeFaqsFallback } from '@/data/faqs'
 import { fetchFaqs } from '@/sanity/fetchFaqs'
 
@@ -35,8 +35,9 @@ const localBusinessJsonLd = {
     name: 'Malaysia',
   },
   paymentAccepted: 'Cash, Credit Card, Online Banking',
-  // No confirmed social profiles for this brand yet — omitted rather than
-  // guessed, since an invented sameAs URL is worse than no URL at all.
+  // Confirmed by the clinic. These tell Google the official accounts belong to
+  // this business, so they can surface in the brand's knowledge panel.
+  sameAs: CLINIC_SOCIALS.map((s) => s.url),
 }
 
 export default async function Home() {

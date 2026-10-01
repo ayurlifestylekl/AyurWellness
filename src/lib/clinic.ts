@@ -28,6 +28,20 @@ export const CLINIC_ADDRESS = 'No. 68-3, Jalan Padang Belia, Brickfields, 50470 
 export const CLINIC_MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=Ayurvedic+Wellness+Centre+Brickfields+Kuala+Lumpur'
 
+/**
+ * The clinic's public social accounts. Single source of truth — the navbar,
+ * the footer and the Organization schema all read from here, so adding or
+ * changing an account is a one-line edit.
+ */
+export const CLINIC_SOCIALS: ReadonlyArray<{
+  name: 'Facebook' | 'Instagram' | 'TikTok'
+  url: string
+}> = [
+  { name: 'Facebook', url: 'https://www.facebook.com/ayurvedicwellnessbrickfields' },
+  { name: 'Instagram', url: 'https://www.instagram.com/ayurvedicwellnessbrickfields/' },
+  { name: 'TikTok', url: 'https://www.tiktok.com/@ayurvedicwellness_' },
+]
+
 /** Display-only opening hours. Update when the clinic's hours change. */
 export const CLINIC_HOURS: ReadonlyArray<{ day: string; hours: string }> = [
   { day: 'Mon – Fri', hours: '9:00 am – 7:00 pm' },
