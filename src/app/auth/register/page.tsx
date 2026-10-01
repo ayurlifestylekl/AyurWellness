@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import RegisterForm from './RegisterForm'
 import CustomerLoginSplit from '@/components/auth/CustomerLoginSplit'
+import AccountsClosedNotice from '@/components/auth/AccountsClosedNotice'
+import { memberAccountsOpen } from '@/lib/auth/accounts'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
@@ -43,6 +45,15 @@ export default async function RegisterPage({
     const params = new URLSearchParams({ tab: 'signup' })
     if (searchParams.next) params.set('next', searchParams.next)
     redirect(`/auth/login?${params.toString()}`)
+  }
+
+  // Partner sign-up sends a confirmation email, which isn't set up yet.
+  if (!memberAccountsOpen()) {
+    return (
+      <CustomerLoginSplit>
+        <AccountsClosedNotice variant="partner" />
+      </CustomerLoginSplit>
+    )
   }
 
   const invite = await lookupInvite(searchParams.invite)

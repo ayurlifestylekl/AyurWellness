@@ -13,7 +13,7 @@ const CAPTURED = 'kal-lead-captured'
  * for deals — and is dismissible (unlike the WhatsApp gate). Shown once per
  * visitor (remembered in the browser).
  */
-export default function WelcomeLeadPopup() {
+export default function WelcomeLeadPopup({ accountsOpen = true }: { accountsOpen?: boolean }) {
   const [show, setShow] = useState(false)
   const [done, setDone] = useState(false)
 
@@ -78,12 +78,15 @@ export default function WelcomeLeadPopup() {
               <LeadCaptureForm source="welcome_popup" submitLabel="Get exclusive deals" onCaptured={captured} />
             </div>
 
-            <p className="mt-3 text-center font-body text-[12px] text-dark/55">
-              Prefer an account?{' '}
-              <Link href="/auth/register" className="font-semibold text-accent underline-offset-2 hover:underline" onClick={close}>
-                Create your account
-              </Link>
-            </p>
+            {/* Only offered once member accounts are open (see lib/auth/accounts). */}
+            {accountsOpen && (
+              <p className="mt-3 text-center font-body text-[12px] text-dark/55">
+                Prefer an account?{' '}
+                <Link href="/auth/register" className="font-semibold text-accent underline-offset-2 hover:underline" onClick={close}>
+                  Create your account
+                </Link>
+              </p>
+            )}
             <button onClick={close} className="mt-1 block w-full text-center font-body text-[12px] text-dark/45 hover:text-dark/70">
               Maybe later
             </button>

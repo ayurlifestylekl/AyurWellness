@@ -2,12 +2,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Sparkles, Gift } from 'lucide-react'
 
+import { memberAccountsOpen } from '@/lib/auth/accounts'
+
 /**
  * Split shell for /auth/login (customer only): photo + brand story on the
  * left, the form in a white card on warm ivory on the right. Below `lg` the
  * photo becomes a short banner above the card.
  */
 export default function CustomerLoginSplit({ children }: { children: React.ReactNode }) {
+  const accountsOpen = memberAccountsOpen()
   return (
     <div className="grid min-h-screen bg-[#F5F4EE] lg:grid-cols-[1.05fr_1fr]">
       <aside className="relative h-[300px] overflow-hidden text-white sm:h-[340px] lg:sticky lg:top-0 lg:h-screen">
@@ -66,14 +69,17 @@ export default function CustomerLoginSplit({ children }: { children: React.React
             <p className="mt-3 hidden font-body text-[14px] italic text-white/70 sm:block">
               — our Vaidyas · <span className="not-italic">B.A.M.S., M.D. (Ayu)</span>
             </p>
-            <div className="mt-6 hidden w-fit items-center gap-2.5 rounded-full border border-white/15 bg-white/10 py-2 pl-2.5 pr-4 backdrop-blur-md sm:flex">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#E4C384]">
-                <Gift className="h-3 w-3 text-[#12372D]" />
-              </span>
-              <span className="font-body text-[12.5px] text-white/90">
-                New here? <span className="font-semibold text-[#E4C384]">RM 10 off</span> your first order.
-              </span>
-            </div>
+            {/* The first-order perk belongs to an account, so only advertise it once accounts are open. */}
+            {accountsOpen && (
+              <div className="mt-6 hidden w-fit items-center gap-2.5 rounded-full border border-white/15 bg-white/10 py-2 pl-2.5 pr-4 backdrop-blur-md sm:flex">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#E4C384]">
+                  <Gift className="h-3 w-3 text-[#12372D]" />
+                </span>
+                <span className="font-body text-[12.5px] text-white/90">
+                  New here? <span className="font-semibold text-[#E4C384]">RM 10 off</span> your first order.
+                </span>
+              </div>
+            )}
             <div className="mt-8 hidden items-center gap-4 border-t border-white/15 pt-5 font-heading text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55 lg:flex">
               <span>Brickfields, KL</span>
               <span className="h-px w-4 bg-white/25" />

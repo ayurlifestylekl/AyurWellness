@@ -1,5 +1,6 @@
 'use server'
 
+import { memberAccountsOpen, ACCOUNTS_CLOSED_MESSAGE } from '@/lib/auth/accounts'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import type { AuthResult } from './types'
@@ -11,6 +12,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
  * doesn't exist in our system) so we don't leak account existence.
  */
 export async function requestPasswordReset(email: string): Promise<AuthResult> {
+  // Refuse before any email is attempted: it can't be delivered until email is set up.
+  if (!memberAccountsOpen()) return { ok: false, error: ACCOUNTS_CLOSED_MESSAGE }
   const cleanEmail = email.trim().toLowerCase()
 
   if (!EMAIL_RE.test(cleanEmail)) {

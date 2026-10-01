@@ -1,5 +1,6 @@
 'use server'
 
+import { memberAccountsOpen, ACCOUNTS_CLOSED_MESSAGE } from '@/lib/auth/accounts'
 import { createClient } from '@/lib/supabase/server'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -33,6 +34,8 @@ export type SignUpCustomerResult =
 export async function signUpCustomer(
   input: SignUpCustomerInput
 ): Promise<SignUpCustomerResult> {
+  // Refuse before any email is attempted: it can't be delivered until email is set up.
+  if (!memberAccountsOpen()) return { ok: false, error: ACCOUNTS_CLOSED_MESSAGE }
   const email = input.email.trim().toLowerCase()
   const fullName = input.fullName.trim()
   const phone = input.phone.trim()

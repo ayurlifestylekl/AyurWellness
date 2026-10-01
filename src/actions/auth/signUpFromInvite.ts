@@ -1,5 +1,6 @@
 'use server'
 
+import { memberAccountsOpen, ACCOUNTS_CLOSED_MESSAGE } from '@/lib/auth/accounts'
 import { createClient } from '@/lib/supabase/server'
 import type { AuthResult } from './types'
 
@@ -22,6 +23,8 @@ export async function signUpFromInvite(
   token: string,
   password: string
 ): Promise<AuthResult> {
+  // Refuse before any email is attempted: it can't be delivered until email is set up.
+  if (!memberAccountsOpen()) return { ok: false, error: ACCOUNTS_CLOSED_MESSAGE }
   const cleanToken = token.trim()
   if (!cleanToken || cleanToken.length < 5) {
     return { ok: false, error: 'This invite link is invalid.' }

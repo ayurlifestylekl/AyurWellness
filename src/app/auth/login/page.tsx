@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import CustomerLoginSplit from '@/components/auth/CustomerLoginSplit'
 import LoginForm from './LoginForm'
+import AccountsClosedNotice from '@/components/auth/AccountsClosedNotice'
+import { memberAccountsOpen } from '@/lib/auth/accounts'
 
 export const metadata: Metadata = {
   title: 'Sign In or Create Account',
@@ -15,6 +17,14 @@ export default function LoginPage({
   searchParams: { tab?: string; reset?: string; next?: string }
 }) {
   const tab = searchParams.tab === 'signup' ? 'signup' : 'signin'
+  // Sign-in and sign-up both depend on emailed codes, which aren't set up yet.
+  if (!memberAccountsOpen()) {
+    return (
+      <CustomerLoginSplit>
+        <AccountsClosedNotice variant="member" />
+      </CustomerLoginSplit>
+    )
+  }
   return (
     <CustomerLoginSplit>
       <LoginForm

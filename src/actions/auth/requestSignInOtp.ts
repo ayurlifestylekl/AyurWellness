@@ -1,5 +1,6 @@
 'use server'
 
+import { memberAccountsOpen, ACCOUNTS_CLOSED_MESSAGE } from '@/lib/auth/accounts'
 import { createClient } from '@/lib/supabase/server'
 import { detectIdentifier } from '@/lib/auth/detectIdentifier'
 
@@ -24,6 +25,8 @@ export async function requestSignInOtp(
   identifierRaw: string,
   password: string
 ): Promise<Result> {
+  // Refuse before any email is attempted: it can't be delivered until email is set up.
+  if (!memberAccountsOpen()) return { ok: false, error: ACCOUNTS_CLOSED_MESSAGE }
   const id = detectIdentifier(identifierRaw)
   if (!id) {
     return { ok: false, error: 'Enter a valid email or Malaysian phone number.' }

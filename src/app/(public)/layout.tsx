@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import WhatsAppWidget from '@/components/WhatsAppWidget'
 import AnnouncementBanner from '@/components/AnnouncementBanner'
 import WelcomeLeadPopup from '@/components/WelcomeLeadPopup'
+import { memberAccountsOpen } from '@/lib/auth/accounts'
 
 export default function PublicLayout({
   children,
@@ -16,7 +17,7 @@ export default function PublicLayout({
       <main>{children}</main>
       <Footer />
       <WhatsAppWidget />
-      <WelcomeLeadPopup />
+      <WelcomeLeadPopup accountsOpen={memberAccountsOpen()} />
     </>
   )
 }

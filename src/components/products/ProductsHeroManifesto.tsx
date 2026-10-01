@@ -20,21 +20,25 @@ const fadeIn = (delay: number) => ({
 /**
  * Products Hero — "Play, then reveal."
  *
- * A full-bleed video opens the page with nothing else on screen. Once it
- * finishes (it doesn't loop, so it holds on its last frame), a blurred
- * dark scrim fades in behind the text column and the headline/copy fade
- * in over it — the video IS the hero, not a backdrop behind static copy
- * from the first frame.
+ * A full-bleed video opens the page with nothing else on screen. After a short
+ * beat (REVEAL_AFTER_MS) a blurred dark scrim fades in behind the text column
+ * and the headline/copy fade in over it, while the clip keeps playing behind.
+ *
+ * It used to wait for the whole ~10s clip to finish, which meant a first-time
+ * visitor stared at wordless footage for 11-13s before seeing any headline.
+ * The video still opens the page, but nobody is made to wait for it.
  */
+const REVEAL_AFTER_MS = 3000
+
 export default function ProductsHeroManifesto({ productCount }: ProductsHeroManifestoProps) {
   const [revealed, setRevealed] = useState(false)
 
-  // Guaranteed fallback: the hero copy must never stay hidden forever if the
-  // video fails to load/decode, autoplay is blocked (common on mobile data-
-  // saver modes), or `onEnded` simply never fires. The clip is ~10s; give it
-  // a generous margin before revealing regardless.
+  // The copy appears after REVEAL_AFTER_MS no matter what the video does, so it
+  // can never stay hidden if the clip fails to load/decode or autoplay is
+  // blocked (common on mobile data-saver modes). onEnded/onError below remain
+  // as earlier triggers for the same state.
   useEffect(() => {
-    const t = setTimeout(() => setRevealed(true), 12000)
+    const t = setTimeout(() => setRevealed(true), REVEAL_AFTER_MS)
     return () => clearTimeout(t)
   }, [])
 
