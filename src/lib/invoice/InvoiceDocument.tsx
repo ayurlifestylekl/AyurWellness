@@ -248,7 +248,7 @@ export function InvoiceDocument({ order, customer }: InvoiceDocumentProps) {
             <Text style={styles.brandMeta}>
               Brickfields, Kuala Lumpur{'\n'}
               +6011-6339 3436{'\n'}
-              hello@ayurvedawellness.com.my
+              admin@ayurvedicwellness.com.my
             </Text>
           </View>
           <View style={styles.receiptBadge}>

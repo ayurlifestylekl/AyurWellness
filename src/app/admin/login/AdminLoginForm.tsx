@@ -7,7 +7,7 @@ export default function AdminLoginForm({ resetSuccess, nextPath }: { resetSucces
       title="Welcome back."
       subtitle="Restricted to authorised personnel. Use the staff account issued to you by the centre."
       emailLabel="Staff email"
-      emailPlaceholder="you@ayurvedawellness.com.my"
+      emailPlaceholder="you@ayurvedicwellness.com.my"
       ctaLabel="Enter Command Center"
       defaultRedirect="/admin/dashboard"
       crossLink={{ prompt: 'Not staff?', label: 'Member sign-in', href: '/auth/login' }}

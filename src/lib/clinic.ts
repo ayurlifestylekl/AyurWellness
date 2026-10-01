@@ -22,7 +22,7 @@ export const CLINIC_WHATSAPP = '601163393436'
 /** Human format for tel: + display. */
 export const CLINIC_PHONE_PRIMARY = '+603 2260 3435'
 
-export const CLINIC_EMAIL = 'admin@ayurvedawellness.com.my'
+export const CLINIC_EMAIL = 'admin@ayurvedicwellness.com.my'
 
 export const CLINIC_ADDRESS = 'No. 68-3, Jalan Padang Belia, Brickfields, 50470 Kuala Lumpur, Malaysia'
 export const CLINIC_MAPS_URL =

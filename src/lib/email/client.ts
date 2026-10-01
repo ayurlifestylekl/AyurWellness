@@ -12,7 +12,7 @@ import { CLINIC_DOMAIN, CLINIC_NAME } from '@/lib/clinic'
  *   SMTP_USER   provider login / API username
  *   SMTP_PASS   provider SMTP key / password
  *   SMTP_SECURE 'true' only for port 465
- *   EMAIL_FROM  "Ayurvedic Wellness Centre <noreply@ayurvedawellness.com.my>"
+ *   EMAIL_FROM  "Ayurvedic Wellness Centre <noreply@ayurvedicwellness.com.my>"
  */
 
 export const EMAIL_FROM =

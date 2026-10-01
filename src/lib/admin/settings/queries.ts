@@ -42,7 +42,7 @@ const DEFAULTS: SiteSettings = {
     clinic_name: 'Ayurvedic Wellness Centre',
     address: 'No. 68-3, Jalan Padang Belia, Brickfields, 50470 Kuala Lumpur',
     phone: '+603 2260 3435',
-    email: 'admin@ayurvedawellness.com.my',
+    email: 'admin@ayurvedicwellness.com.my',
     whatsapp: '+6011-6339 3436',
     hours: 'Mon-Sat 10:00-19:00, Sun closed',
     instagram_url: '',
@@ -59,7 +59,7 @@ const DEFAULTS: SiteSettings = {
     gender_policy_enabled: true,
   },
   notifications: {
-    admin_notify_email: 'admin@ayurvedawellness.com.my',
+    admin_notify_email: 'admin@ayurvedicwellness.com.my',
     low_stock_threshold: 5,
   },
 }
