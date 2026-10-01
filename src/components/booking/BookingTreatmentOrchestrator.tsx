@@ -9,6 +9,7 @@ import type { HealthIntake, Gender } from '@/types/booking'
 
 import BookingRequestForm from './BookingRequestForm'
 import ConsultationRequiredNotice from './ConsultationRequiredNotice'
+import PaymentsClosedNotice from './PaymentsClosedNotice'
 import TreatmentPicker from './TreatmentPicker'
 import HealthIntakeFields from './HealthIntakeFields'
 import SlotPicker from './SlotPicker'
@@ -22,6 +23,8 @@ interface BookingTreatmentOrchestratorProps {
   editBookingId?: string | null
   editToken?: string | null
   editBooking?: EditableBooking | null
+  /** False until online payment is set up — treatments are booked by WhatsApp meanwhile. */
+  paymentsOpen?: boolean
 }
 
 export default function BookingTreatmentOrchestrator({
@@ -31,6 +34,7 @@ export default function BookingTreatmentOrchestrator({
   editBookingId,
   editToken,
   editBooking,
+  paymentsOpen = true,
 }: BookingTreatmentOrchestratorProps) {
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
@@ -145,7 +149,7 @@ export default function BookingTreatmentOrchestrator({
           </div>
         )}
 
-        {selected && !isEnquiry && !needsConsult && (
+        {selected && !isEnquiry && !needsConsult && (paymentsOpen || isEdit) && (
           <div className="hidden lg:flex flex-col gap-3 mt-2">
             <HealthIntakeFields
               value={healthIntake}
@@ -182,7 +186,11 @@ export default function BookingTreatmentOrchestrator({
           </div>
         )}
 
-        {selected && !isEnquiry && !needsConsult && !isEdit && (
+        {selected && !isEnquiry && !needsConsult && !isEdit && !paymentsOpen && (
+          <PaymentsClosedNotice treatmentTitle={selected.title} />
+        )}
+
+        {selected && !isEnquiry && !needsConsult && !isEdit && paymentsOpen && (
           <BookingRequestForm
             key={selected._id}
             bookingKind="treatment"

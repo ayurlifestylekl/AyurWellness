@@ -26,6 +26,7 @@ import { effectiveGenderCapacity, findFreeVaidya } from './actions'
 import type { GroupGuest } from './actions'
 import { CONSULTATION_MINS, validateSubmittedSlot } from './slots'
 import { canAccessBooking } from './access'
+import { onlinePaymentsAvailable, PAYMENTS_CLOSED_MESSAGE } from '@/lib/payments/availability'
 import {
   ACTIVE_LINKED_TREATMENT_STATUSES,
   canLinkTreatmentToConsultation,
@@ -74,6 +75,9 @@ export type InstantBookingResult = { id: string; token: string; holdExpiresAt: s
  * within `CHECKOUT_HOLD_MINS` or the hold is released (sweepExpiredBookings).
  */
 export async function createInstantTreatmentBooking(input: BookingRequestInput): Promise<InstantBookingResult> {
+  // Checked before anything is reserved: with no payment provider set up the
+  // customer could take a slot hold they have no way to pay for.
+  if (!onlinePaymentsAvailable()) return { error: PAYMENTS_CLOSED_MESSAGE }
   if (!input.acceptedPolicies) return { error: 'Please accept the booking policies to continue.' }
   if (!input.patientName?.trim()) return { error: 'Please enter the patient name.' }
   if (!input.patientPhone?.trim()) return { error: 'Please enter a contact number.' }
@@ -238,6 +242,7 @@ export async function createInstantGroupBooking(input: {
   acceptedPolicies: boolean
   guests: GroupGuest[]
 }): Promise<InstantBookingResult> {
+  if (!onlinePaymentsAvailable()) return { error: PAYMENTS_CLOSED_MESSAGE }
   if (!input.acceptedPolicies) return { error: 'Please accept the booking policies to continue.' }
   if (!input.patientPhone?.trim()) return { error: 'Please enter a contact number.' }
   if (!input.patientEmail?.trim()) return { error: 'Please enter an email so we can send booking updates.' }

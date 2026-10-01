@@ -12,6 +12,7 @@ import {
   getTreatmentsFlat,
 } from '@/lib/storefront/treatments'
 import { getBookingForEdit } from '@/lib/booking/actions'
+import { onlinePaymentsAvailable } from '@/lib/payments/availability'
 import type { Treatment, TreatmentCategory } from '@/types/treatments'
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ async function loadCatalogue(): Promise<{
 export default async function BookTreatmentPage({
   searchParams,
 }: {
-  searchParams: { edit?: string; t?: string }
+  searchParams: { edit?: string; t?: string; id?: string }
 }) {
   const { categories, treatments } = await loadCatalogue()
   const user = await getCurrentUser()
@@ -59,6 +60,7 @@ export default async function BookTreatmentPage({
   const editBookingId = searchParams.edit ?? null
   const editToken = searchParams.t ?? null
   const editBooking = editBookingId ? await getBookingForEdit(editBookingId, editToken) : null
+  const paymentsOpen = onlinePaymentsAvailable()
 
   return (
     <>
@@ -122,6 +124,21 @@ export default async function BookTreatmentPage({
             </p>
           </div>
 
+          {/* Once a therapy is picked, the notice beside it says the same thing. */}
+          {!paymentsOpen && !searchParams.id && (
+            <p
+              role="status"
+              className="mt-8 max-w-2xl rounded-xl border border-accent/30 bg-white/70 px-5 py-4 font-body text-[14px] leading-[1.7] text-dark/70"
+            >
+              <span className="font-heading text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
+                Opening soon
+              </span>
+              <br />
+              Online treatment booking and payment are opening shortly. Browse the therapies
+              below, then WhatsApp us to book — or start with a free consultation online.
+            </p>
+          )}
+
           <div className="mt-10 lg:mt-12">
             <Suspense fallback={<OrchestratorFallback />}>
               <BookingTreatmentOrchestrator
@@ -131,6 +148,7 @@ export default async function BookTreatmentPage({
                 editBookingId={editBookingId}
                 editToken={editToken}
                 editBooking={editBooking}
+                paymentsOpen={paymentsOpen}
               />
             </Suspense>
           </div>

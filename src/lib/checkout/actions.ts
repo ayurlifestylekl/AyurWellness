@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { createClient as createSb } from '@supabase/supabase-js'
 import { getCurrentUser } from '@/lib/auth/getCurrentUser'
 import { getPaymentProvider } from '@/lib/payments'
+import { onlinePaymentsAvailable, SHOP_PAYMENTS_CLOSED_MESSAGE } from '@/lib/payments/availability'
 import { calculateShipping, getShippingZone } from '@/lib/shipping/zones'
 
 export type ActionResult<T = void> =
@@ -65,6 +66,9 @@ export interface CheckoutResult {
 export async function createProductOrder(
   raw: unknown,
 ): Promise<ActionResult<CheckoutResult>> {
+  // Before any order row or stock reservation exists.
+  if (!onlinePaymentsAvailable()) return { ok: false, error: SHOP_PAYMENTS_CLOSED_MESSAGE }
+
   const parsed = CheckoutInputSchema.safeParse(raw)
   if (!parsed.success) {
     return { ok: false, error: parsed.error.errors[0]?.message ?? 'Invalid input.' }
