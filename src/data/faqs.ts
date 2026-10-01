@@ -9,7 +9,7 @@ export const faqs: FAQ[] = [
     id: 'what-is-ayurveda',
     question: 'What exactly is traditional Ayurveda — and how is it different?',
     answer:
-      'traditional Ayurveda is the southern, ocean-influenced lineage of Ayurveda known for its emphasis on classical Panchakarma, oil-based therapies and personalised herbal protocols. Every treatment we offer is rooted in this 5,000-year-old tradition and adapted for modern bodies dealing with stress, inactivity and processed food.',
+      'Traditional Ayurveda is the Southern, Ocean-influenced Lineage of Ayurveda known for its Emphasis on Classical Panchakarma, Oil-based Therapies and Personalised Herbal Protocols. Every Treatment we offer is Rooted in this 5,000-year-old Tradition and adapted for Modern bodies dealing with Stress, Inactivity and Processed Food.',
   },
   {
     id: 'do-i-need-consultation',

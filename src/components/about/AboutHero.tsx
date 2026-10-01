@@ -27,7 +27,7 @@ const defaults = {
   headlineLead: 'A Sanctuary for\nAuthentic',
   headlineAccent: 'Healing',
   subheading:
-    'We bring the timeless wisdom of traditional Ayurveda to Brickfields — a space where tradition, care, and natural healing come together in harmony.',
+    'We bring the Timeless Wisdom of Traditional Ayurveda to Brickfields — a space where Tradition, Care, and Natural Healing come together in Harmony.',
 }
 
 interface AboutHeroProps {

@@ -55,7 +55,7 @@ export default function EmpathyBridge() {
               className="font-heading font-extrabold leading-[1.06] tracking-tight text-white"
               style={{ fontSize: 'clamp(1.6rem, 3.1vw, 2.5rem)' }}
             >
-              Hiding the pain doesn&apos;t mean fixing the problem.
+              Hiding the Pain doesn&apos;t mean fixing the Problem.
             </span>
             <span
               className="font-display italic leading-[1.2]"
@@ -66,7 +66,7 @@ export default function EmpathyBridge() {
                 textShadow: '0 2px 18px rgba(184, 117, 42,0.25)',
               }}
             >
-              Ayurveda focuses on the root cause, not just the symptoms.
+              Ayurveda focuses on the Root Cause, not just the Symptoms.
             </span>
           </h3>
 

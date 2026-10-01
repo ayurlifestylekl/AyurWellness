@@ -60,7 +60,7 @@ export default function OurPhilosophy() {
             className="mt-3 font-heading font-extrabold leading-[1.1] text-white"
             style={{ fontSize: 'clamp(1.5rem, 2.4vw, 2rem)', letterSpacing: '-0.02em' }}
           >
-            Holistic wellness that treats body, mind, and spirit as a{' '}
+            Holistic Wellness that treats Body, Mind, and Spirit as a{' '}
             <span
               className="font-body italic"
               style={{
@@ -75,7 +75,7 @@ export default function OurPhilosophy() {
           </h2>
 
           <p className="mt-3 font-body text-[13.5px] italic leading-[1.55]" style={{ color: 'rgba(237,244,231,0.65)' }}>
-            Three principles shape every consultation, every therapy, every ounce of oil we pour.
+            Three principles shape every Consultation, every Therapy, every Ounce of Oil we pour.
           </p>
 
           {/* Diamond flourish */}

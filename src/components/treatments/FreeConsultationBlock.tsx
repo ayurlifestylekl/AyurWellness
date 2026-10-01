@@ -77,12 +77,12 @@ export default function FreeConsultationBlock({
           >
             A free consultation
             <br />
-            with our <span className="font-body italic text-accent">Ayurveda therapist.</span>
+            with our <span className="font-body italic text-accent">Ayurveda Vaidya.</span>
           </motion.h2>
 
           <motion.p variants={fadeUp(0)} className="max-w-md font-body text-[13.5px] leading-[1.65] text-white/50">
-            We provide free consultations with our KKM-registered Ayurveda practitioner,
-            who holds a B.A.M.S degree and specialises in personalised treatment protocols.
+            We provide Free Consultations with our KKM-Registered Ayurveda Practitioner,
+            who holds a B.A.M.S Degree and Specialises in Personalised Treatment Protocols.
           </motion.p>
 
           <motion.div variants={fadeUp(0)} className="flex flex-wrap items-center gap-x-4 gap-y-2">

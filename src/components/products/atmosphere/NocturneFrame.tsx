@@ -46,7 +46,10 @@ export default function NocturneFrame({
   imageClassName,
   dimmed,
 }: NocturneFrameProps) {
-  const darkOpacity = intensity === 'soft' ? 0.18 : 0.35
+  // Kept deliberately light: this multiply sits over the product photography,
+  // and at heavier values it washed out the printed label on the bottle, which
+  // is the one thing a customer is trying to read on a product card.
+  const darkOpacity = intensity === 'soft' ? 0.1 : 0.18
   return (
     <div
       className={className}
@@ -107,6 +110,21 @@ export default function NocturneFrame({
           opacity: 0.12,
         }}
       />
+      {/* 5 — bottom scrim, only when something is overlaid on the frame.
+          The name/price sit directly on the photograph, so on a pale product
+          shot (a cream label on a light backdrop) the cream text had almost
+          nothing to read against. This gives the overlay a consistent dark
+          footing whatever the image is doing behind it. */}
+      {children && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[28%]"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(8,24,17,0.82) 0%, rgba(8,24,17,0.5) 40%, transparent 100%)',
+          }}
+        />
+      )}
       {children}
     </div>
   )

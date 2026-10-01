@@ -115,7 +115,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
             Stories from
             <br />
             <span className="font-body italic font-normal text-accent">
-              the sanctuary.
+              the Sanctuary.
             </span>
           </motion.h1>
 
@@ -123,9 +123,9 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
             variants={fadeUp(0)}
             className="max-w-2xl font-body text-[16px] leading-[1.85] text-dark/70 md:text-[17px]"
           >
-            Daily rituals, seasonal protocols and field notes from a practising
-            our Vaidya. Read at your own pace — these articles are written for
-            anyone curious about authentic Ayurveda, not just the initiated.
+            Daily Rituals, Seasonal Protocols and Field Notes from a practising
+            Vaidya. Read at Your Own Pace — these Articles are Written for
+            Anyone curious about Authentic Ayurveda, not just the initiated.
           </motion.p>
         </Reveal>
       </div>
