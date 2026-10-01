@@ -14,6 +14,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { getCurrentUser } from '@/lib/auth/getCurrentUser'
+import { memberAccountsOpen } from '@/lib/auth/accounts'
 import { createClient } from '@/lib/supabase/server'
 import {
   getExtendedOverviewStats,
@@ -132,7 +133,7 @@ export default async function AdminDashboardPage() {
       </header>
 
       {/* ── QUICK ACTIONS ──────────────────────────────────────────── */}
-      <QuickActionsRow />
+      <QuickActionsRow accountsOpen={memberAccountsOpen()} />
 
       {/* ── KPI TILES (8) ──────────────────────────────────────────── */}
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">

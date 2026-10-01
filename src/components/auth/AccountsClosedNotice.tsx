@@ -22,7 +22,7 @@ const COPY: Record<Variant, { eyebrow: string; title: string; body: string }> = 
     eyebrow: 'Opening soon',
     title: 'Brand Partner accounts open soon',
     body:
-      'Partners join by invitation, and invitations are sent by email once the programme opens. Interested in joining? Apply on WhatsApp and we’ll be in touch.',
+      'Partners join by invitation, and invitations go out once the programme opens. Interested in joining? Apply on WhatsApp and we’ll be in touch.',
   },
 }
 

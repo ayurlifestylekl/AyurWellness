@@ -7,7 +7,7 @@ import AddProductDialog from './AddProductDialog'
 import IssueInviteDialog from './IssueInviteDialog'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
 
-export default function QuickActionsRow() {
+export default function QuickActionsRow({ accountsOpen = true }: { accountsOpen?: boolean }) {
   const [showAddProduct, setShowAddProduct] = useState(false)
   const [showInvite, setShowInvite] = useState(false)
 
@@ -28,7 +28,7 @@ export default function QuickActionsRow() {
       <ActionTile icon={Search} label="Find customer" href="/admin/customers" />
 
       {showAddProduct && <AddProductDialog onClose={() => setShowAddProduct(false)} />}
-      {showInvite && <IssueInviteDialog onClose={() => setShowInvite(false)} />}
+      {showInvite && <IssueInviteDialog onClose={() => setShowInvite(false)} accountsOpen={accountsOpen} />}
     </section>
   )
 }

@@ -7,6 +7,24 @@ import { issueAgentInvite } from '@/actions/admin/issueAgentInvite'
 
 interface IssueInviteDialogProps {
   onClose: () => void
+  /** False until partner sign-up works (email delivery set up). Shows a warning; doesn't block. */
+  accountsOpen?: boolean
+}
+
+/** Shown while partner sign-up is closed — the link would land on an "opening soon" page. */
+function NotOpenYetWarning({ compact = false }: { compact?: boolean }) {
+  return (
+    <div role="alert" className="rounded-2xl border border-[#B58A3B]/40 bg-[#B58A3B]/10 px-4 py-3">
+      <p className="font-heading text-[10.5px] font-bold uppercase tracking-[0.18em] text-[#8A6420]">
+        Partner sign-up isn’t open yet
+      </p>
+      <p className="mt-1 font-body text-[12.5px] leading-relaxed text-[#12372D]/80">
+        {compact
+          ? 'Don’t send this link yet: the partner would see an “opening soon” page and couldn’t finish signing up.'
+          : 'A link created now will show the partner an “opening soon” page instead of a sign-up form, and it expires in 14 days — so it’s best to wait and issue invites once sign-up opens (it opens when email delivery is set up).'}
+      </p>
+    </div>
+  )
 }
 
 function inputClass(disabled: boolean) {
@@ -19,7 +37,7 @@ function labelClass() {
   return 'block font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55'
 }
 
-export default function IssueInviteDialog({ onClose }: IssueInviteDialogProps) {
+export default function IssueInviteDialog({ onClose, accountsOpen = true }: IssueInviteDialogProps) {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [commissionRate, setCommissionRate] = useState('15')
@@ -63,6 +81,12 @@ export default function IssueInviteDialog({ onClose }: IssueInviteDialogProps) {
         <p className="mt-1 font-body text-[12.5px] text-[#12372D]/65">
           Creates a one-time signup link. Share with your new brand partner — link expires in 14 days.
         </p>
+
+        {!accountsOpen && !issued && (
+          <div className="mt-3">
+            <NotOpenYetWarning />
+          </div>
+        )}
 
         {!issued ? (
           <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
@@ -168,6 +192,7 @@ export default function IssueInviteDialog({ onClose }: IssueInviteDialogProps) {
           </form>
         ) : (
           <div className="mt-4 flex flex-col gap-4">
+            {!accountsOpen && <NotOpenYetWarning compact />}
             <div className="rounded-2xl border border-[#006B3C]/20 bg-[#EDF4E7]/60 p-4">
               <p className="font-heading text-[10.5px] font-semibold uppercase tracking-[0.18em] text-[#006B3C]/55">
                 Invite link
