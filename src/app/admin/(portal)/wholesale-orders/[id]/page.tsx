@@ -51,7 +51,7 @@ export default async function AdminWholesaleDetailPage({
             </span>
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Received {new Date(w.createdAt).toLocaleString('en-MY')}
+            Received {new Date(w.createdAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
           </p>
         </div>
       </header>
@@ -180,28 +180,28 @@ export default async function AdminWholesaleDetailPage({
               </h2>
               <ul className="mt-2 space-y-1.5 text-[11.5px] text-[#12372D]/70">
                 <li>
-                  Placed · {new Date(w.createdAt).toLocaleString('en-MY')}
+                  Placed · {new Date(w.createdAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </li>
                 {w.paidAt ? (
                   <li>
-                    Paid · {new Date(w.paidAt).toLocaleString('en-MY')}
+                    Paid · {new Date(w.paidAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </li>
                 ) : null}
                 {w.shippedAt ? (
                   <li>
-                    Shipped · {new Date(w.shippedAt).toLocaleString('en-MY')}
+                    Shipped · {new Date(w.shippedAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                     {w.courier ? ` · ${w.courier}` : ''}
                     {w.trackingNumber ? ` · ${w.trackingNumber}` : ''}
                   </li>
                 ) : null}
                 {w.deliveredAt ? (
                   <li>
-                    Delivered · {new Date(w.deliveredAt).toLocaleString('en-MY')}
+                    Delivered · {new Date(w.deliveredAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </li>
                 ) : null}
                 {w.cancelledAt ? (
                   <li className="text-red-700">
-                    Cancelled · {new Date(w.cancelledAt).toLocaleString('en-MY')}
+                    Cancelled · {new Date(w.cancelledAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </li>
                 ) : null}
               </ul>

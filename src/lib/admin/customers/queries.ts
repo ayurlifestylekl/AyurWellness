@@ -38,8 +38,8 @@ export async function listCustomers(
     .from('users')
     .select(
       `id, full_name, email, phone_number, created_at, tags, blocked_at,
-       orders(id, total_amount_rm, payment_status, created_at),
-       quiz_results(prakriti_primary)`,
+       orders!orders_customer_id_fkey(id, total_amount_rm, payment_status, created_at),
+       quiz_results(result_data)`,
       { count: 'exact' },
     )
     .eq('role', 'customer')
@@ -89,7 +89,8 @@ export async function listCustomers(
       lastOrderAt,
       tags: r.tags,
       blocked: !!r.blocked_at,
-      doshaPrimary: quiz?.prakriti_primary ?? null,
+      // The quiz stores its outcome as JSON (QuizResultRow); there is no prakriti_primary column.
+      doshaPrimary: quiz?.result_data?.dominantDosha ?? null,
     }
   })
 
@@ -121,9 +122,9 @@ export async function getCustomerById(supabase: SB, id: string) {
     .select(
       `*,
        addresses(*),
-       orders(id, total_amount_rm, payment_status, fulfillment_status, created_at),
-       appointments(id, treatment_id, appointment_date_time, status),
-       support_tickets(id, subject, status, last_message_at, topic),
+       orders!orders_customer_id_fkey(id, total_amount_rm, payment_status, fulfillment_status, created_at),
+       appointments!appointments_customer_id_fkey(id, treatment_id, appointment_date_time, status),
+       support_tickets!support_tickets_customer_id_fkey(id, subject, status, last_message_at, topic),
        customer_promos(*, promo:promos(*)),
        quiz_results(*)`,
     )

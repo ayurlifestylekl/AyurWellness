@@ -64,7 +64,7 @@ function ReviewCard({ review }: { review: AdminReviewListItem }) {
               {review.status}
             </span>
             <span className="text-[11.5px] text-[#12372D]/55">
-              {new Date(review.createdAt).toLocaleDateString('en-MY')}
+              {new Date(review.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
             </span>
           </div>
           {review.title ? (

@@ -7,7 +7,7 @@ interface PromoHistoryListProps {
   expired: WalletItem[]
 }
 
-const dateFormat = new Intl.DateTimeFormat('en-MY', {
+const dateFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   day: 'numeric',
   month: 'short',
   year: 'numeric',

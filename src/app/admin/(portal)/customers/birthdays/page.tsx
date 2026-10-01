@@ -71,7 +71,7 @@ function BirthdaySection({
               </div>
               <span className="text-[12px] text-[#12372D]/65">
                 {c.date_of_birth
-                  ? new Date(c.date_of_birth).toLocaleDateString('en-MY', {
+                  ? new Date(c.date_of_birth).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
                       day: 'numeric',
                       month: 'long',
                     })

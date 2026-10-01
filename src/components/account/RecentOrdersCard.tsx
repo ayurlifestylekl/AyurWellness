@@ -16,7 +16,7 @@ interface RecentOrdersCardProps {
   orders: RecentOrderPreview[]
 }
 
-const dateFormat = new Intl.DateTimeFormat('en-MY', {
+const dateFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   day: 'numeric',
   month: 'short',
   year: 'numeric',

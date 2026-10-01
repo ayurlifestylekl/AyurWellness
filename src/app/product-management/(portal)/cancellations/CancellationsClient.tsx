@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 import {
   approveProductCancellation,
   rejectProductCancellation,
@@ -137,7 +138,7 @@ export default function CancellationsClient({
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-[#12372D]/65">{format(new Date(r.requested_at), 'dd MMM yyyy')}</td>
+                    <td className="px-4 py-3 text-[#12372D]/65">{format(asMYWallClock(r.requested_at), 'dd MMM yyyy')}</td>
                   </tr>
                 ))}
               </tbody>
@@ -169,7 +170,7 @@ function CancellationRow({
       <td className="px-4 py-3 text-[#12372D]/80">{request.email}</td>
       <td className="px-4 py-3 text-[#12372D]/80">{request.reason}</td>
       <td className="px-4 py-3 font-heading font-semibold text-[#12372D]">RM {request.amount_rm.toFixed(2)}</td>
-      <td className="px-4 py-3 text-[#12372D]/65">{format(new Date(request.requested_at), 'dd MMM yyyy')}</td>
+      <td className="px-4 py-3 text-[#12372D]/65">{format(asMYWallClock(request.requested_at), 'dd MMM yyyy')}</td>
       <td className="px-4 py-3">
         {mode === 'idle' ? (
           <div className="flex gap-2">

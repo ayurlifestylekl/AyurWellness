@@ -70,7 +70,7 @@ export async function listReferredOrders(
       `id, created_at, total_amount_rm, payment_status, fulfillment_status, channel,
        customer:users!orders_customer_id_fkey(full_name),
        items:order_items(product:products!order_items_product_id_fkey(name)),
-       commission:agent_commissions!agent_commissions_order_id_fkey(amount_rm, status)`,
+       commission:agent_commissions!agent_commissions_order_id_fkey(amount_rm:commission_rm, status)`,
     )
     .eq('referral_agent_id', agentId)
     .order('created_at', { ascending: false })

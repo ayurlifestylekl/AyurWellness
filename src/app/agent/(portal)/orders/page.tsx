@@ -150,7 +150,7 @@ export default async function AgentReferredSalesPage({ searchParams }: PageProps
                     }`}
                   >
                     <td className="px-4 py-3 text-[11.5px] text-[#12372D]/70">
-                      {new Date(o.createdAt).toLocaleDateString('en-MY')}
+                      {new Date(o.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                     </td>
                     <td className="px-4 py-3 text-[12.5px] font-semibold text-[#12372D]">
                       {o.customerName}

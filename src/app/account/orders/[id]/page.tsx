@@ -17,7 +17,7 @@ export const metadata = {
   title: 'Order Details',
 }
 
-const dateFormat = new Intl.DateTimeFormat('en-MY', {
+const dateFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   day: 'numeric',
   month: 'long',
   year: 'numeric',

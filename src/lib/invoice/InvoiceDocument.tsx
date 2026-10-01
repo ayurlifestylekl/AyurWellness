@@ -224,7 +224,7 @@ function fmtMoney(v: number | null | undefined): string {
   return `RM ${Number(v ?? 0).toFixed(2)}`
 }
 
-const dateFormatter = new Intl.DateTimeFormat('en-MY', {
+const dateFormatter = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   day: 'numeric',
   month: 'long',
   year: 'numeric',

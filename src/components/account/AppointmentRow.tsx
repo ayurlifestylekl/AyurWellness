@@ -7,9 +7,9 @@ interface AppointmentRowProps {
   appointment: AppointmentRow
 }
 
-const dayFormat = new Intl.DateTimeFormat('en-MY', { day: 'numeric' })
-const monthFormat = new Intl.DateTimeFormat('en-MY', { month: 'short' })
-const timeFormat = new Intl.DateTimeFormat('en-MY', {
+const dayFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', day: 'numeric' })
+const monthFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', month: 'short' })
+const timeFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   hour: 'numeric',
   minute: '2-digit',
   hour12: true,

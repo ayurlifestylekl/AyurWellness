@@ -4,7 +4,7 @@ interface Props {
   data: Array<{ date: string; count: number }>
 }
 
-const DAY_FMT = new Intl.DateTimeFormat('en-MY', { weekday: 'short' })
+const DAY_FMT = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', weekday: 'short' })
 
 export default function OrdersBarChart({ data }: Props) {
   const w = 300

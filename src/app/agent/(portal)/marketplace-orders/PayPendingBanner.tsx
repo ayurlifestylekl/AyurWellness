@@ -203,7 +203,7 @@ export default function PayPendingBanner({
                             </span>
                             <span className="block text-[11px] text-[#12372D]/55">
                               {CHANNEL_LABEL[o.channel] ?? o.channel} ·{' '}
-                              {new Date(o.createdAt).toLocaleDateString('en-MY')}
+                              {new Date(o.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                             </span>
                           </span>
                           <span className="font-heading text-[13px] font-bold text-[#12372D]">

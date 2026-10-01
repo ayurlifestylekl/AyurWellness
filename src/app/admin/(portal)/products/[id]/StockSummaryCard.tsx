@@ -38,7 +38,7 @@ export default function StockSummaryCard({
       </p>
       {expiryDate ? (
         <p className="mt-2 text-[11.5px] text-[#12372D]/65">
-          Expires {new Date(expiryDate).toLocaleDateString('en-MY')}
+          Expires {new Date(expiryDate).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
         </p>
       ) : null}
       <Link

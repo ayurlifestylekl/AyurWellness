@@ -72,7 +72,7 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
             ) : null}
           </div>
           <p className="text-[12px] text-[#12372D]/65">
-            {new Date(o.created_at).toLocaleString('en-MY')} · channel: {o.channel}
+            {new Date(o.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} · channel: {o.channel}
             {o.invoice_number ? ` · Invoice ${o.invoice_number}` : ''}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -215,7 +215,7 @@ export default async function AdminOrderDetailPage({ params }: { params: { id: s
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-[#006B3C]">RM {Number(r.amount_rm).toFixed(2)}</span>
                   <span className="text-[11px] text-[#12372D]/55">
-                    {new Date(r.created_at).toLocaleString('en-MY')}
+                    {new Date(r.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </span>
                 </div>
                 <p className="mt-1 text-[12px] text-[#12372D]/70">{r.reason}</p>

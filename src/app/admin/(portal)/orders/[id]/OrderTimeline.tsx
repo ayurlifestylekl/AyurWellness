@@ -51,7 +51,7 @@ export default function OrderTimeline({ events }: { events: Event[] }) {
               ) : null}
             </p>
             <p className="mt-0.5 text-[11px] text-[#12372D]/55">
-              {new Date(e.created_at).toLocaleString('en-MY')}
+              {new Date(e.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
               {!e.is_customer_visible ? ' · staff-only' : ''}
             </p>
             {e.payload?.note ? (

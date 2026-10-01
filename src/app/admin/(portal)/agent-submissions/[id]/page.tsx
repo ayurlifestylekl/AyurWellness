@@ -63,7 +63,7 @@ export default async function AgentSubmissionDetailPage({
             </span>
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Submitted {new Date(m.created_at).toLocaleString('en-MY')}
+            Submitted {new Date(m.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
             {m.marketplace_order_ref ? (
               <>
                 {' '}

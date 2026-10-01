@@ -28,7 +28,7 @@ export async function adminSearch(q: string): Promise<SearchHit[]> {
       .limit(5),
     supabase
       .from('orders')
-      .select('id, total_amount_rm, customer:users(full_name)')
+      .select('id, total_amount_rm, customer:users!orders_customer_id_fkey(full_name)')
       .ilike('id', like)
       .limit(5),
     supabase

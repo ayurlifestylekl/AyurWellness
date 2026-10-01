@@ -103,7 +103,7 @@ export default async function AdminTicketDetailPage({
             ) : null}
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Opened {new Date(t.created_at).toLocaleString('en-MY')} ·{' '}
+            Opened {new Date(t.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} ·{' '}
             <span className="capitalize">{t.topic}</span>
           </p>
         </div>
@@ -150,7 +150,7 @@ export default async function AdminTicketDetailPage({
                               : cust?.full_name ?? 'Customer'}
                         </span>
                         <span className="text-[10.5px] text-[#12372D]/55">
-                          {new Date(m.created_at).toLocaleString('en-MY')}
+                          {new Date(m.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                         </span>
                       </div>
                       <p className="whitespace-pre-wrap text-[13px] text-[#006B3C]">

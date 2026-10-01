@@ -55,7 +55,7 @@ export default async function MarketplaceOrderDetailPage({
             </span>
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Received {new Date(m.created_at).toLocaleString('en-MY')}
+            Received {new Date(m.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
             {m.marketplace_order_ref ? (
               <>
                 {' '}

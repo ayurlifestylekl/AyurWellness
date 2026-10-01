@@ -47,7 +47,7 @@ export default async function AdminPromoEditPage({
         </h1>
         <p className="mt-1 text-[12.5px] text-[#12372D]/65">
           Code <code className="font-mono">{p.code}</code> · created{' '}
-          {new Date(p.created_at).toLocaleDateString('en-MY')}
+          {new Date(p.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
         </p>
       </header>
       <PromoForm mode="edit" initial={initial} />

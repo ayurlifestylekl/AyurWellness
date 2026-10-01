@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { mytDayKey, mytTodayRange } from '@/lib/datetime'
 
 export interface AdminOverviewStats {
   ordersToday: number
@@ -78,7 +79,7 @@ export async function getOrdersNeedingAttention(
 ): Promise<OrderNeedingAttention[]> {
   const { data, error } = await supabase
     .from('orders')
-    .select('id, total_amount_rm, payment_status, fulfillment_status, created_at, customer:users(full_name)')
+    .select('id, total_amount_rm, payment_status, fulfillment_status, created_at, customer:users!orders_customer_id_fkey(full_name)')
     .eq('payment_status', 'paid')
     .eq('fulfillment_status', 'processing')
     .order('created_at', { ascending: true })
@@ -106,7 +107,7 @@ export async function getTicketsNeedingAttention(
 ): Promise<TicketNeedingAttention[]> {
   const { data, error } = await supabase
     .from('support_tickets')
-    .select('id, subject, topic, last_message_at, customer:users(full_name)')
+    .select('id, subject, topic, last_message_at, customer:users!support_tickets_customer_id_fkey(full_name)')
     .eq('unread_by_clinic', true)
     .order('last_message_at', { ascending: false })
     .limit(limit)
@@ -204,25 +205,24 @@ export interface AgedPendingOrder {
 
 const AVAILABLE_MINS_PER_WEEK = 10 * 60 * 6 // 10h/day × 6 days (Tue-Sun, Mon closed)
 
+// Day and week boundaries are Malaysian. The server runs in UTC (Vercel), where
+// setHours()-style local midnight would be 8am here and shift every boundary.
 function startOfTodayISO(): string {
-  const d = new Date()
-  d.setHours(0, 0, 0, 0)
-  return d.toISOString()
+  return mytTodayRange().startISO
 }
 
 function startOfWeekISO(): string {
-  const d = new Date()
-  d.setHours(0, 0, 0, 0)
-  const day = d.getDay()
-  // Monday start: if Sunday (0) go back 6, else back to Monday
-  d.setDate(d.getDate() - (day === 0 ? 6 : day - 1))
-  return d.toISOString()
+  // Monday 00:00 in Malaysia. The weekday of a Malaysian date is the same as its
+  // UTC weekday when read at noon on that date.
+  const today = mytDayKey(new Date())
+  const day = new Date(`${today}T12:00:00Z`).getUTCDay() // 0 = Sunday
+  const back = day === 0 ? 6 : day - 1
+  const monday = new Date(new Date(`${today}T00:00:00+08:00`).getTime() - back * 86_400_000)
+  return monday.toISOString()
 }
 
 function endOfTodayISO(): string {
-  const d = new Date()
-  d.setHours(23, 59, 59, 999)
-  return d.toISOString()
+  return new Date(new Date(mytTodayRange().endISO).getTime() - 1).toISOString()
 }
 
 export async function getExtendedOverviewStats(
@@ -272,7 +272,7 @@ export async function getTodayConsultations(
 ): Promise<ConsultationToday[]> {
   const { data, error } = await supabase
     .from('appointments')
-    .select('id, appointment_date_time, treatment_name, mode, status, customer:users(full_name)')
+    .select('id, appointment_date_time, treatment_name, mode, status, patient_name, customer:users!appointments_customer_id_fkey(full_name)')
     .gte('appointment_date_time', startOfTodayISO())
     .lte('appointment_date_time', endOfTodayISO())
     .order('appointment_date_time', { ascending: true })
@@ -287,7 +287,8 @@ export async function getTodayConsultations(
     treatmentName: row.treatment_name,
     mode: row.mode,
     status: row.status,
-    customerName: row.customer?.full_name ?? null,
+    // Guest bookings (no account) carry the name typed into the booking form.
+    customerName: row.customer?.full_name ?? row.patient_name ?? null,
   }))
 }
 
@@ -390,7 +391,7 @@ export async function getAgedPendingPayments(
   const dayAgoISO = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const { data } = await supabase
     .from('orders')
-    .select('id, total_amount_rm, created_at, customer:users(full_name)')
+    .select('id, total_amount_rm, created_at, customer:users!orders_customer_id_fkey(full_name)')
     .eq('payment_status', 'pending')
     .lt('created_at', dayAgoISO)
     .order('created_at', { ascending: true })

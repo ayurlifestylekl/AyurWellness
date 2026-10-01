@@ -107,7 +107,7 @@ export default function CustomersTable({ items }: { items: CustomerListItem[] })
                   )}
                 </td>
                 <td className="px-4 py-3 text-[11.5px] text-[#12372D]/55">
-                  {new Date(c.createdAt).toLocaleDateString('en-MY')}
+                  {new Date(c.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </td>
               </tr>
             ))}

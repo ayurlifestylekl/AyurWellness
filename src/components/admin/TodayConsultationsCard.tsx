@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { CalendarDays, Video, MapPin } from 'lucide-react'
 import type { ConsultationToday } from '@/lib/admin/queries'
 
-const TIME_FMT = new Intl.DateTimeFormat('en-MY', {
+const TIME_FMT = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   hour: 'numeric',
   minute: '2-digit',
   hour12: true,

@@ -224,7 +224,7 @@ export async function rescheduleAppointment(input: {
       a.customer_id,
       'appointment_confirmed',
       `Appointment rescheduled`,
-      `${a.treatment_name} moved to ${new Date(input.newDateTime).toLocaleString('en-MY')}. Reason: ${input.reason}`,
+      `${a.treatment_name} moved to ${new Date(input.newDateTime).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}. Reason: ${input.reason}`,
       `/account/appointments/${newRow.id}`,
     )
 

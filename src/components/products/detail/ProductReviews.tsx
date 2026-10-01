@@ -73,7 +73,7 @@ export default async function ProductReviews({ productId }: { productId: string 
               <div className="flex flex-wrap items-center gap-3">
                 <Stars value={r.rating} />
                 <span className="font-body text-xs text-primary/55">
-                  {new Date(r.createdAt).toLocaleDateString('en-MY')}
+                  {new Date(r.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </span>
               </div>
               {r.title ? (

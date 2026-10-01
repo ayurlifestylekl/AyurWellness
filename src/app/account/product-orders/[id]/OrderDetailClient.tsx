@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 import { requestProductCancellation } from '@/lib/checkout/actions'
 import type { ProductOrderDetail } from '@/lib/product-management/queries'
 
@@ -32,7 +33,7 @@ export default function AccountOrderDetailClient({ order }: { order: ProductOrde
       <div>
         <h1 className="font-heading text-[28px] font-bold text-[#12372D]">Order {order.order_number}</h1>
         <p className="mt-1 text-[13px] text-[#12372D]/65">
-          Placed on {format(new Date(order.created_at), 'dd MMM yyyy')}
+          Placed on {format(asMYWallClock(order.created_at), 'dd MMM yyyy')}
         </p>
       </div>
 

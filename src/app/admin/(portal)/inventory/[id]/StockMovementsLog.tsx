@@ -50,7 +50,7 @@ export default function StockMovementsLog({ movements }: { movements: Movement[]
             return (
               <tr key={m.id}>
                 <td className="px-5 py-3 text-[12px] text-[#12372D]/65">
-                  {new Date(m.created_at).toLocaleString('en-MY')}
+                  {new Date(m.created_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </td>
                 <td className="px-5 py-3">{HUMAN[m.movement_type] ?? m.movement_type}</td>
                 <td

@@ -57,7 +57,7 @@ export default async function AdminCustomerDetailPage({
       support_tickets: [],
       customer_promos: [],
       quiz_results: mock.doshaPrimary
-        ? [{ prakriti_primary: mock.doshaPrimary }]
+        ? [{ result_data: { dominantDosha: mock.doshaPrimary } }]
         : [],
     }
   } else {
@@ -122,7 +122,7 @@ export default async function AdminCustomerDetailPage({
             ) : null}
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Member since {new Date(c.created_at).toLocaleDateString('en-MY')} ·{' '}
+            Member since {new Date(c.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} ·{' '}
             {paidOrders.length} paid order{paidOrders.length === 1 ? '' : 's'} ·
             LTV RM {ltv.toFixed(2)} · AOV RM {aov.toFixed(2)}
           </p>
@@ -156,7 +156,7 @@ export default async function AdminCustomerDetailPage({
             <dt className="col-span-1 text-[#12372D]/55">DOB</dt>
             <dd className="col-span-2">
               {c.date_of_birth
-                ? new Date(c.date_of_birth).toLocaleDateString('en-MY')
+                ? new Date(c.date_of_birth).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })
                 : '—'}
             </dd>
             <dt className="col-span-1 text-[#12372D]/55">Gender</dt>
@@ -164,7 +164,7 @@ export default async function AdminCustomerDetailPage({
             <dt className="col-span-1 text-[#12372D]/55">Language</dt>
             <dd className="col-span-2 uppercase">{c.language ?? 'EN'}</dd>
             <dt className="col-span-1 text-[#12372D]/55">Dosha</dt>
-            <dd className="col-span-2 capitalize">{quiz?.prakriti_primary ?? '—'}</dd>
+            <dd className="col-span-2 capitalize">{quiz?.result_data?.dominantDosha ?? '—'}</dd>
           </dl>
           {c.tags?.length ? (
             <div className="mt-3 flex flex-wrap gap-1">
@@ -256,7 +256,7 @@ export default async function AdminCustomerDetailPage({
                     {o.fulfillment_status}
                   </span>
                   <span className="text-[11px] text-[#12372D]/55">
-                    {new Date(o.created_at).toLocaleDateString('en-MY')}
+                    {new Date(o.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </span>
                 </li>
               ))}
@@ -288,7 +288,7 @@ export default async function AdminCustomerDetailPage({
                       </p>
                     </div>
                     <span className="text-[11px] text-[#12372D]/55">
-                      {new Date(v.granted_at).toLocaleDateString('en-MY')}
+                      {new Date(v.granted_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                     </span>
                   </li>
                 )
@@ -309,7 +309,7 @@ export default async function AdminCustomerDetailPage({
               {appointments.slice(0, 8).map((a: any) => (
                 <li key={a.id} className="flex items-center justify-between py-2">
                   <span>
-                    {new Date(a.appointment_date_time).toLocaleString('en-MY')}
+                    {new Date(a.appointment_date_time).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </span>
                   <span className="text-[11px] text-[#12372D]/55 capitalize">
                     {a.status}

@@ -103,7 +103,7 @@ export function expiryLabel(promo: PromoRow, nowMs: number = Date.now()): string
     const weeks = Math.round(days / 7)
     return `Expires in ${weeks} ${weeks === 1 ? 'week' : 'weeks'}`
   }
-  return `Expires ${new Intl.DateTimeFormat('en-MY', { day: 'numeric', month: 'short' }).format(new Date(promo.expires_at))}`
+  return `Expires ${new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', day: 'numeric', month: 'short' }).format(new Date(promo.expires_at))}`
 }
 
 /**

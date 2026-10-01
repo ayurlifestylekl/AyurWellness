@@ -100,7 +100,7 @@ export default async function AdminWholesaleOrdersPage({ searchParams }: PagePro
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-[11.5px] text-[#12372D]/65">
-                    {new Date(w.createdAt).toLocaleDateString('en-MY')}
+                    {new Date(w.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </td>
                   <td className="px-4 py-3">
                     <div className="text-[12.5px] font-semibold text-[#006B3C]">

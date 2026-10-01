@@ -45,3 +45,16 @@ export function mytTodayRange(now: Date = new Date()): { startISO: string; endIS
   const end = new Date(start.getTime() + 24 * 60 * 60 * 1000)
   return { startISO: start.toISOString(), endISO: end.toISOString() }
 }
+
+/**
+ * For formatters that only know the machine's own zone (date-fns `format`):
+ * returns a Date whose *local* fields read as Malaysia wall-clock time, so
+ * `format(asMYWallClock(x), 'd MMM yyyy, h:mm a')` prints Malaysia time on a
+ * UTC server and in any browser alike. Malaysia is a fixed +08:00 with no
+ * daylight saving, so the shift is exact. Display only: never store, compare
+ * or do arithmetic with the result.
+ */
+export function asMYWallClock(value: string | number | Date): Date {
+  const d = value instanceof Date ? value : new Date(value)
+  return new Date(d.getTime() + (8 * 60 + d.getTimezoneOffset()) * 60_000)
+}

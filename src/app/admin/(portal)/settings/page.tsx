@@ -26,7 +26,7 @@ export default async function AdminSettingsPage() {
             <>
               {' '}
               Last updated{' '}
-              {new Date(settings.updatedAt).toLocaleString('en-MY')}.
+              {new Date(settings.updatedAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}.
             </>
           ) : null}
         </p>

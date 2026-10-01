@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 
 import { fadeUp } from '@/lib/motion'
 import type { PostListItem } from '@/types/blog'
@@ -37,7 +38,7 @@ export default function PostCard({
 }: PostCardProps) {
   const formattedDate = (() => {
     try {
-      return format(new Date(post.publishedAt), 'd MMMM yyyy')
+      return format(asMYWallClock(post.publishedAt), 'd MMMM yyyy')
     } catch {
       return post.publishedAt.slice(0, 10)
     }

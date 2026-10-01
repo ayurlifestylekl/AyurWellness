@@ -83,7 +83,7 @@ export async function getDashboardKpis(
   // This month — commissions in range, regardless of status (accrued view)
   const { data: monthCommData } = await supabase
     .from('agent_commissions')
-    .select('amount_rm, status, order_id')
+    .select('amount_rm:commission_rm, status, order_id')
     .eq('agent_id', agentId)
     .gte('created_at', monthStart)
     .lte('created_at', monthEnd)
@@ -100,7 +100,7 @@ export async function getDashboardKpis(
   // Pending payout (all-time pending)
   const { data: pendingData } = await supabase
     .from('agent_commissions')
-    .select('amount_rm')
+    .select('amount_rm:commission_rm')
     .eq('agent_id', agentId)
     .eq('status', 'pending')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,7 +125,7 @@ export async function getRecentReferredOrders(
 ): Promise<RecentReferredOrder[]> {
   const { data } = await supabase
     .from('orders')
-    .select('id, created_at, total_amount_rm, payment_status, fulfillment_status, customer:users!orders_customer_id_fkey(full_name), commission:agent_commissions!agent_commissions_order_id_fkey(amount_rm)')
+    .select('id, created_at, total_amount_rm, payment_status, fulfillment_status, customer:users!orders_customer_id_fkey(full_name), commission:agent_commissions!agent_commissions_order_id_fkey(amount_rm:commission_rm)')
     .eq('referral_agent_id', agentId)
     .order('created_at', { ascending: false })
     .limit(limit)
@@ -179,7 +179,7 @@ export async function getMonthlyTrend(
 
   const { data } = await supabase
     .from('agent_commissions')
-    .select('amount_rm, status, created_at')
+    .select('amount_rm:commission_rm, status, created_at')
     .eq('agent_id', agentId)
     .gte('created_at', startIso)
     .neq('status', 'reversed')

@@ -15,7 +15,7 @@ export const metadata = {
   title: 'Conversation',
 }
 
-const longDate = new Intl.DateTimeFormat('en-MY', {
+const longDate = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   day: 'numeric',
   month: 'long',
   year: 'numeric',

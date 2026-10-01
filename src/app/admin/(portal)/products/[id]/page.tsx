@@ -102,7 +102,7 @@ export default async function AdminProductEditPage({
           <h1 className="font-heading text-[24px] font-bold text-[#006B3C]">{p.name}</h1>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
             {p.sku} · {p.slug ?? 'no-slug'} · updated{' '}
-            {new Date(p.updated_at).toLocaleString('en-MY')}
+            {new Date(p.updated_at).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
           </p>
         </div>
       </header>

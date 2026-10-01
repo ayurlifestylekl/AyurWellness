@@ -99,8 +99,9 @@ async function fetchStockMovements(supabase: SB, limit: number): Promise<AuditEn
 async function fetchCommissions(supabase: SB, limit: number): Promise<AuditEntry[]> {
   const { data } = await supabase
     .from('agent_commissions')
-    .select('id, agent_id, order_id, amount_rm, status, created_at, updated_at, agent:sales_agents!agent_commissions_agent_id_fkey(referral_code)')
-    .order('updated_at', { ascending: false })
+    .select('id, agent_id, order_id, amount_rm:commission_rm, status, created_at, paid_at, reversed_at, agent:sales_agents!agent_commissions_agent_id_fkey(referral_code)')
+    // No updated_at column: order by creation, and date the entry by its latest real event.
+    .order('created_at', { ascending: false })
     .limit(limit)
   if (!data) return []
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,7 +113,7 @@ async function fetchCommissions(supabase: SB, limit: number): Promise<AuditEntry
       title: `Commission · ${r.status}`,
       detail: `RM ${Number(r.amount_rm).toFixed(2)} to ${agent?.referral_code ?? '—'}`,
       actorName: null,
-      createdAt: r.updated_at ?? r.created_at,
+      createdAt: r.reversed_at ?? r.paid_at ?? r.created_at,
       href: r.agent_id ? `/admin/partners/${r.agent_id}` : null,
     }
   })
@@ -121,7 +122,7 @@ async function fetchCommissions(supabase: SB, limit: number): Promise<AuditEntry
 async function fetchPayouts(supabase: SB, limit: number): Promise<AuditEntry[]> {
   const { data } = await supabase
     .from('agent_payouts')
-    .select('id, agent_id, amount_rm, paid_at, method, created_at, agent:sales_agents!agent_payouts_agent_id_fkey(referral_code)')
+    .select('id, agent_id, amount_rm, method:payment_method, created_at, agent:sales_agents!agent_payouts_agent_id_fkey(referral_code)')
     .order('created_at', { ascending: false })
     .limit(limit)
   if (!data) return []

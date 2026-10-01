@@ -48,7 +48,7 @@ export default function MarketplaceTable({
           {items.map((m) => (
             <tr key={m.id} className="hover:bg-[#EDF4E7]/30">
               <td className="px-4 py-3 text-[11.5px] text-[#12372D]/65">
-                {new Date(m.createdAt).toLocaleDateString('en-MY')}
+                {new Date(m.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
               </td>
               <td className="px-4 py-3">
                 <span

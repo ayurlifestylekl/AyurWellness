@@ -17,17 +17,17 @@ export async function getRecentActivity(
   const [orders, appts, tickets, replies, promos] = await Promise.all([
     supabase
       .from('orders')
-      .select('id, created_at, total_amount_rm, customer:users(full_name)')
+      .select('id, created_at, total_amount_rm, customer:users!orders_customer_id_fkey(full_name)')
       .order('created_at', { ascending: false })
       .limit(limit),
     supabase
       .from('appointments')
-      .select('id, appointment_date_time, treatment_name, customer:users(full_name), calcom_booking_uid')
+      .select('id, appointment_date_time, treatment_name, customer:users!appointments_customer_id_fkey(full_name), calcom_booking_uid')
       .order('appointment_date_time', { ascending: false })
       .limit(limit),
     supabase
       .from('support_tickets')
-      .select('id, subject, created_at, customer:users(full_name)')
+      .select('id, subject, created_at, customer:users!support_tickets_customer_id_fkey(full_name)')
       .order('created_at', { ascending: false })
       .limit(limit),
     supabase

@@ -40,8 +40,8 @@ export default async function AdminFinancePage({ searchParams }: PageProps) {
           <p className="mt-1 font-body text-[13px] text-[#12372D]/65">
             Read-only summary for{' '}
             <strong>
-              {new Date(f.rangeStart).toLocaleDateString('en-MY')} —{' '}
-              {new Date(f.rangeEnd).toLocaleDateString('en-MY')}
+              {new Date(f.rangeStart).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} —{' '}
+              {new Date(f.rangeEnd).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
             </strong>
             . Based on paid orders, refunds, and commission ledger.
           </p>

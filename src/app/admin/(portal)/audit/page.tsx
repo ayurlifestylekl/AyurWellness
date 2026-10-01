@@ -84,7 +84,7 @@ export default async function AdminAuditPage({ searchParams }: PageProps) {
                       {e.title}
                     </h3>
                     <time className="text-[11px] text-[#12372D]/55">
-                      {new Date(e.createdAt).toLocaleString('en-MY')}
+                      {new Date(e.createdAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                     </time>
                   </div>
                   <p className="mt-0.5 text-[12.5px] text-[#12372D]/75">{e.detail}</p>

@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { mytDayKey } from '@/lib/datetime'
 
 export interface FinanceSummary {
   grossRevenueRm: number
@@ -18,22 +19,22 @@ export interface FinanceSummary {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SB = SupabaseClient<any>
 
+// Report days are Malaysian calendar days. The server runs in UTC (Vercel), so
+// setHours()/local-midnight maths would shift every boundary by 8 hours.
 function isoStartOfDay(d: Date): string {
-  const x = new Date(d)
-  x.setHours(0, 0, 0, 0)
-  return x.toISOString()
+  return new Date(`${mytDayKey(d)}T00:00:00.000+08:00`).toISOString()
 }
 
 function isoEndOfDay(d: Date): string {
-  const x = new Date(d)
-  x.setHours(23, 59, 59, 999)
-  return x.toISOString()
+  return new Date(`${mytDayKey(d)}T23:59:59.999+08:00`).toISOString()
 }
 
+/** The current Malaysian month: its 1st and its last day (as dates within those days). */
 export function defaultMonthRange(): { start: Date; end: Date } {
-  const now = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), 1)
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+  const [y, m] = mytDayKey(new Date()).split('-').map(Number)
+  const start = new Date(`${y}-${String(m).padStart(2, '0')}-01T12:00:00+08:00`)
+  const lastDay = new Date(Date.UTC(y, m, 0)).getUTCDate()
+  const end = new Date(`${y}-${String(m).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}T12:00:00+08:00`)
   return { start, end }
 }
 
@@ -90,7 +91,7 @@ export async function getFinanceSummary(
   // Commissions in range
   const { data: commData } = await supabase
     .from('agent_commissions')
-    .select('amount_rm, status, created_at')
+    .select('amount_rm:commission_rm, status, created_at')
     .gte('created_at', startIso)
     .lte('created_at', endIso)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,7 +116,7 @@ export async function getFinanceSummary(
     const { data: itemsData } = await supabase
       .from('order_items')
       .select(
-        'product_id, quantity, unit_price_rm, product:products!order_items_product_id_fkey(name)',
+        'product_id, quantity, unit_price_rm:price_at_purchase_rm, product:products!order_items_product_id_fkey(name)',
       )
       .in('order_id', orderIds)
     const agg = new Map<string, { name: string; revenueRm: number; qty: number }>()

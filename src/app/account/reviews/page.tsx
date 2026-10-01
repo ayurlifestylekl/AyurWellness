@@ -78,7 +78,7 @@ export default async function MyReviewsPage() {
                     >
                       {r.productName}
                     </Link>{' '}
-                    · {new Date(r.createdAt).toLocaleDateString('en-MY')}
+                    · {new Date(r.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                   </p>
                 </div>
               </div>

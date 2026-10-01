@@ -78,7 +78,7 @@ export default function InventoryTable({ items }: { items: InventoryRow[] }) {
                 </td>
                 <td className="px-4 py-3 text-[12px] text-[#12372D]/65">
                   {r.expiryDate
-                    ? new Date(r.expiryDate).toLocaleDateString('en-MY')
+                    ? new Date(r.expiryDate).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })
                     : '—'}
                 </td>
                 <td className="px-4 py-3">

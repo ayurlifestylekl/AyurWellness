@@ -23,10 +23,10 @@ interface NextAppointmentHeroProps {
 const CLINIC_MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=Ayurvedic+Wellness+Centre+Brickfields+Kuala+Lumpur'
 
-const dayFormat = new Intl.DateTimeFormat('en-MY', { weekday: 'short' })
-const monthFormat = new Intl.DateTimeFormat('en-MY', { month: 'short' })
-const dayNumFormat = new Intl.DateTimeFormat('en-MY', { day: 'numeric' })
-const timeFormat = new Intl.DateTimeFormat('en-MY', {
+const dayFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', weekday: 'short' })
+const monthFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', month: 'short' })
+const dayNumFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur', day: 'numeric' })
+const timeFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   hour: 'numeric',
   minute: '2-digit',
   hour12: true,

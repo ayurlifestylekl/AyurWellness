@@ -48,7 +48,7 @@ export async function requestAccountDeletion(confirm: string): Promise<Result> {
   if (me.email) {
     const firstName = me.profile.full_name?.split(' ')[0] ?? 'there'
     const cooloffEnds = new Date(Date.now() + 30 * 86400 * 1000)
-      .toLocaleDateString('en-MY', { dateStyle: 'long' })
+      .toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', dateStyle: 'long' })
     const t = accountDeletionEmail({ firstName, cooloffEndsLocal: cooloffEnds })
     await sendEmail({ to: me.email, category: 'transactional', ...t })
   }

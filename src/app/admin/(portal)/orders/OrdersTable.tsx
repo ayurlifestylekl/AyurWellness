@@ -115,7 +115,7 @@ export default function OrdersTable({ items }: { items: AdminOrderListItem[] }) 
                 </td>
                 <td className="px-4 py-3 text-right">RM {o.totalRm.toFixed(2)}</td>
                 <td className="px-4 py-3 text-[12px] text-[#12372D]/65">
-                  {new Date(o.createdAt).toLocaleDateString('en-MY')}
+                  {new Date(o.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </td>
               </tr>
             ))}

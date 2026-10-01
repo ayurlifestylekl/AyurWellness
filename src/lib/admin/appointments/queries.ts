@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
+import { mytTodayRange } from '@/lib/datetime'
 
 type AppointmentRow = Database['public']['Tables']['appointments']['Row']
 export type AppointmentStatus = AppointmentRow['status']
@@ -44,13 +45,13 @@ export async function listAppointments(
       `id, appointment_date_time, customer_id, treatment_name, doctor_name,
        duration_mins, status, mode, room, advance_payment_rm,
        advance_payment_status, calcom_booking_uid, assigned_therapist_code,
+       patient_name, patient_email, patient_phone,
        customer:users!appointments_customer_id_fkey(full_name, email, phone_number)`,
       { count: 'exact' },
     )
 
-  const now = new Date()
-  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
-  const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString()
+  // Malaysia's today, not the server's: Vercel runs in UTC, where midnight is 8am here.
+  const { startISO: todayStart, endISO: todayEnd } = mytTodayRange()
 
   if (filters.segment === 'needs_therapist') {
     q = q.in('status', ['confirmed', 'checked_in', 'in_progress']).is('assigned_therapist_code', null)
@@ -80,8 +81,21 @@ export async function listAppointments(
 
   if (filters.status) q = q.eq('status', filters.status)
   if (filters.search) {
-    const s = filters.search.replace(/[%_]/g, '')
-    q = q.or(`treatment_name.ilike.%${s}%,doctor_name.ilike.%${s}%`)
+    // Strip characters that are special in ilike patterns or in PostgREST's or() list.
+    const s = filters.search.replace(/[%_,()]/g, '').trim()
+    // Every booking stores the name/email/phone it was made with (guest or member),
+    // so the customer search can run in the database alongside treatment/vaidya.
+    if (s) {
+      q = q.or(
+        [
+          `treatment_name.ilike.%${s}%`,
+          `doctor_name.ilike.%${s}%`,
+          `patient_name.ilike.%${s}%`,
+          `patient_email.ilike.%${s}%`,
+          `patient_phone.ilike.%${s}%`,
+        ].join(','),
+      )
+    }
   }
 
   const offset = filters.offset ?? 0
@@ -101,9 +115,10 @@ export async function listAppointments(
       id: r.id,
       appointmentDateTime: r.appointment_date_time,
       customerId: r.customer_id,
-      customerName: cust?.full_name ?? null,
-      customerEmail: cust?.email ?? null,
-      customerPhone: cust?.phone_number ?? null,
+      // Guest bookings (no account) carry the details typed into the booking form.
+      customerName: cust?.full_name ?? r.patient_name ?? null,
+      customerEmail: cust?.email ?? r.patient_email ?? null,
+      customerPhone: cust?.phone_number ?? r.patient_phone ?? null,
       treatmentName: r.treatment_name,
       doctorName: r.doctor_name,
       durationMins: r.duration_mins,
@@ -121,7 +136,7 @@ export async function listAppointments(
   if (filters.search) {
     const s = filters.search.toLowerCase()
     final = items.filter((it) => {
-      const hay = [it.customerName, it.customerEmail, it.treatmentName, it.doctorName]
+      const hay = [it.customerName, it.customerEmail, it.customerPhone, it.treatmentName, it.doctorName]
         .filter(Boolean)
         .join(' ')
         .toLowerCase()
@@ -138,8 +153,11 @@ export async function getAppointmentById(supabase: SB, id: string) {
     .select(
       `*,
        customer:users!appointments_customer_id_fkey(id, full_name, email, phone_number,
-         date_of_birth, gender, allergies, current_medications, medical_conditions),
-       rescheduled_from:appointments!appointments_rescheduled_from_id_fkey(id, appointment_date_time, status)`,
+         date_of_birth, gender, allergies, current_medications, medical_conditions)`,
+      // No rescheduled_from join: its foreign key was never created in the live
+      // database (the migration's ADD COLUMN IF NOT EXISTS skipped an existing
+      // column), so naming it made this query fail and every appointment page
+      // 404. Nothing on the page used it.
     )
     .eq('id', id)
     .single()
@@ -161,9 +179,7 @@ export async function countPendingRequests(supabase: SB): Promise<number> {
 }
 
 export async function countTodayAppointments(supabase: SB): Promise<number> {
-  const now = new Date()
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
-  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString()
+  const { startISO: start, endISO: end } = mytTodayRange()
   const { count } = await supabase
     .from('appointments')
     .select('id', { count: 'exact', head: true })

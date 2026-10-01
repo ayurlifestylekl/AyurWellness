@@ -59,7 +59,7 @@ export default async function AgentWholesaleOrderDetailPage({
             </span>
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Placed {new Date(order.createdAt).toLocaleString('en-MY')}
+            Placed {new Date(order.createdAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
           </p>
         </div>
       </header>
@@ -186,23 +186,23 @@ export default async function AgentWholesaleOrderDetailPage({
               Timeline
             </h2>
             <ul className="mt-2 space-y-1.5 text-[11.5px] text-[#12372D]/70">
-              <li>Placed · {new Date(order.createdAt).toLocaleString('en-MY')}</li>
+              <li>Placed · {new Date(order.createdAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}</li>
               {order.paidAt ? (
-                <li>Payment confirmed · {new Date(order.paidAt).toLocaleString('en-MY')}</li>
+                <li>Payment confirmed · {new Date(order.paidAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}</li>
               ) : null}
               {order.shippedAt ? (
                 <li>
-                  Shipped · {new Date(order.shippedAt).toLocaleString('en-MY')}
+                  Shipped · {new Date(order.shippedAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </li>
               ) : null}
               {order.deliveredAt ? (
                 <li>
-                  Delivered · {new Date(order.deliveredAt).toLocaleString('en-MY')}
+                  Delivered · {new Date(order.deliveredAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </li>
               ) : null}
               {order.cancelledAt ? (
                 <li className="text-red-700">
-                  Cancelled · {new Date(order.cancelledAt).toLocaleString('en-MY')}
+                  Cancelled · {new Date(order.cancelledAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                 </li>
               ) : null}
             </ul>

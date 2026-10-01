@@ -211,7 +211,7 @@ export default async function AgentDashboardPage() {
                       {o.customerName}
                     </p>
                     <p className="text-[11px] text-[#12372D]/55">
-                      {new Date(o.createdAt).toLocaleDateString('en-MY')} ·{' '}
+                      {new Date(o.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} ·{' '}
                       {o.paymentStatus}
                     </p>
                   </div>
@@ -258,7 +258,7 @@ export default async function AgentDashboardPage() {
                       {EXTERNAL_CHANNEL_LABEL[s.channel] ?? s.channel}
                     </p>
                     <p className="text-[11px] text-[#12372D]/55">
-                      {new Date(s.createdAt).toLocaleDateString('en-MY')} · RM{' '}
+                      {new Date(s.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} · RM{' '}
                       {s.totalAmountRm.toFixed(2)}
                     </p>
                   </div>

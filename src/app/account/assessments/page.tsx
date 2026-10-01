@@ -122,7 +122,7 @@ export default async function AssessmentsHubPage() {
           {latest && (
             <p className="font-body text-[11px] italic text-[#12372D]/50">
               Last taken{' '}
-              {new Intl.DateTimeFormat('en-MY', {
+              {new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',

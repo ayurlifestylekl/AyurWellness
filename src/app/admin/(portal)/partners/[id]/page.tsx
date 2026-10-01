@@ -118,7 +118,7 @@ export default async function AdminPartnerDetailPage({
             ) : null}
           </div>
           <p className="mt-1 text-[12px] text-[#12372D]/65">
-            Joined {new Date(a.created_at).toLocaleDateString('en-MY')} ·{' '}
+            Joined {new Date(a.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })} ·{' '}
             <span className="capitalize">{a.commission_type}</span> · {a.commission_rate}%
             commission
           </p>
@@ -230,7 +230,7 @@ export default async function AdminPartnerDetailPage({
                         RM {Number(o.total_amount_rm).toFixed(2)}
                       </span>
                       <span className="text-[11px] text-[#12372D]/55">
-                        {new Date(o.created_at).toLocaleDateString('en-MY')}
+                        {new Date(o.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                       </span>
                     </li>
                   )
@@ -276,7 +276,7 @@ export default async function AdminPartnerDetailPage({
                     className="flex items-center justify-between px-5 py-3 text-[13px]"
                   >
                     <span className="text-[12px] text-[#12372D]/65">
-                      {new Date(p.created_at).toLocaleDateString('en-MY')}
+                      {new Date(p.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
                     </span>
                     <span className="text-[11.5px] text-[#12372D]/55 capitalize">
                       {String(p.payment_method).replace('_', ' ')}

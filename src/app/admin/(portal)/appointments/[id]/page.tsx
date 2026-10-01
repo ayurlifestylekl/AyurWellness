@@ -44,13 +44,20 @@ export default async function AdminAppointmentDetailPage({
   const dt = new Date(a.appointment_date_time)
 
   const genderReq: 'any' | 'men_only' | 'ladies_only' = a.gender_requirement ?? 'any'
-  const custGender: 'male' | 'female' | null = cust?.gender ?? null
+  // Guests (no account) give their gender on the booking itself.
+  const custGender: 'male' | 'female' | null = cust?.gender ?? a.patient_gender ?? null
+  // Only warn on a known conflict — an unknown gender is not a mismatch.
   const genderMismatch =
-    genderReq === 'men_only' && custGender !== 'male'
-      ? 'This is a men-only therapy but customer is on file as female.'
-      : genderReq === 'ladies_only' && custGender !== 'female'
-        ? 'This is a ladies-only therapy but customer is on file as male.'
+    genderReq === 'men_only' && custGender === 'female'
+      ? 'This is a men-only therapy but the customer is recorded as female.'
+      : genderReq === 'ladies_only' && custGender === 'male'
+        ? 'This is a ladies-only therapy but the customer is recorded as male.'
         : null
+  // What a guest typed into the booking form (name, contact, health intake).
+  const intake = (a.pre_visit_form ?? {}) as {
+    conditions?: string; allergies?: string; medications?: string; pregnant?: boolean; notes?: string
+  }
+  const isGuest = !cust && !!(a.patient_name || a.patient_email || a.patient_phone)
   const GENDER_REQ_LABEL: Record<typeof genderReq, string> = {
     any: 'Any',
     men_only: 'Men only',
@@ -231,6 +238,43 @@ export default async function AdminAppointmentDetailPage({
                 >
                   View full profile →
                 </Link>
+              ) : null}
+            </>
+          ) : isGuest ? (
+            <>
+              <p className="mt-2 text-[13px] font-semibold">{a.patient_name ?? '—'}</p>
+              {a.patient_email ? <p className="text-[12px] text-[#12372D]/65">{a.patient_email}</p> : null}
+              {a.patient_phone ? <p className="text-[12px] text-[#12372D]/65">{a.patient_phone}</p> : null}
+              <p className="mt-1 text-[11px] italic text-[#12372D]/50">Guest booking — no account</p>
+              {intake.conditions || intake.allergies || intake.medications || intake.pregnant || intake.notes ? (
+                <div className="mt-3 border-t border-[#006B3C]/6 pt-3 text-[11.5px]">
+                  <p className="font-semibold text-[#006B3C]">Health flags</p>
+                  {intake.allergies ? (
+                    <p className="mt-1">
+                      <span className="text-[#12372D]/55">Allergies: </span>
+                      {intake.allergies}
+                    </p>
+                  ) : null}
+                  {intake.medications ? (
+                    <p>
+                      <span className="text-[#12372D]/55">Meds: </span>
+                      {intake.medications}
+                    </p>
+                  ) : null}
+                  {intake.conditions ? (
+                    <p>
+                      <span className="text-[#12372D]/55">Conditions: </span>
+                      {intake.conditions}
+                    </p>
+                  ) : null}
+                  {intake.pregnant ? <p className="font-semibold text-red-700">Pregnant</p> : null}
+                  {intake.notes ? (
+                    <p>
+                      <span className="text-[#12372D]/55">Notes: </span>
+                      {intake.notes}
+                    </p>
+                  ) : null}
+                </div>
               ) : null}
             </>
           ) : (

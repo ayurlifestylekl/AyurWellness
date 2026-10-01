@@ -50,7 +50,7 @@ export default function CommissionLedger({
               #{String(c.order_id).slice(-6).toUpperCase()}
             </Link>
             <span className="flex-1 text-[12px] text-[#12372D]/65">
-              {new Date(c.created_at).toLocaleDateString('en-MY')}
+              {new Date(c.created_at).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
               {ord ? ` · order RM ${Number(ord.total_amount_rm).toFixed(2)}` : ''}
             </span>
             <span className="text-[11px] text-[#12372D]/55">{c.rate_percent}%</span>

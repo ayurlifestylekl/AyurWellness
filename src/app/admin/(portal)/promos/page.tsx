@@ -104,7 +104,7 @@ export default async function AdminPromosPage() {
                   <td className="px-4 py-3 text-right">{p.usageCount}</td>
                   <td className="px-4 py-3 text-[11.5px] text-[#12372D]/55">
                     {p.expiresAt
-                      ? new Date(p.expiresAt).toLocaleDateString('en-MY')
+                      ? new Date(p.expiresAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })
                       : 'No expiry'}
                   </td>
                 </tr>

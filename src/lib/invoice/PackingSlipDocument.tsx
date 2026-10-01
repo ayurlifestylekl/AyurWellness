@@ -38,7 +38,7 @@ export default function PackingSlipDocument(props: PackingSlipProps) {
       <Page size="A4" style={styles.page}>
         <Text style={styles.h1}>Packing Slip — #{props.shortId}</Text>
         <Text style={styles.meta}>
-          Ayurvedic Wellness Centre · {new Date(props.createdAt).toLocaleDateString('en-MY')}
+          Ayurvedic Wellness Centre · {new Date(props.createdAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}
         </Text>
 
         <View style={styles.addr}>

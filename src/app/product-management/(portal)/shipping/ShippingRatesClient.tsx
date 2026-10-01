@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { Check, Globe2, MapPin, Truck } from 'lucide-react'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 import { updateShippingZone, type ShippingZoneRow } from '@/lib/product-management/shipping'
 import { calculateShipping } from '@/lib/shipping/zones'
 
@@ -106,7 +107,7 @@ function ZoneCard({ zone }: { zone: ShippingZoneRow }) {
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className={`font-body text-[12px] ${msg ? (msg.ok ? 'text-[#006B3C]' : 'text-red-700') : 'text-[#12372D]/45'}`}>
-          {msg ? msg.text : `Last updated ${format(new Date(saved.at), 'd MMM yyyy, h:mm a')}`}
+          {msg ? msg.text : `Last updated ${format(asMYWallClock(saved.at), 'd MMM yyyy, h:mm a')}`}
         </p>
         <button
           type="button"

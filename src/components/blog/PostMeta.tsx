@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Clock } from 'lucide-react'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 
 interface PostMetaProps {
   authorName: string
@@ -28,7 +29,7 @@ export default function PostMeta({
   const isLight = variant === 'light'
   const formattedDate = (() => {
     try {
-      return format(new Date(publishedAt), 'd MMMM yyyy')
+      return format(asMYWallClock(publishedAt), 'd MMMM yyyy')
     } catch {
       return publishedAt.slice(0, 10)
     }

@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 import { updateProductOrderStatus } from '@/lib/product-management/actions'
 import type { ProductOrderDetail } from '@/lib/product-management/queries'
 import { COURIERS } from '../../fulfillment/FulfilmentQueue'
@@ -164,7 +165,7 @@ export default function OrderDetailClient({ order }: { order: ProductOrderDetail
                 {h.event_type.replace(/_/g, ' ')}
                 {h.from_status && h.to_status && ` · ${h.from_status} → ${h.to_status}`}
               </span>
-              <span className="text-[11px] text-[#12372D]/55">{format(new Date(h.created_at), 'dd MMM yyyy HH:mm')}</span>
+              <span className="text-[11px] text-[#12372D]/55">{format(asMYWallClock(h.created_at), 'dd MMM yyyy HH:mm')}</span>
             </li>
           ))}
         </ul>

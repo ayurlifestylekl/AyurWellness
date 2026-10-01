@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { asMYWallClock } from '@/lib/datetime'
 import { listProductOrders } from '@/lib/product-management/queries'
 
 export const metadata = { title: 'Orders · Product Management' }
@@ -94,7 +95,7 @@ export default async function ProductOrdersPage({ searchParams }: PageProps) {
                   <StatusBadge status={order.status} />
                   <span className="ml-1.5 text-[11px] text-[#12372D]/55">({order.payment_status})</span>
                 </td>
-                <td className="px-4 py-3 text-[#12372D]/65">{format(new Date(order.created_at), 'dd MMM yyyy')}</td>
+                <td className="px-4 py-3 text-[#12372D]/65">{format(asMYWallClock(order.created_at), 'dd MMM yyyy')}</td>
                 <td className="px-4 py-3 text-right">
                   <Link
                     href={`/product-management/orders/${order.id}`}

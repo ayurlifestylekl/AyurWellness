@@ -98,7 +98,7 @@ export function relativeTime(iso: string, nowMs: number = Date.now()): string {
     const days = Math.round(diff / DAY)
     return days === 1 ? 'Yesterday' : `${days} days ago`
   }
-  return new Intl.DateTimeFormat('en-MY', {
+  return new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
     day: 'numeric',
     month: 'short',
   }).format(new Date(t))
@@ -112,11 +112,11 @@ export function isActiveStatus(status: TicketStatus): boolean {
 export function bubbleTimestamp(iso: string): string {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return ''
-  const date = new Intl.DateTimeFormat('en-MY', {
+  const date = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
     day: 'numeric',
     month: 'short',
   }).format(d)
-  const time = new Intl.DateTimeFormat('en-MY', {
+  const time = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,

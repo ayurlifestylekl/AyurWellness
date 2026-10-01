@@ -24,7 +24,7 @@ export const metadata = {
   title: 'My Appointments',
 }
 
-const monthYearFormat = new Intl.DateTimeFormat('en-MY', {
+const monthYearFormat = new Intl.DateTimeFormat('en-MY', { timeZone: 'Asia/Kuala_Lumpur',
   month: 'short',
   year: 'numeric',
 })
