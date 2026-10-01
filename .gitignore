@@ -48,3 +48,6 @@ next-env.d.ts
 /*.jpg
 /*.png
 /*.mp4
+
+# staff list for scripts/create-staff.mjs (personal data)
+scripts/*.local.json
