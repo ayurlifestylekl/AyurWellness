@@ -8,7 +8,7 @@ import sitemap from '../sitemap'
 import { getAllCategories, getTreatmentsByCategorySlug } from '@/data/treatments'
 import { products } from '@/data/products'
 
-const BASE = 'https://ayurvedawellness.com.my'
+const BASE = 'https://ayurvedicwellness.com.my'
 
 describe('sitemap', () => {
   it('lists every therapy and category page, from the same data the pages are built from', async () => {

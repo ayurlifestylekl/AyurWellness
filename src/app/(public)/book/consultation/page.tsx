@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: 'Book a Free Consultation — Ayurvedic Wellness Centre',
     description:
       'Complimentary 30-minute consultation with a KKM-registered Vaidya in Brickfields, Kuala Lumpur.',
-    url: 'https://ayurvedawellness.com.my/book/consultation',
+    url: 'https://ayurvedicwellness.com.my/book/consultation',
     type: 'website',
   },
 }

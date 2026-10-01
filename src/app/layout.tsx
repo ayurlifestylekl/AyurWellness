@@ -46,7 +46,7 @@ const fell = IM_Fell_English({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ayurvedawellness.com.my"),
+  metadataBase: new URL("https://ayurvedicwellness.com.my"),
   title: {
     default:
       "Ayurvedic Wellness Centre | Authentic Ayurveda in Brickfields, KL",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_MY",
-    url: "https://ayurvedawellness.com.my",
+    url: "https://ayurvedicwellness.com.my",
     siteName: "Ayurvedic Wellness Centre",
     title:
       "Ayurvedic Wellness Centre | Authentic Ayurveda in Brickfields, KL",

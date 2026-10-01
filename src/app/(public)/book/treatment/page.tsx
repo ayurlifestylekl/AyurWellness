@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: 'Book a Treatment — Ayurvedic Wellness Centre',
     description:
       'Pick from 60+ authentic traditional Ayurveda protocols and book with our Vaidyas in Brickfields, Kuala Lumpur.',
-    url: 'https://ayurvedawellness.com.my/book/treatment',
+    url: 'https://ayurvedicwellness.com.my/book/treatment',
     type: 'website',
   },
 }

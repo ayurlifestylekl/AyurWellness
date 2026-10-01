@@ -85,7 +85,7 @@ export default async function AdminPartnerDetailPage({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const a: any = agent
   const u = Array.isArray(a.user) ? a.user[0] : a.user
-  const referralLink = `https://ayurvedawellness.com.my/auth/register?ref=${a.referral_code}`
+  const referralLink = `https://ayurvedicwellness.com.my/auth/register?ref=${a.referral_code}`
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-4">

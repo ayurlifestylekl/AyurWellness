@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_MY',
-    url: 'https://ayurvedawellness.com.my/about',
+    url: 'https://ayurvedicwellness.com.my/about',
     siteName: 'Ayurvedic Wellness Centre',
     title: 'About Ayurvedic Wellness Centre | Brickfields, KL',
     description:
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 const aboutPageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
-  url: 'https://ayurvedawellness.com.my/about',
+  url: 'https://ayurvedicwellness.com.my/about',
   name: 'About Ayurvedic Wellness Centre',
   description:
     'The story, philosophy and team behind Ayurvedic Wellness Centre in Brickfields, Kuala Lumpur.',
@@ -58,7 +58,7 @@ const aboutPageJsonLd = {
     '@type': 'Organization',
     name: 'Ayurvedic Wellness Centre',
     legalName: CLINIC_LEGAL_NAME,
-    url: 'https://ayurvedawellness.com.my',
+    url: 'https://ayurvedicwellness.com.my',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Brickfields',

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: 'Contact — Ayurvedic Wellness Centre',
     description:
       'Cross the threshold. Message, call or visit our Brickfields Centre. Every note reaches our Vaidyas directly — no bots, no call-trees.',
-    url: 'https://ayurvedawellness.com.my/contact',
+    url: 'https://ayurvedicwellness.com.my/contact',
     type: 'website',
   },
 }

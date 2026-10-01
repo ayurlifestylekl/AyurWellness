@@ -63,7 +63,7 @@ export function toIcsString(appointment: AppointmentRow, customer: IcsCustomer):
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `UID:${appointment.id}@ayurvedawellness.com.my`,
+    `UID:${appointment.id}@ayurvedicwellness.com.my`,
     `DTSTAMP:${toIcsDate(new Date())}`,
     `DTSTART:${toIcsDate(start)}`,
     `DTEND:${toIcsDate(end)}`,

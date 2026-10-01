@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: 'The Journal — Ayurvedic Wellness Centre',
     description:
       'Authentic Ayurveda writing from a practising our Vaidya. Read stories, rituals and seasonal protocols.',
-    url: 'https://ayurvedawellness.com.my/blog',
+    url: 'https://ayurvedicwellness.com.my/blog',
     type: 'website',
   },
 }

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: 'Brand Partner Program — Ayurvedic Wellness Centre',
     description:
       'Join a curated circle of wellness storytellers. Share authentic traditional Ayurveda. Earn meaningful commission. Apply by WhatsApp.',
-    url: 'https://ayurvedawellness.com.my/partners',
+    url: 'https://ayurvedicwellness.com.my/partners',
     type: 'website',
   },
 }
