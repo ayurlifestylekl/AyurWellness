@@ -7,7 +7,7 @@ export default function ProductManagementLoginForm({ resetSuccess, nextPath }: {
       title="Welcome back."
       subtitle="Catalog, inventory and order fulfilment — dedicated access, separate from the admin portal."
       emailLabel="Product Management email"
-      emailPlaceholder="product@ayurvedawellness.com.my"
+      emailPlaceholder="product@ayurvedicwellness.com.my"
       ctaLabel="Enter Product Management"
       defaultRedirect="/product-management"
       crossLink={{ prompt: 'Not product management?', label: 'Admin sign-in', href: '/admin/login' }}
