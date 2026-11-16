@@ -32,7 +32,7 @@ if (authUser) {
 
 // 3. Try password sign-in via the anon client (same path the app uses)
 const anon = createClient(url, anonKey, { auth: { persistSession: false } })
-const signIn = await anon.auth.signInWithPassword({ email: EMAIL, password: 'Demo1234!' })
+const signIn = await anon.auth.signInWithPassword({ email: EMAIL, password: process.env.DEMO_PASSWORD ?? '' })
 console.log('SIGN-IN ATTEMPT:', signIn.error
   ? { error: signIn.error.message, status: signIn.error.status }
   : { success: true, user_id: signIn.data.user?.id })

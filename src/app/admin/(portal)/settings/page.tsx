@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { getSiteSettings, getTelegramSettings } from '@/lib/admin/settings/queries'
-import SettingsForm from './SettingsForm'
+import { getTelegramSettings } from '@/lib/admin/settings/queries'
 import TelegramSettings from './TelegramSettings'
 
 export const metadata = { title: 'Settings · Admin' }
@@ -8,7 +7,6 @@ export const dynamic = 'force-dynamic'
 
 export default async function AdminSettingsPage() {
   const supabase = await createClient()
-  const settings = await getSiteSettings(supabase)
   const telegram = await getTelegramSettings(supabase)
 
   return (
@@ -21,18 +19,14 @@ export default async function AdminSettingsPage() {
           Settings
         </h1>
         <p className="mt-1 font-body text-[13px] text-[#12372D]/65">
-          Clinic-wide configuration — name, contact, tax, shipping, and booking rules.
-          {settings.updatedAt ? (
-            <>
-              {' '}
-              Last updated{' '}
-              {new Date(settings.updatedAt).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur' })}.
-            </>
-          ) : null}
+          Staff alerts. Clinic details, booking rules and payment settings are part of the website
+          itself — ask your developer to change them.
         </p>
       </header>
 
-      <SettingsForm initial={settings} />
+      {/* The old clinic-wide form (site_settings) was removed from here: nothing on the
+          site reads those values, so editing them changed nothing. SettingsForm and the
+          site_settings queries are kept for when they are wired up. */}
       <TelegramSettings initial={telegram} />
     </div>
   )

@@ -21,8 +21,12 @@ async function handle(req: Request) {
 
   const nowMs = Date.now()
   const nowISO = new Date(nowMs).toISOString()
-  const lowerBound = new Date(nowMs + 72 * 60 * 60 * 1000).toISOString()
-  const upperBound = new Date(nowMs + 73 * 60 * 60 * 1000).toISOString()
+  // The job runs once a day, so the window must cover a whole day of
+  // appointments or most bookings are never reminded. management_reminder_sent_at
+  // keeps it to one email each: every confirmed booking gets its reminder
+  // 1–3 days ahead.
+  const lowerBound = new Date(nowMs + 24 * 60 * 60 * 1000).toISOString()
+  const upperBound = new Date(nowMs + 72 * 60 * 60 * 1000).toISOString()
 
   const { data, error } = await sb
     .from('appointments')

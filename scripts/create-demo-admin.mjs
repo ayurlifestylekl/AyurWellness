@@ -2,7 +2,7 @@
 /**
  * Creates a demo admin user for testing the admin portal.
  *
- * Run:  node scripts/create-demo-admin.mjs
+ * Run:  DEMO_PASSWORD='…' node scripts/create-demo-admin.mjs
  *
  * Deletes:
  *   In Supabase Studio → SQL Editor:
@@ -19,7 +19,11 @@ import { createClient } from '@supabase/supabase-js'
 config({ path: '.env.local', override: true })
 
 const DEMO_EMAIL = 'demo-admin@kerala-ayurvedic.dev'
-const DEMO_PASSWORD = 'Demo1234!'
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD
+if (!DEMO_PASSWORD || DEMO_PASSWORD.length < 12) {
+  console.error('❌  Set DEMO_PASSWORD (12+ characters) in the environment; it is never stored in this script.')
+  process.exit(1)
+}
 const DEMO_NAME = 'Demo Admin'
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL

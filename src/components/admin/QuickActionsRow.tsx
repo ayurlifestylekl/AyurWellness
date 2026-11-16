@@ -22,7 +22,7 @@ export default function QuickActionsRow({ accountsOpen = true }: { accountsOpen?
         </>
       )}
       {/* Clinic actions — the live day-to-day. */}
-      <ActionTile icon={CalendarPlus} label="New walk-in" href="/admin/appointments/new" />
+      <ActionTile icon={CalendarPlus} label="New walk-in" href="/console/new" />
       <ActionTile icon={CalendarDays} label="Consultations" href="/admin/appointments" />
       <ActionTile icon={MessageSquare} label="Messages" href="/admin/messages" />
       <ActionTile icon={Search} label="Find customer" href="/admin/customers" />

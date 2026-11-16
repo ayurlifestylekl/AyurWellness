@@ -32,42 +32,31 @@ export default function AdminTreatmentsRedirectPage() {
         }}
       >
         <h2 className="font-heading text-[16px] font-semibold text-[#006B3C]">
-          Treatments live in Sanity Studio
+          Treatments are managed by your developer
         </h2>
         <p className="mt-2 text-[13px] text-[#12372D]/70">
-          Treatment content — title, duration, description, category, &quot;requires
-          consultation&quot; flag — is managed inside <strong>Sanity Studio</strong>,
-          our content-management system. Changes there flow to the public{' '}
+          The therapies on the{' '}
           <Link href="/treatments" className="underline">
             /treatments
           </Link>{' '}
-          page automatically (cached ~30 seconds) and appear in the walk-in appointment
-          form&apos;s treatment picker.
+          pages and in online booking — names, prices, durations, photos, and rules such as
+          &quot;consultation first&quot;, minimum age and health questions — are stored in the
+          website&apos;s database. To add a therapy or change one, send the details to your
+          developer.
         </p>
         <p className="mt-3 text-[13px] text-[#12372D]/70">
-          To add or edit treatments, open Sanity Studio:
+          Sanity Studio is used for the blog, FAQs and the About page. Editing treatments there
+          does not change the website.
         </p>
         <Link
-          href="/studio"
+          href="/treatments"
           target="_blank"
           rel="noopener"
           className="mt-3 inline-flex items-center gap-2 rounded-lg bg-[#006B3C] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#006B3C]"
         >
-          <ExternalLink className="h-3.5 w-3.5" /> Open Sanity Studio
+          <ExternalLink className="h-3.5 w-3.5" /> View live treatments
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>
-      </article>
-
-      <article className="rounded-2xl border border-[#006B3C]/8 bg-white p-5">
-        <h3 className="font-heading text-[13px] font-semibold text-[#006B3C]">
-          Why not in the admin panel directly?
-        </h3>
-        <p className="mt-2 text-[12.5px] text-[#12372D]/65">
-          Treatments need rich content (descriptions, categorisation, &quot;requires
-          consultation&quot; flag) and live alongside the marketing pages. Sanity is the
-          right tool for that. The admin panel reads treatment names from Sanity to
-          populate dropdowns &mdash; nothing duplicated, single source of truth.
-        </p>
       </article>
     </div>
   )

@@ -1,21 +1,17 @@
 import { createClient } from '@supabase/supabase-js'
-import { readFileSync } from 'node:fs'
+import { config } from 'dotenv'
 
-// Load env from .env.local
-const env = readFileSync(
-  '/Users/sanjaygunabalan2626gmail.com/Documents/Ayurvedic /Ayurvedic /ayurvedic/.env.local',
-  'utf8',
-)
-for (const line of env.split('\n')) {
-  const m = line.match(/^([A-Z_]+)=(.+)$/)
-  if (m) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
-}
+config({ path: '.env.local', override: true })
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY
 const sb = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
-const PASSWORD = 'Demo!Pass#2026'
+const PASSWORD = process.env.DEMO_PASSWORD
+if (!PASSWORD || PASSWORD.length < 12) {
+  console.error('Set DEMO_PASSWORD (12+ characters) in the environment; it is never stored in this script.')
+  process.exit(1)
+}
 const ACCOUNTS = [
   { email: 'demo-admin@kerala-ayurvedic.dev',    fullName: 'Demo Admin',    role: 'admin' },
   { email: 'demo-customer@kerala-ayurvedic.dev', fullName: 'Demo Customer', role: 'customer' },
