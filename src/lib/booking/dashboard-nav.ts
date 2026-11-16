@@ -17,6 +17,7 @@ export const consoleNav: DashboardNavItem[] = [
   { href: '/console?tab=confirmed', label: 'Confirmed' },
   { href: '/console?tab=refunds', label: 'Refunds' },
   { href: '/console/doctors', label: 'Doctors' },
+  { href: '/console/patients', label: 'Patients' },
   { href: '/console?tab=all', label: 'All' },
   { href: '/console/schedule', label: 'Schedule' },
   { href: '/console/blocks', label: 'Availability' },

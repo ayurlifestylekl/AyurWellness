@@ -8,6 +8,7 @@ import { CONSULTATION_MINS } from '@/lib/booking/slots'
 import { mytTodayRange, mytTimeOfDay } from '@/lib/datetime'
 import { fetchBlocksOnOrAfter, blockedIntervalsForDate } from '@/lib/booking/blocks'
 import type { ServiceDb } from './guard'
+import { patientKey } from './patients'
 
 /** Statuses that count as a real, booked patient for the doctor view. */
 export const BOOKED_STATUSES: BookingStatus[] = ['confirmed', 'checked_in', 'in_progress', 'completed']
@@ -389,8 +390,9 @@ export interface PatientDirectoryEntry {
 }
 
 /**
- * Unique patients who have booked, most-recent first. Deduped by account →
- * phone → name so a returning patient appears once with a visit count.
+ * Unique patients who have booked, most-recent first. Deduped by phone →
+ * account → name (see patients.ts) so a returning patient appears once with a
+ * visit count, even when the phone was typed differently each time.
  */
 export async function getPatientDirectory(db: ServiceDb): Promise<PatientDirectoryEntry[]> {
   const { data, error } = await db
@@ -404,7 +406,7 @@ export async function getPatientDirectory(db: ServiceDb): Promise<PatientDirecto
   }
   const byPatient = new Map<string, PatientDirectoryEntry>()
   for (const a of (data ?? []).map(mapAppointmentRow)) {
-    const key = a.customerId ?? a.patientPhone ?? a.patientName ?? a.id
+    const key = patientKey(a) ?? a.id
     const existing = byPatient.get(key)
     if (existing) {
       existing.visits += 1 // rows are newest-first, so the first seen is the latest

@@ -11,6 +11,8 @@ import AppointmentActions from '@/components/staff/AppointmentActions'
 import GroupApprovalActions from '@/components/staff/GroupApprovalActions'
 import MarkContactedButton from '@/components/staff/MarkContactedButton'
 import RefundRequestPanel from '@/components/staff/RefundRequestPanel'
+import PatientVisitHistory from '@/components/staff/PatientVisitHistory'
+import { getPatientVisits } from '@/lib/staff/patients'
 import { canClearConsultation } from '@/lib/booking/consultation-rules'
 import { reconcilePendingRefundsSafe, bookingRefundDependencies } from '@/lib/payments/refund'
 
@@ -31,6 +33,7 @@ export default async function DoctorPatientPage({ params }: { params: { id: stri
   // so staff see current status without waiting for the reconciliation cron.
   await reconcilePendingRefundsSafe(bookingRefundDependencies())
   const refunds = await getRefundsForAppointment(db, a.id)
+  const visits = await getPatientVisits(db, a)
   const canShowClearance = a.treatmentUnlocked || canClearConsultation({
     bookingKind: a.bookingKind,
     status: a.status,
@@ -58,7 +61,10 @@ export default async function DoctorPatientPage({ params }: { params: { id: stri
       <p className="mt-1 font-body text-[13.5px] text-dark/60">{subline}</p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-        <PatientHealthPanel p={a} hideContact={hideContact} />
+        <div className="space-y-6">
+          <PatientHealthPanel p={a} hideContact={hideContact} />
+          <PatientVisitHistory visits={visits} currentId={a.id} patientName={a.patientName} linkBase="/doctor" showClinical />
+        </div>
         <div className="space-y-4">
           {['pending', 'scheduled'].includes(a.status) && (
             <MarkContactedButton id={a.id} contactedAt={a.contactedAt} />

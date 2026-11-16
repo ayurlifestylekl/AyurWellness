@@ -10,6 +10,7 @@ import { createBlock, deleteBlock, updateBlockReason, createConsultationFromGrid
 import { fmtMY } from '@/lib/datetime'
 import type { StaffColorTag } from '@/types/booking'
 import { STAFF_COLOR_SWATCHES, apptClasses } from './ScheduleGrid'
+import ClientLookup from './ClientLookup'
 
 const OPEN = 9 * 60 + 30   // 09:30
 const CLOSE = 20 * 60 + 30 // 20:30
@@ -231,6 +232,15 @@ export default function VaidyaScheduleGrid({
                 <button onClick={resetBookDraft} className="rounded-lg border border-accent/30 p-1.5 text-dark/50 hover:text-primary" aria-label="Cancel">
                   <X className="h-4 w-4" />
                 </button>
+              </div>
+              <div className="mb-3">
+                <ClientLookup
+                  onPick={(c) => {
+                    setBookName(c.name)
+                    setBookPhone(c.phone ?? '')
+                    setBookEmail(c.email ?? '')
+                  }}
+                />
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Patient name" required>

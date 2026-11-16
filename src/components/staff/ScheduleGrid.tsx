@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import ClientLookup from './ClientLookup'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
@@ -407,6 +408,16 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                 <button onClick={resetBookDraft} className="rounded-lg border border-accent/30 p-1.5 text-dark/50 hover:text-primary" aria-label="Cancel">
                   <X className="h-4 w-4" />
                 </button>
+              </div>
+              <div className="mb-3">
+                <ClientLookup
+                  onPick={(c) => {
+                    setBookName(c.name)
+                    setBookPhone(c.phone ?? '')
+                    setBookEmail(c.email ?? '')
+                    if (c.gender) setBookGender(c.gender)
+                  }}
+                />
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Patient name" required>

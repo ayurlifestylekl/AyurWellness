@@ -10,6 +10,8 @@ import GroupApprovalActions from '@/components/staff/GroupApprovalActions'
 import MarkContactedButton from '@/components/staff/MarkContactedButton'
 import BookingEventHistory from '@/components/staff/BookingEventHistory'
 import RefundRequestPanel from '@/components/staff/RefundRequestPanel'
+import PatientVisitHistory from '@/components/staff/PatientVisitHistory'
+import { getPatientVisits } from '@/lib/staff/patients'
 import { bookingRef } from '@/lib/booking/ref'
 import { reconcilePendingRefundsSafe, bookingRefundDependencies } from '@/lib/payments/refund'
 
@@ -32,6 +34,7 @@ export default async function ConsoleDetailPage({ params }: { params: { id: stri
   // so staff see current status without waiting for the reconciliation cron.
   await reconcilePendingRefundsSafe(bookingRefundDependencies())
   const refunds = await getRefundsForAppointment(db, a.id)
+  const visits = await getPatientVisits(db, a)
 
   return (
     <div>
@@ -64,6 +67,7 @@ export default async function ConsoleDetailPage({ params }: { params: { id: stri
           </div>
           {refunds.length > 0 && <RefundRequestPanel refunds={refunds} canApprove />}
           <PatientHealthPanel p={a} />
+          <PatientVisitHistory visits={visits} currentId={a.id} patientName={a.patientName} linkBase="/console" />
           <BookingEventHistory events={events} />
         </div>
 
