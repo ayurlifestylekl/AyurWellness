@@ -11,6 +11,7 @@ export interface DashboardNavItem {
 // data and is trivially testable in Node.
 export const consoleNav: DashboardNavItem[] = [
   { href: '/console', label: 'Overview' },
+  { href: '/console/checkout', label: 'Checkout' },
   { href: '/console?tab=needs-therapist', label: 'Needs therapist' },
   { href: '/console?tab=today', label: 'Today' },
   { href: '/console?tab=awaiting', label: 'Awaiting payment' },

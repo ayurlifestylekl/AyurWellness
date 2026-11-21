@@ -3,8 +3,17 @@ import { MessageCircle, Phone, CalendarPlus, Pencil, UserPlus } from 'lucide-rea
 import PatientHealthPanel from '@/components/staff/PatientHealthPanel'
 import PatientVisitHistory from '@/components/staff/PatientVisitHistory'
 import { customerWaLink } from '@/lib/booking/contact'
+import { CLINIC_NAME } from '@/lib/clinic'
 import type { DoctorPatientView } from '@/types/booking'
 import type { PatientRecord, PatientVisit } from '@/lib/staff/patients'
+import type { CaseSheet } from '@/lib/staff/patient-files'
+import { formatPatientNo } from '@/lib/staff/patient-id'
+import { mytDayKey } from '@/lib/datetime'
+import CaseSheetList from '@/components/staff/CaseSheetList'
+import PatientPhotos, { type PhotoItem } from '@/components/staff/PatientPhotos'
+import BillsList from '@/components/staff/BillsList'
+import StartBillButton from '@/components/staff/StartBillButton'
+import type { Bill } from '@/lib/counter/queries'
 
 function fmtDate(iso: string | null) {
   return iso ? new Date(iso).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', dateStyle: 'medium', timeStyle: 'short' }) : null
@@ -37,6 +46,10 @@ export default function PatientProfile({
   showClinical,
   newBookingHref,
   editHref,
+  caseSheets,
+  photos,
+  canDeletePhotos = false,
+  bills,
 }: {
   patient: DoctorPatientView | null
   record: PatientRecord | null
@@ -48,6 +61,13 @@ export default function PatientProfile({
   newBookingHref?: string
   /** Edit the saved record, or save one for a booking-only patient (front desk + admin). */
   editHref?: string
+  /** Shown to Vaidyas and admin only (clinical). Omit to hide the section. */
+  caseSheets?: CaseSheet[]
+  /** Photo attachments; omit to hide the section. Needs a saved record. */
+  photos?: PhotoItem[]
+  canDeletePhotos?: boolean
+  /** Counter bills (front desk + admin); omit to hide. A saved record can start a new bill. */
+  bills?: Bill[]
 }) {
   // The saved record is what staff typed in on purpose, so it wins over booking details.
   const name = record?.fullName ?? patient?.patientName ?? 'Patient'
@@ -58,7 +78,7 @@ export default function PatientProfile({
   const next = visits
     .filter((v) => UPCOMING.includes(v.status) && (v.whenISO ?? '') > nowISO)
     .sort((a, b) => (a.whenISO ?? '').localeCompare(b.whenISO ?? ''))[0]
-  const wa = hideContact ? null : customerWaLink(phone, `Hi ${name}, this is Kerala Ayurvedic Lifestyle.`)
+  const wa = hideContact ? null : customerWaLink(phone, `Hi ${name}, this is ${CLINIC_NAME}.`)
 
   return (
     <div>
@@ -68,7 +88,14 @@ export default function PatientProfile({
 
       <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="font-heading text-[24px] font-extrabold text-primary">{name}</h1>
+          <h1 className="flex flex-wrap items-center gap-3 font-heading text-[24px] font-extrabold text-primary">
+            {name}
+            {formatPatientNo(record?.patientNo) && (
+              <span className="rounded-full border border-accent/30 bg-cream px-3 py-0.5 font-heading text-[11px] font-bold tracking-[0.1em] text-accent">
+                {formatPatientNo(record?.patientNo)}
+              </span>
+            )}
+          </h1>
           <p className="mt-1 font-body text-[13.5px] text-dark/60">
             {[
               gender ? (gender === 'male' ? 'Male' : 'Female') : null,
@@ -112,7 +139,25 @@ export default function PatientProfile({
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-        <PatientVisitHistory visits={visits} currentId="" patientName={name} linkBase={visitLinkBase} showClinical={showClinical} />
+        <div className="space-y-6">
+          <PatientVisitHistory visits={visits} currentId="" patientName={name} linkBase={visitLinkBase} showClinical={showClinical} />
+          {(caseSheets || photos) && !record && (
+            <p className="rounded-xl border border-dashed border-accent/40 bg-cream/40 px-4 py-3 font-body text-[13px] text-dark/65">
+              {editHref ? (
+                <>
+                  <Link href={editHref} className="font-semibold text-accent underline">Save this patient’s details</Link> to give them a patient ID and start case sheets and photos.
+                </>
+              ) : (
+                'Front desk can save this patient’s details to give them a patient ID and start case sheets and photos.'
+              )}
+            </p>
+          )}
+          {caseSheets && record && <CaseSheetList patientId={record.id} sheets={caseSheets} />}
+          {bills && (
+            <BillsList bills={bills} action={record ? <StartBillButton patientId={record.id} /> : undefined} />
+          )}
+          {photos && record && <PatientPhotos patientId={record.id} photos={photos} today={mytDayKey(new Date())} canDelete={canDeletePhotos} />}
+        </div>
         <div className="space-y-4">
           {record && <RecordPanel record={record} hideContact={hideContact} />}
           {patient && (

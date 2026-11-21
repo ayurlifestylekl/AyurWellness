@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import {
-  Plus, LayoutDashboard, CalendarDays, CreditCard, CheckCircle2, UserPlus, LayoutList, CalendarOff, CalendarRange, Megaphone, Banknote, Stethoscope, Users, BookUser,
+  Plus, LayoutDashboard, CalendarDays, CreditCard, CheckCircle2, UserPlus, LayoutList, CalendarOff, CalendarRange, Megaphone, Banknote, Stethoscope, Users, BookUser, Receipt,
   type LucideIcon,
 } from 'lucide-react'
 import { consoleNav } from '@/lib/booking/dashboard-nav'
@@ -26,6 +26,7 @@ const ICON_BY_LABEL: Record<string, LucideIcon> = {
   Announcements: Megaphone,
   'Staff Roster': Users,
   Patients: BookUser,
+  Checkout: Receipt,
 }
 
 const GROUP_BY_LABEL: Record<string, string> = {

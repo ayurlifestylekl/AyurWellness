@@ -11,6 +11,11 @@ import MarkContactedButton from '@/components/staff/MarkContactedButton'
 import BookingEventHistory from '@/components/staff/BookingEventHistory'
 import RefundRequestPanel from '@/components/staff/RefundRequestPanel'
 import PatientVisitHistory from '@/components/staff/PatientVisitHistory'
+import VisitRemarks from '@/components/staff/VisitRemarks'
+import { listVisitRemarks } from '@/lib/staff/patient-files'
+import BillsList from '@/components/staff/BillsList'
+import StartBillButton from '@/components/staff/StartBillButton'
+import { listBillsFor } from '@/lib/counter/queries'
 import { getPatientVisits } from '@/lib/staff/patients'
 import { bookingRef } from '@/lib/booking/ref'
 import { reconcilePendingRefundsSafe, bookingRefundDependencies } from '@/lib/payments/refund'
@@ -68,6 +73,8 @@ export default async function ConsoleDetailPage({ params }: { params: { id: stri
           {refunds.length > 0 && <RefundRequestPanel refunds={refunds} canApprove />}
           <PatientHealthPanel p={a} />
           <PatientVisitHistory visits={visits} currentId={a.id} patientName={a.patientName} linkBase="/console" />
+          <BillsList title="Bills for this visit" bills={await listBillsFor(db, { appointmentIds: [a.id] })} action={<StartBillButton appointmentId={a.id} label="Bill this visit" />} />
+          <VisitRemarks appointmentId={a.id} remarks={await listVisitRemarks(db, [a.id])} />
           <BookingEventHistory events={events} />
         </div>
 
