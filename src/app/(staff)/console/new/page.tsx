@@ -5,6 +5,7 @@ import { therapistsForGender } from '@/lib/staff/therapists'
 import StaffNewBooking from '@/components/staff/StaffNewBooking'
 import { getAppointmentDetail } from '@/lib/staff/appointments'
 import { getPatientRecord } from '@/lib/staff/patients'
+import { toServiceOptions } from '@/lib/staff/services'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,7 +24,7 @@ export default async function NewBookingPage({ searchParams }: { searchParams: {
     : from
       ? { name: from.patientName ?? '', phone: from.patientPhone ?? '', email: from.patientEmail ?? '', gender: from.patientGender ?? null }
       : null
-  const options = treatments.map((t) => ({ id: t._id, title: t.title, bookingType: t.bookingType }))
+  const options = toServiceOptions(treatments)
 
   return (
     <div>

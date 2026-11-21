@@ -6,15 +6,11 @@ import type { BookingKind, Gender } from '@/types/booking'
 import type { Therapist } from '@/lib/staff/therapist-format'
 import { createBookingRequest, createGroupBooking, type GroupGuest } from '@/lib/booking/actions'
 import ClientLookup from './ClientLookup'
-
-interface TreatmentOption {
-  id: string
-  title: string
-  bookingType?: string | null
-}
+import ServicePicker from './ServicePicker'
+import type { ServiceOption } from '@/lib/staff/services'
 
 interface Props {
-  treatments: TreatmentOption[]
+  treatments: ServiceOption[]
   therapists: Therapist[]
   /** Pre-filled when opened from a patient's page. */
   initialClient?: { name: string; phone: string; email: string; gender: Gender | null } | null
@@ -105,12 +101,7 @@ export default function StaffNewBooking({ treatments, therapists, initialClient 
 
       {kind === 'treatment' && (
         <Field label="Treatment">
-          <select value={treatmentId} onChange={(e) => setTreatmentId(e.target.value)} className={inp}>
-            <option value="">Select…</option>
-            {bookable.map((t) => (
-              <option key={t.id} value={t.id}>{t.title}</option>
-            ))}
-          </select>
+          <ServicePicker services={bookable} value={treatmentId} onChange={setTreatmentId} />
         </Field>
       )}
 

@@ -4,16 +4,19 @@ import { therapistsForGender, getAllVaidyas } from '@/lib/staff/therapists'
 import { mytDayKey } from '@/lib/datetime'
 import ScheduleGrid from '@/components/staff/ScheduleGrid'
 import AutoRefresh from '@/components/staff/AutoRefresh'
+import { getTreatmentsFlat } from '@/lib/storefront/treatments'
+import { toServiceOptions } from '@/lib/staff/services'
 
 export const dynamic = 'force-dynamic'
 
 export default async function ConsoleSchedulePage({ searchParams }: { searchParams: { date?: string } }) {
   const { db } = await requireStaff(['admin', 'front_desk'])
   const date = searchParams.date && /^\d{4}-\d{2}-\d{2}$/.test(searchParams.date) ? searchParams.date : mytDayKey(new Date())
-  const [day, therapists, vaidyas] = await Promise.all([
+  const [day, therapists, vaidyas, treatments] = await Promise.all([
     getDaySchedule(db, date),
     therapistsForGender(null),
     getAllVaidyas(),
+    getTreatmentsFlat(db),
   ])
 
   return (
@@ -33,6 +36,7 @@ export default async function ConsoleSchedulePage({ searchParams }: { searchPara
         appts={day.appts}
         unassigned={day.unassigned}
         blocks={day.blocks}
+        services={toServiceOptions(treatments)}
         editable
       />
     </div>

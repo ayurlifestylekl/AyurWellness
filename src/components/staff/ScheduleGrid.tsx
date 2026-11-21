@@ -13,6 +13,8 @@ import { fmtMY } from '@/lib/datetime'
 import type { Gender, StaffColorTag } from '@/types/booking'
 import type { Vaidya } from '@/lib/staff/therapist-format'
 import ConsoleRescheduleDialog from './ConsoleRescheduleDialog'
+import ServicePicker from './ServicePicker'
+import { bookableById, type ServiceOption } from '@/lib/staff/services'
 
 /** Client-requested manual palette for front desk's own slot bookkeeping. */
 export const STAFF_COLOR_SWATCHES: { value: StaffColorTag; label: string; swatch: string; classes: string }[] = [
@@ -54,7 +56,7 @@ const topFor = (min: number) => ((min - OPEN) / ROW) * ROW_PX
 const clamp = (min: number) => Math.max(OPEN, Math.min(CLOSE, min))
 
 /** An additional guest in a front-desk group booking — each can pick their own treatment & remark, falling back to the primary guest's when left blank. */
-type ExtraGuest = { name: string; gender: Gender | ''; therapistCode: string; duration: number | ''; remark: string }
+type ExtraGuest = { name: string; gender: Gender | ''; therapistCode: string; duration: number | ''; serviceId: string; remark: string }
 
 interface Props {
   basePath: string // e.g. '/console/schedule' or '/doctor/calendar'
@@ -68,6 +70,8 @@ interface Props {
   vaidyas?: Vaidya[]
   /** Front desk / admin can add & remove blocks straight from the grid. */
   editable?: boolean
+  /** Therapies staff pick when booking from a slot (name, duration, price by category). */
+  services?: ServiceOption[]
 }
 
 /**
@@ -97,7 +101,7 @@ export function apptClasses(a: GridAppt): string {
 const SLOTS: number[] = []
 for (let m = OPEN; m < CLOSE; m += ROW) SLOTS.push(m)
 
-export default function ScheduleGrid({ basePath, detailBase, date, therapists, appts, unassigned, blocks, vaidyas = [], editable = false }: Props) {
+export default function ScheduleGrid({ basePath, detailBase, date, therapists, appts, unassigned, blocks, vaidyas = [], editable = false, services = [] }: Props) {
   const router = useRouter()
   const go = (d: string) => router.push(`${basePath}?date=${d}`)
 
@@ -144,6 +148,10 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
   const [bookEmail, setBookEmail] = useState('')
   const [bookGender, setBookGender] = useState<Gender | ''>('')
   const [bookDuration, setBookDuration] = useState<number | ''>('')
+  const [bookServiceId, setBookServiceId] = useState('')
+  // Where the tapped slot sits on screen, so the booking box opens beside it
+  // (not at the top of the page, which meant scrolling up for afternoon slots).
+  const [bookAnchor, setBookAnchor] = useState<{ top: number; left: number; right: number } | null>(null)
   const [bookRemark, setBookRemark] = useState('')
   const [bookPartySize, setBookPartySize] = useState(1)
   const [bookExtraGuests, setBookExtraGuests] = useState<ExtraGuest[]>([])
@@ -184,11 +192,12 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
   const minLabel = (min: number) =>
     fmtMY(`${date}T${String(Math.floor(min / 60)).padStart(2, '0')}:${String(min % 60).padStart(2, '0')}:00+08:00`, { hour: 'numeric', minute: '2-digit', hour12: true })
 
-  const tapSlot = (code: string, m: number) => {
+  const tapSlot = (code: string, m: number, rect?: DOMRect) => {
     setErr(null)
     setBlockSel(null)
     if (mode === 'book') {
       setBookDraft({ code, startMin: m })
+      setBookAnchor(rect ? { top: rect.top, left: rect.left, right: rect.right } : null)
       return
     }
     setDraft((prev) => {
@@ -245,6 +254,8 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
     setBookEmail('')
     setBookGender('')
     setBookDuration('')
+    setBookServiceId('')
+    setBookAnchor(null)
     setBookRemark('')
     setBookPartySize(1)
     setBookExtraGuests([])
@@ -269,26 +280,37 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
         return
       }
       if (!bookGender) { setErr('Select a gender.'); return }
+      const genericLabel = (mins: number | '') => (mins ? GENERIC_DURATIONS.find((d) => d.value === Number(mins))?.label ?? null : null)
       if (bookPartySize > 1) {
         const extras = bookExtraGuests.filter((g) => g.name.trim() && g.gender)
         if (extras.length !== bookPartySize - 1) { setErr('Enter name and gender for every additional guest.'); return }
         const when = isoAt(bookDraft.startMin)
         const healthIntake = bookRemark.trim() ? { notes: bookRemark.trim() } : {}
+        const primarySvc = svcById.get(bookServiceId) ?? null
+        const extraSvcs = extras.map((g) => svcById.get(g.serviceId) ?? primarySvc)
+        // Catalog ids only when every guest's therapy can take one; otherwise
+        // the whole group is saved by therapy name + duration (see bookableById).
+        const byId = !!primarySvc && [primarySvc, ...extraSvcs].every((x) => x && bookableById(x, true))
         const guests: GroupGuest[] = [
-          { name: bookName.trim(), gender: bookGender as Gender, preferredAt: when, assignedTherapistCode: bookDraft.code, healthIntake },
-          ...extras.map((g) => ({
-            name: g.name.trim(),
-            gender: g.gender as Gender,
-            preferredAt: when,
-            assignedTherapistCode: g.therapistCode.trim() || null,
-            durationMins: g.duration ? Number(g.duration) : null,
-            treatmentName: g.duration ? GENERIC_DURATIONS.find((d) => d.value === Number(g.duration))?.label ?? null : null,
-            healthIntake: g.remark.trim() ? { notes: g.remark.trim() } : {},
-          })),
+          { name: bookName.trim(), gender: bookGender as Gender, preferredAt: when, assignedTherapistCode: bookDraft.code, healthIntake, treatmentId: byId ? primarySvc!.id : null },
+          ...extras.map((g, i) => {
+            const svc = g.serviceId ? extraSvcs[i] : null
+            return {
+              name: g.name.trim(),
+              gender: g.gender as Gender,
+              preferredAt: when,
+              assignedTherapistCode: g.therapistCode.trim() || null,
+              treatmentId: byId ? (svc ?? primarySvc)!.id : null,
+              durationMins: svc ? svc.durationMins : g.duration ? Number(g.duration) : null,
+              treatmentName: svc ? svc.title : genericLabel(g.duration),
+              healthIntake: g.remark.trim() ? { notes: g.remark.trim() } : {},
+            }
+          }),
         ]
         const res = await createGroupBooking({
-          durationMins: bookDuration ? Number(bookDuration) : 60,
-          treatmentName: bookDuration ? GENERIC_DURATIONS.find((d) => d.value === Number(bookDuration))?.label ?? null : null,
+          treatmentId: byId ? primarySvc!.id : null,
+          durationMins: primarySvc ? primarySvc.durationMins : bookDuration ? Number(bookDuration) : 60,
+          treatmentName: primarySvc ? primarySvc.title : genericLabel(bookDuration),
           patientPhone: bookPhone.trim() || null,
           patientEmail: bookEmail.trim() || null,
           isGuest: true,
@@ -299,7 +321,8 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
         else { resetBookDraft(); router.refresh() }
         return
       }
-      const selectedDuration = bookDuration ? Number(bookDuration) : 60
+      const svc = svcById.get(bookServiceId) ?? null
+      const selectedDuration = svc ? svc.durationMins : bookDuration ? Number(bookDuration) : 60
       const res = await createBookingFromGrid({
         therapistCode: bookDraft.code,
         startAt: isoAt(bookDraft.startMin),
@@ -307,8 +330,9 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
         patientGender: bookGender,
         patientPhone: bookPhone.trim() || null,
         patientEmail: bookEmail.trim() || null,
+        treatmentId: svc && bookableById(svc, false) ? svc.id : null,
         durationMins: selectedDuration,
-        treatmentName: bookDuration ? GENERIC_DURATIONS.find((d) => d.value === Number(bookDuration))?.label ?? null : null,
+        treatmentName: svc ? svc.title : genericLabel(bookDuration),
         remark: bookRemark.trim() || null,
       })
       if ('error' in res) setErr(res.error)
@@ -324,6 +348,8 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
   }
 
   const vaidyaCodes = useMemo(() => new Set(vaidyas.map((v) => v.code)), [vaidyas])
+  const svcById = useMemo(() => new Map(services.map((x) => [x.id, x] as const)), [services])
+  const draftMins = svcById.get(bookServiceId)?.durationMins ?? (bookDuration ? Number(bookDuration) : 60)
 
   const hourLabels: number[] = []
   for (let m = Math.ceil(OPEN / 60) * 60; m <= CLOSE; m += 60) hourLabels.push(m)
@@ -400,7 +426,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
       {editable && (
         <div className="mb-3 space-y-3">
           {mode === 'book' && bookDraft ? (
-            <div className="rounded-xl border border-accent/40 bg-cream/60 p-3">
+            <BookPopover anchor={bookAnchor} onClose={resetBookDraft}>
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <span className="font-heading text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
                   Book {therapistName(bookDraft.code)} · {minLabel(bookDraft.startMin)}
@@ -444,21 +470,27 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                         onChange={(e) => {
                           const n = Number(e.target.value)
                           setBookPartySize(n)
-                          setBookExtraGuests(Array.from({ length: Math.max(0, n - 1) }, () => ({ name: '', gender: '' as Gender | '', therapistCode: '', duration: '' as number | '', remark: '' })))
+                          setBookExtraGuests(Array.from({ length: Math.max(0, n - 1) }, () => ({ name: '', gender: '' as Gender | '', therapistCode: '', duration: '' as number | '', serviceId: '', remark: '' })))
                         }}
                         className={bookInput}
                       >
                         {[1,2,3,4,5,6].map((n) => <option key={n} value={n}>{n} {n === 1 ? 'guest' : 'guests'}</option>)}
                       </select>
                     </Field>
-                    <Field label={bookPartySize === 1 ? 'Duration (optional)' : 'Treatment'}>
-                      <select value={bookDuration} onChange={(e) => setBookDuration(e.target.value ? Number(e.target.value) : '')} className={bookInput}>
-                        <option value="">Select…</option>
-                        {GENERIC_DURATIONS.map((d) => (
-                          <option key={d.value} value={d.value}>{d.label}</option>
-                        ))}
-                      </select>
-                    </Field>
+                    <div className="sm:col-span-2">
+                      <Field label={bookPartySize === 1 ? 'Service (optional)' : 'Service'}>
+                        {services.length ? (
+                          <ServicePicker services={services} value={bookServiceId} onChange={setBookServiceId} />
+                        ) : (
+                          <select value={bookDuration} onChange={(e) => setBookDuration(e.target.value ? Number(e.target.value) : '')} className={bookInput}>
+                            <option value="">Select…</option>
+                            {GENERIC_DURATIONS.map((d) => (
+                              <option key={d.value} value={d.value}>{d.label}</option>
+                            ))}
+                          </select>
+                        )}
+                      </Field>
+                    </div>
                   </>
                 )}
                 <Field label="Remark (optional)">
@@ -485,14 +517,23 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                           {therapists.map((t) => <option key={t.code} value={t.code}>{t.name}</option>)}
                         </select>
                       </Field>
-                      <Field label={`Guest ${i + 2} treatment (optional)`}>
-                        <select value={g.duration} onChange={(e) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, duration: e.target.value ? Number(e.target.value) : '' } : x))} className={bookInput}>
-                          <option value="">Same as guest 1</option>
-                          {GENERIC_DURATIONS.map((d) => (
-                            <option key={d.value} value={d.value}>{d.label}</option>
-                          ))}
-                        </select>
-                      </Field>
+                      <div className="sm:col-span-2"><Field label={`Guest ${i + 2} service (optional)`}>
+                        {services.length ? (
+                          <ServicePicker
+                            services={services}
+                            value={g.serviceId}
+                            placeholder="Same as guest 1"
+                            onChange={(id) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, serviceId: id } : x))}
+                          />
+                        ) : (
+                          <select value={g.duration} onChange={(e) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, duration: e.target.value ? Number(e.target.value) : '' } : x))} className={bookInput}>
+                            <option value="">Same as guest 1</option>
+                            {GENERIC_DURATIONS.map((d) => (
+                              <option key={d.value} value={d.value}>{d.label}</option>
+                            ))}
+                          </select>
+                        )}
+                      </Field></div>
                       <Field label={`Guest ${i + 2} remark (optional)`}>
                         <input value={g.remark} onChange={(e) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, remark: e.target.value } : x))} className={bookInput} placeholder="e.g. Room 3" />
                       </Field>
@@ -501,10 +542,11 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                 </div>
               )}
 
+              {err && <p className="mt-3 rounded-lg border border-red-300 bg-red-50 px-3 py-1.5 font-body text-[12px] text-red-700">{err}</p>}
               <button onClick={addBooking} disabled={pending} className="mt-3 rounded-xl bg-accent px-5 py-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-white hover:bg-accent/90 disabled:opacity-60">
                 {pending ? 'Booking…' : 'Confirm booking'}
               </button>
-            </div>
+            </BookPopover>
           ) : mode === 'block' && draft ? (
             <div className="flex flex-wrap items-center gap-2 rounded-xl border border-accent/40 bg-cream/60 p-3">
               <span className="font-heading text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
@@ -565,7 +607,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
               </button>
             </div>
           ) : null}
-          {err && <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-1.5 font-body text-[12px] text-red-700">{err}</p>}
+          {err && !(mode === 'book' && bookDraft) && <p className="rounded-lg border border-red-300 bg-red-50 px-3 py-1.5 font-body text-[12px] text-red-700">{err}</p>}
         </div>
       )}
 
@@ -627,7 +669,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                   <button
                     key={`s${m}`}
                     type="button"
-                    onClick={() => tapSlot(col.code as string, m)}
+                    onClick={(e) => tapSlot(col.code as string, m, e.currentTarget.getBoundingClientRect())}
                     title={`${mode === 'book' ? 'Book' : 'Block'} ${minLabel(m)}`}
                     className="group absolute inset-x-0 z-0 hover:bg-accent/10"
                     style={{ top: topFor(m), height: ROW_PX }}
@@ -656,7 +698,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                     style={{
                       top: topFor(bookDraft.startMin),
                       height: ((() => {
-                        const dmins = bookDuration ? Number(bookDuration) : 60
+                        const dmins = draftMins
                         return (dmins / ROW) * ROW_PX
                       })()),
                     }}
@@ -822,5 +864,46 @@ function Field({ label, required, children }: { label: string; required?: boolea
       </span>
       {children}
     </label>
+  )
+}
+
+const POPOVER_W = 460
+
+/**
+ * The booking box, opened beside the slot that was tapped. Fixed to the
+ * viewport and kept on screen; it scrolls inside itself when the form is tall.
+ */
+function BookPopover({ anchor, onClose, children }: { anchor: { top: number; left: number; right: number } | null; onClose: () => void; children: React.ReactNode }) {
+  const [pos, setPos] = useState<{ top: number; left: number; width: number; maxHeight: number } | null>(null)
+  const closeRef = useRef(onClose)
+  closeRef.current = onClose
+  useEffect(() => {
+    const place = () => {
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const width = Math.min(POPOVER_W, vw - 16)
+      if (!anchor) { setPos({ top: 80, left: Math.max(8, (vw - width) / 2), width, maxHeight: vh - 88 }); return }
+      const right = anchor.right + 8
+      const left = right + width <= vw - 8 ? right : Math.max(8, anchor.left - width - 8)
+      // Beside the slot, but lifted when the slot is low so most of the form fits on screen.
+      const top = Math.max(72, Math.min(anchor.top - 48, vh - Math.min(640, vh - 80)))
+      setPos({ top, left, width, maxHeight: vh - top - 8 })
+    }
+    place()
+    window.addEventListener('resize', place)
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeRef.current() }
+    window.addEventListener('keydown', onKey)
+    return () => { window.removeEventListener('resize', place); window.removeEventListener('keydown', onKey) }
+  }, [anchor])
+  if (!pos) return null
+  return (
+    <div
+      role="dialog"
+      aria-label="New appointment"
+      className="fixed z-50 overflow-y-auto rounded-xl border border-accent/40 bg-cream p-3 shadow-2xl"
+      style={{ top: pos.top, left: pos.left, width: pos.width, maxHeight: pos.maxHeight }}
+    >
+      {children}
+    </div>
   )
 }
