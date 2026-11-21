@@ -60,12 +60,31 @@ export interface PatientRecord {
   allergies: string | null
   medications: string | null
   notes: string | null
+  /** Patient ID number (shown as AWC-00012); null before 20261122_patient_profile.sql. */
+  patientNo: number | null
   createdAt: string
   updatedAt: string
 }
 
-const RECORD_COLUMNS =
+const BASE_RECORD_COLUMNS =
   'id, full_name, phone, email, gender, date_of_birth, address, conditions, allergies, medications, notes, created_at, updated_at'
+
+/**
+ * patient_no arrives with 20261122_patient_profile.sql. Until that migration is
+ * applied, asking for it would make every record read fail (and records would
+ * look missing), so a read retries once without it and remembers the answer.
+ */
+let hasPatientNo = true
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type QueryResult = { data: any; error: { message: string; code?: string } | null }
+async function readRecords(run: (columns: string) => PromiseLike<QueryResult>): Promise<QueryResult> {
+  const first = await run(hasPatientNo ? `${BASE_RECORD_COLUMNS}, patient_no` : BASE_RECORD_COLUMNS)
+  if (first.error && hasPatientNo && /patient_no/.test(first.error.message)) {
+    hasPatientNo = false
+    return run(BASE_RECORD_COLUMNS)
+  }
+  return first
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapRecord(r: any): PatientRecord {
@@ -81,6 +100,7 @@ function mapRecord(r: any): PatientRecord {
     allergies: r.allergies ?? null,
     medications: r.medications ?? null,
     notes: r.notes ?? null,
+    patientNo: r.patient_no != null ? Number(r.patient_no) : null,
     createdAt: r.created_at,
     updatedAt: r.updated_at,
   }
@@ -104,7 +124,7 @@ function logRecordError(where: string, error: { message: string; code?: string }
 
 export async function getPatientRecord(db: ServiceDb, id: string): Promise<PatientRecord | null> {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return null
-  const { data, error } = await db.from('patients').select(RECORD_COLUMNS).eq('id', id).maybeSingle()
+  const { data, error } = await readRecords((cols) => db.from('patients').select(cols).eq('id', id).maybeSingle())
   if (error) {
     logRecordError('record', error)
     return null
@@ -116,7 +136,7 @@ export async function getPatientRecord(db: ServiceDb, id: string): Promise<Patie
 async function searchRecords(db: ServiceDb, term: string, digits: string): Promise<PatientRecord[]> {
   const filters = [`full_name.ilike.*${term}*`]
   if (digits.length >= 3) filters.push(`phone.ilike.*${digits.split('').join('*')}*`)
-  const { data, error } = await db.from('patients').select(RECORD_COLUMNS).or(filters.join(',')).limit(50)
+  const { data, error } = await readRecords((cols) => db.from('patients').select(cols).or(filters.join(',')).limit(50))
   if (error) {
     logRecordError('record search', error)
     return []
@@ -132,22 +152,20 @@ export async function findPatientRecordFor(
   const key = patientKey(a)
   const phone = normalizePhone(a.patientPhone)
   if (!key || !phone) return null
-  const { data, error } = await db
-    .from('patients')
-    .select(RECORD_COLUMNS)
-    .ilike('phone', `*${phone.slice(-7).split('').join('*')}*`)
-    .limit(20)
+  const { data, error } = await readRecords((cols) =>
+    db.from('patients').select(cols).ilike('phone', `*${phone.slice(-7).split('').join('*')}*`).limit(20),
+  )
   if (error) {
     logRecordError('record lookup', error)
     return null
   }
-  return (data ?? []).map(mapRecord).find((r) => recordKey(r) === key) ?? null
+  return (data ?? []).map(mapRecord).find((r: PatientRecord) => recordKey(r) === key) ?? null
 }
 
 async function getAllPatientRecords(db: ServiceDb): Promise<PatientRecord[]> {
   const out: PatientRecord[] = []
   for (let from = 0; ; from += 1000) {
-    const { data, error } = await db.from('patients').select(RECORD_COLUMNS).order('created_at', { ascending: false }).range(from, from + 999)
+    const { data, error } = await readRecords((cols) => db.from('patients').select(cols).order('created_at', { ascending: false }).range(from, from + 999))
     if (error) {
       logRecordError('records', error)
       break

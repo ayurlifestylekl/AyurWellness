@@ -10,6 +10,9 @@
 export const CLINIC_NAME = 'Ayurvedic Wellness Centre'
 export const CLINIC_LONG_NAME = 'Ayurvedic Wellness Centre'
 
+/** Patient IDs read e.g. AWC-00012 (also the case sheet's Registration No). */
+export const PATIENT_ID_PREFIX = 'AWC'
+
 // Registered with SSM (Suruhanjaya Syarikat Malaysia); renamed 18 June 2026.
 export const CLINIC_LEGAL_NAME = 'Ayurvedic Wellness Centre Sdn. Bhd.'
 export const CLINIC_REG_NO = '202001033351 (1389672-T)'

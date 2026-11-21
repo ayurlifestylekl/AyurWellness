@@ -12,6 +12,8 @@ import GroupApprovalActions from '@/components/staff/GroupApprovalActions'
 import MarkContactedButton from '@/components/staff/MarkContactedButton'
 import RefundRequestPanel from '@/components/staff/RefundRequestPanel'
 import PatientVisitHistory from '@/components/staff/PatientVisitHistory'
+import VisitRemarks from '@/components/staff/VisitRemarks'
+import { listVisitRemarks } from '@/lib/staff/patient-files'
 import { getPatientVisits } from '@/lib/staff/patients'
 import { canClearConsultation } from '@/lib/booking/consultation-rules'
 import { reconcilePendingRefundsSafe, bookingRefundDependencies } from '@/lib/payments/refund'
@@ -64,6 +66,7 @@ export default async function DoctorPatientPage({ params }: { params: { id: stri
         <div className="space-y-6">
           <PatientHealthPanel p={a} hideContact={hideContact} />
           <PatientVisitHistory visits={visits} currentId={a.id} patientName={a.patientName} linkBase="/doctor" showClinical />
+          <VisitRemarks appointmentId={a.id} remarks={await listVisitRemarks(db, [a.id])} />
         </div>
         <div className="space-y-4">
           {['pending', 'scheduled'].includes(a.status) && (
