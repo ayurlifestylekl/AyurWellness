@@ -12,9 +12,11 @@ import Reveal from '@/components/ui/Reveal'
 interface ProductMetaProps {
   product: Product
   categoryLabel: string
+  /** False until online payment (HitPay) is connected: customers order on WhatsApp instead. */
+  ordersOpen?: boolean
 }
 
-export default function ProductMeta({ product, categoryLabel }: ProductMetaProps) {
+export default function ProductMeta({ product, categoryLabel, ordersOpen = true }: ProductMetaProps) {
   const comingSoon = product.priceRm === 0
   const outOfStock = !comingSoon && product.stockQty === 0
   const hasDiscount = !!product.oldPriceRm && product.oldPriceRm > product.priceRm
@@ -125,8 +127,20 @@ export default function ProductMeta({ product, categoryLabel }: ProductMetaProps
           >
             Notify Me
           </a>
-        ) : (
+        ) : ordersOpen ? (
           <AddToBagButton productId={product.id} disabled={outOfStock} />
+        ) : (
+          <div className="flex flex-col items-start gap-2">
+            <a
+              href={whatsappLink(`Hi, I'd like to order ${product.name} (RM${product.priceRm}).`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-accent px-7 font-heading text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            >
+              Order on WhatsApp
+            </a>
+            <span className="font-body text-[12.5px] italic text-dark/55">Online checkout opens soon — we’ll arrange your order on WhatsApp.</span>
+          </div>
         )}
       </motion.div>
 

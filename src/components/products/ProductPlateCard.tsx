@@ -67,6 +67,9 @@ export default function ProductPlateCard({ product, initialSaved = false }: { pr
                 style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
               >
                 RM{product.priceRm}
+                {!!product.oldPriceRm && product.oldPriceRm > product.priceRm && (
+                  <span className="ml-1.5 font-body text-[11px] font-normal text-white/60 line-through">RM{product.oldPriceRm}</span>
+                )}
               </span>
             )}
           </div>

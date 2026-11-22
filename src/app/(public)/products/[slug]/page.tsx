@@ -5,6 +5,7 @@ import { products } from '@/data/products'
 import { categories } from '@/data/categories'
 import ProductGallery from '@/components/products/detail/ProductGallery'
 import ProductMeta from '@/components/products/detail/ProductMeta'
+import { onlinePaymentsAvailable } from '@/lib/payments/availability'
 import RelatedProducts from '@/components/products/detail/RelatedProducts'
 
 interface ProductDetailPageProps {
@@ -46,7 +47,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       <div className="mx-auto max-w-7xl px-6 py-14 sm:px-8 md:py-20 lg:px-12">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[6fr_5fr] lg:gap-16">
           <ProductGallery product={product} />
-          <ProductMeta product={product} categoryLabel={categoryLabel} />
+          <ProductMeta product={product} categoryLabel={categoryLabel} ordersOpen={onlinePaymentsAvailable()} />
         </div>
 
         {/* No ProductReviews yet — these products are pre-launch, so there

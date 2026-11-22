@@ -215,32 +215,56 @@ function ProductCard({ product }: { product: FeaturedProduct }) {
         </div>
 
         <div className="mt-3 flex items-center justify-between gap-2 sm:mt-3.5">
+          {product.priceRm > 0 ? (
+            <>
+              <span className="flex items-baseline gap-1.5">
+                <span className="font-heading text-[14px] font-extrabold sm:text-[15px]" style={{ color: CARD_INK }}>
+                  RM{product.priceRm}
+                </span>
+                {!!product.oldPriceRm && product.oldPriceRm > product.priceRm && (
+                  <span className="font-body text-[11px] line-through" style={{ color: 'rgba(0,107,60,0.45)' }}>
+                    RM{product.oldPriceRm}
+                  </span>
+                )}
+              </span>
+              {/* Not a link of its own: the whole card already opens the product page. */}
+              <span
+                className="inline-flex min-h-[36px] items-center rounded-full px-3.5 py-1.5 font-heading text-[8.5px] font-bold uppercase tracking-[0.16em] sm:px-4 sm:py-2 sm:text-[9.5px]"
+                style={{ backgroundColor: CARD_INK, color: '#FFFFFF' }}
+              >
+                Shop now
+              </span>
+            </>
+          ) : (
+            <>
           <span
-            className="font-heading text-[8.5px] font-semibold uppercase tracking-[0.14em] sm:text-[9px]"
-            style={{ color: 'rgba(0,107,60,0.42)' }}
-          >
-            Coming Soon
-          </span>
-          <a
-            href={whatsappLink(`Hi, please notify me when ${product.name} is available.`)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Notify me when ${product.name} is available`}
-            // Sits above the stretched card link so the tap opens chat
-            // rather than navigating to the product page.
-            className="relative z-20 inline-flex min-h-[36px] items-center rounded-full px-3.5 py-1.5 font-heading text-[8.5px] font-bold uppercase tracking-[0.16em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-[9.5px]"
-            style={{ backgroundColor: CARD_INK, color: '#FFFFFF' }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#004d2c'
-              e.currentTarget.style.boxShadow = `0 10px 22px -10px ${CARD_INK}bb`
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = CARD_INK
-              e.currentTarget.style.boxShadow = 'none'
-            }}
-          >
-            Notify Me
-          </a>
+              className="font-heading text-[8.5px] font-semibold uppercase tracking-[0.14em] sm:text-[9px]"
+              style={{ color: 'rgba(0,107,60,0.42)' }}
+            >
+              Coming Soon
+            </span>
+            <a
+              href={whatsappLink(`Hi, please notify me when ${product.name} is available.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Notify me when ${product.name} is available`}
+              // Sits above the stretched card link so the tap opens chat
+              // rather than navigating to the product page.
+              className="relative z-20 inline-flex min-h-[36px] items-center rounded-full px-3.5 py-1.5 font-heading text-[8.5px] font-bold uppercase tracking-[0.16em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-[9.5px]"
+              style={{ backgroundColor: CARD_INK, color: '#FFFFFF' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#004d2c'
+                e.currentTarget.style.boxShadow = `0 10px 22px -10px ${CARD_INK}bb`
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = CARD_INK
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >
+              Notify Me
+            </a>
+            </>
+          )}
         </div>
       </div>
     </article>
