@@ -17,6 +17,8 @@ interface StaffSignInFormProps {
   crossLink: { prompt: string; label: string; href: string }
   extra?: React.ReactNode
   resetSuccess?: boolean
+  /** A short note above the form, e.g. after switching portals. */
+  notice?: string
   nextPath?: string
 }
 
@@ -31,6 +33,7 @@ export default function StaffSignInForm({
   crossLink,
   extra,
   resetSuccess,
+  notice,
   nextPath,
 }: StaffSignInFormProps) {
   const router = useRouter()
@@ -81,6 +84,13 @@ export default function StaffSignInForm({
         <span className="h-px w-10 bg-[#B58A3B]" />
         <span className="h-px flex-1 bg-[#12372D]/10" />
       </div>
+
+      {notice && (
+        <div role="status" className="mt-6 flex items-start gap-3 rounded-xl border border-[#006B3C]/20 bg-[#EDF4E7] px-4 py-3">
+          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#006B3C]" />
+          <p className="font-body text-[13px] text-[#12372D]/85">{notice}</p>
+        </div>
+      )}
 
       {resetSuccess && (
         <div className="mt-6 flex items-start gap-3 rounded-xl border border-[#006B3C]/20 bg-[#EDF4E7] px-4 py-3">

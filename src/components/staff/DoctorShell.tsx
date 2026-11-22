@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { LayoutDashboard, CalendarDays, Users, Stethoscope, ClipboardList, type LucideIcon } from 'lucide-react'
 import { doctorNav } from '@/lib/booking/dashboard-nav'
 import { PortalFrame, PortalNavLink, PortalNavSection } from '@/components/dashboard/PortalFrame'
+import PortalSwitchButton from '@/components/staff/PortalSwitchButton'
 
 const ICON_BY_LABEL: Record<string, LucideIcon> = {
   Overview: LayoutDashboard,
@@ -30,6 +31,7 @@ export default function DoctorShell({
     <PortalFrame
       portalLabel="Vaidya Portal"
       homeHref="/doctor"
+      topbarRight={<PortalSwitchButton role={role} current="doctor" />}
       user={{ name: userName, roleLabel: role === 'admin' ? 'Administrator' : 'Vaidya' }}
       nav={
         <PortalNavSection>

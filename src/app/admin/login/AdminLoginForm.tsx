@@ -1,6 +1,6 @@
 import StaffSignInForm from '@/components/auth/StaffSignInForm'
 
-export default function AdminLoginForm({ resetSuccess, nextPath }: { resetSuccess?: boolean; nextPath?: string }) {
+export default function AdminLoginForm({ resetSuccess, notice, nextPath }: { resetSuccess?: boolean; notice?: string; nextPath?: string }) {
   return (
     <StaffSignInForm
       portal="Command Center"
@@ -12,6 +12,7 @@ export default function AdminLoginForm({ resetSuccess, nextPath }: { resetSucces
       defaultRedirect="/admin/dashboard"
       crossLink={{ prompt: 'Not staff?', label: 'Member sign-in', href: '/auth/login' }}
       resetSuccess={resetSuccess}
+      notice={notice}
       nextPath={nextPath}
     />
   )

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { consoleNav } from '@/lib/booking/dashboard-nav'
 import { PortalFrame, PortalNavLink, PortalNavSection } from '@/components/dashboard/PortalFrame'
+import PortalSwitchButton from '@/components/staff/PortalSwitchButton'
 
 // Icons and grouping are rendering concerns and stay local to the shell —
 // dashboard-nav.ts stays plain data so it's trivially testable in Node.
@@ -94,6 +95,7 @@ export default function ConsoleShell({
     <PortalFrame
       portalLabel="Front Desk"
       homeHref="/console"
+      topbarRight={<PortalSwitchButton role={role} current="console" />}
       user={{ name: userName, roleLabel: role === 'admin' ? 'Administrator' : 'Front Desk' }}
       sidebarAction={
         <Link

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import StaffLoginSplit from '@/components/auth/StaffLoginSplit'
 import AdminLoginForm from '@/app/admin/login/AdminLoginForm'
+import { switchedNotice } from '@/lib/staff/portal-switch'
 
 export const metadata: Metadata = {
   title: 'Front Desk · Staff Sign In',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default function StaffLoginPage({
   searchParams,
 }: {
-  searchParams: { reset?: string; next?: string }
+  searchParams: { reset?: string; next?: string; switched?: string }
 }) {
   return (
     <StaffLoginSplit
@@ -23,6 +24,7 @@ export default function StaffLoginPage({
     >
       <AdminLoginForm
         resetSuccess={searchParams.reset === 'success'}
+        notice={searchParams.switched === '1' ? switchedNotice('console') : undefined}
         nextPath={searchParams.next}
       />
     </StaffLoginSplit>
