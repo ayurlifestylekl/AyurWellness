@@ -502,19 +502,21 @@ export async function setStatus(id: string, to: BookingStatus): Promise<Ok | Err
   if ('error' in operationalTransition) return { error: operationalTransition.error }
   const stamp: Record<string, string> = {}
   if (to === 'checked_in') stamp.checked_in_at = new Date().toISOString()
+  if (to === 'in_progress') stamp.started_at = new Date().toISOString()
   if (to === 'completed') stamp.completed_at = new Date().toISOString()
   if (to === 'cancelled') stamp.cancelled_at = new Date().toISOString()
   // Only checked_in/in_progress can be rejected by the therapist-assignment
   // invariant, so only those re-check status and verify a row changed. Other
   // transitions keep the plain update, matching this task's actual scope.
   if (to === 'checked_in' || to === 'in_progress') {
-    const { data: updated, error } = await db
-      .from('appointments')
-      .update({ status: to, ...stamp })
-      .eq('id', id)
-      .eq('status', appt.status)
-      .select('id')
-      .maybeSingle()
+    const write = (patch: Record<string, string>) =>
+      db.from('appointments').update(patch).eq('id', id).eq('status', appt.status).select('id').maybeSingle()
+    let { data: updated, error } = await write({ status: to, ...stamp })
+    // started_at arrives with 20261124_front_desk_day.sql; until then, start without it.
+    if (error && stamp.started_at && /started_at/.test(error.message)) {
+      delete stamp.started_at
+      ;({ data: updated, error } = await write({ status: to, ...stamp }))
+    }
     const writeFailure = mapOperationalTransitionWriteFailure({ error, updated: !!updated })
     if (writeFailure) return { error: writeFailure }
   } else {

@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { requireStaff, type ServiceDb } from '@/lib/staff/guard'
 import { getAppointmentDetail } from '@/lib/staff/appointments'
 import { findPatientRecordFor, getPatientRecord, normalizePhone } from '@/lib/staff/patients'
-import { checkoutErrorMessage, isPaymentMethod, toSen } from './rules'
+import { SPENDABLE_KINDS, checkoutErrorMessage, isBalanceKind, isPaymentMethod, toSen } from './rules'
 import { listRedeemablePackages } from './queries'
 
 type Result<T = object> = ({ ok: true } & T) | { ok: false; error: string }
@@ -207,18 +207,76 @@ export async function deleteBill(billId: string): Promise<Result> {
   return data?.length ? { ok: true } : { ok: false, error: 'Only unpaid bills can be deleted.' }
 }
 
-/** Take payment: stock, package sessions and the bill are settled together, or not at all. */
+/**
+ * Take payment: balances used, stock, package sessions and the bill are
+ * settled together, or not at all. `uses` pays part (or all) from the
+ * patient's deposit / credit / gift card; `payLater` leaves the rest owing.
+ */
 export async function payBill(billId: string, raw: unknown): Promise<Result> {
   const { db, userId } = await requireStaff(STAFF)
-  const parsed = z.object({ method: z.string().nullable(), receivedRm: z.number().min(0).max(1_000_000).nullable() }).safeParse(raw)
+  const parsed = z
+    .object({
+      method: z.string().nullable(),
+      receivedRm: z.number().min(0).max(1_000_000).nullable(),
+      uses: z.array(z.object({ kind: z.enum(SPENDABLE_KINDS), amount: z.number().positive().max(1_000_000) })).max(6).default([]),
+      payLater: z.boolean().default(false),
+    })
+    .safeParse(raw)
   if (!uuid.safeParse(billId).success || !parsed.success) return { ok: false, error: 'Choose how the customer is paying.' }
-  const { method, receivedRm } = parsed.data
+  const { method, receivedRm, uses, payLater } = parsed.data
   if (method !== null && !isPaymentMethod(method)) return { ok: false, error: 'Choose how the customer is paying.' }
   const { error } = await db.rpc('complete_counter_sale', {
     p_sale_id: billId,
     p_staff_id: userId,
-    p_method: method,
+    p_method: payLater ? null : method,
     p_received: receivedRm,
+    p_uses: uses.map((u) => ({ kind: u.kind, amount: toSen(u.amount) / 100 })),
+    p_outstanding: payLater,
   })
   return error ? fail('pay', error, 'Payment could not be recorded. Please try again.') : { ok: true }
+}
+
+/**
+ * Add to or take from a patient's balance by hand: a deposit or gift card
+ * paid for at the counter, goodwill credit, points, or settling what they owe.
+ * When money changes hands, `paymentMethod` records how, so the day close
+ * counts it.
+ */
+export async function recordBalanceEntry(raw: unknown): Promise<Result> {
+  const { db, userId } = await requireStaff(STAFF)
+  const parsed = z
+    .object({
+      patientId: uuid,
+      kind: z.string().refine(isBalanceKind, 'Choose a balance.'),
+      direction: z.enum(['add', 'deduct']),
+      amount: z.number().positive('Enter an amount above zero.').max(1_000_000),
+      note: z.string().trim().max(300).optional().transform((v) => (v ? v : null)),
+      paymentMethod: z.string().nullable().optional(),
+    })
+    .safeParse(raw)
+  if (!parsed.success) return { ok: false, error: parsed.error.errors[0]?.message ?? 'Please check the amount.' }
+  const v = parsed.data
+  const method = v.paymentMethod ?? null
+  if (method !== null && !isPaymentMethod(method)) return { ok: false, error: 'Choose how the customer paid.' }
+  if (!v.note && method === null) return { ok: false, error: 'Add a short reason (for example "Birthday credit").' }
+  // Money only comes in for a deposit or gift card bought, or an amount owed being settled.
+  const moneyIn = (v.direction === 'add' && (v.kind === 'deposit' || v.kind === 'gift_card')) || (v.direction === 'deduct' && v.kind === 'outstanding')
+  if (method !== null && !moneyIn) return { ok: false, error: 'A payment method only applies to deposits, gift cards and settling what is owed.' }
+  if (!(await getPatientRecord(db, v.patientId))) return { ok: false, error: 'Patient not found.' }
+
+  const { data: rows } = await db.from('patient_balance_entries').select('amount').eq('patient_id', v.patientId).eq('kind', v.kind)
+  const heldSen = (rows ?? []).reduce((s, r) => s + toSen(Number(r.amount)), 0)
+  const amountSen = toSen(v.amount)
+  if (v.direction === 'deduct' && amountSen > heldSen) {
+    return { ok: false, error: `Only ${(heldSen / 100).toFixed(2)} on this balance.` }
+  }
+  const { error } = await db.from('patient_balance_entries').insert({
+    patient_id: v.patientId,
+    kind: v.kind,
+    amount: (v.direction === 'add' ? amountSen : -amountSen) / 100,
+    note: v.note,
+    payment_method: method,
+    staff_id: userId,
+  })
+  return error ? fail('balance entry', error, 'Could not save. Please try again.') : { ok: true }
 }

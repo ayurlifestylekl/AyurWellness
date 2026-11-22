@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { Bill } from '@/lib/counter/queries'
-import { billNoText, cashChange, paymentLabel, rm } from '@/lib/counter/rules'
+import { BALANCE_LABEL, billNoText, cashChange, paymentLabel, rm } from '@/lib/counter/rules'
 import { BILL_ISSUER, receiptLineName } from '@/lib/counter/issuer'
 
 const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) => new Date(iso).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', ...opts })
@@ -16,8 +16,10 @@ const PRINT_CSS = `
 /** A counter bill as the customer's receipt, in the centre's receipt layout. */
 export default function BillReceipt({ bill, patientNo }: { bill: Bill; patientNo: string | null }) {
   const paid = bill.status === 'paid'
-  const change = bill.paymentMethod === 'cash' && bill.amountReceivedRm != null ? cashChange(bill.totalRm, bill.amountReceivedRm) : null
-  const stamp = paid
+  const change = bill.paymentMethod === 'cash' && bill.amountReceivedRm != null ? cashChange(bill.amountPaidRm, bill.amountReceivedRm) : null
+  const stamp = paid && bill.outstandingRm > 0
+    ? { label: 'BALANCE DUE', cls: 'border-amber-600 text-amber-600' }
+    : paid
     ? { label: 'PAID', cls: 'border-emerald-700 text-emerald-700' }
     : bill.status === 'void'
       ? { label: 'VOID', cls: 'border-red-600 text-red-600' }
@@ -125,7 +127,11 @@ export default function BillReceipt({ bill, patientNo }: { bill: Bill; patientNo
             <Details
               title="Payment"
               rows={[
-                ['Method', paymentLabel(bill.paymentMethod)],
+                ...bill.balanceUses.map((u) => [`Paid from ${BALANCE_LABEL[u.kind].toLowerCase()}`, rm(u.amount)] as [string, string]),
+                ...(bill.amountPaidRm > 0 || (!bill.balanceUses.length && !bill.outstandingRm)
+                  ? ([['Method', paymentLabel(bill.paymentMethod)], ...(bill.balanceUses.length ? [['Amount paid', rm(bill.amountPaidRm)]] : [])] as [string, string][])
+                  : []),
+                ...(bill.outstandingRm > 0 ? ([['Left to pay later', rm(bill.outstandingRm)]] as [string, string][]) : []),
                 ...(bill.amountReceivedRm != null ? ([['Cash received', rm(bill.amountReceivedRm)], ['Change', rm(change ?? 0)]] as [string, string][]) : []),
                 ...(bill.paidAt ? ([['Paid on', fmt(bill.paidAt, { dateStyle: 'medium', timeStyle: 'short' })]] as [string, string][]) : []),
                 ...(bill.paidByName ? ([['Served by', bill.paidByName]] as [string, string][]) : []),

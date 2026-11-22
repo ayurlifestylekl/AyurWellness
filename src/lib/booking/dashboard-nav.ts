@@ -12,6 +12,7 @@ export interface DashboardNavItem {
 export const consoleNav: DashboardNavItem[] = [
   { href: '/console', label: 'Overview' },
   { href: '/console/checkout', label: 'Checkout' },
+  { href: '/console/waiting', label: 'Waiting room' },
   { href: '/console?tab=needs-therapist', label: 'Needs therapist' },
   { href: '/console?tab=today', label: 'Today' },
   { href: '/console?tab=awaiting', label: 'Awaiting payment' },

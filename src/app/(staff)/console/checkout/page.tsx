@@ -18,9 +18,14 @@ export default async function CheckoutPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-heading text-[22px] font-extrabold text-primary">Checkout</h1>
-        <p className="font-body text-[13px] text-dark/55">Bill services, products and package sessions together, then take payment and give the receipt.</p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="font-heading text-[22px] font-extrabold text-primary">Checkout</h1>
+          <p className="font-body text-[13px] text-dark/55">Bill services, products and package sessions together, then take payment and give the receipt.</p>
+        </div>
+        <Link href="/console/checkout/day" className="inline-flex h-10 items-center rounded-lg border border-primary/40 px-4 font-heading text-[10.5px] font-bold uppercase tracking-[0.12em] text-primary hover:bg-cream/60">
+          Day open / close
+        </Link>
       </div>
 
       {!ready ? (

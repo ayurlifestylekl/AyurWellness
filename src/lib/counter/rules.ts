@@ -74,8 +74,69 @@ export function checkoutErrorMessage(raw: string): string {
       case 'product_missing': return `${m[2] ?? 'A product'} is no longer in the catalogue.`
     }
   }
+  const b = raw.match(/(balance_short|balance_over_total|balance_needs_patient|balance_invalid)(?::([a-z_]+))?(?::([0-9.]+))?/)
+  if (b) {
+    const label: Record<string, string> = { credit: 'credit', deposit: 'deposit', gift_card: 'gift card' }
+    switch (b[1]) {
+      case 'balance_short': return `Not enough ${label[b[2] ?? ''] ?? 'balance'} — RM ${Number(b[3] ?? 0).toFixed(2)} left.`
+      case 'balance_over_total': return 'You’re using more balance than the bill total.'
+      case 'balance_needs_patient': return 'Balances and pay-later need a saved patient. Save the patient’s details first.'
+      case 'balance_invalid': return 'Choose a balance and an amount to use.'
+    }
+  }
   if (/expired/i.test(raw)) return 'That package has expired.'
   if (/already used/i.test(raw)) return 'That package has no sessions left.'
   if (/not active/i.test(raw)) return 'That package isn’t active.'
   return 'Something went wrong. Please try again.'
+}
+
+// ── Patient balances ──────────────────────────────────────────────────────────
+
+export const BALANCE_KINDS = ['credit', 'deposit', 'gift_card', 'points', 'outstanding'] as const
+export type BalanceKind = (typeof BALANCE_KINDS)[number]
+/** Balances a bill can be paid from (points have no money value set yet). */
+export const SPENDABLE_KINDS = ['deposit', 'credit', 'gift_card'] as const
+export type SpendableKind = (typeof SPENDABLE_KINDS)[number]
+
+export const BALANCE_LABEL: Record<BalanceKind, string> = {
+  credit: 'Credit',
+  deposit: 'Deposit',
+  gift_card: 'Gift card',
+  points: 'Points',
+  outstanding: 'Outstanding',
+}
+
+export function isBalanceKind(v: unknown): v is BalanceKind {
+  return BALANCE_KINDS.includes(v as BalanceKind)
+}
+
+/** Sum of each balance from its ledger entries (worked in sen). */
+export function balanceTotals(entries: { kind: string; amount: number }[]): Record<BalanceKind, number> {
+  const sen: Record<BalanceKind, number> = { credit: 0, deposit: 0, gift_card: 0, points: 0, outstanding: 0 }
+  for (const e of entries) if (isBalanceKind(e.kind)) sen[e.kind] += toSen(e.amount)
+  return Object.fromEntries(BALANCE_KINDS.map((k) => [k, fromSen(sen[k])])) as Record<BalanceKind, number>
+}
+
+const POINTS = new Intl.NumberFormat('en-MY', { maximumFractionDigits: 2 })
+
+/** Points are a count, the rest are ringgit. */
+export function balanceText(kind: BalanceKind, amount: number): string {
+  return kind === 'points' ? `${POINTS.format(amount)} pts` : rm(amount)
+}
+
+/**
+ * What the customer still pays after using balances, or null when the uses
+ * don't fit (more than they hold, or more than the bill).
+ */
+export function amountDue(totalRm: number, uses: { kind: SpendableKind; amount: number }[], held: Record<BalanceKind, number>): number | null {
+  let used = 0
+  const perKind: Partial<Record<SpendableKind, number>> = {}
+  for (const u of uses) {
+    if (!(u.amount > 0)) continue
+    perKind[u.kind] = (perKind[u.kind] ?? 0) + toSen(u.amount)
+    used += toSen(u.amount)
+  }
+  for (const k of SPENDABLE_KINDS) if ((perKind[k] ?? 0) > toSen(held[k])) return null
+  const due = toSen(totalRm) - used
+  return due < 0 ? null : fromSen(due)
 }

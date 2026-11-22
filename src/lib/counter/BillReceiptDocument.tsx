@@ -1,6 +1,6 @@
 import { Document, Font, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import type { Bill } from './queries'
-import { billNoText, cashChange, paymentLabel, rm } from './rules'
+import { BALANCE_LABEL, billNoText, cashChange, paymentLabel, rm } from './rules'
 import { BILL_ISSUER, receiptLineName } from './issuer'
 
 /**
@@ -109,7 +109,7 @@ function Row({ k, v }: { k: string; v: string }) {
 
 export default function BillReceiptDocument({ bill, patientNo, assetBase }: { bill: Bill; patientNo: string | null; assetBase: string }) {
   registerFonts(assetBase)
-  const change = bill.paymentMethod === 'cash' && bill.amountReceivedRm != null ? cashChange(bill.totalRm, bill.amountReceivedRm) : null
+  const change = bill.paymentMethod === 'cash' && bill.amountReceivedRm != null ? cashChange(bill.amountPaidRm, bill.amountReceivedRm) : null
   const sessions = bill.items.filter((i) => i.kind === 'package')
   const logoW = BILL_ISSUER.logo.withName ? 44 : 128
   const logoH = (logoW * BILL_ISSUER.logo.height) / BILL_ISSUER.logo.width
@@ -141,7 +141,11 @@ export default function BillReceiptDocument({ bill, patientNo, assetBase }: { bi
               <Text style={s.receipt}>RECEIPT</Text>
               <View style={[s.metaRow, { marginTop: 6 }]}><Text style={s.metaKey}>Receipt No.</Text><Text style={s.metaVal}>{billNoText(bill.billNo)}</Text></View>
               <View style={s.metaRow}><Text style={s.metaKey}>Date</Text><Text style={s.metaVal}>{fmt(bill.paidAt ?? bill.createdAt, { dateStyle: 'medium' })}</Text></View>
-              <Text style={s.stamp}>{bill.status === 'paid' ? 'PAID' : bill.status === 'void' ? 'VOID' : 'NOT PAID'}</Text>
+              {bill.status === 'paid' && bill.outstandingRm > 0 ? (
+                <Text style={[s.stamp, { color: '#B45309', borderColor: '#B45309' }]}>BALANCE DUE</Text>
+              ) : (
+                <Text style={s.stamp}>{bill.status === 'paid' ? 'PAID' : bill.status === 'void' ? 'VOID' : 'NOT PAID'}</Text>
+              )}
             </View>
           </View>
 
@@ -191,7 +195,10 @@ export default function BillReceiptDocument({ bill, patientNo, assetBase }: { bi
             <View style={s.panel} wrap={false}>
               <View style={[s.col, { paddingRight: 14 }]}>
                 <Text style={s.label}>Payment</Text>
-                <Row k="Method" v={paymentLabel(bill.paymentMethod)} />
+                {bill.balanceUses.map((u) => <Row key={u.kind} k={`Paid from ${BALANCE_LABEL[u.kind].toLowerCase()}`} v={rm(u.amount)} />)}
+                {(bill.amountPaidRm > 0 || (!bill.balanceUses.length && !bill.outstandingRm)) && <Row k="Method" v={paymentLabel(bill.paymentMethod)} />}
+                {bill.amountPaidRm > 0 && bill.balanceUses.length > 0 && <Row k="Amount paid" v={rm(bill.amountPaidRm)} />}
+                {bill.outstandingRm > 0 && <Row k="Left to pay later" v={rm(bill.outstandingRm)} />}
                 {bill.amountReceivedRm != null && <Row k="Cash received" v={rm(bill.amountReceivedRm)} />}
                 {bill.amountReceivedRm != null && <Row k="Change" v={rm(change ?? 0)} />}
                 {bill.paidAt && <Row k="Paid on" v={fmt(bill.paidAt, { dateStyle: 'medium', timeStyle: 'short' })} />}

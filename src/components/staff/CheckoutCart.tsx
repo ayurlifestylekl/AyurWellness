@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Minus, Plus, Search, Trash2 } from 'lucide-react'
 import type { Bill, PackageOption, ProductOption } from '@/lib/counter/queries'
 import { addBillItem, deleteBill, payBill, removeBillItem, updateBill, updateBillItem } from '@/lib/counter/actions'
-import { PAYMENT_METHODS, billNoText, billTotals, cashChange, parseRm, rm, type PaymentMethod } from '@/lib/counter/rules'
+import { BALANCE_LABEL, PAYMENT_METHODS, SPENDABLE_KINDS, amountDue, billNoText, billTotals, cashChange, parseRm, rm, type BalanceKind, type PaymentMethod, type SpendableKind } from '@/lib/counter/rules'
 import { durationText, groupByCategory, matchServices, priceText, type ServiceOption } from '@/lib/staff/services'
 
 type Tab = 'service' | 'product' | 'package'
@@ -24,12 +24,15 @@ export default function CheckoutCart({
   products,
   packages,
   patientHref,
+  balances,
 }: {
   bill: Bill
   services: ServiceOption[]
   products: ProductOption[]
   packages: PackageOption[]
   patientHref: string | null
+  /** The saved patient's balances; null for a walk-in (no balances or pay-later). */
+  balances: Record<BalanceKind, number> | null
 }) {
   const router = useRouter()
   const [tab, setTab] = useState<Tab>('service')
@@ -40,6 +43,8 @@ export default function CheckoutCart({
   const [method, setMethod] = useState<PaymentMethod | null>(null)
   const [received, setReceived] = useState('')
   const [discount, setDiscount] = useState(bill.discountRm ? bill.discountRm.toFixed(2) : '')
+  const [useText, setUseText] = useState<Record<SpendableKind, string>>({ deposit: '', credit: '', gift_card: '' })
+  const [payLater, setPayLater] = useState(false)
 
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>, after?: () => void) => {
     setError(null)
@@ -60,16 +65,24 @@ export default function CheckoutCart({
   }, [products, query])
 
   const totals = billTotals(bill.items, bill.discountRm)
+  const uses = SPENDABLE_KINDS.map((k) => ({ kind: k, amount: useText[k].trim() ? parseRm(useText[k]) ?? NaN : 0 })).filter((u) => u.amount !== 0)
+  const usesValid = uses.every((u) => Number.isFinite(u.amount) && u.amount > 0)
+  const due = balances ? amountDue(totals.total, usesValid ? uses : [], balances) : totals.total
   const receivedRm = received ? parseRm(received) : null
-  const change = method === 'cash' && receivedRm != null ? cashChange(totals.total, receivedRm) : null
-  const needsMethod = totals.total > 0
+  const change = method === 'cash' && receivedRm != null && due != null ? cashChange(due, receivedRm) : null
+  const needsMethod = due != null && due > 0 && !payLater
   const canPay =
-    bill.items.length > 0 && (!needsMethod || (method !== null && (method !== 'cash' || (receivedRm != null && change != null))))
+    bill.items.length > 0 &&
+    usesValid &&
+    due != null &&
+    (!needsMethod || (method !== null && (method !== 'cash' || (receivedRm != null && change != null))))
+  const spendable = balances ? SPENDABLE_KINDS.filter((k) => balances[k] > 0) : []
 
+  // The Packages tab only appears when this customer has a package to use.
   const tabs: { key: Tab; label: string; count?: number }[] = [
     { key: 'service', label: 'Services' },
     { key: 'product', label: 'Products' },
-    { key: 'package', label: 'Packages', count: packages.length },
+    ...(packages.length ? [{ key: 'package' as Tab, label: 'Packages', count: packages.length }] : []),
   ]
 
   return (
@@ -222,6 +235,49 @@ export default function CheckoutCart({
           </dl>
 
           <div className="mt-4 border-t border-accent/20 pt-3">
+            {balances && (spendable.length > 0 || balances.outstanding > 0) && (
+              <div className="mb-3 rounded-lg bg-cream/60 p-3">
+                <p className="mb-2 font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-dark/55">Use balance</p>
+                {spendable.map((k) => (
+                  <label key={k} className="mb-1.5 flex items-center justify-between gap-2 font-body text-[13px]">
+                    <span>
+                      {BALANCE_LABEL[k]} <span className="text-dark/50">· {rm(balances[k])} available</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <input
+                        value={useText[k]}
+                        inputMode="decimal"
+                        placeholder="0.00"
+                        aria-label={`Use ${BALANCE_LABEL[k]} (RM)`}
+                        onChange={(e) => setUseText((u) => ({ ...u, [k]: e.target.value }))}
+                        className={`${field} w-24 py-1 text-right tabular-nums`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const others = SPENDABLE_KINDS.filter((o) => o !== k).reduce((sum, o) => sum + (parseRm(useText[o]) ?? 0), 0)
+                          const max = Math.max(0, Math.min(balances[k], totals.total - others))
+                          setUseText((u) => ({ ...u, [k]: max ? max.toFixed(2) : '' }))
+                        }}
+                        className="rounded-md border border-accent/30 px-2 py-1 font-heading text-[9.5px] font-bold uppercase tracking-wide text-accent hover:bg-white"
+                      >
+                        Max
+                      </button>
+                    </span>
+                  </label>
+                ))}
+                {balances.outstanding > 0 && (
+                  <p className="mt-1 font-body text-[12px] text-amber-800">Already owes {rm(balances.outstanding)} — settle it from the patient profile.</p>
+                )}
+                {(!usesValid || due == null) && <p className="mt-1 font-body text-[12px] text-red-700">That’s more than the balance or the bill.</p>}
+              </div>
+            )}
+            {balances && due != null && due > 0 && (
+              <label className="mb-3 flex items-center gap-2 font-body text-[13px]">
+                <input type="checkbox" checked={payLater} onChange={(e) => setPayLater(e.target.checked)} className="h-4 w-4 accent-accent" />
+                Pay later — add {rm(due)} to what they owe
+              </label>
+            )}
             {needsMethod ? (
               <>
                 <p className="mb-2 font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-dark/55">Payment method</p>
@@ -236,7 +292,7 @@ export default function CheckoutCart({
                   <div className="mt-3 flex items-center gap-3">
                     <label className="flex-1">
                       <span className="mb-1 block font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-dark/55">Cash received (RM)</span>
-                      <input value={received} inputMode="decimal" onChange={(e) => setReceived(e.target.value)} placeholder={totals.total.toFixed(2)} className={`${field} w-full text-right tabular-nums`} />
+                      <input value={received} inputMode="decimal" onChange={(e) => setReceived(e.target.value)} placeholder={(due ?? 0).toFixed(2)} className={`${field} w-full text-right tabular-nums`} />
                     </label>
                     <div className="text-right font-body text-[13px]">
                       <div className="text-dark/55">Change</div>
@@ -246,15 +302,24 @@ export default function CheckoutCart({
                 )}
               </>
             ) : (
-              bill.items.length > 0 && <p className="font-body text-[12.5px] text-dark/60">Nothing to pay — package sessions only.</p>
+              bill.items.length > 0 && (
+                <p className="font-body text-[12.5px] text-dark/60">
+                  {payLater ? 'Nothing taken now — the amount is added to what they owe.' : totals.total > 0 ? 'Fully paid from balance.' : 'Nothing to pay — package sessions only.'}
+                </p>
+              )
             )}
             <button
               type="button"
               disabled={pending || !canPay}
-              onClick={() => run(() => payBill(bill.id, { method: needsMethod ? method : null, receivedRm: method === 'cash' ? receivedRm : null }), () => router.push(`/console/checkout/${bill.id}/receipt`))}
+              onClick={() =>
+                run(
+                  () => payBill(bill.id, { method: needsMethod ? method : null, receivedRm: needsMethod && method === 'cash' ? receivedRm : null, uses, payLater }),
+                  () => router.push(`/console/checkout/${bill.id}/receipt`),
+                )
+              }
               className="mt-3 w-full rounded-xl bg-primary px-5 py-3 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-white hover:bg-primary/90 disabled:opacity-50"
             >
-              {pending ? 'Working…' : needsMethod ? `Take payment · ${rm(totals.total)}` : 'Complete'}
+              {pending ? 'Working…' : needsMethod ? `Take payment · ${rm(due ?? 0)}` : 'Complete'}
             </button>
           </div>
         </section>

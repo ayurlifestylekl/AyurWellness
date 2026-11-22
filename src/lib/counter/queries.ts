@@ -1,7 +1,7 @@
 import 'server-only'
 import type { ServiceDb } from '@/lib/staff/guard'
 import { normalizePhone } from '@/lib/staff/patients'
-import type { BillItemKind, BillStatus } from './rules'
+import { balanceTotals, type BalanceKind, type BillItemKind, type BillStatus } from './rules'
 
 /**
  * Counter bills (20261123_counter_checkout.sql). Until that migration is
@@ -51,10 +51,17 @@ export interface Bill {
   createdAt: string
   paidByName: string | null
   items: BillItem[]
+  /** Paid from the patient's credit / deposit / gift card. */
+  balanceUsedRm: number
+  /** Left to pay later (added to the patient's outstanding). */
+  outstandingRm: number
+  /** Taken by the payment method. */
+  amountPaidRm: number
+  balanceUses: { kind: BalanceKind; amount: number }[]
 }
 
 const BILL_COLUMNS =
-  'id, bill_no, status, patient_id, appointment_id, customer_name, customer_phone, discount_rm, subtotal_rm, total_rm, payment_method, amount_received_rm, notes, paid_at, created_at, paid_by_staff_id, counter_sale_items(id, kind, treatment_id, product_id, package_purchase_id, description, quantity, unit_price_rm, line_total_rm, created_at)'
+  'id, bill_no, status, patient_id, appointment_id, customer_name, customer_phone, discount_rm, subtotal_rm, total_rm, payment_method, amount_received_rm, notes, paid_at, created_at, paid_by_staff_id, balance_used_rm, outstanding_rm, amount_paid_rm, patient_balance_entries(kind, amount), counter_sale_items(id, kind, treatment_id, product_id, package_purchase_id, description, quantity, unit_price_rm, line_total_rm, created_at)'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapBill(r: any, names: Map<string, string>): Bill {
@@ -90,6 +97,13 @@ function mapBill(r: any, names: Map<string, string>): Bill {
     createdAt: r.created_at,
     paidByName: r.paid_by_staff_id ? names.get(r.paid_by_staff_id) ?? null : null,
     items,
+    balanceUsedRm: Number(r.balance_used_rm ?? 0),
+    outstandingRm: Number(r.outstanding_rm ?? 0),
+    amountPaidRm: Number(r.amount_paid_rm ?? 0),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    balanceUses: ((r.patient_balance_entries ?? []) as any[])
+      .filter((e) => Number(e.amount) < 0 && e.kind !== 'outstanding')
+      .map((e) => ({ kind: e.kind as BalanceKind, amount: -Number(e.amount) })),
   }
 }
 
@@ -223,4 +237,54 @@ export async function listRedeemablePackages(db: ServiceDb, phone: string | null
       sessionsUsed: p.sessions_used,
       expiresAt: p.expires_at ?? null,
     }))
+}
+
+export interface BalanceEntry {
+  id: string
+  kind: BalanceKind
+  amount: number
+  note: string | null
+  paymentMethod: string | null
+  saleId: string | null
+  staffName: string | null
+  createdAt: string
+}
+
+export interface PatientBalances {
+  ready: boolean
+  totals: Record<BalanceKind, number>
+  entries: BalanceEntry[]
+}
+
+/** A saved patient's balances (credit, deposit, gift card, points, outstanding) and their history. */
+export async function getPatientBalances(db: ServiceDb, patientId: string): Promise<PatientBalances> {
+  const empty = balanceTotals([])
+  if (!/^[0-9a-f-]{36}$/i.test(patientId)) return { ready: true, totals: empty, entries: [] }
+  const { data, error } = await db
+    .from('patient_balance_entries')
+    .select('id, kind, amount, note, payment_method, sale_id, staff_id, created_at')
+    .eq('patient_id', patientId)
+    .order('created_at', { ascending: false })
+  if (error) {
+    logError('balances', error)
+    return { ready: !missingTable(error), totals: empty, entries: [] }
+  }
+  const rows = data ?? []
+  const ids = Array.from(new Set(rows.map((r) => r.staff_id).filter(Boolean)))
+  const names = new Map<string, string>()
+  if (ids.length) {
+    const { data: users } = await db.from('users').select('id, full_name').in('id', ids)
+    for (const u of users ?? []) names.set(u.id, u.full_name || 'Staff')
+  }
+  const entries = rows.map((r) => ({
+    id: r.id,
+    kind: r.kind as BalanceKind,
+    amount: Number(r.amount),
+    note: r.note ?? null,
+    paymentMethod: r.payment_method ?? null,
+    saleId: r.sale_id ?? null,
+    staffName: r.staff_id ? names.get(r.staff_id) ?? null : null,
+    createdAt: r.created_at,
+  }))
+  return { ready: true, totals: balanceTotals(entries), entries }
 }

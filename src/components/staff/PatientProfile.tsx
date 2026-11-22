@@ -12,6 +12,8 @@ import { mytDayKey } from '@/lib/datetime'
 import CaseSheetList from '@/components/staff/CaseSheetList'
 import PatientPhotos, { type PhotoItem } from '@/components/staff/PatientPhotos'
 import BillsList from '@/components/staff/BillsList'
+import BalancesPanel from '@/components/staff/BalancesPanel'
+import type { PatientBalances } from '@/lib/counter/queries'
 import StartBillButton from '@/components/staff/StartBillButton'
 import type { Bill } from '@/lib/counter/queries'
 
@@ -50,6 +52,7 @@ export default function PatientProfile({
   photos,
   canDeletePhotos = false,
   bills,
+  balances,
 }: {
   patient: DoctorPatientView | null
   record: PatientRecord | null
@@ -68,6 +71,8 @@ export default function PatientProfile({
   canDeletePhotos?: boolean
   /** Counter bills (front desk + admin); omit to hide. A saved record can start a new bill. */
   bills?: Bill[]
+  /** Credit, deposit, gift card, points and outstanding (front desk + admin, saved patients). */
+  balances?: PatientBalances | null
 }) {
   // The saved record is what staff typed in on purpose, so it wins over booking details.
   const name = record?.fullName ?? patient?.patientName ?? 'Patient'
@@ -153,6 +158,7 @@ export default function PatientProfile({
             </p>
           )}
           {caseSheets && record && <CaseSheetList patientId={record.id} sheets={caseSheets} />}
+          {balances && balances.ready && record && <BalancesPanel patientId={record.id} totals={balances.totals} entries={balances.entries} />}
           {bills && (
             <BillsList bills={bills} action={record ? <StartBillButton patientId={record.id} /> : undefined} />
           )}

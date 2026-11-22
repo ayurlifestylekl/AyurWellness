@@ -4,7 +4,7 @@ import { getAppointmentDetail } from '@/lib/staff/appointments'
 import { findPatientRecordFor, getPatientRecord, getPatientVisits } from '@/lib/staff/patients'
 import PatientProfile from '@/components/staff/PatientProfile'
 import { listCaseSheets, listPatientPhotos } from '@/lib/staff/patient-files'
-import { listBillsFor } from '@/lib/counter/queries'
+import { getPatientBalances, listBillsFor } from '@/lib/counter/queries'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,10 +20,11 @@ export default async function ConsolePatientPage({ params }: { params: { id: str
   // A record-only patient has no booking yet; the newest booking (if any) carries the health intake.
   const latest = booking ?? (visits[0] ? await getAppointmentDetail(db, visits[0].id) : null)
   // Case sheets are clinical: admin sees them here, front desk doesn't.
-  const [caseSheets, photos, bills] = await Promise.all([
+  const [caseSheets, photos, bills, balances] = await Promise.all([
     role === 'admin' && record ? listCaseSheets(db, record.id) : Promise.resolve(role === 'admin' ? [] : undefined),
     record ? listPatientPhotos(db, record.id) : Promise.resolve([]),
     listBillsFor(db, { patientId: record?.id ?? null, appointmentIds: visits.map((v) => v.id) }),
+    record ? getPatientBalances(db, record.id) : Promise.resolve(null),
   ])
 
   return (
@@ -41,6 +42,7 @@ export default async function ConsolePatientPage({ params }: { params: { id: str
       photos={photos}
       canDeletePhotos={role === 'admin'}
       bills={bills}
+      balances={balances}
     />
   )
 }

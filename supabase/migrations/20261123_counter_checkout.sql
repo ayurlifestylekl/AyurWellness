@@ -1,5 +1,6 @@
 -- Counter checkout: one bill per visit/customer holding services, products and
--- package redemptions, editable until it is paid.
+-- package redemptions, editable until it is paid; patient balances (credit,
+-- points, gift card, deposit, outstanding) used and kept here too.
 --
 -- Server-only: RLS on with no policies; staff pages use the service role after
 -- their role check. Safe to re-run.
@@ -73,15 +74,49 @@ CREATE TRIGGER counter_sale_items_guard
   BEFORE INSERT OR UPDATE OR DELETE ON public.counter_sale_items
   FOR EACH ROW EXECUTE FUNCTION public.counter_sale_items_guard();
 
--- 3. Payment: everything happens together or not at all --------------------------
--- Locks the bill, re-adds the lines, checks stock, takes products out of stock,
--- redeems package sessions (linked to the bill's visit) and marks the bill paid.
--- Errors are short codes the app turns into plain messages.
+-- 3. Patient balances -------------------------------------------------------------
+-- One ledger per patient: credit, points, gift card, deposit and outstanding.
+-- A balance is the sum of its entries (positive adds, negative uses).
+-- "outstanding" is what the patient owes the centre.
+-- payment_method is set when money changed hands at the counter (a deposit
+-- top-up, a gift card sold, an outstanding amount settled), so the day close
+-- counts it with the bills.
+CREATE TABLE IF NOT EXISTS public.patient_balance_entries (
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  patient_id      UUID NOT NULL REFERENCES public.patients(id) ON DELETE CASCADE,
+  kind            TEXT NOT NULL CHECK (kind IN ('credit', 'points', 'gift_card', 'deposit', 'outstanding')),
+  amount          NUMERIC(10,2) NOT NULL CHECK (amount <> 0),
+  note            TEXT CHECK (note IS NULL OR char_length(note) <= 300),
+  sale_id         UUID REFERENCES public.counter_sales(id) ON DELETE SET NULL,
+  payment_method  TEXT CHECK (payment_method IS NULL OR payment_method IN
+                    ('cash', 'duitnow_qr', 'tng_ewallet', 'card_terminal', 'bank_transfer', 'other')),
+  staff_id        UUID REFERENCES public.users(id) ON DELETE SET NULL,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS patient_balance_entries_patient_idx ON public.patient_balance_entries (patient_id, kind);
+CREATE INDEX IF NOT EXISTS patient_balance_entries_money_idx ON public.patient_balance_entries (created_at) WHERE payment_method IS NOT NULL;
+
+-- How each paid bill was settled.
+ALTER TABLE public.counter_sales
+  ADD COLUMN IF NOT EXISTS balance_used_rm NUMERIC(10,2) NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS outstanding_rm  NUMERIC(10,2) NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS amount_paid_rm  NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+-- 4. Payment: everything happens together or not at all --------------------------
+-- Locks the bill, re-adds the lines, uses the patient's credit / deposit /
+-- gift card, takes products out of stock, redeems package sessions (linked to
+-- the bill's visit), records what is left unpaid as outstanding when asked,
+-- and marks the bill paid. Errors are short codes the app turns into words.
+--   p_uses        [{"kind": "credit" | "deposit" | "gift_card", "amount": 50}]
+--   p_outstanding true = the customer pays the rest later
+DROP FUNCTION IF EXISTS public.complete_counter_sale(UUID, UUID, TEXT, NUMERIC);
 CREATE OR REPLACE FUNCTION public.complete_counter_sale(
   p_sale_id UUID,
   p_staff_id UUID,
   p_method TEXT,
-  p_received NUMERIC
+  p_received NUMERIC,
+  p_uses JSONB DEFAULT '[]'::jsonb,
+  p_outstanding BOOLEAN DEFAULT false
 )
 RETURNS public.counter_sales
 LANGUAGE plpgsql
@@ -91,8 +126,13 @@ AS $$
 DECLARE
   v_sale public.counter_sales;
   v_item RECORD;
+  v_use RECORD;
   v_sub NUMERIC(10,2);
   v_total NUMERIC(10,2);
+  v_used NUMERIC(10,2) := 0;
+  v_due NUMERIC(10,2);
+  v_paid NUMERIC(10,2) := 0;
+  v_bal NUMERIC(10,2);
   v_stock INTEGER;
   v_backorder BOOLEAN;
   -- A plain id, not a package_redemptions row type: that table only exists on
@@ -109,9 +149,37 @@ BEGIN
 
   SELECT COALESCE(SUM(line_total_rm), 0) INTO v_sub FROM public.counter_sale_items WHERE sale_id = p_sale_id;
   v_total := GREATEST(v_sub - v_sale.discount_rm, 0);
-  IF v_total > 0 AND p_method IS NULL THEN RAISE EXCEPTION 'payment_method_required'; END IF;
-  IF p_method = 'cash' AND (p_received IS NULL OR p_received < v_total) THEN RAISE EXCEPTION 'cash_short'; END IF;
   v_label := 'Bill INV-' || lpad(v_sale.bill_no::text, 6, '0');
+
+  -- Balances: only a saved patient's own, never more than they hold or than the bill.
+  IF jsonb_typeof(COALESCE(p_uses, '[]'::jsonb)) <> 'array' THEN RAISE EXCEPTION 'balance_invalid'; END IF;
+  IF jsonb_array_length(COALESCE(p_uses, '[]'::jsonb)) > 0 OR p_outstanding THEN
+    IF v_sale.patient_id IS NULL THEN RAISE EXCEPTION 'balance_needs_patient'; END IF;
+    PERFORM 1 FROM public.patients WHERE id = v_sale.patient_id FOR UPDATE;
+  END IF;
+  FOR v_use IN SELECT * FROM jsonb_to_recordset(COALESCE(p_uses, '[]'::jsonb)) AS x(kind TEXT, amount NUMERIC) LOOP
+    IF v_use.kind IS NULL OR v_use.kind NOT IN ('credit', 'deposit', 'gift_card') OR v_use.amount IS NULL OR v_use.amount <= 0 THEN
+      RAISE EXCEPTION 'balance_invalid';
+    END IF;
+    SELECT COALESCE(SUM(amount), 0) INTO v_bal FROM public.patient_balance_entries WHERE patient_id = v_sale.patient_id AND kind = v_use.kind;
+    IF v_bal < v_use.amount THEN RAISE EXCEPTION 'balance_short:%:%', v_use.kind, v_bal; END IF;
+    INSERT INTO public.patient_balance_entries (patient_id, kind, amount, note, sale_id, staff_id)
+    VALUES (v_sale.patient_id, v_use.kind, -round(v_use.amount, 2), 'Used on ' || v_label, p_sale_id, p_staff_id);
+    v_used := v_used + round(v_use.amount, 2);
+  END LOOP;
+  IF v_used > v_total THEN RAISE EXCEPTION 'balance_over_total'; END IF;
+  v_due := v_total - v_used;
+
+  IF p_outstanding THEN
+    IF v_due > 0 THEN
+      INSERT INTO public.patient_balance_entries (patient_id, kind, amount, note, sale_id, staff_id)
+      VALUES (v_sale.patient_id, 'outstanding', v_due, 'Unpaid on ' || v_label, p_sale_id, p_staff_id);
+    END IF;
+  ELSE
+    IF v_due > 0 AND p_method IS NULL THEN RAISE EXCEPTION 'payment_method_required'; END IF;
+    IF v_due > 0 AND p_method = 'cash' AND (p_received IS NULL OR p_received < v_due) THEN RAISE EXCEPTION 'cash_short'; END IF;
+    v_paid := v_due;
+  END IF;
 
   FOR v_item IN
     SELECT * FROM public.counter_sale_items WHERE sale_id = p_sale_id AND kind = 'product' ORDER BY created_at
@@ -141,8 +209,11 @@ BEGIN
   SET status = 'paid',
       subtotal_rm = v_sub,
       total_rm = v_total,
-      payment_method = CASE WHEN v_total > 0 THEN p_method ELSE NULL END,
-      amount_received_rm = CASE WHEN p_method = 'cash' AND v_total > 0 THEN p_received ELSE NULL END,
+      balance_used_rm = v_used,
+      outstanding_rm = CASE WHEN p_outstanding THEN v_due ELSE 0 END,
+      amount_paid_rm = v_paid,
+      payment_method = CASE WHEN v_paid > 0 THEN p_method ELSE NULL END,
+      amount_received_rm = CASE WHEN v_paid > 0 AND p_method = 'cash' THEN p_received ELSE NULL END,
       paid_at = now(),
       paid_by_staff_id = p_staff_id,
       updated_at = now()
@@ -153,11 +224,13 @@ BEGIN
 END;
 $$;
 
-REVOKE EXECUTE ON FUNCTION public.complete_counter_sale(UUID, UUID, TEXT, NUMERIC) FROM PUBLIC, anon, authenticated;
-GRANT EXECUTE ON FUNCTION public.complete_counter_sale(UUID, UUID, TEXT, NUMERIC) TO service_role;
+REVOKE EXECUTE ON FUNCTION public.complete_counter_sale(UUID, UUID, TEXT, NUMERIC, JSONB, BOOLEAN) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.complete_counter_sale(UUID, UUID, TEXT, NUMERIC, JSONB, BOOLEAN) TO service_role;
 
--- 4. Lock down ----------------------------------------------------------------------
+-- 5. Lock down ----------------------------------------------------------------------
 ALTER TABLE public.counter_sales ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.counter_sale_items ENABLE ROW LEVEL SECURITY;
-REVOKE ALL ON public.counter_sales, public.counter_sale_items FROM anon, authenticated;
+ALTER TABLE public.patient_balance_entries ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.counter_sales, public.counter_sale_items, public.patient_balance_entries FROM anon, authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.counter_sales, public.counter_sale_items TO service_role;
+GRANT SELECT, INSERT ON public.patient_balance_entries TO service_role;
