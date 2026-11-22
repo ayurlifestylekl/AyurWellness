@@ -5,7 +5,7 @@ vi.mock('@/sanity/client', () => ({ sanityClient: { fetch: vi.fn() } }))
 vi.mock('@/sanity/env', () => ({ isSanityConfigured: false }))
 
 import sitemap from '../sitemap'
-import { getAllCategories, getTreatmentsByCategorySlug } from '@/data/treatments'
+import { OFFERED_TREATMENT_IDS, getAllCategories, getTreatmentsByCategorySlug } from '@/data/treatments'
 import { products } from '@/data/products'
 
 const BASE = 'https://ayurvedicwellness.com.my'
@@ -21,7 +21,15 @@ describe('sitemap', () => {
         expect(urls.has(`${BASE}/treatments/${c.slug}/${t.slug}`)).toBe(true)
       }
     }
-    expect(therapies).toBeGreaterThan(50)
+    // Exactly the centre's current menu — never an empty catalogue.
+    expect(therapies).toBe(OFFERED_TREATMENT_IDS.size)
+    expect(therapies).toBeGreaterThan(0)
+  })
+
+  it('leaves out therapies the centre does not offer right now', async () => {
+    const urls = (await sitemap()).map((e) => e.url)
+    expect(urls.some((u) => u.endsWith('/treatments/massage-rehab-therapies/head-massage'))).toBe(false)
+    expect(urls.some((u) => u.endsWith('/treatments/panchakarma'))).toBe(false)
   })
 
   it('lists every product page', async () => {

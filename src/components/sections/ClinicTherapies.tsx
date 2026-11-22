@@ -27,46 +27,48 @@ type Category = {
   href: string
 }
 
+// Five of the centre's current treatments (the last one is the large feature card).
+// Each links to a therapy that is on the menu right now.
 const categories: Category[] = [
   {
-    slug: 'spine-joint',
-    name: 'Spine & Joint',
-    tagline: 'Restore mobility',
+    slug: 'makha-lepham',
+    name: 'Herbal Facial',
+    tagline: 'Makha Lepham',
+    durationMin: 90,
+    image: '/therapies/hair-skin.jpg',
+    href: '/treatments/face-care-therapies/makha-lepham',
+  },
+  {
+    slug: 'njavara-facial',
+    name: 'Milk Facial',
+    tagline: 'Njavara Facial',
+    durationMin: 90,
+    image: '/treatments/gallery/1616394584738-fc6e612e71b9.jpg',
+    href: '/treatments/face-care-therapies/njavara-facial',
+  },
+  {
+    slug: 'thalapothichil',
+    name: 'Scalp Detox',
+    tagline: 'Thalapothichil',
+    durationMin: 90,
+    image: '/treatments/real/29-ayurveda-hair-scalp-therapy.jpg',
+    href: '/treatments/hair-scalp-care-therapies/thalapothichil',
+  },
+  {
+    slug: 'siro-abhyangam',
+    name: 'Head Massage',
+    tagline: 'Siro Abhyangam',
+    durationMin: 30,
+    image: '/treatments/real/10-siro-abhyangam-head-massage.jpg',
+    href: '/treatments/massage-rehab-therapies/siro-abhyangam',
+  },
+  {
+    slug: 'head-neck-shoulder',
+    name: 'Head, Neck & Shoulder',
+    tagline: 'Release built-up tension',
     durationMin: 60,
     image: '/therapies/spine-joint.jpg',
-    href: '/treatments/joint-care-therapies',
-  },
-  {
-    slug: 'hair-skin',
-    name: 'Hair & Skin',
-    tagline: 'Glow from within',
-    durationMin: 50,
-    image: '/therapies/hair-skin.jpg',
-    href: '/treatments/hair-scalp-care-therapies',
-  },
-  {
-    slug: 'post-delivery',
-    name: 'Post-Delivery',
-    tagline: 'For new mothers',
-    durationMin: 75,
-    image: '/therapies/post-delivery.jpg',
-    href: '/treatments/post-delivery-care-sutika-paricharya',
-  },
-  {
-    slug: 'de-stress',
-    name: 'De-Stress',
-    tagline: 'Quiet the mind',
-    durationMin: 45,
-    image: '/therapies/de-stress.jpg',
-    href: '/treatments/stress-relieving-sleep',
-  },
-  {
-    slug: 'panchakarma',
-    name: 'Panchakarma',
-    tagline: 'Five-stage detox',
-    durationMin: 90,
-    image: '/therapies/panchakarma.jpg',
-    href: '/treatments/panchakarma',
+    href: '/treatments/massage-rehab-therapies/head-neck-shoulder-massage',
   },
 ]
 

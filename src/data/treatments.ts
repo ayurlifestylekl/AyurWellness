@@ -50,7 +50,8 @@ export interface CategoryRecord {
   treatmentCount: number
 }
 
-export const categoryRecords: CategoryRecord[] = [
+/** Every category, including ones with nothing offered right now (see categoryRecords). */
+const allCategoryRecords: CategoryRecord[] = [
   {
     id: "cat-face-care",
     slug: "face-care-therapies",
@@ -173,7 +174,8 @@ export const categoryRecords: CategoryRecord[] = [
   },
 ]
 
-export const treatmentRecords: TreatmentRecord[] = [
+/** The full therapy catalogue. Only those in OFFERED_TREATMENT_IDS are shown on the site. */
+const catalogueRecords: TreatmentRecord[] = [
   {
     id: "cat-face-care__ayurveda-rejuvenating-face-massage",
     heroImageUrl: "/treatments/gallery/1570172619644-dfd03ed5d881.jpg",
@@ -1750,6 +1752,234 @@ export const treatmentRecords: TreatmentRecord[] = [
     order: 0,
   },
 ]
+
+
+/*
+ * The new centre's treatment menu (client list, 22 Nov 2026): names, durations,
+ * prices and notes as the centre gave them. Photos and care notes follow the
+ * closest therapy in the catalogue above.
+ */
+const newCentreRecords: TreatmentRecord[] = [
+  {
+    id: "cat-face-care__mukha-abhyangam",
+    heroImageUrl: "/treatments/gallery/1570172619644-dfd03ed5d881.jpg",
+    slug: "mukha-abhyangam",
+    title: "Mukha Abhyangam (Face Massage)",
+    duration: "45 min",
+    price: 95,
+    bookingType: "direct" as BookingType,
+    sanskritName: "मुख अभ्यङ्ग · Mukha Abhyanga",
+    description: "Gentle Ayurvedic facial massage to improve blood circulation, relax facial muscles and promote a natural glow.",
+    body: ["Mukha Abhyangam is a gentle Ayurvedic facial massage using warm herbal oil chosen for your skin. Slow, rhythmic strokes and light pressure on the marma points of the face, neck and shoulders improve blood circulation and relax the facial muscles.", "Over 45 unhurried minutes the skin is nourished and refreshed, leaving a natural, healthy glow and a calm, rested feeling."],
+    benefits: ["Improves blood circulation to the face", "Relaxes tight facial muscles", "Promotes a natural, healthy glow", "Calms the mind and eases stress"],
+    procedureSteps: [
+      { title: "Warm oil application", description: "Warm herbal oil is applied across the face, neck and shoulders." },
+      { title: "Marma-point massage", description: "Gentle rhythmic strokes and light pressure stimulate the marma points and circulation." },
+      { title: "Relaxing finish", description: "The session settles into a soothing close as the oil absorbs." },
+    ],
+    contraindications: "Avoid if you have active inflammatory acne breakouts, open wounds, skin infections, a high fever, or immediately after cosmetic procedures or chemical peels.",
+    categorySlug: "face-care-therapies",
+    requiresConsultation: false,
+    order: 0,
+  },
+  {
+    id: "cat-face-care__makha-lepham",
+    heroImageUrl: "/treatments/gallery/1623120594168-a6d35474043b.jpg",
+    slug: "makha-lepham",
+    title: "Makha Lepham (Herbal Facial)",
+    duration: "1 Hour 30 min",
+    price: 175,
+    bookingType: "direct" as BookingType,
+    sanskritName: "मुख लेपनम् · Mukha Lepanam",
+    description: "Ayurvedic herbal facial to cleanse, nourish and rejuvenate the skin, helping to improve skin tone and reduce dullness.",
+    body: ["Makha Lepham is a complete Ayurvedic herbal facial. The skin is cleansed, gently exfoliated with a herbal scrub, massaged with medicated oil and steamed with herbs before a nourishing herbal pack (lepa) is applied.", "This 90-minute ritual cleanses, nourishes and rejuvenates the skin, helping to even the skin tone and lift dullness."],
+    benefits: ["Deeply cleanses and refreshes the skin", "Nourishes and rejuvenates", "Helps improve skin tone", "Reduces dullness for a brighter complexion"],
+    procedureSteps: [
+      { title: "Cleanse & scrub", description: "The face is cleansed and gently exfoliated with a herbal scrub." },
+      { title: "Oil massage & steam", description: "A medicated oil massage is followed by herbal steam to open the pores." },
+      { title: "Herbal pack", description: "A nourishing herbal lepa is applied to restore the skin's vitality." },
+    ],
+    contraindications: "Avoid if you have hypersensitive skin reactive to multi-herbal compounds, active severe dermatitis, or any undiagnosed skin conditions.",
+    categorySlug: "face-care-therapies",
+    requiresConsultation: false,
+    order: 1,
+  },
+  {
+    id: "cat-face-care__njavara-facial",
+    heroImageUrl: "/treatments/gallery/1616394584738-fc6e612e71b9.jpg",
+    slug: "njavara-facial",
+    title: "Njavara Facial (Milk Facial)",
+    duration: "1 Hour 30 min",
+    price: 185,
+    bookingType: "direct" as BookingType,
+    bookingLeadTimeHours: 48,
+    sanskritName: "णजवर मुख लेपम् · Njavara Mukha Lepam",
+    description: "Nourishing milk facial to hydrate, soften and brighten the skin, leaving it smooth and radiant.",
+    body: ["A nourishing classical Ayurvedic facial using Njavara, a medicinal red rice cooked in herbal decoction and milk. Warm poultices of this rich blend are massaged into the face and neck so the skin absorbs its nutrients.", "Over 90 comforting minutes the skin is cleansed, gently scrubbed, massaged and finished with a herbal pack, leaving it hydrated, soft, smooth and radiant."],
+    benefits: ["Deeply hydrates the skin", "Softens and smooths the skin texture", "Brightens the complexion", "Leaves a smooth, radiant finish"],
+    procedureSteps: [
+      { title: "Cleanse & scrub", description: "The skin is cleansed and gently exfoliated." },
+      { title: "Oil massage", description: "A face and neck oil massage prepares the skin." },
+      { title: "Njavara milk poultice", description: "Warm milk-rice poultices are massaged in as a nourishing mask." },
+      { title: "Herbal face pack", description: "A finishing herbal pack soothes and brightens the skin." },
+    ],
+    contraindications: "Avoid with highly congested skin or active cystic acne, an absolute lactose allergy or sensitivity to external dairy, or during a common cold or sinus congestion.",
+    categorySlug: "face-care-therapies",
+    requiresConsultation: false,
+    order: 2,
+  },
+  {
+    id: "cat-hair-care__thalapothichil",
+    heroImageUrl: "/treatments/real/29-ayurveda-hair-scalp-therapy.jpg",
+    slug: "thalapothichil",
+    title: "Thalapothichil (Scalp Detox Treatment)",
+    duration: "1 Hour 30 min",
+    price: 165,
+    bookingType: "direct" as BookingType,
+    sanskritName: "तल पोथिचिल् · Thala Pothichil",
+    description: "Herbal scalp detox therapy (Thala Pothichil) to cleanse the scalp, remove build-up, reduce heat and promote healthy hair growth.",
+    body: ["Thalapothichil is a cooling herbal scalp therapy. A thick paste of fresh herbs is applied over the scalp and wrapped with natural leaves, then left to work while you rest.", "The herbal pack draws out build-up, cleanses the scalp and reduces excess heat in the head, creating healthy conditions for the hair to grow."],
+    benefits: ["Cleanses the scalp and removes build-up", "Reduces heat in the head and body", "Promotes healthy hair growth", "Calms the mind and supports restful sleep"],
+    procedureSteps: [
+      { title: "Scalp preparation", description: "The scalp is prepared with a light application of herbal oil." },
+      { title: "Herbal paste", description: "A thick paste of fresh herbs is applied evenly over the scalp." },
+      { title: "Leaf wrap & rest", description: "The head is wrapped with natural leaves and the pack is left to work." },
+      { title: "Wash", description: "The pack is removed and the scalp and hair are washed clean." },
+    ],
+    contraindications: "Not advised if you have an active cold, cough, sinus congestion or a fever, or during the active days of menstruation, as the treatment is deeply cooling. Pregnant women should consult the Vaidya before booking.",
+    categorySlug: "hair-scalp-care-therapies",
+    requiresConsultation: false,
+    order: 0,
+  },
+  {
+    id: "cat-hair-care__siro-abhyangam-thalapothichil",
+    heroImageUrl: "/treatments/real/28-ayurveda-hair-treatment.jpg",
+    slug: "siro-abhyangam-thalapothichil",
+    title: "Siro Abhyangam + Thalapothichil (Hair Treatment)",
+    duration: "1 Hour 30 min",
+    price: 165,
+    bookingType: "direct" as BookingType,
+    sanskritName: "शिरो अभ्यङ्ग + तल पोथिचिल् · Siro Abhyanga + Thala Pothichil",
+    description: "A combination of head oil massage (Siro Abhyangam) and herbal pack (Thalapothichil) to nourish the scalp, strengthen hair roots and improve hair texture.",
+    body: ["This hair treatment combines two classical therapies. It begins with Siro Abhyangam, a warm herbal-oil massage of the scalp, head and neck, followed by Thalapothichil, a cooling herbal pack applied over the scalp and wrapped with natural leaves.", "Together they nourish the scalp, strengthen the hair roots and improve the texture of the hair, while leaving you deeply relaxed."],
+    benefits: ["Nourishes the scalp", "Strengthens the hair roots", "Improves hair texture", "Deeply relaxing for body and mind"],
+    procedureSteps: [
+      { title: "Siro Abhyangam", description: "A warm herbal-oil massage of the scalp, head and neck." },
+      { title: "Thalapothichil pack", description: "A herbal paste is applied over the scalp and wrapped with natural leaves." },
+      { title: "Rest", description: "You rest while the herbal pack works." },
+      { title: "Wash", description: "The pack is removed and the scalp and hair are washed clean." },
+    ],
+    contraindications: "Not advised if you have an active cold, cough, sinus congestion, a scalp infection or a fever, or during the active days of menstruation. Pregnant women should consult the Vaidya before booking.",
+    categorySlug: "hair-scalp-care-therapies",
+    requiresConsultation: false,
+    order: 1,
+  },
+  {
+    id: "cat-hair-care__hair-scalp-oil-massage",
+    heroImageUrl: "/treatments/real/27-ayurvedic-scalp-hair-oil-massage.jpg",
+    slug: "hair-scalp-oil-massage",
+    title: "Hair & Scalp Oil Massage",
+    duration: "1 Hour",
+    price: 90,
+    bookingType: "direct" as BookingType,
+    sanskritName: null,
+    description: "Ayurvedic oil massage for the hair and scalp to improve circulation, relieve tension and support healthy, stronger hair.",
+    body: ["A traditional Ayurvedic oil massage for the hair and scalp. Warm medicated oil is worked through the scalp and hair with gentle finger and palm techniques and focused point massage.", "It improves circulation to the scalp, relieves tension and helps keep the hair healthy and strong."],
+    benefits: ["Improves blood circulation to the scalp", "Relieves tension in the head and neck", "Supports healthy, stronger hair", "Deeply relaxing and calming"],
+    procedureSteps: [
+      { title: "Warm oil application", description: "Medicated oil is warmed and applied across the scalp and through the hair." },
+      { title: "Point massage", description: "Gentle finger and palm massage with focused point work stimulates circulation." },
+      { title: "Combing", description: "The hair is combed through to spread the oil evenly and relax the scalp." },
+    ],
+    contraindications: "This treatment is not suitable if you have a fever, cold or any infection, or any scalp infection. It should not be carried out immediately after eating.",
+    categorySlug: "hair-scalp-care-therapies",
+    requiresConsultation: false,
+    order: 2,
+  },
+  {
+    id: "cat-massage__head-neck-shoulder-massage",
+    heroImageUrl: "/treatments/real/11-neck-and-shoulder-massage-with-kizhi.jpg",
+    slug: "head-neck-shoulder-massage",
+    title: "Head, Neck & Shoulder Massage",
+    duration: "1 Hour",
+    price: 110,
+    bookingType: "direct" as BookingType,
+    sanskritName: null,
+    description: "Relaxing Ayurvedic massage for the head, neck and shoulders to relieve muscle tension, reduce stress and improve sleep quality.",
+    body: ["A relaxing one-hour Ayurvedic massage for the head, neck and shoulders. Warm herbal oil is worked into the scalp and down through the neck and shoulders with firm, rhythmic strokes that release built-up tension.", "It is ideal for anyone who carries stress in the upper body, easing muscle tightness, calming the mind and helping you sleep better."],
+    benefits: ["Relieves muscle tension in the neck and shoulders", "Reduces stress", "Improves sleep quality", "Leaves you relaxed and refreshed"],
+    procedureSteps: [
+      { title: "Warm oil application", description: "Warm herbal oil is applied to the head, neck and shoulders." },
+      { title: "Head massage", description: "Gentle strokes and point massage relax the scalp." },
+      { title: "Neck & shoulder work", description: "Firm, rhythmic strokes release tension across the neck and shoulders." },
+      { title: "Calming finish", description: "The session closes with slow, soothing strokes." },
+    ],
+    contraindications: "Please avoid this treatment with acute injuries or inflammation, skin infections or open wounds, a fever or contagious illness, or severe spinal or nerve conditions.",
+    categorySlug: "massage-rehab-therapies",
+    requiresConsultation: false,
+    order: 0,
+  },
+  {
+    id: "cat-massage__siro-abhyangam",
+    heroImageUrl: "/treatments/real/10-siro-abhyangam-head-massage.jpg",
+    slug: "siro-abhyangam",
+    title: "Siro Abhyangam (Head Massage)",
+    duration: "30 min",
+    price: 75,
+    bookingType: "direct" as BookingType,
+    sanskritName: "शिरो अभ्यङ्ग · Siro Abhyanga",
+    description: "Traditional Ayurvedic head massage to relax the mind, reduce headache and improve blood circulation.",
+    body: ["Siro Abhyangam is a traditional Ayurvedic head massage. Warm herb-infused oil is applied to the scalp and worked in with gentle yet firm rhythmic strokes along the marma points.", "In just 30 minutes it relaxes the mind, eases headaches and improves blood circulation to the head."],
+    benefits: ["Relaxes the mind", "Helps reduce headache", "Improves blood circulation", "Nourishes the scalp and hair"],
+    procedureSteps: [
+      { title: "Warm oil application", description: "Warm herb-infused oil is applied to the scalp." },
+      { title: "Rhythmic strokes", description: "Gentle, firm strokes work across the scalp." },
+      { title: "Marma stimulation", description: "Key marma points are activated to soothe the nervous system." },
+    ],
+    contraindications: "Please avoid this treatment if you have a fever, cold, flu or heavy cough, a scalp infection or injury, a severe migraine in progress, or heavy indigestion.",
+    categorySlug: "massage-rehab-therapies",
+    requiresConsultation: false,
+    order: 1,
+  },
+  {
+    id: "cat-massage__paadha-abhyangam",
+    heroImageUrl: "/treatments/real/05-njavara-milk-facial.jpg",
+    slug: "paadha-abhyangam",
+    title: "Paadha Abhyangam (Foot Massage)",
+    duration: "45 min",
+    price: 95,
+    bookingType: "direct" as BookingType,
+    sanskritName: "पाद अभ्यङ्ग · Paada Abhyanga",
+    description: "Therapeutic Ayurvedic foot massage to stimulate vital points, reduce fatigue and improve overall well-being.",
+    body: ["Paadha Abhyangam is a therapeutic Ayurvedic foot massage. Warm herbal oil is worked into the feet, ankles and lower legs, and the marma points of the feet are gently stimulated.", "These points are linked to the whole body, so the treatment eases tired feet, reduces fatigue and leaves you with a sense of overall well-being."],
+    benefits: ["Stimulates the vital marma points of the feet", "Reduces fatigue", "Improves overall well-being", "Encourages deep relaxation and better sleep"],
+    procedureSteps: [
+      { title: "Warm oil application", description: "Warm herbal oil is applied to the feet, ankles and lower legs." },
+      { title: "Rhythmic strokes", description: "Soothing, rhythmic strokes work along the feet and lower legs." },
+      { title: "Marma stimulation", description: "The marma points of the feet are gently activated." },
+    ],
+    contraindications: "Please avoid this treatment if you have active infections or open wounds on the feet or legs, a fever or acute illness, or deep vein thrombosis (DVT).",
+    categorySlug: "massage-rehab-therapies",
+    requiresConsultation: false,
+    order: 2,
+  },
+]
+
+/**
+ * What the centre offers right now. Everything else in the catalogue is hidden
+ * from the site (not deleted). To offer a therapy again, add its id here and
+ * switch it back on in the database (treatments.is_active).
+ */
+export const OFFERED_TREATMENT_IDS = new Set(newCentreRecords.map((t) => t.id))
+
+export const treatmentRecords: TreatmentRecord[] = [...catalogueRecords, ...newCentreRecords].filter((t) =>
+  OFFERED_TREATMENT_IDS.has(t.id),
+)
+
+/** Categories with something on offer, with their counts worked out from what's shown. */
+export const categoryRecords: CategoryRecord[] = allCategoryRecords
+  .map((c) => ({ ...c, treatmentCount: treatmentRecords.filter((t) => t.categorySlug === c.slug).length }))
+  .filter((c) => c.treatmentCount > 0)
 
 /* ────────────────────────────────────────────────────────────────────
  * Lookup helpers — everything the pages need, built once from the
