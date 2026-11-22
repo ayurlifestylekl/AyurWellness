@@ -179,11 +179,16 @@ export interface ProductOption {
   category: string
 }
 
+/** The price a product sells at: its sale price when one is set, as online checkout charges. */
+export function sellingPrice(p: { price_rm: number | string; sale_price_rm?: number | string | null }): number {
+  return p.sale_price_rm != null && Number(p.sale_price_rm) > 0 ? Number(p.sale_price_rm) : Number(p.price_rm)
+}
+
 /** Products on sale in the shop, priced as the website shows them. */
 export async function listSellableProducts(db: ServiceDb): Promise<ProductOption[]> {
   const { data, error } = await db
     .from('products')
-    .select('id, name, price_rm, stock_qty, allow_backorder, category, status')
+    .select('id, name, price_rm, sale_price_rm, stock_qty, allow_backorder, category, status')
     .eq('status', 'active')
     .order('name', { ascending: true })
   if (error) {
@@ -193,7 +198,7 @@ export async function listSellableProducts(db: ServiceDb): Promise<ProductOption
   return (data ?? []).map((p) => ({
     id: p.id,
     name: p.name,
-    priceRm: Number(p.price_rm),
+    priceRm: sellingPrice(p),
     stock: p.stock_qty ?? 0,
     allowBackorder: !!p.allow_backorder,
     category: p.category || 'Products',

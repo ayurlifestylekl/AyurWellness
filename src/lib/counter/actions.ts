@@ -5,7 +5,7 @@ import { requireStaff, type ServiceDb } from '@/lib/staff/guard'
 import { getAppointmentDetail } from '@/lib/staff/appointments'
 import { findPatientRecordFor, getPatientRecord, normalizePhone } from '@/lib/staff/patients'
 import { SPENDABLE_KINDS, checkoutErrorMessage, isBalanceKind, isPaymentMethod, toSen } from './rules'
-import { listRedeemablePackages } from './queries'
+import { listRedeemablePackages, sellingPrice } from './queries'
 
 type Result<T = object> = ({ ok: true } & T) | { ok: false; error: string }
 
@@ -132,12 +132,12 @@ export async function addBillItem(billId: string, raw: unknown): Promise<Result>
   }
 
   if (item.kind === 'product') {
-    const { data: p } = await db.from('products').select('id, name, price_rm, status').eq('id', item.productId).maybeSingle()
+    const { data: p } = await db.from('products').select('id, name, price_rm, sale_price_rm, status').eq('id', item.productId).maybeSingle()
     if (!p || p.status !== 'active') return { ok: false, error: 'That product isn’t on sale.' }
     const { data: same } = await db.from('counter_sale_items').select('id, quantity').eq('sale_id', billId).eq('product_id', p.id).maybeSingle()
     const { error } = same
       ? await db.from('counter_sale_items').update({ quantity: Math.min(99, same.quantity + 1) }).eq('id', same.id)
-      : await db.from('counter_sale_items').insert({ sale_id: billId, kind: 'product', product_id: p.id, description: String(p.name).slice(0, 200), quantity: 1, unit_price_rm: Number(p.price_rm) })
+      : await db.from('counter_sale_items').insert({ sale_id: billId, kind: 'product', product_id: p.id, description: String(p.name).slice(0, 200), quantity: 1, unit_price_rm: sellingPrice(p) })
     return error ? fail('add product', error, 'Could not add the product.') : { ok: true }
   }
 
