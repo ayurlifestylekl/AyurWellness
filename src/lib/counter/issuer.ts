@@ -10,6 +10,9 @@ export const BILL_ISSUER = {
   email: CLINIC_EMAIL,
   website: CLINIC_DOMAIN,
   logo: { src: '/awc-icon.png', width: 1090, height: 890, displayWidth: 64, withName: true },
+  /** Receipt colours (the site's brand tokens). */
+  colors: { primary: '#006B3C', accent: '#B8752A', dark: '#12372D', cream: '#EDF4E7' },
+  bookingLine: 'To book a session, WhatsApp us on +6011-6339 3436.',
 }
 
 /** How a bill line is printed. */

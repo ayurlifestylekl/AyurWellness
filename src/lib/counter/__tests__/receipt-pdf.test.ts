@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import * as React from 'react'
 import { createElement } from 'react'
 import { renderToBuffer } from '@react-pdf/renderer'
@@ -35,7 +36,7 @@ const bill: Bill = {
 
 describe('counter receipt PDF', () => {
   it('renders a one-page A4 receipt', async () => {
-    const buf = await renderToBuffer(createElement(BillReceiptDocument, { bill, patientNo: 'KAL-00012' }) as Parameters<typeof renderToBuffer>[0])
+    const buf = await renderToBuffer(createElement(BillReceiptDocument, { bill, patientNo: 'AWC-00012', assetBase: join(process.cwd(), 'public') }) as Parameters<typeof renderToBuffer>[0])
     expect(buf.subarray(0, 5).toString()).toBe('%PDF-')
     expect(buf.toString('latin1').match(/\/Type \/Page\b/g)?.length).toBe(1)
     if (process.env.RECEIPT_PDF_OUT) writeFileSync(process.env.RECEIPT_PDF_OUT, buf)
