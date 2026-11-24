@@ -461,10 +461,33 @@ export default function BookingRequestForm({
           <h3 className="flex items-center gap-3 border-b border-[#FFF9F2] pb-3 font-heading text-[22px] font-semibold text-primary">
             <span className="text-[#B58A3B]">02.</span> Preferred Date & Time
           </h3>
-          {bookingKind === 'treatment' && extras.length > 0 && (
+          {bookingKind === 'treatment' && extras.some((e) => e.kind === 'room') && (
+            <fieldset className="rounded-xl border border-accent/25 bg-white/60 p-4">
+              <legend className="px-1 font-heading text-[10px] font-semibold uppercase tracking-[0.14em] text-dark/55">Choose your treatment experience</legend>
+              <RoomChoice
+                checked={!extras.some((e) => e.kind === 'room' && chosenExtras.includes(e.code))}
+                onSelect={() => setChosenExtras((c) => c.filter((x) => !extras.some((e) => e.kind === 'room' && e.code === x)))}
+                title="Standard Treatment Room"
+                text="Standard treatment price."
+                badge="Included"
+              />
+              {extras.filter((e) => e.kind === 'room').map((e) => (
+                <RoomChoice
+                  key={e.code}
+                  checked={chosenExtras.includes(e.code)}
+                  onSelect={() => setChosenExtras((c) => [...c.filter((x) => !extras.some((r) => r.kind === 'room' && r.code === x)), e.code])}
+                  title={e.label}
+                  price={`+ RM ${e.priceRm}`}
+                  text={e.description}
+                  badge="Optional"
+                />
+              ))}
+            </fieldset>
+          )}
+          {bookingKind === 'treatment' && extras.some((e) => e.kind !== 'room') && (
             <fieldset className="rounded-xl border border-accent/25 bg-white/60 p-4">
               <legend className="px-1 font-heading text-[10px] font-semibold uppercase tracking-[0.14em] text-dark/55">Add-on</legend>
-              {extras.map((e) => (
+              {extras.filter((e) => e.kind !== 'room').map((e) => (
                 <label key={e.code} className="flex cursor-pointer items-start gap-3 py-1">
                   <input
                     type="checkbox"
@@ -472,13 +495,14 @@ export default function BookingRequestForm({
                     onChange={(ev) => {
                       setChosenExtras((c) => (ev.target.checked ? [...c, e.code] : c.filter((x) => x !== e.code)))
                       // The booking gets longer or shorter, so the time is chosen again.
-                      setPreferredAt('')
+                      if (e.mins) setPreferredAt('')
                     }}
                     className="mt-1 h-4 w-4 accent-accent"
                   />
                   <span className="flex-1">
                     <span className="block font-body text-[15px] font-semibold text-dark">
-                      {e.label} <span className="text-accent">+ RM{e.priceRm}</span> <span className="font-normal text-dark/55">· {e.mins} min</span>
+                      {e.label} <span className="text-accent">+ RM{e.priceRm}</span>
+                      {e.mins > 0 && <span className="font-normal text-dark/55"> · {e.mins} min</span>}
                     </span>
                     <span className="block font-body text-[13px] text-dark/60">{e.description}</span>
                   </span>
@@ -547,6 +571,23 @@ function Field({ label, required, children }: { label: string; required?: boolea
         {label} {required && <span className="text-[#B58A3B]">*</span>}
       </span>
       {children}
+    </label>
+  )
+}
+
+/** One option in "Choose your treatment experience" (Standard room or VIP Private Room). */
+function RoomChoice({ checked, onSelect, title, text, badge, price }: { checked: boolean; onSelect: () => void; title: string; text: string; badge: string; price?: string }) {
+  return (
+    <label className={`mt-2 flex cursor-pointer items-start gap-3 rounded-lg border p-3 ${checked ? 'border-accent bg-cream/60' : 'border-accent/20 bg-white'}`}>
+      <input type="radio" name="treatment-room" checked={checked} onChange={onSelect} className="mt-1 h-4 w-4 accent-accent" />
+      <span className="flex-1">
+        <span className="flex items-center justify-between gap-2">
+          <span className="font-body text-[15px] font-semibold text-dark">{title}</span>
+          <span className={`rounded-full px-2 py-0.5 font-heading text-[9px] font-bold uppercase tracking-[0.12em] ${badge === 'Included' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>{badge}</span>
+        </span>
+        {price && <span className="block font-heading text-[15px] font-bold text-accent">{price}</span>}
+        <span className="block font-body text-[13px] text-dark/60">{text}</span>
+      </span>
     </label>
   )
 }

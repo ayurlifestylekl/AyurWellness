@@ -503,7 +503,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                             onChange={(ev) => setBookExtras((c) => (ev.target.checked ? [...c, e.code] : c.filter((x) => x !== e.code)))}
                             className="h-4 w-4 accent-accent"
                           />
-                          Add {e.label} <span className="text-dark/55">+ RM{e.priceRm} · {e.mins} min</span>
+                          {e.kind === 'room' ? e.label : `Add ${e.label}`} <span className="text-dark/55">+ RM{e.priceRm}{e.mins ? ` · ${e.mins} min` : ''}</span>
                         </label>
                       ))}
                     </div>

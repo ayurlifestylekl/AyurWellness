@@ -206,6 +206,9 @@ export default function TreatmentDetailPage({
               />
             </div>
 
+            {/* VIP Private Room and add-ons such as Hair Wash */}
+            <TherapyAddOns treatmentKey={treatment.id} price={typeof treatment.price === 'number' ? treatment.price : null} />
+
             {/* I · Overview — plain paragraphs (source data has no rich text) */}
             {treatment.body.length > 0 && (
               <section className="mt-12">
@@ -255,8 +258,6 @@ export default function TreatmentDetailPage({
             )}
 
             {/* Mid CTA */}
-            <TherapyAddOns treatmentKey={treatment.id} />
-
             <TherapyMidCTA treatmentId={treatment.id} treatmentTitle={treatment.title} whatsappHref={whatsappHref} />
 
             {/* V · Related */}

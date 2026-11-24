@@ -58,7 +58,7 @@ export default function BookingSidebar({
             <Row label="Sessions" value={sessionsRecommended ?? 'Per session'} />
             <Row label="Price" value={priceText} valueClass="text-accent" />
             {extrasFor(treatmentId).map((e) => (
-              <Row key={e.code} label={`+ ${e.label}`} value={`RM${e.priceRm} · ${e.mins} min`} />
+              <Row key={e.code} label={`+ ${e.label}`} value={`RM${e.priceRm}${e.mins ? ` · ${e.mins} min` : ''}`} />
             ))}
           </dl>
 

@@ -13,8 +13,13 @@ export interface ExtraDef {
   priceRm: number
   /** Minutes the add-on adds to the booking. */
   mins: number
-  /** Catalogue keys of the treatments it can be added to. */
-  treatments: string[]
+  /** Catalogue keys of the treatments it can be added to, or 'all'. */
+  treatments: string[] | 'all'
+  /**
+   * 'room' add-ons are a choice of room: the booking page shows Standard
+   * Treatment Room (included, the default) against this one.
+   */
+  kind?: 'room'
 }
 
 /** As stored on the booking (appointments.extras). */
@@ -34,6 +39,15 @@ export const EXTRAS: ExtraDef[] = [
     mins: 20,
     treatments: ['cat-hair-care__hair-scalp-oil-massage', 'cat-massage__siro-abhyangam', 'cat-massage__head-neck-shoulder-massage'],
   },
+  {
+    code: 'vip_room',
+    label: 'VIP Private Room',
+    description: 'Enjoy your Ayurvedic therapy in the comfort and privacy of your own private room.',
+    priceRm: 20,
+    mins: 0,
+    treatments: 'all',
+    kind: 'room',
+  },
 ]
 
 export function treatmentKey(categoryId: string | null | undefined, slug: string | null | undefined): string {
@@ -42,7 +56,7 @@ export function treatmentKey(categoryId: string | null | undefined, slug: string
 
 /** Add-ons offered with this treatment. */
 export function extrasFor(key: string | null | undefined): ExtraDef[] {
-  return key ? EXTRAS.filter((e) => e.treatments.includes(key)) : []
+  return key ? EXTRAS.filter((e) => e.treatments === 'all' || e.treatments.includes(key)) : []
 }
 
 /**

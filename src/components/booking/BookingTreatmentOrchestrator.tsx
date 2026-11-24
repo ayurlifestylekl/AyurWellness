@@ -321,7 +321,7 @@ function EnquiryNotice({ title, extras = [] }: { title: string; extras?: ExtraDe
           />
           <span>
             <span className="block font-body text-[14px] font-semibold text-dark">
-              Add {e.label} <span className="text-accent">+ RM{e.priceRm}</span> <span className="font-normal text-dark/55">· {e.mins} min</span>
+              Add {e.label} <span className="text-accent">+ RM{e.priceRm}</span>{e.mins > 0 && <span className="font-normal text-dark/55"> · {e.mins} min</span>}
             </span>
             <span className="block font-body text-[12.5px] text-dark/60">{e.description}</span>
           </span>

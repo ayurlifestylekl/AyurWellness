@@ -6,6 +6,9 @@
 --    this column records what was chosen, for the front desk and staff.
 -- 2. claim_instant_slots saves it (same function as before plus that column).
 -- 3. Hair Wash (add-on) as a billing item at the counter, for walk-ins.
+--    (VIP Private Room, RM20, is an add-on too: no change needed here.)
+-- 4. "Massage & Rehab Therapies" is now "Massage Therapies", and the Face Care
+--    category shows a facial photo (it showed a foot massage).
 --
 -- Safe to re-run.
 
@@ -156,5 +159,12 @@ BEGIN
     $q$;
   END IF;
 END $$;
+
+UPDATE public.treatment_categories SET title = 'Massage Therapies' WHERE id = 'cat-massage' AND title <> 'Massage Therapies';
+UPDATE public.treatment_categories c
+SET image_url = t.hero_image_url
+FROM public.treatments t
+WHERE c.id = 'cat-face-care' AND t.category_id = 'cat-face-care' AND t.slug = 'njavara-facial'
+  AND t.hero_image_url IS NOT NULL AND c.image_url IS DISTINCT FROM t.hero_image_url;
 
 COMMIT;

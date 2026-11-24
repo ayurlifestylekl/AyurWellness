@@ -35,3 +35,21 @@ describe('Hair Wash add-on', () => {
     expect(readExtras([{ code: 'hair_wash', label: 'Hair Wash', priceRm: 40, mins: 20 }, 'x', null])).toHaveLength(1)
   })
 })
+
+describe('VIP Private Room', () => {
+  it('is RM20, adds no time, and is offered with every therapy on the menu', () => {
+    for (const key of Array.from(OFFERED_TREATMENT_IDS)) {
+      expect(extrasFor(key).find((e) => e.code === 'vip_room')).toMatchObject({ priceRm: 20, mins: 0, kind: 'room' })
+    }
+  })
+
+  it('combines with Hair Wash: RM60 more and 20 minutes', () => {
+    const chosen = resolveExtras(HEAD_NECK, ['hair_wash', 'vip_room'])
+    expect(extrasTotals(chosen)).toEqual({ priceRm: 60, mins: 20 })
+    expect(nameWithExtras('Head, Neck & Shoulder Massage', chosen)).toBe('Head, Neck & Shoulder Massage + Hair Wash + VIP Private Room')
+  })
+
+  it('Mukha Abhyangam with VIP is RM115 (the centre’s example)', () => {
+    expect(95 + extrasTotals(resolveExtras('cat-face-care__mukha-abhyangam', ['vip_room'])).priceRm).toBe(115)
+  })
+})
