@@ -35,7 +35,7 @@ const categories: Category[] = [
     name: 'Herbal Facial',
     tagline: 'Mukha Lepam',
     durationMin: 90,
-    image: '/therapies/hair-skin.jpg',
+    image: '/treatments/awc/mukha-lepam.jpg',
     href: '/treatments/face-care-therapies/mukha-lepam',
   },
   {
@@ -43,7 +43,7 @@ const categories: Category[] = [
     name: 'Milk Facial',
     tagline: 'Njavara Facial',
     durationMin: 90,
-    image: '/treatments/gallery/1616394584738-fc6e612e71b9.jpg',
+    image: '/treatments/awc/njavara-facial.jpg',
     href: '/treatments/face-care-therapies/njavara-facial',
   },
   {
@@ -51,7 +51,7 @@ const categories: Category[] = [
     name: 'Scalp Detox',
     tagline: 'Thalapothichil',
     durationMin: 90,
-    image: '/treatments/real/29-ayurveda-hair-scalp-therapy.jpg',
+    image: '/treatments/awc/thalapothichil.jpg',
     href: '/treatments/hair-scalp-care-therapies/thalapothichil',
   },
   {
@@ -59,7 +59,7 @@ const categories: Category[] = [
     name: 'Head Massage',
     tagline: 'Siro Abhyangam',
     durationMin: 30,
-    image: '/treatments/real/10-siro-abhyangam-head-massage.jpg',
+    image: '/treatments/awc/siro-abhyangam.jpg',
     href: '/treatments/massage-rehab-therapies/siro-abhyangam',
   },
   {
@@ -67,7 +67,7 @@ const categories: Category[] = [
     name: 'Head, Neck & Shoulder',
     tagline: 'Release built-up tension',
     durationMin: 60,
-    image: '/therapies/spine-joint.jpg',
+    image: '/treatments/awc/head-neck-shoulder-massage.jpg',
     href: '/treatments/massage-rehab-therapies/head-neck-shoulder-massage',
   },
 ]

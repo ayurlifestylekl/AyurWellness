@@ -57,7 +57,7 @@ const allCategoryRecords: CategoryRecord[] = [
     slug: "face-care-therapies",
     title: "Face Care Therapies",
     order: 0,
-    imageUrl: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?fm=jpg&q=80&w=2000&auto=format&fit=crop",
+    imageUrl: "/treatments/awc/mukha-abhyangam.jpg",
     treatmentCount: 5,
   },
   {
@@ -1762,7 +1762,7 @@ const catalogueRecords: TreatmentRecord[] = [
 const newCentreRecords: TreatmentRecord[] = [
   {
     id: "cat-face-care__mukha-abhyangam",
-    heroImageUrl: "/treatments/gallery/1570172619644-dfd03ed5d881.jpg",
+    heroImageUrl: "/treatments/awc/mukha-abhyangam.jpg",
     slug: "mukha-abhyangam",
     title: "Mukha Abhyangam (Face Massage)",
     duration: "45 min",
@@ -1784,7 +1784,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-face-care__mukha-lepam",
-    heroImageUrl: "/treatments/gallery/1623120594168-a6d35474043b.jpg",
+    heroImageUrl: "/treatments/awc/mukha-lepam.jpg",
     slug: "mukha-lepam",
     title: "Mukha Lepam (Herbal Facial)",
     duration: "1 Hour 30 min",
@@ -1806,7 +1806,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-face-care__njavara-facial",
-    heroImageUrl: "/treatments/gallery/1616394584738-fc6e612e71b9.jpg",
+    heroImageUrl: "/treatments/awc/njavara-facial.jpg",
     slug: "njavara-facial",
     title: "Njavara Facial (Milk Facial)",
     duration: "1 Hour 30 min",
@@ -1830,7 +1830,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-hair-care__thalapothichil",
-    heroImageUrl: "/treatments/real/29-ayurveda-hair-scalp-therapy.jpg",
+    heroImageUrl: "/treatments/awc/thalapothichil.jpg",
     slug: "thalapothichil",
     title: "Thalapothichil (Scalp Detox Treatment)",
     duration: "1 Hour 30 min",
@@ -1853,7 +1853,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-hair-care__siro-abhyangam-thalapothichil",
-    heroImageUrl: "/treatments/real/28-ayurveda-hair-treatment.jpg",
+    heroImageUrl: "/treatments/awc/siro-abhyangam-thalapothichil.jpg",
     slug: "siro-abhyangam-thalapothichil",
     title: "Siro Abhyangam + Thalapothichil (Hair Treatment)",
     duration: "1 Hour 30 min",
@@ -1876,7 +1876,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-hair-care__hair-scalp-oil-massage",
-    heroImageUrl: "/treatments/real/27-ayurvedic-scalp-hair-oil-massage.jpg",
+    heroImageUrl: "/treatments/awc/hair-scalp-oil-massage.jpg",
     slug: "hair-scalp-oil-massage",
     title: "Hair & Scalp Oil Massage",
     duration: "1 Hour",
@@ -1898,7 +1898,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-massage__head-neck-shoulder-massage",
-    heroImageUrl: "/treatments/real/11-neck-and-shoulder-massage-with-kizhi.jpg",
+    heroImageUrl: "/treatments/awc/head-neck-shoulder-massage.jpg",
     slug: "head-neck-shoulder-massage",
     title: "Head, Neck & Shoulder Massage",
     duration: "1 Hour",
@@ -1921,7 +1921,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-massage__siro-abhyangam",
-    heroImageUrl: "/treatments/real/10-siro-abhyangam-head-massage.jpg",
+    heroImageUrl: "/treatments/awc/siro-abhyangam.jpg",
     slug: "siro-abhyangam",
     title: "Siro Abhyangam (Head Massage)",
     duration: "30 min",
