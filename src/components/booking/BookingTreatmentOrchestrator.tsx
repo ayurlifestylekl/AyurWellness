@@ -14,6 +14,7 @@ import TreatmentPicker from './TreatmentPicker'
 import HealthIntakeFields from './HealthIntakeFields'
 import SlotPicker from './SlotPicker'
 import { parseDurationMins } from '@/lib/booking/duration'
+import { extrasFor, type ExtraDef } from '@/lib/booking/extras'
 import { updateBookingDetails, type EditableBooking } from '@/lib/booking/actions'
 
 interface BookingTreatmentOrchestratorProps {
@@ -167,7 +168,7 @@ export default function BookingTreatmentOrchestrator({
       <div className="flex flex-col gap-10">
         {!selected && <PickerPlaceholder hasCatalog={treatments.length > 0} />}
 
-        {selected && isEnquiry && <EnquiryNotice title={selected.title} />}
+        {selected && isEnquiry && <EnquiryNotice title={selected.title} extras={extrasFor(selected.catalogueKey)} />}
 
         {selected && !isEnquiry && needsConsult && (
           <div className="flex flex-col gap-6">
@@ -205,6 +206,7 @@ export default function BookingTreatmentOrchestrator({
             setHealth={setHealthIntake}
             gender={gender}
             setGender={setGender}
+            extras={extrasFor(selected.catalogueKey)}
           />
         )}
 
@@ -297,8 +299,11 @@ export default function BookingTreatmentOrchestrator({
   )
 }
 
-function EnquiryNotice({ title }: { title: string }) {
-  const href = `https://wa.me/601163393436?text=${encodeURIComponent(`Hi, I'd like to enquire about ${title}.`)}`
+function EnquiryNotice({ title, extras = [] }: { title: string; extras?: ExtraDef[] }) {
+  const [withExtras, setWithExtras] = useState<string[]>([])
+  const chosen = extras.filter((e) => withExtras.includes(e.code))
+  const what = chosen.length ? `${title} with ${chosen.map((e) => e.label).join(' and ')}` : title
+  const href = `https://wa.me/601163393436?text=${encodeURIComponent(`Hi, I'd like to enquire about ${what}.`)}`
   return (
     <div className="rounded-2xl border border-accent/30 bg-white/70 px-8 py-10 text-center">
       <MessageCircle className="mx-auto h-6 w-6 text-accent" strokeWidth={2} aria-hidden />
@@ -306,6 +311,22 @@ function EnquiryNotice({ title }: { title: string }) {
       <p className="mx-auto mt-2 max-w-md font-body text-[14px] leading-relaxed text-dark/65">
         Contact us for bookings and enquiry.
       </p>
+      {extras.map((e) => (
+        <label key={e.code} className="mx-auto mt-4 flex max-w-sm cursor-pointer items-start gap-3 rounded-xl border border-accent/25 bg-white/70 p-3 text-left">
+          <input
+            type="checkbox"
+            checked={withExtras.includes(e.code)}
+            onChange={(ev) => setWithExtras((c) => (ev.target.checked ? [...c, e.code] : c.filter((x) => x !== e.code)))}
+            className="mt-1 h-4 w-4 accent-accent"
+          />
+          <span>
+            <span className="block font-body text-[14px] font-semibold text-dark">
+              Add {e.label} <span className="text-accent">+ RM{e.priceRm}</span> <span className="font-normal text-dark/55">· {e.mins} min</span>
+            </span>
+            <span className="block font-body text-[12.5px] text-dark/60">{e.description}</span>
+          </span>
+        </label>
+      ))}
       <a
         href={href}
         className="mt-5 inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 font-heading text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors hover:bg-accent/90"

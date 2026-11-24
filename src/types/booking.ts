@@ -67,6 +67,8 @@ export interface BookingRequestInput {
   parentConsultationId?: string | null
   /** Signed access token for a cleared guest consultation. */
   parentConsultationToken?: string | null
+  /** Add-on codes chosen with the treatment (e.g. "hair_wash"); re-priced on the server. */
+  extras?: string[]
 }
 
 /** Row shape used across staff console + customer status views. */

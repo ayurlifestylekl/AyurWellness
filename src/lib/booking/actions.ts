@@ -209,6 +209,7 @@ async function computeSlots(
   dateYMD: string,
   treatmentId: string | null,
   need: { male: number; female: number },
+  extraMins = 0,
 ): Promise<SlotInfo[]> {
   if (need.male + need.female === 0) return []
 
@@ -217,6 +218,7 @@ async function computeSlots(
     const { data: t } = await admin().from('treatments').select('duration').eq('id', treatmentId).maybeSingle()
     durationMins = t ? parseDurationMins(t.duration) : 60
   }
+  durationMins += extraMins
 
   // A same-treatment party is just a mixed party where every member of a gender
   // shares one duration — delegate so there's a single availability engine.
@@ -379,9 +381,11 @@ export async function effectiveGenderCapacity(gender: Gender, iso: string, durat
 }
 
 /** Slots for a single guest of the given gender. */
-export async function getAvailableSlots(dateYMD: string, treatmentId: string | null, gender: Gender): Promise<SlotInfo[]> {
+export async function getAvailableSlots(dateYMD: string, treatmentId: string | null, gender: Gender, extraMins = 0): Promise<SlotInfo[]> {
   if (gender !== 'male' && gender !== 'female') return []
-  return computeSlots(dateYMD, treatmentId, { male: gender === 'male' ? 1 : 0, female: gender === 'female' ? 1 : 0 })
+  // Add-on time (e.g. a 20-minute Hair Wash) lengthens the booking; capped so a bad value can't distort the day.
+  const extra = Number.isFinite(extraMins) ? Math.min(Math.max(Math.round(extraMins), 0), 120) : 0
+  return computeSlots(dateYMD, treatmentId, { male: gender === 'male' ? 1 : 0, female: gender === 'female' ? 1 : 0 }, extra)
 }
 
 /** Active Vaidyas eligible for public consultation booking, VAIDYA (the

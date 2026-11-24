@@ -14,6 +14,8 @@ export interface ServiceOption {
   categoryTitle: string
   categoryOrder: number
   bookingType: string | null
+  /** Catalogue key "<category_id>__<slug>", used to find add-ons such as Hair Wash. */
+  key?: string
 }
 
 export interface ServiceCategory {
@@ -32,6 +34,7 @@ interface TreatmentLike {
   categoryTitle?: string | null
   categoryOrder?: number | null
   bookingType?: string | null
+  catalogueKey?: string
 }
 
 export function toServiceOptions(treatments: TreatmentLike[]): ServiceOption[] {
@@ -45,6 +48,7 @@ export function toServiceOptions(treatments: TreatmentLike[]): ServiceOption[] {
     categoryTitle: t.categoryTitle || 'Other',
     categoryOrder: t.categoryOrder ?? 999,
     bookingType: t.bookingType ?? null,
+    key: t.catalogueKey,
   }))
 }
 

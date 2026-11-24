@@ -22,6 +22,7 @@ import { genderRequirementValue } from './policy'
 import { createBookingToken } from './token'
 import { notifyConfirmed, BOOKING_SITE_URL } from './notify'
 import { parseDurationMins } from './duration'
+import { extrasTotals, nameWithExtras, resolveExtras, treatmentKey } from './extras'
 import { effectiveGenderCapacity, findFreeVaidya } from './actions'
 import type { GroupGuest } from './actions'
 import { CONSULTATION_MINS, validateSubmittedSlot } from './slots'
@@ -92,7 +93,7 @@ export async function createInstantTreatmentBooking(input: BookingRequestInput):
   const sb = admin()
   const { data: t, error: tErr } = await sb
     .from('treatments')
-    .select('id, title, price_rm, booking_type, category_id, duration, requires_consultation, booking_lead_time_hours, requires_scalp_disclaimer, requires_health_intake, minimum_age, special_tags')
+    .select('id, title, slug, price_rm, booking_type, category_id, duration, requires_consultation, booking_lead_time_hours, requires_scalp_disclaimer, requires_health_intake, minimum_age, special_tags')
     .eq('id', input.treatmentId)
     .maybeSingle()
   if (tErr) {
@@ -179,7 +180,10 @@ export async function createInstantTreatmentBooking(input: BookingRequestInput):
     userId = auth.user?.id ?? null
   }
 
-  const durationMins = parseDurationMins(t.duration)
+  // Add-ons (e.g. Hair Wash) add their own price and time; priced here, never from the browser.
+  const extras = resolveExtras(treatmentKey(t.category_id, t.slug), input.extras)
+  const extra = extrasTotals(extras)
+  const durationMins = parseDurationMins(t.duration) + extra.mins
   const timing = canonicalInstantTiming({ kind: 'treatment', preferredAt: input.preferredAt, durationMins })
   const slotCheck = validateSubmittedSlot({
     iso: input.preferredAt,
@@ -203,7 +207,7 @@ export async function createInstantTreatmentBooking(input: BookingRequestInput):
       booking_kind: 'treatment',
       treatment_id: t.id,
       treatment_category_id: t.category_id ?? null,
-      treatment_name: t.title,
+      treatment_name: nameWithExtras(t.title, extras),
       duration_mins: timing.durationMins,
       status: 'awaiting_payment',
       requested_datetime: timing.requestedDatetime,
@@ -216,10 +220,11 @@ export async function createInstantTreatmentBooking(input: BookingRequestInput):
       gender_requirement: genderRequirementValue(input.patientGender),
       guest_age: input.age ?? null,
       pre_visit_form: input.healthIntake ?? {},
-      payable_amount_rm: t.price_rm ?? null,
+      payable_amount_rm: t.price_rm != null ? Number(t.price_rm) + extra.priceRm : null,
       payment_status: 'unpaid',
       parent_consultation_id: input.parentConsultationId ?? null,
       payment_expires_at: holdExpiresAt,
+      ...(extras.length ? { extras } : {}),
     },
   }
 

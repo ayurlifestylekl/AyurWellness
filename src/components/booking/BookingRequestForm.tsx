@@ -12,6 +12,7 @@ import { submitInstantSingleBooking } from '@/lib/booking/instant-rules'
 import HealthIntakeFields from './HealthIntakeFields'
 import PolicyDisclaimers from './PolicyDisclaimers'
 import SlotPicker from './SlotPicker'
+import type { ExtraDef } from '@/lib/booking/extras'
 import PhoneInput from './PhoneInput'
 
 /** A treatment a group guest can choose from. */
@@ -50,6 +51,8 @@ interface BookingRequestFormProps {
   setHealth?: (v: HealthIntake) => void
   gender?: Gender | ''
   setGender?: (v: Gender | '') => void
+  /** Add-ons offered with this treatment (single bookings), e.g. Hair Wash. */
+  extras?: ExtraDef[]
 }
 
 type GuestRow = {
@@ -78,8 +81,10 @@ export default function BookingRequestForm({
   setHealth: setControlledHealth,
   gender: controlledGender,
   setGender: setControlledGender,
+  extras = [],
 }: BookingRequestFormProps) {
   const router = useRouter()
+  const [chosenExtras, setChosenExtras] = useState<string[]>([])
   const signedIn = account?.signedIn ?? false
   const canGroup = bookingKind === 'treatment'
   const defaultTreatmentId = treatment?.id ?? ''
@@ -159,7 +164,10 @@ export default function BookingRequestForm({
     }
   }
 
-  const unitPrice = typeof treatment?.price === 'number' ? treatment.price : null
+  const extrasChosen = extras.filter((e) => chosenExtras.includes(e.code))
+  const extrasPrice = extrasChosen.reduce((s, e) => s + e.priceRm, 0)
+  const extrasMins = extrasChosen.reduce((s, e) => s + e.mins, 0)
+  const unitPrice = typeof treatment?.price === 'number' ? treatment.price + extrasPrice : null
   const groupTotal = isGroup
     ? guests
         .slice(0, partySize)
@@ -253,6 +261,7 @@ export default function BookingRequestForm({
           age: age ? Number(age) : null,
           parentConsultationId: parentConsultationId ?? null,
           parentConsultationToken: parentConsultationToken ?? null,
+          extras: bookingKind === 'treatment' ? extrasChosen.map((e) => e.code) : [],
         }
         res = await submitInstantSingleBooking(payload, {
           createTreatment: createInstantTreatmentBooking,
@@ -452,7 +461,32 @@ export default function BookingRequestForm({
           <h3 className="flex items-center gap-3 border-b border-[#FFF9F2] pb-3 font-heading text-[22px] font-semibold text-primary">
             <span className="text-[#B58A3B]">02.</span> Preferred Date & Time
           </h3>
-          <SlotPicker treatmentId={treatment?.id ?? null} gender={gender} mode={bookingKind === 'consultation' ? 'consultation' : 'treatment'} value={preferredAt} onChange={setPreferredAt} label="Select from available times" required />
+          {bookingKind === 'treatment' && extras.length > 0 && (
+            <fieldset className="rounded-xl border border-accent/25 bg-white/60 p-4">
+              <legend className="px-1 font-heading text-[10px] font-semibold uppercase tracking-[0.14em] text-dark/55">Add-on</legend>
+              {extras.map((e) => (
+                <label key={e.code} className="flex cursor-pointer items-start gap-3 py-1">
+                  <input
+                    type="checkbox"
+                    checked={chosenExtras.includes(e.code)}
+                    onChange={(ev) => {
+                      setChosenExtras((c) => (ev.target.checked ? [...c, e.code] : c.filter((x) => x !== e.code)))
+                      // The booking gets longer or shorter, so the time is chosen again.
+                      setPreferredAt('')
+                    }}
+                    className="mt-1 h-4 w-4 accent-accent"
+                  />
+                  <span className="flex-1">
+                    <span className="block font-body text-[15px] font-semibold text-dark">
+                      {e.label} <span className="text-accent">+ RM{e.priceRm}</span> <span className="font-normal text-dark/55">· {e.mins} min</span>
+                    </span>
+                    <span className="block font-body text-[13px] text-dark/60">{e.description}</span>
+                  </span>
+                </label>
+              ))}
+            </fieldset>
+          )}
+          <SlotPicker treatmentId={treatment?.id ?? null} gender={gender} mode={bookingKind === 'consultation' ? 'consultation' : 'treatment'} value={preferredAt} onChange={setPreferredAt} label="Select from available times" required extraMins={bookingKind === 'treatment' ? extrasMins : 0} />
         </div>
       )}
 

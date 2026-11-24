@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath, revalidateTag } from 'next/cache'
+import { extrasTotals, nameWithExtras, resolveExtras, treatmentKey, type ChosenExtra } from '@/lib/booking/extras'
 import type { BookingKind, BookingStatus, StaffColorTag } from '@/types/booking'
 import { canTransition } from '@/lib/booking/status'
 import { mapOperationalTransitionWriteFailure, validateOperationalTransition } from '@/lib/booking/operations'
@@ -640,6 +641,8 @@ export async function createBookingFromGrid(input: {
   patientPhone?: string | null
   patientEmail?: string | null
   remark?: string | null
+  /** Add-on codes (e.g. "hair_wash"); only those offered with the treatment are kept. */
+  extras?: string[]
 }): Promise<Ok | Err> {
   const { userId, db } = await requireStaff(['admin', 'front_desk'])
   if (!input.patientName?.trim()) return { error: 'Enter the patient name.' }
@@ -656,21 +659,24 @@ export async function createBookingFromGrid(input: {
   let treatmentCategoryId: string | null = null
   let treatmentName: string | null = null
   let priceRm: number | null = null
+  let extras: ChosenExtra[] = []
 
   if (input.treatmentId) {
     const { data: t, error: tErr } = await db
       .from('treatments')
-      .select('id, title, price_rm, category_id, duration, booking_type')
+      .select('id, title, slug, price_rm, category_id, duration, booking_type')
       .eq('id', input.treatmentId)
       .maybeSingle()
     if (tErr) return { error: tErr.message }
     if (!t) return { error: 'Treatment not found.' }
     if (t.booking_type === 'enquiry') return { error: 'This therapy is enquiry-only.' }
-    durationMins = parseDurationMins(t.duration)
+    extras = resolveExtras(treatmentKey(t.category_id, t.slug), input.extras)
+    const extra = extrasTotals(extras)
+    durationMins = parseDurationMins(t.duration) + extra.mins
     treatmentId = t.id
     treatmentCategoryId = t.category_id ?? null
-    treatmentName = t.title
-    priceRm = t.price_rm ?? null
+    treatmentName = nameWithExtras(t.title, extras)
+    priceRm = t.price_rm != null ? Number(t.price_rm) + extra.priceRm : null
   } else if (input.durationMins && input.durationMins > 0) {
     durationMins = input.durationMins
     treatmentName = input.treatmentName?.trim() || null
@@ -726,6 +732,7 @@ export async function createBookingFromGrid(input: {
     payable_amount_rm: priceRm,
     payment_status: 'unpaid',
     created_by_admin_id: userId,
+    ...(extras.length ? { extras } : {}),
   })
   if (error) return { error: error.message }
 

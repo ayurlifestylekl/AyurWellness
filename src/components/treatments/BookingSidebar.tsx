@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 
 import type { TreatmentPricing } from '@/types/treatments'
 import { formatPrice, leadTimeLabel } from '@/data/treatments'
+import { extrasFor } from '@/lib/booking/extras'
 
 interface BookingSidebarProps {
   treatmentId: string
@@ -56,6 +57,9 @@ export default function BookingSidebar({
             <Row label="Duration" value={duration ?? 'See practitioner'} />
             <Row label="Sessions" value={sessionsRecommended ?? 'Per session'} />
             <Row label="Price" value={priceText} valueClass="text-accent" />
+            {extrasFor(treatmentId).map((e) => (
+              <Row key={e.code} label={`+ ${e.label}`} value={`RM${e.priceRm} · ${e.mins} min`} />
+            ))}
           </dl>
 
           {(needsConsult || lead) && (

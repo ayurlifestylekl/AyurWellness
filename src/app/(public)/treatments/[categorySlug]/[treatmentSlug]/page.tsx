@@ -6,6 +6,7 @@ import BookingSidebar from '@/components/treatments/BookingSidebar'
 import FreeConsultationBlock from '@/components/treatments/FreeConsultationBlock'
 import MobileBookingBar from '@/components/treatments/MobileBookingBar'
 import RelatedTherapies from '@/components/treatments/RelatedTherapies'
+import TherapyAddOns from '@/components/treatments/TherapyAddOns'
 import TherapyBenefits from '@/components/treatments/TherapyBenefits'
 import TherapyContraindications from '@/components/treatments/TherapyContraindications'
 import TherapyHero from '@/components/treatments/TherapyHero'
@@ -254,6 +255,8 @@ export default function TreatmentDetailPage({
             )}
 
             {/* Mid CTA */}
+            <TherapyAddOns treatmentKey={treatment.id} />
+
             <TherapyMidCTA treatmentId={treatment.id} treatmentTitle={treatment.title} whatsappHref={whatsappHref} />
 
             {/* V · Related */}

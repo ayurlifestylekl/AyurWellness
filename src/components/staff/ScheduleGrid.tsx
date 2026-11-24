@@ -9,6 +9,7 @@ import type { GridAppt, GridBlock } from '@/lib/staff/appointments'
 import type { Therapist } from '@/lib/staff/therapist-format'
 import { createBlock, deleteBlock, updateBlockReason, createBookingFromGrid, createConsultationFromGrid, setAppointmentColorTag } from '@/lib/staff/actions'
 import { createGroupBooking, type GroupGuest } from '@/lib/booking/actions'
+import { extrasFor } from '@/lib/booking/extras'
 import { fmtMY } from '@/lib/datetime'
 import type { Gender, StaffColorTag } from '@/types/booking'
 import type { Vaidya } from '@/lib/staff/therapist-format'
@@ -149,6 +150,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
   const [bookGender, setBookGender] = useState<Gender | ''>('')
   const [bookDuration, setBookDuration] = useState<number | ''>('')
   const [bookServiceId, setBookServiceId] = useState('')
+  const [bookExtras, setBookExtras] = useState<string[]>([])
   // Where the tapped slot sits on screen, so the booking box opens beside it
   // (not at the top of the page, which meant scrolling up for afternoon slots).
   const [bookAnchor, setBookAnchor] = useState<{ top: number; left: number; right: number } | null>(null)
@@ -255,6 +257,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
     setBookGender('')
     setBookDuration('')
     setBookServiceId('')
+    setBookExtras([])
     setBookAnchor(null)
     setBookRemark('')
     setBookPartySize(1)
@@ -334,6 +337,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
         durationMins: selectedDuration,
         treatmentName: svc ? svc.title : genericLabel(bookDuration),
         remark: bookRemark.trim() || null,
+        extras: svc ? extrasFor(svc.key).filter((e) => bookExtras.includes(e.code)).map((e) => e.code) : [],
       })
       if ('error' in res) setErr(res.error)
       else { resetBookDraft(); router.refresh() }
@@ -349,7 +353,8 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
 
   const vaidyaCodes = useMemo(() => new Set(vaidyas.map((v) => v.code)), [vaidyas])
   const svcById = useMemo(() => new Map(services.map((x) => [x.id, x] as const)), [services])
-  const draftMins = svcById.get(bookServiceId)?.durationMins ?? (bookDuration ? Number(bookDuration) : 60)
+  const draftExtras = bookPartySize === 1 ? extrasFor(svcById.get(bookServiceId)?.key).filter((e) => bookExtras.includes(e.code)) : []
+  const draftMins = (svcById.get(bookServiceId)?.durationMins ?? (bookDuration ? Number(bookDuration) : 60)) + draftExtras.reduce((s, e) => s + e.mins, 0)
 
   const hourLabels: number[] = []
   for (let m = Math.ceil(OPEN / 60) * 60; m <= CLOSE; m += 60) hourLabels.push(m)
@@ -480,7 +485,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                     <div className="sm:col-span-2">
                       <Field label={bookPartySize === 1 ? 'Service (optional)' : 'Service'}>
                         {services.length ? (
-                          <ServicePicker services={services} value={bookServiceId} onChange={setBookServiceId} />
+                          <ServicePicker services={services} value={bookServiceId} onChange={(id) => { setBookServiceId(id); setBookExtras([]) }} />
                         ) : (
                           <select value={bookDuration} onChange={(e) => setBookDuration(e.target.value ? Number(e.target.value) : '')} className={bookInput}>
                             <option value="">Select…</option>
@@ -490,6 +495,17 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                           </select>
                         )}
                       </Field>
+                      {bookPartySize === 1 && extrasFor(svcById.get(bookServiceId)?.key).map((e) => (
+                        <label key={e.code} className="mt-2 flex items-center gap-2 font-body text-[13px] text-dark">
+                          <input
+                            type="checkbox"
+                            checked={bookExtras.includes(e.code)}
+                            onChange={(ev) => setBookExtras((c) => (ev.target.checked ? [...c, e.code] : c.filter((x) => x !== e.code)))}
+                            className="h-4 w-4 accent-accent"
+                          />
+                          Add {e.label} <span className="text-dark/55">+ RM{e.priceRm} · {e.mins} min</span>
+                        </label>
+                      ))}
                     </div>
                   </>
                 )}

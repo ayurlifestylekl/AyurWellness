@@ -25,9 +25,11 @@ interface SlotPickerProps {
   onChange: (iso: string) => void
   label: string
   required?: boolean
+  /** Minutes added by add-ons (e.g. Hair Wash), so only times with room for them are offered. */
+  extraMins?: number
 }
 
-export default function SlotPicker({ treatmentId, gender, mode = 'treatment', members, value, onChange, label, required }: SlotPickerProps) {
+export default function SlotPicker({ treatmentId, gender, mode = 'treatment', members, value, onChange, label, required, extraMins = 0 }: SlotPickerProps) {
   const [date, setDate] = useState('')
   const [slots, setSlots] = useState<SlotInfo[]>([])
   const [loading, start] = useTransition()
@@ -61,13 +63,13 @@ export default function SlotPicker({ treatmentId, gender, mode = 'treatment', me
           ),
         )
       } else {
-        setSlots(await getAvailableSlots(date, treatmentId, gender as Gender))
+        setSlots(await getAvailableSlots(date, treatmentId, gender as Gender, extraMins))
       }
     })
     // `membersKey` is the stable serialisation of `members` — depending on the
     // array itself would refetch on every keystroke-driven re-render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, gender, treatmentId, membersKey, isGroup, ready, isConsultation])
+  }, [date, gender, treatmentId, membersKey, isGroup, ready, isConsultation, extraMins])
 
   return (
     <div className="rounded-xl border border-accent/25 bg-white/60 p-4">
