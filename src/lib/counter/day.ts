@@ -25,7 +25,10 @@ export interface DayMoneyEntry {
 
 export interface DaySummary {
   billCount: number
+  /** Bills paid, less deposits paid in (a deposit is money held, not a sale). */
   salesRm: number
+  /** Deposits paid in on bills, added to patients' deposit balances. */
+  depositsRm?: number
   discountRm: number
   balanceUsedRm: number
   outstandingAddedRm: number
@@ -46,6 +49,7 @@ export function summarizeDay(bills: DayBill[], money: DayMoneyEntry[]): DaySumma
   let disc = 0
   let used = 0
   let owed = 0
+  let deposits = 0
   let services = 0
   let sessions = 0
 
@@ -56,6 +60,7 @@ export function summarizeDay(bills: DayBill[], money: DayMoneyEntry[]): DaySumma
     owed += toSen(b.outstandingRm)
     if (b.paymentMethod && b.amountPaidRm > 0) byMethodBills.set(b.paymentMethod, (byMethodBills.get(b.paymentMethod) ?? 0) + toSen(b.amountPaidRm))
     for (const i of b.items) {
+      if (i.kind === 'deposit') deposits += toSen(i.lineTotalRm)
       if (i.kind === 'service') services += i.quantity
       if (i.kind === 'package') sessions += i.quantity
       if (i.kind === 'product') {
@@ -86,7 +91,8 @@ export function summarizeDay(bills: DayBill[], money: DayMoneyEntry[]): DaySumma
 
   return {
     billCount: bills.length,
-    salesRm: fromSen(sales),
+    salesRm: fromSen(sales - deposits),
+    depositsRm: fromSen(deposits),
     discountRm: fromSen(disc),
     balanceUsedRm: fromSen(used),
     outstandingAddedRm: fromSen(owed),

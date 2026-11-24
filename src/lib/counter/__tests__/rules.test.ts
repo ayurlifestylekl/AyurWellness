@@ -48,3 +48,11 @@ describe('counter checkout rules', () => {
     expect(checkoutErrorMessage('weird')).toBe('Something went wrong. Please try again.')
   })
 })
+
+describe('new checkout messages', () => {
+  it('explains deposit and package errors', () => {
+    expect(checkoutErrorMessage('deposit_paid_now')).toMatch(/deposit has to be paid now/)
+    expect(checkoutErrorMessage('package_needs_phone')).toMatch(/phone number/)
+    expect(isPaymentMethod('hitpay_online')).toBe(true)
+  })
+})

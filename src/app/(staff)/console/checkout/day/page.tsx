@@ -83,7 +83,7 @@ export default async function DayClosePage({ searchParams }: { searchParams: { d
 
             <div className="mt-4 grid gap-3 sm:grid-cols-4">
               <Stat label="Bills paid" value={String(figures.billCount)} />
-              <Stat label="Sales" value={rm(figures.salesRm)} />
+              <Stat label={figures.depositsRm ? `Sales · + ${rm(figures.depositsRm)} deposits` : 'Sales'} value={rm(figures.salesRm)} />
               <Stat label="Money taken" value={rm(figures.takenRm)} />
               <Stat label="Cash taken" value={rm(figures.cashInRm)} />
             </div>

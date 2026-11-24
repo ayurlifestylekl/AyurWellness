@@ -26,7 +26,7 @@ ON CONFLICT (category_id, slug) DO UPDATE SET
   sort_order = EXCLUDED.sort_order, is_active = true, updated_at = now();
 
 INSERT INTO public.treatments (category_id, slug, title, duration, description, price_rm, price_label, booking_type, requires_consultation, sanskrit_name, benefits, procedure_steps, contraindications, body, hero_image_url, booking_lead_time_hours, requires_scalp_disclaimer, requires_health_intake, minimum_age, special_tags, sort_order, is_active)
-SELECT 'cat-face-care', 'makha-lepham', 'Makha Lepham (Herbal Facial)', '1 Hour 30 min', 'Ayurvedic herbal facial to cleanse, nourish and rejuvenate the skin, helping to improve skin tone and reduce dullness.', 175, NULL, 'direct', false, 'मुख लेपनम् · Mukha Lepanam', ARRAY['Deeply cleanses and refreshes the skin', 'Nourishes and rejuvenates', 'Helps improve skin tone', 'Reduces dullness for a brighter complexion']::text[], '[{"title":"Cleanse & scrub","description":"The face is cleansed and gently exfoliated with a herbal scrub."},{"title":"Oil massage & steam","description":"A medicated oil massage is followed by herbal steam to open the pores."},{"title":"Herbal pack","description":"A nourishing herbal lepa is applied to restore the skin''s vitality."}]'::jsonb, 'Avoid if you have hypersensitive skin reactive to multi-herbal compounds, active severe dermatitis, or any undiagnosed skin conditions.', 'Makha Lepham is a complete Ayurvedic herbal facial. The skin is cleansed, gently exfoliated with a herbal scrub, massaged with medicated oil and steamed with herbs before a nourishing herbal pack (lepa) is applied.
+SELECT 'cat-face-care', 'mukha-lepam', 'Mukha Lepam (Herbal Facial)', '1 Hour 30 min', 'Ayurvedic herbal facial to cleanse, nourish and rejuvenate the skin, helping to improve skin tone and reduce dullness.', 175, NULL, 'direct', false, 'मुख लेपनम् · Mukha Lepanam', ARRAY['Deeply cleanses and refreshes the skin', 'Nourishes and rejuvenates', 'Helps improve skin tone', 'Reduces dullness for a brighter complexion']::text[], '[{"title":"Cleanse & scrub","description":"The face is cleansed and gently exfoliated with a herbal scrub."},{"title":"Oil massage & steam","description":"A medicated oil massage is followed by herbal steam to open the pores."},{"title":"Herbal pack","description":"A nourishing herbal lepa is applied to restore the skin''s vitality."}]'::jsonb, 'Avoid if you have hypersensitive skin reactive to multi-herbal compounds, active severe dermatitis, or any undiagnosed skin conditions.', 'Mukha Lepam is a complete Ayurvedic herbal facial. The skin is cleansed, gently exfoliated with a herbal scrub, massaged with medicated oil and steamed with herbs before a nourishing herbal pack (lepa) is applied.
 
 This 90-minute ritual cleanses, nourishes and rejuvenates the skin, helping to even the skin tone and lift dullness.',
        base.hero_image_url, base.booking_lead_time_hours, COALESCE(base.requires_scalp_disclaimer, false), COALESCE(base.requires_health_intake, false), base.minimum_age, COALESCE(base.special_tags, '{}'), 1, true
@@ -143,7 +143,7 @@ ON CONFLICT (category_id, slug) DO UPDATE SET
 UPDATE public.treatments SET is_active = false, updated_at = now()
 WHERE is_active AND (category_id, slug) NOT IN (
   ('cat-face-care', 'mukha-abhyangam'),
-  ('cat-face-care', 'makha-lepham'),
+  ('cat-face-care', 'mukha-lepam'),
   ('cat-face-care', 'njavara-facial'),
   ('cat-hair-care', 'thalapothichil'),
   ('cat-hair-care', 'siro-abhyangam-thalapothichil'),

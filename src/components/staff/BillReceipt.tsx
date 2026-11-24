@@ -95,6 +95,8 @@ export default function BillReceipt({ bill, patientNo }: { bill: Bill; patientNo
                   ) : i.quantity > 1 ? (
                     <div className="mt-0.5 text-[12px] text-dark/65">{i.quantity} × {rm(i.unitPriceRm)}</div>
                   ) : null}
+                  {i.kind === 'deposit' && <div className="mt-0.5 text-[12px] text-dark/65">Added to your deposit balance</div>}
+                  {i.remark && <div className="mt-0.5 text-[12px] italic text-dark/70">{i.remark}</div>}
                 </td>
                 <td className="px-3 py-2.5 text-center">{i.quantity}</td>
                 <td className="px-3 py-2.5 text-right">{rm(i.lineTotalRm)}</td>

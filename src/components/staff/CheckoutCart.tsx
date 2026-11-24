@@ -5,11 +5,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Minus, Plus, Search, Trash2 } from 'lucide-react'
 import type { Bill, PackageOption, ProductOption } from '@/lib/counter/queries'
-import { addBillItem, deleteBill, payBill, removeBillItem, updateBill, updateBillItem } from '@/lib/counter/actions'
-import { BALANCE_LABEL, PAYMENT_METHODS, SPENDABLE_KINDS, amountDue, billNoText, billTotals, cashChange, parseRm, rm, type BalanceKind, type PaymentMethod, type SpendableKind } from '@/lib/counter/rules'
+import type { CounterItem } from '@/lib/counter/catalog'
+import { addBillItem, deleteBill, payBill, removeBillItem, setBillItemRemark, updateBill, updateBillItem } from '@/lib/counter/actions'
+import { BALANCE_LABEL, ITEM_PREFIX, PAYMENT_METHODS, SPENDABLE_KINDS, amountDue, billNoText, billTotals, cashChange, parseRm, rm, type BalanceKind, type PaymentMethod, type SpendableKind } from '@/lib/counter/rules'
 import { durationText, groupByCategory, matchServices, priceText, type ServiceOption } from '@/lib/staff/services'
 
-type Tab = 'service' | 'product' | 'package'
+type Tab = 'service' | 'product' | 'package' | 'deposit'
 
 const field = 'rounded-lg border border-accent/30 bg-white px-3 py-2 font-body text-[13.5px] text-dark focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/40'
 
@@ -23,13 +24,19 @@ export default function CheckoutCart({
   services,
   products,
   packages,
+  packagesForSale,
   patientHref,
   balances,
+  manageHref,
 }: {
   bill: Bill
   services: ServiceOption[]
   products: ProductOption[]
   packages: PackageOption[]
+  /** Packages the centre sells (Billing items). */
+  packagesForSale: CounterItem[]
+  /** Where staff add, hide and remove billing items. */
+  manageHref: string
   patientHref: string | null
   /** The saved patient's balances; null for a walk-in (no balances or pay-later). */
   balances: Record<BalanceKind, number> | null
@@ -45,6 +52,7 @@ export default function CheckoutCart({
   const [discount, setDiscount] = useState(bill.discountRm ? bill.discountRm.toFixed(2) : '')
   const [useText, setUseText] = useState<Record<SpendableKind, string>>({ deposit: '', credit: '', gift_card: '' })
   const [payLater, setPayLater] = useState(false)
+  const [depositText, setDepositText] = useState('')
 
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>, after?: () => void) => {
     setError(null)
@@ -78,12 +86,17 @@ export default function CheckoutCart({
     (!needsMethod || (method !== null && (method !== 'cash' || (receivedRm != null && change != null))))
   const spendable = balances ? SPENDABLE_KINDS.filter((k) => balances[k] > 0) : []
 
-  // The Packages tab only appears when this customer has a package to use.
   const tabs: { key: Tab; label: string; count?: number }[] = [
     { key: 'service', label: 'Services' },
     { key: 'product', label: 'Products' },
-    ...(packages.length ? [{ key: 'package' as Tab, label: 'Packages', count: packages.length }] : []),
+    { key: 'package', label: 'Packages', count: packages.length || undefined },
+    { key: 'deposit', label: 'Deposit' },
   ]
+  const addService = (id: string) =>
+    run(() => addBillItem(bill.id, id.startsWith(ITEM_PREFIX) ? { kind: 'item', itemId: id.slice(ITEM_PREFIX.length) } : { kind: 'service', treatmentId: id }))
+  const addProduct = (id: string) =>
+    run(() => addBillItem(bill.id, id.startsWith(ITEM_PREFIX) ? { kind: 'item', itemId: id.slice(ITEM_PREFIX.length) } : { kind: 'product', productId: id }))
+  const depositRm = depositText.trim() ? parseRm(depositText) : null
 
   return (
     <div>
@@ -94,6 +107,7 @@ export default function CheckoutCart({
             {bill.customerName} <span className="ml-2 font-body text-[14px] font-normal text-dark/50">{billNoText(bill.billNo)}</span>
           </h1>
           <p className="font-body text-[13px] text-dark/55">
+            <Link href={manageHref} className="mr-2 text-accent underline">Manage billing items</Link>·{' '}
             {bill.customerPhone ?? 'No phone'}
             {patientHref && <> · <Link href={patientHref} className="text-accent underline">Patient profile</Link></>}
           </p>
@@ -124,7 +138,7 @@ export default function CheckoutCart({
                 {t.label}{t.count ? ` · ${t.count}` : ''}
               </button>
             ))}
-            {tab !== 'package' && (
+            {(tab === 'service' || tab === 'product') && (
               <label className="ml-auto flex min-w-[180px] flex-1 items-center gap-2 rounded-lg border border-accent/20 px-2.5 py-1.5 sm:flex-none">
                 <Search className="h-4 w-4 text-dark/40" />
                 <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={tab === 'service' ? 'Search therapy…' : 'Search product…'} className="w-full bg-transparent font-body text-[13px] focus:outline-none" />
@@ -145,19 +159,39 @@ export default function CheckoutCart({
           <div className="mt-3 grid max-h-[60vh] gap-2 overflow-y-auto sm:grid-cols-2 xl:grid-cols-3">
             {tab === 'service' &&
               shownServices.map((s) => (
-                <Tile key={s.id} disabled={pending} onClick={() => run(() => addBillItem(bill.id, { kind: 'service', treatmentId: s.id }))} title={s.title} right={priceText(s) ?? 'Set price'} sub={durationText(s.durationMins)} />
+                <Tile key={s.id} disabled={pending} onClick={() => addService(s.id)} title={s.title} right={priceText(s) ?? 'Set price'} sub={s.durationMins ? durationText(s.durationMins) : ''} />
               ))}
             {tab === 'product' &&
               shownProducts.map((p) => (
                 <Tile
                   key={p.id}
-                  disabled={pending || (!p.allowBackorder && p.stock <= 0)}
-                  onClick={() => run(() => addBillItem(bill.id, { kind: 'product', productId: p.id }))}
+                  disabled={pending || (!p.untracked && !p.allowBackorder && p.stock <= 0)}
+                  onClick={() => addProduct(p.id)}
                   title={p.name}
                   right={rm(p.priceRm)}
-                  sub={!p.allowBackorder && p.stock <= 0 ? 'Out of stock' : `${p.stock} in stock`}
+                  sub={p.untracked ? p.category : !p.allowBackorder && p.stock <= 0 ? 'Out of stock' : `${p.stock} in stock`}
                 />
               ))}
+            {tab === 'package' && (
+              <p className="col-span-full font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-dark/55">Sell a package</p>
+            )}
+            {tab === 'package' && !packagesForSale.length && (
+              <p className="col-span-full font-body text-[12.5px] italic text-dark/45">No packages yet. Add one under <Link href={manageHref} className="text-accent underline">Manage billing items</Link>.</p>
+            )}
+            {tab === 'package' &&
+              packagesForSale.map((p) => (
+                <Tile
+                  key={p.id}
+                  disabled={pending}
+                  onClick={() => run(() => addBillItem(bill.id, { kind: 'item', itemId: p.id }))}
+                  title={p.name}
+                  right={rm(p.priceRm)}
+                  sub={`${p.sessions} sessions · valid ${p.validDays} days`}
+                />
+              ))}
+            {tab === 'package' && (
+              <p className="col-span-full mt-2 font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-dark/55">Use a session from the customer’s package</p>
+            )}
             {tab === 'package' &&
               packages.map((p) => (
                 <Tile
@@ -169,9 +203,35 @@ export default function CheckoutCart({
                   sub={`${p.sessionCount - p.sessionsUsed} of ${p.sessionCount} left${p.expiresAt ? ` · until ${new Date(p.expiresAt).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', day: 'numeric', month: 'short', year: 'numeric' })}` : ''}`}
                 />
               ))}
+            {tab === 'deposit' && (
+              <div className="col-span-full rounded-xl border border-accent/15 bg-cream/30 p-4">
+                {balances ? (
+                  <>
+                    <p className="font-body text-[13px] text-dark/70">
+                      Money the customer pays in advance. When the bill is paid it is added to their deposit, and can be used on a later bill. Current deposit: <strong>{rm(balances.deposit)}</strong>.
+                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <label className="font-body text-[13px] text-dark/60" htmlFor="deposit-amount">Amount (RM)</label>
+                      <input id="deposit-amount" value={depositText} inputMode="decimal" placeholder="0.00" onChange={(e) => setDepositText(e.target.value)} className={`${field} w-32 text-right tabular-nums`} />
+                      <button
+                        type="button"
+                        disabled={pending || depositRm == null || depositRm <= 0}
+                        onClick={() => run(() => addBillItem(bill.id, { kind: 'deposit', amountRm: depositRm ?? 0 }), () => setDepositText(''))}
+                        className="rounded-lg bg-accent px-4 py-2 font-heading text-[10.5px] font-bold uppercase tracking-[0.12em] text-white disabled:opacity-50"
+                      >
+                        Add deposit
+                      </button>
+                    </div>
+                    <p className="mt-2 font-body text-[12px] text-dark/50">Already paid online (e.g. a HitPay link)? Add it here and choose “Online (HitPay)” as the payment method.</p>
+                  </>
+                ) : (
+                  <p className="font-body text-[13px] italic text-dark/55">A deposit needs a saved patient. Open the patient’s profile, save their details, and start the bill from there.</p>
+                )}
+              </div>
+            )}
             {((tab === 'service' && !shownServices.length) || (tab === 'product' && !shownProducts.length) || (tab === 'package' && !packages.length)) && (
               <p className="col-span-full py-6 text-center font-body text-[13px] italic text-dark/45">
-                {tab === 'package' ? (bill.customerPhone ? 'No active packages on this phone number.' : 'Add a phone number to the patient to find their packages.') : 'Nothing matches.'}
+                {tab === 'package' ? (bill.customerPhone ? 'No packages to use on this phone number.' : 'Add a phone number to the patient to find their packages.') : 'Nothing matches.'}
               </p>
             )}
           </div>
@@ -182,7 +242,7 @@ export default function CheckoutCart({
           <h2 className="font-heading text-[15px] font-bold text-primary">Bill</h2>
           {bill.notes && <p className="mt-1 rounded-lg bg-cream/70 px-3 py-1.5 font-body text-[12.5px] text-dark/70">{bill.notes}</p>}
           {bill.items.length === 0 ? (
-            <p className="mt-3 font-body text-[13px] italic text-dark/45">Nothing added yet. Tap a service, product or package.</p>
+            <p className="mt-3 font-body text-[13px] italic text-dark/45">Nothing added yet. Tap a service, product, package or deposit.</p>
           ) : (
             <ul className="mt-3 divide-y divide-accent/10">
               {bill.items.map((i) => (
@@ -194,11 +254,13 @@ export default function CheckoutCart({
                     </button>
                   </div>
                   <div className="mt-1.5 flex items-center gap-2">
+                    {i.kind !== 'deposit' && (
                     <div className="flex items-center rounded-lg border border-accent/25">
                       <button type="button" aria-label="One fewer" disabled={pending || i.quantity <= 1} onClick={() => run(() => updateBillItem(i.id, { quantity: i.quantity - 1 }))} className="p-1.5 text-dark/60 disabled:opacity-30"><Minus className="h-3.5 w-3.5" /></button>
                       <span className="w-7 text-center font-body text-[13px] tabular-nums">{i.quantity}</span>
                       <button type="button" aria-label="One more" disabled={pending} onClick={() => run(() => updateBillItem(i.id, { quantity: i.quantity + 1 }))} className="p-1.5 text-dark/60"><Plus className="h-3.5 w-3.5" /></button>
                     </div>
+                    )}
                     {i.kind === 'package' ? (
                       <span className="font-body text-[12px] text-dark/55">Package session — no charge</span>
                     ) : (
@@ -206,6 +268,7 @@ export default function CheckoutCart({
                     )}
                     <span className="ml-auto font-body text-[13.5px] font-semibold tabular-nums">{rm(i.quantity * i.unitPriceRm)}</span>
                   </div>
+                  <RemarkInput key={`${i.id}:${i.remark ?? ''}`} value={i.remark ?? ''} disabled={pending} onSave={(v) => run(() => setBillItemRemark(i.id, v))} />
                 </li>
               ))}
             </ul>
@@ -337,6 +400,25 @@ function Tile({ title, sub, right, onClick, disabled }: { title: string; sub: st
       </span>
       <span className="flex-none font-body text-[12px] font-semibold text-primary">{right}</span>
     </button>
+  )
+}
+
+/** A line's remark, printed under it on the receipt (e.g. for an insurance claim). Saves on blur / Enter. */
+function RemarkInput({ value, onSave, disabled }: { value: string; onSave: (v: string) => void; disabled?: boolean }) {
+  const [text, setText] = useState(value)
+  const commit = () => { if (text.trim() !== value) onSave(text.trim()) }
+  return (
+    <input
+      value={text}
+      disabled={disabled}
+      maxLength={200}
+      onChange={(e) => setText(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+      placeholder="Remark (printed on the receipt)"
+      aria-label="Remark for this line"
+      className="mt-1.5 w-full rounded-md border border-dashed border-accent/25 bg-transparent px-2 py-1 font-body text-[12px] italic text-dark/70 placeholder:text-dark/35 focus:border-accent focus:outline-none"
+    />
   )
 }
 

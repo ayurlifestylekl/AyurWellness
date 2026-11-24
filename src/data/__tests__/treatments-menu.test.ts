@@ -4,7 +4,7 @@ import { getAllCategories, getTreatmentBySlug, getTreatmentsByCategorySlug, tota
 // The new centre's menu as the client sent it (22 Nov 2026).
 const MENU: [string, string, string, string, number][] = [
   ['face-care-therapies', 'mukha-abhyangam', 'Mukha Abhyangam (Face Massage)', '45 min', 95],
-  ['face-care-therapies', 'makha-lepham', 'Makha Lepham (Herbal Facial)', '1 Hour 30 min', 175],
+  ['face-care-therapies', 'mukha-lepam', 'Mukha Lepam (Herbal Facial)', '1 Hour 30 min', 175],
   ['face-care-therapies', 'njavara-facial', 'Njavara Facial (Milk Facial)', '1 Hour 30 min', 185],
   ['hair-scalp-care-therapies', 'thalapothichil', 'Thalapothichil (Scalp Detox Treatment)', '1 Hour 30 min', 165],
   ['hair-scalp-care-therapies', 'siro-abhyangam-thalapothichil', 'Siro Abhyangam + Thalapothichil (Hair Treatment)', '1 Hour 30 min', 165],

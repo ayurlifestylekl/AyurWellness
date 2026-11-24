@@ -9,11 +9,16 @@ export const PAYMENT_METHODS = [
   { value: 'duitnow_qr', label: 'DuitNow QR / Bank QR' },
   { value: 'tng_ewallet', label: "Touch 'n Go eWallet" },
   { value: 'bank_transfer', label: 'Bank transfer' },
+  { value: 'hitpay_online', label: 'Online (HitPay)' },
   { value: 'other', label: 'Other' },
 ] as const
 
+/** Marks a billing item the centre added itself in the cart's service / product lists. */
+export const ITEM_PREFIX = 'item:'
+
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]['value']
-export type BillItemKind = 'service' | 'product' | 'package'
+/** package = a session used; package_sale = a package bought; deposit = money paid into the patient's deposit. */
+export type BillItemKind = 'service' | 'product' | 'package' | 'package_sale' | 'deposit'
 export type BillStatus = 'open' | 'paid' | 'void'
 
 export function isPaymentMethod(v: unknown): v is PaymentMethod {
@@ -61,7 +66,7 @@ export function parseRm(input: string): number | null {
 
 /** The database's short error codes, in words for the front desk. */
 export function checkoutErrorMessage(raw: string): string {
-  const m = raw.match(/(bill_not_found|bill_not_open|bill_empty|payment_method_required|cash_short|bill_closed|out_of_stock|product_missing)(?::([^:]*))?(?::(\d+))?/)
+  const m = raw.match(/(bill_not_found|bill_not_open|bill_empty|payment_method_required|cash_short|bill_closed|out_of_stock|product_missing|deposit_paid_now|package_needs_phone)(?::([^:]*))?(?::(\d+))?/)
   if (m) {
     switch (m[1]) {
       case 'bill_not_found': return 'This bill no longer exists.'
@@ -72,6 +77,8 @@ export function checkoutErrorMessage(raw: string): string {
       case 'cash_short': return 'The cash received is less than the total.'
       case 'out_of_stock': return `Not enough stock of ${m[2] ?? 'a product'}${m[3] ? ` (${m[3]} left)` : ''}.`
       case 'product_missing': return `${m[2] ?? 'A product'} is no longer in the catalogue.`
+      case 'deposit_paid_now': return 'A deposit has to be paid now: no discount, balance or pay-later on a bill with a deposit.'
+      case 'package_needs_phone': return 'Add the customer’s phone number before selling a package, so its sessions can be found later.'
     }
   }
   const b = raw.match(/(balance_short|balance_over_total|balance_needs_patient|balance_invalid)(?::([a-z_]+))?(?::([0-9.]+))?/)

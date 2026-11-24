@@ -31,12 +31,12 @@ type Category = {
 // Each links to a therapy that is on the menu right now.
 const categories: Category[] = [
   {
-    slug: 'makha-lepham',
+    slug: 'mukha-lepam',
     name: 'Herbal Facial',
-    tagline: 'Makha Lepham',
+    tagline: 'Mukha Lepam',
     durationMin: 90,
     image: '/therapies/hair-skin.jpg',
-    href: '/treatments/face-care-therapies/makha-lepham',
+    href: '/treatments/face-care-therapies/mukha-lepam',
   },
   {
     slug: 'njavara-facial',

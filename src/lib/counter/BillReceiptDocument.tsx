@@ -180,6 +180,8 @@ export default function BillReceiptDocument({ bill, patientNo, assetBase }: { bi
                 ) : i.quantity > 1 ? (
                   <Text style={s.itemSub}>{i.quantity} × {rm(i.unitPriceRm)}</Text>
                 ) : null}
+                {i.kind === 'deposit' && <Text style={s.itemSub}>Added to your deposit balance</Text>}
+                {i.remark && <Text style={[s.itemSub, { fontStyle: 'italic' }]}>{i.remark}</Text>}
               </View>
               <Text style={s.cQty}>{i.quantity}</Text>
               <Text style={s.cAmt}>{rm(i.lineTotalRm)}</Text>

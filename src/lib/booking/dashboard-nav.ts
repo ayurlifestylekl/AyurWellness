@@ -12,6 +12,7 @@ export interface DashboardNavItem {
 export const consoleNav: DashboardNavItem[] = [
   { href: '/console', label: 'Overview' },
   { href: '/console/checkout', label: 'Checkout' },
+  { href: '/console/items', label: 'Billing items' },
   { href: '/console/waiting', label: 'Waiting room' },
   { href: '/console?tab=needs-therapist', label: 'Needs therapist' },
   { href: '/console?tab=today', label: 'Today' },
@@ -32,5 +33,6 @@ export const doctorNav: DashboardNavItem[] = [
   { href: '/doctor/schedule', label: 'Schedule' },
   { href: '/doctor/calendar', label: 'Calendar' },
   { href: '/doctor/patients', label: 'Patients' },
+  { href: '/doctor/items', label: 'Billing items' },
   { href: '/doctor/consultations', label: 'Consultations' },
 ]

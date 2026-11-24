@@ -61,3 +61,20 @@ describe('day close', () => {
     expect(summarizeDay([], [])).toMatchObject({ billCount: 0, takenRm: 0, takenByMethod: [], productsSold: [] })
   })
 })
+
+describe('deposits paid in on a bill', () => {
+  const d = summarizeDay(
+    [
+      { billNo: 9, subtotalRm: 245, totalRm: 245, amountPaidRm: 245, balanceUsedRm: 0, outstandingRm: 0, paymentMethod: 'hitpay_online',
+        items: [{ kind: 'service', description: 'Abhyangam', quantity: 1, lineTotalRm: 145 }, { kind: 'deposit', description: 'Deposit', quantity: 1, lineTotalRm: 100 }] },
+    ],
+    [],
+  )
+  it('are money taken but not sales', () => {
+    expect(d.salesRm).toBe(145)
+    expect(d.depositsRm).toBe(100)
+    expect(d.takenRm).toBe(245)
+    expect(d.takenByMethod).toEqual([{ method: 'hitpay_online', label: 'Online (HitPay)', billsRm: 245, otherRm: 0, totalRm: 245 }])
+    expect(d.servicesCount).toBe(1)
+  })
+})

@@ -27,7 +27,10 @@ export interface BillItem {
   treatmentId: string | null
   productId: string | null
   packagePurchaseId: string | null
+  counterItemId: string | null
   description: string
+  /** Printed under the line on the receipt, e.g. "Ayurvedic neck treatment" for a claim. */
+  remark: string | null
   quantity: number
   unitPriceRm: number
   lineTotalRm: number
@@ -61,7 +64,7 @@ export interface Bill {
 }
 
 const BILL_COLUMNS =
-  'id, bill_no, status, patient_id, appointment_id, customer_name, customer_phone, discount_rm, subtotal_rm, total_rm, payment_method, amount_received_rm, notes, paid_at, created_at, paid_by_staff_id, balance_used_rm, outstanding_rm, amount_paid_rm, patient_balance_entries(kind, amount), counter_sale_items(id, kind, treatment_id, product_id, package_purchase_id, description, quantity, unit_price_rm, line_total_rm, created_at)'
+  'id, bill_no, status, patient_id, appointment_id, customer_name, customer_phone, discount_rm, subtotal_rm, total_rm, payment_method, amount_received_rm, notes, paid_at, created_at, paid_by_staff_id, balance_used_rm, outstanding_rm, amount_paid_rm, patient_balance_entries(kind, amount), counter_sale_items(id, kind, treatment_id, product_id, package_purchase_id, counter_item_id, description, remark, quantity, unit_price_rm, line_total_rm, created_at)'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapBill(r: any, names: Map<string, string>): Bill {
@@ -74,7 +77,9 @@ function mapBill(r: any, names: Map<string, string>): Bill {
       treatmentId: i.treatment_id ?? null,
       productId: i.product_id ?? null,
       packagePurchaseId: i.package_purchase_id ?? null,
+      counterItemId: i.counter_item_id ?? null,
       description: i.description,
+      remark: i.remark ?? null,
       quantity: i.quantity,
       unitPriceRm: Number(i.unit_price_rm),
       lineTotalRm: Number(i.line_total_rm),
@@ -177,6 +182,8 @@ export interface ProductOption {
   stock: number
   allowBackorder: boolean
   category: string
+  /** A billing item the centre added itself: no stock count. */
+  untracked?: boolean
 }
 
 /** The price a product sells at: its sale price when one is set, as online checkout charges. */

@@ -20,7 +20,7 @@ function fail(where: string, error: { message: string } | null | undefined, fall
 }
 
 async function openBill(db: ServiceDb, billId: string) {
-  const { data } = await db.from('counter_sales').select('id, status, customer_phone, appointment_id').eq('id', billId).maybeSingle()
+  const { data } = await db.from('counter_sales').select('id, status, customer_phone, appointment_id, patient_id').eq('id', billId).maybeSingle()
   return data && data.status === 'open' ? data : null
 }
 
@@ -111,9 +111,15 @@ const AddItem = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('service'), treatmentId: uuid }),
   z.object({ kind: z.literal('product'), productId: uuid }),
   z.object({ kind: z.literal('package'), packagePurchaseId: uuid }),
+  // A billing item the centre added (service, product or package for sale).
+  z.object({ kind: z.literal('item'), itemId: uuid }),
+  z.object({ kind: z.literal('deposit'), amountRm: z.number().positive().max(1_000_000) }),
 ])
 
-/** Add a service, product or package session. Products and packages already on the bill go up by one. */
+/**
+ * Add a service, product, package (sold or a session used), billing item or
+ * deposit. Products and packages already on the bill go up by one.
+ */
 export async function addBillItem(billId: string, raw: unknown): Promise<Result> {
   const { db } = await requireStaff(STAFF)
   const parsed = AddItem.safeParse(raw)
@@ -121,6 +127,33 @@ export async function addBillItem(billId: string, raw: unknown): Promise<Result>
   const bill = await openBill(db, billId)
   if (!bill) return { ok: false, error: 'This bill is already paid, so it can’t be changed.' }
   const item = parsed.data
+
+  if (item.kind === 'deposit') {
+    if (!bill.patient_id) return { ok: false, error: 'A deposit needs a saved patient. Save the patient’s details first.' }
+    const { error } = await db
+      .from('counter_sale_items')
+      .insert({ sale_id: billId, kind: 'deposit', description: 'Deposit', quantity: 1, unit_price_rm: toSen(item.amountRm) / 100 })
+    return error ? fail('add deposit', error, 'Could not add the deposit.') : { ok: true }
+  }
+
+  if (item.kind === 'item') {
+    const { data: ci, error: ciErr } = await db.from('counter_items').select('id, kind, name, price_rm, sessions, is_hidden').eq('id', item.itemId).maybeSingle()
+    if (ciErr || !ci || ci.is_hidden) return { ok: false, error: 'That item is no longer listed.' }
+    if (ci.kind === 'package' && !bill.customer_phone) return { ok: false, error: 'Add the customer’s phone number before selling a package, so its sessions can be found later.' }
+    const kind = ci.kind === 'package' ? 'package_sale' : ci.kind
+    const description = (ci.kind === 'package' ? `${ci.name} (${ci.sessions} sessions)` : ci.name).slice(0, 200)
+    if (ci.kind !== 'service') {
+      const { data: same } = await db.from('counter_sale_items').select('id, quantity').eq('sale_id', billId).eq('counter_item_id', ci.id).maybeSingle()
+      if (same) {
+        const { error } = await db.from('counter_sale_items').update({ quantity: Math.min(99, same.quantity + 1) }).eq('id', same.id)
+        return error ? fail('add item', error, 'Could not add the item.') : { ok: true }
+      }
+    }
+    const { error } = await db
+      .from('counter_sale_items')
+      .insert({ sale_id: billId, kind, counter_item_id: ci.id, description, quantity: 1, unit_price_rm: Number(ci.price_rm) })
+    return error ? fail('add item', error, 'Could not add the item.') : { ok: true }
+  }
 
   if (item.kind === 'service') {
     const { data: t } = await db.from('treatments').select('id, title, price_rm').eq('id', item.treatmentId).maybeSingle()
@@ -163,7 +196,7 @@ export async function updateBillItem(itemId: string, raw: unknown): Promise<Resu
   const { data: line } = await db.from('counter_sale_items').select('id, sale_id, kind, package_purchase_id').eq('id', itemId).maybeSingle()
   if (!line) return { ok: false, error: 'That line is no longer on the bill.' }
   const patch: Record<string, number> = {}
-  if (parsed.data.quantity != null) patch.quantity = parsed.data.quantity
+  if (parsed.data.quantity != null && line.kind !== 'deposit') patch.quantity = parsed.data.quantity
   if (parsed.data.unitPriceRm != null && line.kind !== 'package') patch.unit_price_rm = toSen(parsed.data.unitPriceRm) / 100
   if (line.kind === 'package' && patch.quantity != null) {
     const bill = await openBill(db, line.sale_id)
@@ -174,6 +207,15 @@ export async function updateBillItem(itemId: string, raw: unknown): Promise<Resu
   if (!Object.keys(patch).length) return { ok: true }
   const { error } = await db.from('counter_sale_items').update(patch).eq('id', itemId)
   return error ? fail('update line', error, 'Could not change that line.') : { ok: true }
+}
+
+/** A line's remark, printed under it on the receipt (e.g. "Ayurvedic neck treatment" for a claim). */
+export async function setBillItemRemark(itemId: string, remark: string): Promise<Result> {
+  const { db } = await requireStaff(STAFF)
+  const text = z.string().trim().max(200).safeParse(remark)
+  if (!uuid.safeParse(itemId).success || !text.success) return { ok: false, error: 'Keep the remark under 200 characters.' }
+  const { error } = await db.from('counter_sale_items').update({ remark: text.data || null }).eq('id', itemId)
+  return error ? fail('remark', error, 'Could not save the remark.') : { ok: true }
 }
 
 export async function removeBillItem(itemId: string): Promise<Result> {

@@ -29,9 +29,9 @@ const bill: Bill = {
   createdAt: '2026-11-22T07:00:00.000Z',
   paidByName: 'Front Desk',
   items: [
-    { id: 'a', kind: 'service', treatmentId: null, productId: null, packagePurchaseId: null, description: 'Abhyangam (Full Body Oil Massage)', quantity: 1, unitPriceRm: 145, lineTotalRm: 145 },
-    { id: 'b', kind: 'product', treatmentId: null, productId: 'p', packagePurchaseId: null, description: 'Dhanwantharam Thailam 200ml', quantity: 2, unitPriceRm: 38.9, lineTotalRm: 77.8 },
-    { id: 'c', kind: 'package', treatmentId: null, productId: null, packagePurchaseId: 'k', description: 'Abhyangam Package — session redeemed', quantity: 1, unitPriceRm: 0, lineTotalRm: 0 },
+    { id: 'a', kind: 'service', treatmentId: null, productId: null, packagePurchaseId: null, counterItemId: null, remark: 'Ayurvedic neck treatment', description: 'Abhyangam (Full Body Oil Massage)', quantity: 1, unitPriceRm: 145, lineTotalRm: 145 },
+    { id: 'b', kind: 'product', treatmentId: null, productId: 'p', packagePurchaseId: null, counterItemId: null, remark: null, description: 'Dhanwantharam Thailam 200ml', quantity: 2, unitPriceRm: 38.9, lineTotalRm: 77.8 },
+    { id: 'c', kind: 'package', treatmentId: null, productId: null, packagePurchaseId: 'k', counterItemId: null, remark: null, description: 'Abhyangam Package — session redeemed', quantity: 1, unitPriceRm: 0, lineTotalRm: 0 },
   ],
 }
 
