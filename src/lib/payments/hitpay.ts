@@ -65,6 +65,24 @@ function verifyWebhookPayload(payload: string, signature: string | null): boolea
   return safeSignatureEqual(expected, signature)
 }
 
+/**
+ * The webhook HitPay sends for each payment request (the `webhook` field):
+ * form fields plus `hmac` = HMAC-SHA256(salt, every other field sorted by
+ * name, written as key + value with nothing between).
+ */
+function verifyFormWebhook(form: URLSearchParams): boolean {
+  const supplied = form.get('hmac')
+  const salt = process.env.HITPAY_SIGNATURE_SALT
+  if (!supplied || !salt) return false
+  const message = Array.from(form.entries())
+    .filter(([k]) => k !== 'hmac')
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+    .map(([k, v]) => `${k}${v}`)
+    .join('')
+  const expected = createHmac('sha256', salt).update(message).digest('hex')
+  return safeSignatureEqual(expected, supplied)
+}
+
 function parseStatus(status: unknown): { paid: boolean; failed: boolean } {
   const s = typeof status === 'string' ? status.toLowerCase() : ''
   return { paid: s === 'completed' || s === 'succeeded', failed: s === 'failed' || s === 'cancelled' }
@@ -115,7 +133,8 @@ export const hitpayProvider: PaymentProvider = {
       name: args.name,
       email: args.email,
       phone: args.phone,
-      'payment_methods[]': paymentMethods(),
+      payment_methods: paymentMethods(),
+      webhook: args.callbackUrl,
       allow_repeated_payments: 'false',
     })
 
@@ -140,6 +159,15 @@ export const hitpayProvider: PaymentProvider = {
     // Webhook (POST, authoritative)
     if (req.method === 'POST') {
       const payload = await req.text()
+      const contentType = req.headers.get('content-type') || ''
+      if (contentType.includes('application/x-www-form-urlencoded')) {
+        const form = new URLSearchParams(payload)
+        if (!verifyFormWebhook(form)) {
+          throw new Error('HitPay webhook signature verification failed')
+        }
+        const status = parseStatus(form.get('status'))
+        return { billId: form.get('payment_request_id') || '', paid: status.paid, verified: true }
+      }
       const signature = req.headers.get('hitpay-signature') || req.headers.get('Hitpay-Signature')
       if (!verifyWebhookPayload(payload, signature)) {
         throw new Error('HitPay webhook signature verification failed')
