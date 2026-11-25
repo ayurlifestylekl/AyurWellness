@@ -143,4 +143,47 @@ export const products: Product[] = [
       'After showering or bathing, towel dry gently. Dispense a generous amount into your palm and apply all over the body, focusing on areas prone to dryness, roughness or itchiness. Massage in using circular motions until fully absorbed. Use daily, especially after bathing, for best results.',
     useCases: ['body-lotion', 'daily-hydration', 'skin-brightening'],
   },
+  {
+    id: 'ayurpsora-oil',
+    name: 'Ayurpsora Oil',
+    tagline: 'Nourishing care for dry, itchy and scaling skin on the scalp and body',
+    description:
+      'Ayurpsora Oil is a traditional Ayurvedic proprietary formulation designed to provide nourishing care for dry, itchy and scaling skin on the scalp and body. Prepared using time-tested Ayurvedic herbs in a nourishing coconut oil base, this formulation helps soothe skin irritation, moisturise dry and flaky patches, and maintain skin comfort. Inspired by traditional Ayurvedic principles, it combines herbs traditionally valued for their skin-nourishing and protective properties. Net volume 200ml.',
+    category: 'skin-care',
+    priceRm: 79,
+    image: '/products/ayurpsora-oil.jpg',
+    sku: 'AWC-AYURPSORA-200',
+    stockQty: 0,
+    isBundle: false,
+    createdAt: '2026-11-25T00:00:00Z',
+    ingredients: [
+      'Nimba (Neem) – Azadirachta indica',
+      'Amalaki (Indian Gooseberry) – Emblica officinalis',
+      'Bakuchi (Babchi) – Psoralea corylifolia',
+      'Kumari (Aloe Vera) – Aloe vera',
+      'Yashtimadhu (Licorice) – Glycyrrhiza glabra',
+      'Narikela (Coconut Oil) – Cocos nucifera (base)',
+    ],
+    dose:
+      'Take a sufficient quantity of oil and gently massage it into the affected scalp or skin areas. Leave it on for 30–60 minutes before washing off with a mild cleanser. Use 2–3 times weekly, or as directed by a KKM-registered T&CM Ayurveda Practitioner. For external application only.',
+    useCases: ['dry-skin', 'scalp-care', 'skin-care'],
+  },
+  {
+    id: 'rose-water',
+    name: 'Rose Water',
+    tagline: 'Steam-distilled, edible-grade rose water to tone, refresh and soothe',
+    description:
+      'Rose Water by Ayurveda Wellness Centre is a natural, steam-distilled formulation designed to provide gentle hydration and refreshing care for the skin. Suitable for all skin types, it can be incorporated into your daily skincare routine to help tone the face, soothe tired and puffy-looking eyes, and soften the palms. Carefully prepared through the traditional steam distillation process, this edible-grade rose water is a versatile addition to your beauty routine: a facial toner, a soothing eye compress, or a natural base for preparing face masks.',
+    category: 'skin-care',
+    priceRm: 0,
+    image: '/products/rose-water.jpg',
+    sku: 'AWC-ROSEWATER',
+    stockQty: 0,
+    isBundle: false,
+    createdAt: '2026-11-25T00:00:00Z',
+    ingredients: ['Steam-distilled edible-grade rose water'],
+    dose:
+      'As a hydrating toner: pour a few drops onto a cotton pad and gently swipe across your face and neck, or spritz directly onto clean skin. As a base for face masks: use rose water instead of plain water to mix your face mask powder into a smooth paste. For tired eyes: soak two cotton pads in chilled rose water and place them over closed eyelids for 5–10 minutes. For softening palms: apply a little to your palms as part of your daily routine. For external application.',
+    useCases: ['toner', 'skin-care', 'face-mask'],
+  },
 ]
