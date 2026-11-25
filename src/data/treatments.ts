@@ -1830,7 +1830,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-hair-care__thalapothichil",
-    heroImageUrl: "/treatments/awc/thalapothichil.jpg",
+    heroImageUrl: "/treatments/awc/thalapothichil-v2.jpg",
     slug: "thalapothichil",
     title: "Thalapothichil (Scalp Detox Treatment)",
     duration: "1 Hour 30 min",
@@ -1898,7 +1898,7 @@ const newCentreRecords: TreatmentRecord[] = [
   },
   {
     id: "cat-massage__head-neck-shoulder-massage",
-    heroImageUrl: "/treatments/awc/head-neck-shoulder-massage.jpg",
+    heroImageUrl: "/treatments/awc/head-neck-shoulder-massage-v2.jpg",
     slug: "head-neck-shoulder-massage",
     title: "Head, Neck & Shoulder Massage",
     duration: "1 Hour",

@@ -51,7 +51,7 @@ const categories: Category[] = [
     name: 'Scalp Detox',
     tagline: 'Thalapothichil',
     durationMin: 90,
-    image: '/treatments/awc/thalapothichil.jpg',
+    image: '/treatments/awc/thalapothichil-v2.jpg',
     href: '/treatments/hair-scalp-care-therapies/thalapothichil',
   },
   {
@@ -67,7 +67,7 @@ const categories: Category[] = [
     name: 'Head, Neck & Shoulder',
     tagline: 'Release built-up tension',
     durationMin: 60,
-    image: '/treatments/awc/head-neck-shoulder-massage.jpg',
+    image: '/treatments/awc/head-neck-shoulder-massage-v2.jpg',
     href: '/treatments/massage-rehab-therapies/head-neck-shoulder-massage',
   },
 ]

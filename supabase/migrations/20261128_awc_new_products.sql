@@ -6,7 +6,9 @@
 -- "received" stock movement (the trigger updates stock_qty), as for the
 -- first five products.
 --
--- Photos are in the website (public/products/…): run this after deploying.
+-- Also: full-size photos for Thalapothichil and Head, Neck & Shoulder Massage.
+--
+-- Photos are in the website (public/…): run this after deploying.
 -- Safe to re-run: products are added once, and the launch stock only once.
 
 BEGIN;
@@ -47,6 +49,11 @@ SELECT p.id, 'received', 90, 'launch_stock', 'Launch stock (90 units)'
 FROM public.products p
 WHERE p.sku IN ('AWC-AYURPSORA-200', 'AWC-ROSEWATER-100')
   AND NOT EXISTS (SELECT 1 FROM public.stock_movements m WHERE m.product_id = p.id AND m.reason = 'launch_stock');
+
+-- Full-size photos sent by the centre for two therapies.
+UPDATE public.treatments SET hero_image_url = '/treatments/awc/' || slug || '-v2.jpg', updated_at = now()
+WHERE (category_id, slug) IN (('cat-hair-care', 'thalapothichil'), ('cat-massage', 'head-neck-shoulder-massage'))
+  AND hero_image_url IS DISTINCT FROM '/treatments/awc/' || slug || '-v2.jpg';
 
 COMMIT;
 
