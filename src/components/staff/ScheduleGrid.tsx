@@ -57,7 +57,7 @@ const topFor = (min: number) => ((min - OPEN) / ROW) * ROW_PX
 const clamp = (min: number) => Math.max(OPEN, Math.min(CLOSE, min))
 
 /** An additional guest in a front-desk group booking — each can pick their own treatment & remark, falling back to the primary guest's when left blank. */
-type ExtraGuest = { name: string; gender: Gender | ''; therapistCode: string; duration: number | ''; serviceId: string; remark: string }
+type ExtraGuest = { name: string; gender: Gender | ''; therapistCode: string; duration: number | ''; serviceId: string; remark: string; extras: string[] }
 
 interface Props {
   basePath: string // e.g. '/console/schedule' or '/doctor/calendar'
@@ -295,7 +295,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
         // the whole group is saved by therapy name + duration (see bookableById).
         const byId = !!primarySvc && [primarySvc, ...extraSvcs].every((x) => x && bookableById(x, true))
         const guests: GroupGuest[] = [
-          { name: bookName.trim(), gender: bookGender as Gender, preferredAt: when, assignedTherapistCode: bookDraft.code, healthIntake, treatmentId: byId ? primarySvc!.id : null },
+          { name: bookName.trim(), gender: bookGender as Gender, preferredAt: when, assignedTherapistCode: bookDraft.code, healthIntake, treatmentId: byId ? primarySvc!.id : null, extras: byId ? extrasFor(primarySvc!.key).filter((e) => bookExtras.includes(e.code)).map((e) => e.code) : [] },
           ...extras.map((g, i) => {
             const svc = g.serviceId ? extraSvcs[i] : null
             return {
@@ -307,6 +307,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
               durationMins: svc ? svc.durationMins : g.duration ? Number(g.duration) : null,
               treatmentName: svc ? svc.title : genericLabel(g.duration),
               healthIntake: g.remark.trim() ? { notes: g.remark.trim() } : {},
+              extras: byId ? extrasFor((svc ?? primarySvc)!.key).filter((e) => g.extras.includes(e.code)).map((e) => e.code) : [],
             }
           }),
         ]
@@ -353,7 +354,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
 
   const vaidyaCodes = useMemo(() => new Set(vaidyas.map((v) => v.code)), [vaidyas])
   const svcById = useMemo(() => new Map(services.map((x) => [x.id, x] as const)), [services])
-  const draftExtras = bookPartySize === 1 ? extrasFor(svcById.get(bookServiceId)?.key).filter((e) => bookExtras.includes(e.code)) : []
+  const draftExtras = extrasFor(svcById.get(bookServiceId)?.key).filter((e) => bookExtras.includes(e.code))
   const draftMins = (svcById.get(bookServiceId)?.durationMins ?? (bookDuration ? Number(bookDuration) : 60)) + draftExtras.reduce((s, e) => s + e.mins, 0)
 
   const hourLabels: number[] = []
@@ -475,7 +476,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                         onChange={(e) => {
                           const n = Number(e.target.value)
                           setBookPartySize(n)
-                          setBookExtraGuests(Array.from({ length: Math.max(0, n - 1) }, () => ({ name: '', gender: '' as Gender | '', therapistCode: '', duration: '' as number | '', serviceId: '', remark: '' })))
+                          setBookExtraGuests(Array.from({ length: Math.max(0, n - 1) }, () => ({ name: '', gender: '' as Gender | '', therapistCode: '', duration: '' as number | '', serviceId: '', remark: '', extras: [] as string[] })))
                         }}
                         className={bookInput}
                       >
@@ -495,7 +496,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                           </select>
                         )}
                       </Field>
-                      {bookPartySize === 1 && extrasFor(svcById.get(bookServiceId)?.key).map((e) => (
+                      {extrasFor(svcById.get(bookServiceId)?.key).map((e) => (
                         <label key={e.code} className="mt-2 flex items-center gap-2 font-body text-[13px] text-dark">
                           <input
                             type="checkbox"
@@ -539,7 +540,7 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                             services={services}
                             value={g.serviceId}
                             placeholder="Same as guest 1"
-                            onChange={(id) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, serviceId: id } : x))}
+                            onChange={(id) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, serviceId: id, extras: [] } : x))}
                           />
                         ) : (
                           <select value={g.duration} onChange={(e) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, duration: e.target.value ? Number(e.target.value) : '' } : x))} className={bookInput}>
@@ -549,7 +550,19 @@ export default function ScheduleGrid({ basePath, detailBase, date, therapists, a
                             ))}
                           </select>
                         )}
-                      </Field></div>
+                      </Field>
+                      {extrasFor((svcById.get(g.serviceId) ?? svcById.get(bookServiceId))?.key).map((e) => (
+                        <label key={e.code} className="mr-4 mt-2 inline-flex items-center gap-2 font-body text-[13px] text-dark">
+                          <input
+                            type="checkbox"
+                            checked={g.extras.includes(e.code)}
+                            onChange={(ev) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, extras: ev.target.checked ? [...x.extras, e.code] : x.extras.filter((c) => c !== e.code) } : x))}
+                            className="h-4 w-4 accent-accent"
+                          />
+                          {e.kind === 'room' ? e.label : `Add ${e.label}`} <span className="text-dark/55">+ RM{e.priceRm}{e.mins ? ` · ${e.mins} min` : ''}</span>
+                        </label>
+                      ))}
+                      </div>
                       <Field label={`Guest ${i + 2} remark (optional)`}>
                         <input value={g.remark} onChange={(e) => setBookExtraGuests((prev) => prev.map((x, j) => j === i ? { ...x, remark: e.target.value } : x))} className={bookInput} placeholder="e.g. Room 3" />
                       </Field>

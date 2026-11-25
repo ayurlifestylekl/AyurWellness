@@ -263,7 +263,7 @@ export async function createInstantGroupBooking(input: {
   const uniqueIds = Array.from(new Set(guestTreatmentIds))
   const { data: treatmentRows, error: tErr } = await sb
     .from('treatments')
-    .select('id, title, price_rm, booking_type, category_id, duration, requires_consultation, booking_lead_time_hours, requires_scalp_disclaimer, requires_health_intake, minimum_age, special_tags')
+    .select('id, title, slug, price_rm, booking_type, category_id, duration, requires_consultation, booking_lead_time_hours, requires_scalp_disclaimer, requires_health_intake, minimum_age, special_tags')
     .in('id', uniqueIds)
   if (tErr) {
     console.error('[instant-booking] group treatment lookup failed:', tErr)
@@ -312,7 +312,10 @@ export async function createInstantGroupBooking(input: {
   for (let i = 0; i < guests.length; i++) {
     const g = guests[i]
     const t = byId.get(guestTreatmentIds[i])!
-    const durationMins = parseDurationMins(t.duration)
+    // This guest's add-ons (Hair Wash, VIP Private Room), priced here.
+    const extras = resolveExtras(treatmentKey(t.category_id, t.slug), g.extras)
+    const extra = extrasTotals(extras)
+    const durationMins = parseDurationMins(t.duration) + extra.mins
     const timing = canonicalInstantTiming({ kind: 'treatment', preferredAt: g.preferredAt, durationMins })
     const slotCheck = validateSubmittedSlot({
       iso: g.preferredAt,
@@ -333,7 +336,7 @@ export async function createInstantGroupBooking(input: {
         booking_kind: 'treatment',
         treatment_id: t.id,
         treatment_category_id: t.category_id ?? null,
-        treatment_name: t.title,
+        treatment_name: nameWithExtras(t.title, extras),
         duration_mins: timing.durationMins,
         status: 'awaiting_payment',
         requested_datetime: timing.requestedDatetime,
@@ -347,9 +350,10 @@ export async function createInstantGroupBooking(input: {
         guest_age: g.age ?? null,
         group_id: groupId,
         pre_visit_form: g.healthIntake ?? {},
-        payable_amount_rm: t.price_rm ?? null,
+        payable_amount_rm: t.price_rm != null ? Number(t.price_rm) + extra.priceRm : null,
         payment_status: 'unpaid',
         payment_expires_at: holdExpiresAt,
+        ...(extras.length ? { extras } : {}),
       },
     })
   }

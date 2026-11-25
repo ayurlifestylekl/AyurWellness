@@ -28,6 +28,26 @@ export interface ChosenExtra {
   label: string
   priceRm: number
   mins: number
+  /** VIP Private Room only: which VIP room the therapy uses. */
+  room?: VipRoomKind
+}
+
+/**
+ * The centre's VIP rooms. Each therapy uses one kind, and only this many VIP
+ * bookings of a kind can overlap. The database checks the same numbers when
+ * a booking is saved (20261129_vip_rooms.sql: keep the two in step).
+ */
+export type VipRoomKind = 'hair' | 'facial'
+export const VIP_ROOMS: Record<VipRoomKind, { label: string; count: number; photo: string }> = {
+  hair: { label: 'VIP hair & scalp room', count: 2, photo: '/treatments/awc/vip-hair-room.jpg' },
+  facial: { label: 'VIP facial room', count: 1, photo: '/treatments/awc/vip-facial-room.jpg' },
+}
+
+/** Which VIP room a therapy uses: face care and the foot massage on the bed, head and hair therapies in the chair. */
+export function vipRoomFor(key: string | null | undefined): VipRoomKind {
+  if (!key) return 'facial'
+  if (key.startsWith('cat-face-care__') || key === 'cat-massage__paadha-abhyangam') return 'facial'
+  return 'hair'
 }
 
 export const EXTRAS: ExtraDef[] = [
@@ -72,7 +92,7 @@ export function resolveExtras(key: string | null | undefined, codes: unknown): C
     const def = allowed.find((e) => e.code === c)
     if (!def || seen.has(def.code)) continue
     seen.add(def.code)
-    out.push({ code: def.code, label: def.label, priceRm: def.priceRm, mins: def.mins })
+    out.push({ code: def.code, label: def.label, priceRm: def.priceRm, mins: def.mins, ...(def.kind === 'room' ? { room: vipRoomFor(key) } : {}) })
   }
   return out
 }
@@ -91,7 +111,16 @@ export function readExtras(raw: unknown): ChosenExtra[] {
   if (!Array.isArray(raw)) return []
   return raw.flatMap((e) =>
     e && typeof e === 'object' && typeof (e as ChosenExtra).code === 'string'
-      ? [{ code: (e as ChosenExtra).code, label: String((e as ChosenExtra).label ?? (e as ChosenExtra).code), priceRm: Number((e as ChosenExtra).priceRm ?? 0), mins: Number((e as ChosenExtra).mins ?? 0) }]
+      ? [{
+          code: (e as ChosenExtra).code,
+          label: String((e as ChosenExtra).label ?? (e as ChosenExtra).code),
+          priceRm: Number((e as ChosenExtra).priceRm ?? 0),
+          mins: Number((e as ChosenExtra).mins ?? 0),
+          ...((e as ChosenExtra).room ? { room: (e as ChosenExtra).room } : {}),
+        }]
       : [],
   )
 }
+
+/** Shown when every VIP room of the needed kind is taken at the chosen time. */
+export const VIP_FULL_ERROR = 'The VIP room is fully booked at that time. Please choose another time, or the standard treatment room.'

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { EXTRAS, extrasFor, extrasTotals, nameWithExtras, readExtras, resolveExtras, treatmentKey } from '../extras'
+import { EXTRAS, VIP_ROOMS, extrasFor, extrasTotals, nameWithExtras, readExtras, resolveExtras, treatmentKey, vipRoomFor } from '../extras'
 import { OFFERED_TREATMENT_IDS } from '@/data/treatments'
 
 const HEAD_NECK = 'cat-massage__head-neck-shoulder-massage'
@@ -51,5 +51,23 @@ describe('VIP Private Room', () => {
 
   it('Mukha Abhyangam with VIP is RM115 (the centre’s example)', () => {
     expect(95 + extrasTotals(resolveExtras('cat-face-care__mukha-abhyangam', ['vip_room'])).priceRm).toBe(115)
+  })
+})
+
+describe('VIP rooms', () => {
+  it('2 hair & scalp rooms and 1 facial room', () => {
+    expect(VIP_ROOMS.hair.count).toBe(2)
+    expect(VIP_ROOMS.facial.count).toBe(1)
+  })
+  it('face care and the foot massage use the facial room; head and hair therapies the hair room', () => {
+    expect(vipRoomFor('cat-face-care__mukha-lepam')).toBe('facial')
+    expect(vipRoomFor('cat-massage__paadha-abhyangam')).toBe('facial')
+    expect(vipRoomFor('cat-hair-care__thalapothichil')).toBe('hair')
+    expect(vipRoomFor('cat-massage__head-neck-shoulder-massage')).toBe('hair')
+    expect(vipRoomFor('cat-massage__siro-abhyangam')).toBe('hair')
+  })
+  it('records the room with the VIP choice', () => {
+    expect(resolveExtras('cat-face-care__njavara-facial', ['vip_room'])).toEqual([{ code: 'vip_room', label: 'VIP Private Room', priceRm: 20, mins: 0, room: 'facial' }])
+    expect(readExtras([{ code: 'vip_room', label: 'VIP Private Room', priceRm: 20, mins: 0, room: 'hair' }])[0].room).toBe('hair')
   })
 })

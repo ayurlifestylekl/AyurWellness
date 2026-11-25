@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { extrasTotals, nameWithExtras, resolveExtras, treatmentKey, type ChosenExtra } from '@/lib/booking/extras'
+import { vipRoomProblem } from '@/lib/booking/vip'
 import type { BookingKind, BookingStatus, StaffColorTag } from '@/types/booking'
 import { canTransition } from '@/lib/booking/status'
 import { mapOperationalTransitionWriteFailure, validateOperationalTransition } from '@/lib/booking/operations'
@@ -703,6 +704,9 @@ export async function createBookingFromGrid(input: {
   if (isBlocked(intervals, therapist.code, input.startAt, durationMins)) {
     return { error: `${therapist.name} (${therapist.code}) is blocked at that time.` }
   }
+
+  const vipProblem = await vipRoomProblem(db, [{ startISO: input.startAt, durationMins, extras }])
+  if (vipProblem) return { error: vipProblem }
 
   const { error } = await db.from('appointments').insert({
     customer_id: null,

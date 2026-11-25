@@ -12,12 +12,15 @@ import { submitInstantSingleBooking } from '@/lib/booking/instant-rules'
 import HealthIntakeFields from './HealthIntakeFields'
 import PolicyDisclaimers from './PolicyDisclaimers'
 import SlotPicker from './SlotPicker'
-import type { ExtraDef } from '@/lib/booking/extras'
+import Image from 'next/image'
+import { VIP_ROOMS, extrasFor, vipRoomFor, type ExtraDef } from '@/lib/booking/extras'
 import PhoneInput from './PhoneInput'
 
 /** A treatment a group guest can choose from. */
 export interface GroupTreatmentOption {
   id: string
+  /** Catalogue key "<category_id>__<slug>", for its add-ons (Hair Wash, VIP room). */
+  key?: string
   title: string
   price?: number | null
   requiresScalpDisclaimer?: boolean
@@ -30,6 +33,7 @@ interface BookingRequestFormProps {
   bookingKind: BookingKind
   treatment?: {
     id: string
+    key?: string
     title: string
     duration?: string | null
     price?: number | null
@@ -64,9 +68,11 @@ type GuestRow = {
   preferredAt: string
   /** This guest's own health intake. */
   health: HealthIntake
+  /** Add-on codes this guest chose (Hair Wash, VIP Private Room). */
+  extras: string[]
 }
 const MAX_GUESTS = 6
-const emptyGuest = (treatmentId = ''): GuestRow => ({ name: '', gender: '', age: '', treatmentId, preferredAt: '', health: {} })
+const emptyGuest = (treatmentId = ''): GuestRow => ({ name: '', gender: '', age: '', treatmentId, preferredAt: '', health: {}, extras: [] })
 
 export default function BookingRequestForm({
   bookingKind,
@@ -96,6 +102,7 @@ export default function BookingRequestForm({
       : treatment
         ? [{
             id: treatment.id,
+            key: treatment.key,
             title: treatment.title,
             price: treatment.price,
             requiresScalpDisclaimer: treatment.requiresScalpDisclaimer,
@@ -106,6 +113,9 @@ export default function BookingRequestForm({
         : []
   const priceById = new Map(options.map((o) => [o.id, typeof o.price === 'number' ? o.price : null]))
   const flagsById = new Map(options.map((o) => [o.id, o]))
+  /** Add-ons a group guest can choose for their therapy. */
+  const guestExtraDefs = (g: GuestRow) => extrasFor(flagsById.get(g.treatmentId || defaultTreatmentId)?.key)
+  const guestExtrasChosen = (g: GuestRow) => guestExtraDefs(g).filter((e) => g.extras.includes(e.code))
 
   const validateAge = (raw: string, minimumAge?: number | null): string | null => {
     if (typeof minimumAge !== 'number') return null
@@ -171,7 +181,7 @@ export default function BookingRequestForm({
   const groupTotal = isGroup
     ? guests
         .slice(0, partySize)
-        .reduce((sum, g) => sum + (priceById.get(g.treatmentId || defaultTreatmentId) ?? 0), 0)
+        .reduce((sum, g) => sum + (priceById.get(g.treatmentId || defaultTreatmentId) ?? 0) + guestExtrasChosen(g).reduce((s, e) => s + e.priceRm, 0), 0)
     : 0
   const priceText =
     bookingKind === 'consultation'
@@ -243,6 +253,7 @@ export default function BookingRequestForm({
             treatmentId: g.treatmentId || defaultTreatmentId,
             preferredAt: new Date(g.preferredAt).toISOString(),
             healthIntake: g.health,
+            extras: guestExtrasChosen(g).map((e) => e.code),
           })),
         })
       } else {
@@ -404,7 +415,7 @@ export default function BookingRequestForm({
                   {options.length > 1 && (
                     <select
                       value={g.treatmentId}
-                      onChange={(e) => setGuests((p) => p.map((x, j) => (j === i ? { ...x, treatmentId: e.target.value } : x)))}
+                      onChange={(e) => setGuests((p) => p.map((x, j) => (j === i ? { ...x, treatmentId: e.target.value, extras: [], preferredAt: '' } : x)))}
                       className={inputCls}
                       aria-label={`Therapy for guest ${i + 1}`}
                     >
@@ -417,10 +428,35 @@ export default function BookingRequestForm({
                       ))}
                     </select>
                   )}
+                  {guestExtraDefs(g).length > 0 && (
+                    <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+                      {guestExtraDefs(g).map((e) => (
+                        <label key={e.code} className="flex cursor-pointer items-center gap-2 font-body text-[14px] text-dark">
+                          <input
+                            type="checkbox"
+                            checked={g.extras.includes(e.code)}
+                            onChange={(ev) =>
+                              setGuests((p) =>
+                                p.map((x, j) =>
+                                  j === i
+                                    ? { ...x, extras: ev.target.checked ? [...x.extras, e.code] : x.extras.filter((c) => c !== e.code), preferredAt: e.mins ? '' : x.preferredAt }
+                                    : x,
+                                ),
+                              )
+                            }
+                            className="h-4 w-4 accent-accent"
+                          />
+                          {e.label} <span className="text-accent">+ RM{e.priceRm}</span>
+                          {e.mins > 0 && <span className="text-dark/55">· {e.mins} min</span>}
+                        </label>
+                      ))}
+                    </div>
+                  )}
                   <SlotPicker
                     treatmentId={g.treatmentId || defaultTreatmentId || null}
                     gender={g.gender}
                     mode="treatment"
+                    extraMins={guestExtrasChosen(g).reduce((s, e) => s + e.mins, 0)}
                     value={g.preferredAt}
                     onChange={(iso) => setGuests((p) => p.map((x, j) => (j === i ? { ...x, preferredAt: iso } : x)))}
                     label={`Date & time for ${g.name.trim() || `guest ${i + 1}`}`}
@@ -480,6 +516,7 @@ export default function BookingRequestForm({
                   price={`+ RM ${e.priceRm}`}
                   text={e.description}
                   badge="Optional"
+                  photo={VIP_ROOMS[vipRoomFor(treatment?.key)].photo}
                 />
               ))}
             </fieldset>
@@ -576,7 +613,7 @@ function Field({ label, required, children }: { label: string; required?: boolea
 }
 
 /** One option in "Choose your treatment experience" (Standard room or VIP Private Room). */
-function RoomChoice({ checked, onSelect, title, text, badge, price }: { checked: boolean; onSelect: () => void; title: string; text: string; badge: string; price?: string }) {
+function RoomChoice({ checked, onSelect, title, text, badge, price, photo }: { checked: boolean; onSelect: () => void; title: string; text: string; badge: string; price?: string; photo?: string }) {
   return (
     <label className={`mt-2 flex cursor-pointer items-start gap-3 rounded-lg border p-3 ${checked ? 'border-accent bg-cream/60' : 'border-accent/20 bg-white'}`}>
       <input type="radio" name="treatment-room" checked={checked} onChange={onSelect} className="mt-1 h-4 w-4 accent-accent" />
@@ -588,6 +625,7 @@ function RoomChoice({ checked, onSelect, title, text, badge, price }: { checked:
         {price && <span className="block font-heading text-[15px] font-bold text-accent">{price}</span>}
         <span className="block font-body text-[13px] text-dark/60">{text}</span>
       </span>
+      {photo && <Image src={photo} alt="" width={84} height={112} className="h-[84px] w-[63px] flex-none rounded-md object-cover" />}
     </label>
   )
 }

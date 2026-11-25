@@ -1,4 +1,5 @@
 import type { BookingKind, BookingRequestInput } from '@/types/booking'
+import { VIP_FULL_ERROR } from './extras'
 import { CONSULTATION_MINS } from './slots'
 
 export const GENERIC_INSTANT_ERROR = 'We couldn’t complete your booking right now. Please try again.'
@@ -62,6 +63,7 @@ function failureMessage(error: unknown): string {
 
 export function publicInstantFailure(error: unknown): string {
   const message = failureMessage(error)
+  if (message.includes('VIP_FULL')) return VIP_FULL_ERROR
   if (message.includes('SLOT_FULL')) return SLOT_TAKEN_ERROR
   if (message.includes('ACTIVE_LINKED_TREATMENT_EXISTS')) return ACTIVE_LINKED_TREATMENT_ERROR
   return GENERIC_INSTANT_ERROR

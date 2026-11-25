@@ -1,6 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { extrasTotals, nameWithExtras, resolveExtras, treatmentKey, type ChosenExtra } from './extras'
+import { vipRoomProblem } from './vip'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createClient as createSb } from '@supabase/supabase-js'
 import type { BookingRequestInput, Gender, HealthIntake } from '@/types/booking'
@@ -479,6 +481,8 @@ export interface GroupGuest {
   preferredAt: string
   /** This guest's own health intake. */
   healthIntake?: HealthIntake | null
+  /** Add-on codes for this guest (e.g. "hair_wash", "vip_room"); re-priced on the server. */
+  extras?: string[]
   /** Optional therapist the front desk wants to assign at creation time. */
   assignedTherapistCode?: string | null
 }
@@ -521,13 +525,13 @@ export async function createGroupBooking(input: {
   // Resolve every treatment the group picked (each guest falls back to the
   // booking's default treatment) in a single lookup — skipped when the front
   // desk used a generic duration instead of a catalog treatment.
-  const byId = new Map<string, { id: string; title: string; price_rm: number | null; booking_type: string | null; category_id: string | null; duration: string | null }>()
+  const byId = new Map<string, { id: string; title: string; slug: string | null; price_rm: number | null; booking_type: string | null; category_id: string | null; duration: string | null }>()
   if (input.treatmentId) {
     const guestTreatmentIds = guests.map((g) => g.treatmentId?.trim() || input.treatmentId!)
     const uniqueIds = Array.from(new Set(guestTreatmentIds))
     const { data: treatmentRows, error: tErr } = await sb
       .from('treatments')
-      .select('id, title, price_rm, booking_type, category_id, duration')
+      .select('id, title, slug, price_rm, booking_type, category_id, duration')
       .in('id', uniqueIds)
     if (tErr) return { error: tErr.message }
     for (const [id, t] of (treatmentRows ?? []).map((t) => [t.id, t] as const)) byId.set(id, t)
@@ -550,14 +554,17 @@ export async function createGroupBooking(input: {
     const t = input.treatmentId ? byId.get(g.treatmentId?.trim() || input.treatmentId) : undefined
     const guestDurationMins = g.durationMins && g.durationMins > 0 ? g.durationMins : genericDurationMins
     const guestTreatmentName = g.treatmentName?.trim() || genericTreatmentName
+    // Add-ons (Hair Wash, VIP Private Room) only with a catalogue therapy.
+    const extras = t ? resolveExtras(treatmentKey(t.category_id, t.slug), g.extras) : []
+    const extra = extrasTotals(extras)
     return {
       customer_id: null,
       is_guest: true,
       booking_kind: 'treatment',
       treatment_id: t?.id ?? null,
       treatment_category_id: t?.category_id ?? null,
-      treatment_name: t?.title ?? guestTreatmentName,
-      duration_mins: t ? parseDurationMins(t.duration) : guestDurationMins,
+      treatment_name: t ? nameWithExtras(t.title, extras) : guestTreatmentName,
+      duration_mins: t ? parseDurationMins(t.duration) + extra.mins : guestDurationMins,
       status: assigned ? 'scheduled' : 'pending',
       requested_datetime: g.preferredAt,
       requested_datetime_alt: null,
@@ -570,12 +577,16 @@ export async function createGroupBooking(input: {
       guest_age: g.age ?? null,
       group_id: groupId,
       pre_visit_form: g.healthIntake ?? {},
-      payable_amount_rm: t?.price_rm ?? null,
+      payable_amount_rm: t?.price_rm != null ? Number(t.price_rm) + extra.priceRm : null,
       payment_status: 'unpaid',
       created_by_admin_id: userId,
       assigned_therapist_code: assigned,
+      ...(extras.length ? { extras } : {}),
     }
   })
+
+  const vipProblem = await vipRoomProblem(sb, rows.map((r) => ({ startISO: r.appointment_date_time, durationMins: r.duration_mins, extras: (r as { extras?: ChosenExtra[] }).extras ?? [] })))
+  if (vipProblem) return { error: vipProblem }
 
   const { data, error } = await sb.from('appointments').insert(rows).select('id')
   if (error) return { error: error.message }

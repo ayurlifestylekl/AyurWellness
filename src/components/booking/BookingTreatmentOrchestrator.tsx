@@ -81,6 +81,7 @@ export default function BookingTreatmentOrchestrator({
   const formTreatment = selected
     ? {
         id: selected._id,
+        key: selected.catalogueKey,
         title: selected.title,
         duration: selected.duration,
         price: selected.price,
@@ -106,6 +107,7 @@ export default function BookingTreatmentOrchestrator({
     })
     .map((t) => ({
       id: t._id,
+      key: t.catalogueKey,
       title: t.title,
       price: t.price,
       requiresScalpDisclaimer: t.requiresScalpDisclaimer,
