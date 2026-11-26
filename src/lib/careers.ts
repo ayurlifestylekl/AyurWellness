@@ -20,7 +20,7 @@ export const VACANCY = {
   /** Where applicants send their resume. */
   applyEmail: 'ayurvedicwellness2026@gmail.com',
   datePosted: '2026-11-26',
-  poster: '/careers/admin-assistant-hiring.jpg',
+  poster: '/careers/admin-assistant-hiring-v2.jpg',
   duties: [
     'Provide administrative support to ensure smooth office operations',
     'Assist in documentation, filing and data entry',
