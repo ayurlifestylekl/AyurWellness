@@ -5,6 +5,8 @@ import ClinicTherapies from '@/components/sections/ClinicTherapies'
 import PromoBanners from '@/components/sections/PromoBanners'
 import FeaturedProducts from '@/components/sections/FeaturedProducts'
 import FAQs from '@/components/sections/FAQs'
+import HiringSection from '@/components/sections/HiringSection'
+import { HIRING_OPEN } from '@/lib/careers'
 import FinalBookingCTA from '@/components/sections/FinalBookingCTA'
 import { COMMERCE_ENABLED } from '@/lib/admin/features'
 import { CLINIC_DOMAIN, CLINIC_EMAIL, CLINIC_LEGAL_NAME, CLINIC_NAME, CLINIC_PHONE_PRIMARY, CLINIC_SOCIALS } from '@/lib/clinic'
@@ -74,6 +76,7 @@ export default async function Home() {
       <ClinicTherapies />
       <FeaturedProducts />
       {COMMERCE_ENABLED && <PromoBanners />}
+      {HIRING_OPEN && <HiringSection />}
       <FAQs items={homeFaqs} />
       <FinalBookingCTA />
     </>

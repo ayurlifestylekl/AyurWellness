@@ -9,6 +9,7 @@ const quickLinks = [
   { label: 'Products',      href: '/products' },
   { label: 'Book Now',      href: '/book' },
   { label: 'Blog',          href: '/blog' },
+  { label: 'Careers',       href: '/careers' },
   { label: 'My Account',    href: '/account/dashboard' },
 ]
 
