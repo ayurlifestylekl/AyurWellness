@@ -31,7 +31,9 @@ export const VACANCY = {
   perks: ['Friendly work environment', 'Learn and grow your skills', 'Career development opportunities', 'Supportive management team'],
 } as const
 
+/** Opens a new email to the centre, with the subject and a short opening line filled in. */
 export function applyMailto(): string {
   const subject = encodeURIComponent(`Application: ${VACANCY.title}`)
-  return `mailto:${VACANCY.applyEmail}?subject=${subject}`
+  const body = encodeURIComponent(`Hi, I would like to apply for the ${VACANCY.title} position. My resume is attached.\n\nName:\nPhone:\n`)
+  return `mailto:${VACANCY.applyEmail}?subject=${subject}&body=${body}`
 }

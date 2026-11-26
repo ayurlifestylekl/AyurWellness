@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Mail, MapPin } from 'lucide-react'
 import { VACANCY, applyMailto } from '@/lib/careers'
+import CopyEmailButton from '@/components/CopyEmailButton'
 
 /** Home page vacancy section: the poster beside the key details and the apply buttons. */
 export default function HiringSection() {
@@ -36,6 +37,10 @@ export default function HiringSection() {
             <Link href="/careers" className="inline-flex min-h-[48px] items-center rounded-full border border-primary/40 px-7 font-heading text-[11px] font-bold uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/5">
               See the full details
             </Link>
+            <CopyEmailButton
+              email={VACANCY.applyEmail}
+              className="inline-flex min-h-[48px] items-center gap-2 rounded-full border border-primary/25 px-5 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-primary/80 transition-colors hover:bg-primary/5"
+            />
           </div>
         </div>
       </div>

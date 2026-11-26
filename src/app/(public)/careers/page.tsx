@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Check, MapPin, Mail, Wallet } from 'lucide-react'
 import { CLINIC_DOMAIN, CLINIC_LEGAL_NAME, CLINIC_NAME } from '@/lib/clinic'
 import { HIRING_OPEN, VACANCY, applyMailto } from '@/lib/careers'
+import CopyEmailButton from '@/components/CopyEmailButton'
 
 export const metadata: Metadata = {
   title: HIRING_OPEN ? `Careers: ${VACANCY.title}` : 'Careers',
@@ -99,8 +100,12 @@ export default function CareersPage() {
                 <h2 className="font-heading text-[20px] font-bold">How to apply</h2>
                 <p className="mt-1.5 font-body text-[14.5px] text-white/80">Send your resume to <strong className="break-all">{VACANCY.applyEmail}</strong>.</p>
                 <a href={applyMailto()} className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[#C8102E] px-7 font-heading text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#a60d26]">
-                  <Mail className="h-4 w-4" aria-hidden /> Email your resume
+                  <Mail className="h-4 w-4" aria-hidden /> Apply now: email your resume
                 </a>
+                <CopyEmailButton
+                  email={VACANCY.applyEmail}
+                  className="ml-3 mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-full border border-white/40 px-5 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10"
+                />
               </div>
             </div>
 
