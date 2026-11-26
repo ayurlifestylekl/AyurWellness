@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { X, Sparkles } from 'lucide-react'
 import LeadCaptureForm from './LeadCaptureForm'
+import { WELCOME_POPUP_CLOSED, WELCOME_SEEN_KEY } from '@/lib/popups'
 
-const SEEN = 'kal-welcome-seen'
+const SEEN = WELCOME_SEEN_KEY
 const CAPTURED = 'kal-lead-captured'
 
 /**
@@ -34,6 +35,8 @@ export default function WelcomeLeadPopup({ accountsOpen = true }: { accountsOpen
       /* ignore */
     }
     setShow(false)
+    // Lets the hiring popup follow this one rather than cover it.
+    window.dispatchEvent(new Event(WELCOME_POPUP_CLOSED))
   }
 
   const captured = () => {
