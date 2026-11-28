@@ -14,7 +14,7 @@ export async function loadJtOrders(ids: string[]): Promise<JtOrder[]> {
   const sb = serviceDb()
   const { data, error } = await sb
     .from('product_orders')
-    .select('id, order_number, phone, subtotal_rm, payment_status, product_order_items(product_id, product_name, quantity), product_order_addresses(name, phone, line_1, line_2, city, postcode, state, country)')
+    .select('id, order_number, phone, email, subtotal_rm, payment_status, product_order_items(product_id, product_name, quantity), product_order_addresses(name, email, phone, line_1, line_2, city, postcode, state, country)')
     .in('id', ids)
     .eq('payment_status', 'paid')
     .order('paid_at', { ascending: true })
@@ -38,6 +38,7 @@ export async function loadJtOrders(ids: string[]): Promise<JtOrder[]> {
       postcode: a.postcode ?? '',
       addressLines: [a.line_1, a.line_2, a.city, a.state].filter(Boolean),
       country: a.country ?? '',
+      email: a.email ?? o.email ?? null,
       goodsValueRm: Number(o.subtotal_rm ?? 0),
       items: (o.product_order_items ?? []).map((i: { product_id: string | null; product_name: string; quantity: number }) => ({
         name: i.product_name,

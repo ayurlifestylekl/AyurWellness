@@ -1,6 +1,7 @@
 import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate'
 import { CLINIC_NAME, CLINIC_PHONE_PRIMARY } from '@/lib/clinic'
 import { JT_TEMPLATE_BASE64 } from './jt-template'
+import { JT_INTL_TEMPLATE_BASE64 } from './jt-intl-template'
 
 /**
  * J&T Express has no API for this account, so shop orders go to J&T as a file:
@@ -47,7 +48,9 @@ export interface JtOrder {
   receiverPhone: string
   postcode: string
   addressLines: string[]
+  /** ISO code as saved at checkout, e.g. MY, SG. */
   country: string
+  email?: string | null
   /** Goods value (RM), shipping excluded. */
   goodsValueRm: number
   items: { name: string; quantity: number; weightGrams: number | null }[]
@@ -86,8 +89,8 @@ export function buildJtRows(orders: JtOrder[]): { rows: JtRow[]; skipped: { orde
   const skipped: { orderNumber: string; reason: string }[] = []
   const s = JT_SETTINGS
   for (const o of orders) {
-    if (o.country && !/^(MY|MYS|MALAYSIA)$/i.test(o.country.trim())) {
-      skipped.push({ orderNumber: o.orderNumber, reason: `Ships to ${o.country}; this J&T account is for Malaysia.` })
+    if (!isMalaysia(o.country)) {
+      skipped.push({ orderNumber: o.orderNumber, reason: `Ships to ${o.country}: use Download for J&T International.` })
       continue
     }
     if (!o.postcode || !o.addressLines.some(Boolean)) {
@@ -132,7 +135,8 @@ export function buildJtRows(orders: JtOrder[]): { rows: JtRow[]; skipped: { orde
   return { rows, skipped }
 }
 
-const COLS = 'ABCDEFGHIJKLMNOPQRSTUVWXY'.split('')
+/** Spreadsheet column letters: A … Z, AA … AZ. */
+const COLS = Array.from({ length: 52 }, (_, i) => (i < 26 ? '' : String.fromCharCode(64 + Math.floor(i / 26))) + String.fromCharCode(65 + (i % 26)))
 
 function xmlText(v: string): string {
   return v
@@ -158,21 +162,143 @@ function base64ToBytes(b64: string): Uint8Array {
   return Uint8Array.from(bin, (c) => c.charCodeAt(0))
 }
 
-/** J&T's template with the rows added under its header. */
-export function buildJtWorkbook(rows: JtRow[]): Uint8Array {
-  const files = unzipSync(base64ToBytes(JT_TEMPLATE_BASE64))
+/**
+ * A J&T template with our rows from row 2 down. Rows the template already has
+ * there (its example row, empty formatted rows) are replaced; the header,
+ * dropdowns and list sheets are left exactly as J&T made them.
+ */
+function fillTemplate(templateB64: string, rows: JtRow[], width: number): Uint8Array {
+  const files = unzipSync(base64ToBytes(templateB64))
   const path = 'xl/worksheets/sheet1.xml'
-  let sheet = strFromU8(files[path])
-  const body = rows
-    .map((r, i) => {
-      const n = i + 2
-      return `<row r="${n}">${r.cells.map((v, c) => cellXml(`${COLS[c]}${n}`, v)).join('')}</row>`
-    })
-    .join('\n')
-  sheet = sheet.replace('</sheetData>', `${body}\n</sheetData>`)
-  sheet = sheet.replace(/<dimension ref="[^"]*"\/>/, `<dimension ref="A1:Y${rows.length + 1}"/>`)
-  files[path] = strToU8(sheet)
+  const sheet = strFromU8(files[path])
+  const start = sheet.indexOf('<sheetData')
+  const open = sheet.indexOf('>', start) + 1
+  const close = sheet.indexOf('</sheetData>')
+  const existing = new Map<number, string>()
+  for (const m of Array.from(sheet.slice(open, close).matchAll(/<row\b[^>]*?r="(\d+)"[^>]*?(?:\/>|>[\s\S]*?<\/row>)/g))) existing.set(Number(m[1]), m[0])
+  rows.forEach((r, i) => {
+    const n = i + 2
+    existing.set(n, `<row r="${n}">${r.cells.slice(0, width).map((v, c) => cellXml(`${COLS[c]}${n}`, v)).join('')}</row>`)
+  })
+  const body = Array.from(existing.entries()).sort((a, b) => a[0] - b[0]).map((e) => e[1]).join('')
+  let out = sheet.slice(0, open) + body + sheet.slice(close)
+  const lastRow = Math.max(rows.length + 1, ...Array.from(existing.keys()))
+  out = out.replace(/<dimension ref="[^"]*"\/>/, `<dimension ref="A1:${COLS[width - 1]}${lastRow}"/>`)
+  files[path] = strToU8(out)
   return zipSync(files, { level: 6 })
+}
+
+/** J&T's Malaysia template with the rows added under its header. */
+export function buildJtWorkbook(rows: JtRow[]): Uint8Array {
+  return fillTemplate(JT_TEMPLATE_BASE64, rows, 25)
+}
+
+// ── International (Singapore, Brunei, Vietnam) ──────────────────────────────
+
+/** J&T international only goes to these; codes as in its template. */
+export const JT_INTL_COUNTRIES: Record<string, { code: 'SIN' | 'BWN' | 'VNM'; name: string; area: string | null }> = {
+  SG: { code: 'SIN', name: 'Singapore', area: 'Singapore' },
+  BN: { code: 'BWN', name: 'Brunei', area: 'BRUNEI' },
+  // Vietnam's province / city / district come from J&T's long lists; staff pick them in the file.
+  VN: { code: 'VNM', name: 'Vietnam', area: null },
+}
+
+export const JT_INTL_SETTINGS = {
+  /**
+   * "Goods Name" must be one of J&T's list. It has no entry for oils or
+   * skincare, so it stays blank until J&T confirms what to declare.
+   */
+  goodsName: null as string | null,
+  /** 'PERSONAL' or 'BUSINESS'. null = left blank until confirmed. */
+  transportationPurpose: null as 'PERSONAL' | 'BUSINESS' | null,
+  /** 'DDU' (receiver pays import duty) or 'DDP' (sender pays). null = left blank until confirmed. */
+  shippingTerms: null as 'DDU' | 'DDP' | null,
+}
+
+export function isMalaysia(country: string): boolean {
+  return !country || /^(MY|MYS|MALAYSIA)$/i.test(country.trim())
+}
+
+/** International phone as digits with the country code, e.g. 6591234567. */
+export function intlPhone(raw: string | null | undefined): string {
+  return String(raw ?? '').replace(/\D/g, '')
+}
+
+/** The 39 columns of J&T's international template, in order (A to AM). */
+export function buildJtIntlRows(orders: JtOrder[]): { rows: JtRow[]; skipped: { orderNumber: string; reason: string }[] } {
+  const rows: JtRow[] = []
+  const skipped: { orderNumber: string; reason: string }[] = []
+  const s = JT_SETTINGS
+  const i = JT_INTL_SETTINGS
+  for (const o of orders) {
+    if (isMalaysia(o.country)) {
+      skipped.push({ orderNumber: o.orderNumber, reason: 'Ships within Malaysia: use Download for J&T (Malaysia).' })
+      continue
+    }
+    const dest = JT_INTL_COUNTRIES[o.country.trim().toUpperCase()]
+    if (!dest) {
+      skipped.push({ orderNumber: o.orderNumber, reason: `Ships to ${o.country}; J&T international only goes to Singapore, Brunei and Vietnam.` })
+      continue
+    }
+    if (!o.addressLines.some(Boolean)) {
+      skipped.push({ orderNumber: o.orderNumber, reason: 'No delivery address on the order.' })
+      continue
+    }
+    const { kg, estimated } = parcelKg(o.items)
+    const quantity = o.items.reduce((n, it) => n + it.quantity, 0)
+    const value = Math.round(o.goodsValueRm * 100) / 100
+    rows.push({
+      orderNumber: o.orderNumber,
+      weightEstimated: estimated,
+      cells: [
+        kg, // A Actual Weight
+        s.sender.name, // B Sender Name
+        localPhone(s.sender.phone), // C Sender Phone
+        s.sender.postcode, // D Sender Postcode
+        s.sender.address, // E Sender Address
+        dest.code, // F Destination country/area
+        dest.area, // G Destination Province
+        dest.area, // H Destination City
+        dest.area, // I Destination District
+        o.receiverName.trim(), // J Recipient Name
+        intlPhone(o.receiverPhone), // K Recipient Phone
+        o.postcode.trim() || null, // L Recipient Postcode
+        s.addressType, // M Recipient Address Type
+        o.addressLines.map((l) => l.trim()).filter(Boolean).join(', '), // N Recipient address
+        o.email?.trim() || null, // O Receiver Email
+        s.paymentMethod, // P Payment Method
+        s.serviceType, // Q SERVICE TYPE
+        s.box?.length ?? null, // R Item length(cm)
+        s.box?.width ?? null, // S Item width(cm)
+        s.box?.height ?? null, // T Item height(cm)
+        'PARCEL', // U Goods Type
+        o.orderNumber, // V Customer Order Number
+        null, // W Identity Card No/Passport No
+        s.remarks || null, // X Remarks
+        i.goodsName, // Y Goods Name (J&T's list)
+        quantity, // Z Quantity
+        value, // AA Total Value
+        kg, // AB Weight
+        null, // AC Weight Unit
+        null, // AD Origin Country
+        null, // AE Record Number
+        null, // AF HS Tariff Code
+        i.transportationPurpose, // AG Transportation Purpose
+        i.shippingTerms, // AH Shipping Terms
+        'NO', // AI Old Item
+        null, // AJ Brand Name
+        value, // AK Item Value
+        s.insurance, // AL insurance
+        null, // AM COD Value
+      ],
+    })
+  }
+  return { rows, skipped }
+}
+
+/** J&T's international template with the rows from row 2 (its example row removed). */
+export function buildJtIntlWorkbook(rows: JtRow[]): Uint8Array {
+  return fillTemplate(JT_INTL_TEMPLATE_BASE64, rows, 39)
 }
 
 // ── Reading J&T's export back (waybill numbers) ──────────────────────────────

@@ -91,7 +91,16 @@ export default function FulfilmentQueue({ orders }: { orders: FulfilmentQueueIte
               download
               className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#E30613] px-3 font-heading text-[11.5px] font-semibold text-white hover:bg-[#c00510]"
             >
-              <FileSpreadsheet className="h-3.5 w-3.5" /> Download for J&amp;T
+              <FileSpreadsheet className="h-3.5 w-3.5" /> J&amp;T Malaysia
+            </a>
+          )}
+          {tab !== 'shipped' && (
+            <a
+              href={`/product-management/fulfillment/jt-export?kind=intl&ids=${selectedIds.join(',')}`}
+              download
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#E30613]/40 bg-white px-3 font-heading text-[11.5px] font-semibold text-[#E30613] hover:bg-[#E30613]/5"
+            >
+              <FileSpreadsheet className="h-3.5 w-3.5" /> J&amp;T International
             </a>
           )}
           {tab === 'paid' && (

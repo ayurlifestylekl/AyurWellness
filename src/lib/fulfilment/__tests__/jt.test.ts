@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate'
-import { buildJtRows, buildJtWorkbook, localPhone, matchWaybills, parcelKg, readCsv, readTable, readXlsx, type JtOrder } from '../jt'
+import { buildJtIntlRows, buildJtIntlWorkbook, buildJtRows, buildJtWorkbook, localPhone, matchWaybills, parcelKg, readCsv, readTable, readXlsx, type JtOrder } from '../jt'
 
 const order = (over: Partial<JtOrder> = {}): JtOrder => ({
   orderNumber: 'ORD-2026-00012',
@@ -113,5 +113,54 @@ describe('reading J&T’s export back', () => {
 
   it('asks for .xlsx or .csv when given an old-style .xls', () => {
     expect(readTable('old.xls', new Uint8Array([0xd0, 0xcf, 0x11, 0xe0]))).toHaveProperty('error')
+  })
+})
+
+describe('J&T international', () => {
+  it('fills the 39 columns for Singapore, with the area names J&T expects', () => {
+    const { rows, skipped } = buildJtIntlRows([order({ orderNumber: 'ORD-2026-00040', country: 'SG', postcode: '238859', receiverPhone: '+65 9123 4567', email: 'a@b.sg', addressLines: ['1 Orchard Road', '#05-01', 'Singapore'] })])
+    expect(skipped).toEqual([])
+    const c = rows[0].cells
+    expect(c).toHaveLength(39)
+    expect(c.slice(5, 9)).toEqual(['SIN', 'Singapore', 'Singapore', 'Singapore'])
+    expect(c[9]).toBe('Priya Raj')
+    expect(c[10]).toBe('6591234567')
+    expect(c[11]).toBe('238859')
+    expect(c[14]).toBe('a@b.sg')
+    expect(c[21]).toBe('ORD-2026-00040')
+    expect(c[24]).toBeNull() // Goods Name waits for J&T's answer
+    expect(c[26]).toBe(158)
+    expect(c[34]).toBe('NO')
+  })
+
+  it('Brunei uses BRUNEI; Vietnam leaves the area for staff to pick', () => {
+    const { rows } = buildJtIntlRows([order({ country: 'BN' }), order({ orderNumber: 'ORD-2026-00041', country: 'VN' })])
+    expect(rows[0].cells.slice(5, 9)).toEqual(['BWN', 'BRUNEI', 'BRUNEI', 'BRUNEI'])
+    expect(rows[1].cells.slice(5, 9)).toEqual(['VNM', null, null, null])
+  })
+
+  it('sends each order to the right file', () => {
+    const mixed = [order(), order({ orderNumber: 'ORD-2026-00050', country: 'SG' }), order({ orderNumber: 'ORD-2026-00051', country: 'AU' })]
+    expect(buildJtRows(mixed).rows.map((r) => r.orderNumber)).toEqual(['ORD-2026-00012'])
+    const intl = buildJtIntlRows(mixed)
+    expect(intl.rows.map((r) => r.orderNumber)).toEqual(['ORD-2026-00050'])
+    expect(intl.skipped.find((s) => s.orderNumber === 'ORD-2026-00051')?.reason).toMatch(/Singapore, Brunei and Vietnam/)
+  })
+
+  it('replaces J&T’s example row and keeps the list sheet', () => {
+    const { rows } = buildJtIntlRows([order({ country: 'SG', receiverName: 'First' }), order({ orderNumber: 'ORD-2026-00042', country: 'BN', receiverName: 'Second' })])
+    const bytes = buildJtIntlWorkbook(rows)
+    const files = unzipSync(bytes)
+    expect(Object.keys(files)).toEqual(expect.arrayContaining(['xl/worksheets/sheet2.xml', 'xl/tables/table2.xml']))
+    const table = readXlsx(bytes)
+    expect(table[0][0]).toBe('Actual Weight')
+    expect(table[0][38]).toBe('COD Value')
+    expect(table[1][9]).toBe('First')
+    expect(table[2][9]).toBe('Second')
+    expect(table.flat()).not.toContain('test')
+    // Each row number appears once.
+    const sheet = strFromU8(files['xl/worksheets/sheet1.xml'])
+    expect(sheet.match(/<row r="2"/g)).toHaveLength(1)
+    expect(sheet.match(/<row r="3"/g)).toHaveLength(1)
   })
 })

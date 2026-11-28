@@ -17,7 +17,7 @@ const STATE_TEXT: Record<WaybillMatch['state'], string> = {
  * The J&T steps for staff, and step 3: upload J&T's order export so each
  * waybill number is matched to its website order and the order marked shipped.
  */
-export default function JtPanel({ missingSettings }: { missingSettings: string[] }) {
+export default function JtPanel({ missingSettings, missingIntlSettings }: { missingSettings: string[]; missingIntlSettings: string[] }) {
   const router = useRouter()
   const [open, setOpen] = useState(true)
   const [matches, setMatches] = useState<WaybillMatch[] | null>(null)
@@ -61,12 +61,17 @@ export default function JtPanel({ missingSettings }: { missingSettings: string[]
       {open && (
         <div className="mt-4 grid gap-5 lg:grid-cols-2">
           <ol className="space-y-2.5 font-body text-[13.5px] leading-relaxed text-[#12372D]/80">
-            <li><strong>1.</strong> Below, tick the orders to send and press <strong>Download for J&amp;T</strong>. You get J&amp;T’s bulk import file with the orders filled in.</li>
-            <li><strong>2.</strong> In the J&amp;T portal, go to <strong>Order → Bulk Import Orders</strong> and upload that file. Print the labels from J&amp;T.</li>
+            <li><strong>1.</strong> Below, tick the orders to send and press <strong>J&amp;T Malaysia</strong> (orders within Malaysia) or <strong>J&amp;T International</strong> (Singapore, Brunei, Vietnam). You get J&amp;T’s import file with the orders filled in. Orders that don’t belong in that file are left out.</li>
+            <li><strong>2.</strong> In the J&amp;T portal, upload it: Malaysia orders under <strong>Order → Bulk Import Orders</strong>, international ones under <strong>Order → International Orders</strong>. Print the labels from J&amp;T.</li>
             <li><strong>3.</strong> In J&amp;T’s <strong>Order Management</strong>, export the orders (the file must include the waybill numbers and the Customer Order Number). Upload it here. Each order is marked shipped with its waybill number, and the customer can track it.</li>
             {missingSettings.length > 0 && (
               <li className="rounded-lg bg-amber-50 px-3 py-2 text-[12.5px] text-amber-900">
                 Not set yet: <strong>{missingSettings.join(', ')}</strong>. These columns are left empty in the file; choose them in the J&amp;T portal, or ask your developer to fill them in once.
+              </li>
+            )}
+            {missingIntlSettings.length > 0 && (
+              <li className="rounded-lg bg-amber-50 px-3 py-2 text-[12.5px] text-amber-900">
+                International file, not set yet: <strong>{missingIntlSettings.join(', ')}</strong>. Fill these in before uploading. For Vietnam, also pick the province, city and district from the dropdowns.
               </li>
             )}
           </ol>

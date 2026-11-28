@@ -1,7 +1,7 @@
 import { listFulfilmentQueue } from '@/lib/product-management/queries'
 import FulfilmentQueue from './FulfilmentQueue'
 import JtPanel from './JtPanel'
-import { JT_SETTINGS } from '@/lib/fulfilment/jt'
+import { JT_INTL_SETTINGS, JT_SETTINGS } from '@/lib/fulfilment/jt'
 
 export const metadata = { title: 'Fulfillment · Product Management' }
 export const dynamic = 'force-dynamic'
@@ -23,7 +23,14 @@ export default async function ProductManagementFulfillmentPage() {
           Paid orders waiting to be packed and shipped. Tick orders to print labels or packing slips in one go.
         </p>
       </header>
-      <JtPanel missingSettings={missing} />
+      <JtPanel
+        missingSettings={missing}
+        missingIntlSettings={[
+          ...(JT_INTL_SETTINGS.goodsName ? [] : ['Goods Name']),
+          ...(JT_INTL_SETTINGS.transportationPurpose ? [] : ['Transportation Purpose']),
+          ...(JT_INTL_SETTINGS.shippingTerms ? [] : ['Shipping Terms (DDU / DDP)']),
+        ]}
+      />
       <FulfilmentQueue orders={queue} />
     </div>
   )
