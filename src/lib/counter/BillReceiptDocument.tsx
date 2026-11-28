@@ -94,6 +94,10 @@ const s = StyleSheet.create({
   pVal: { fontWeight: 600, textAlign: 'right' },
   footer: { marginTop: 24, paddingTop: 11, borderTopWidth: 0.7, borderTopColor: fade(C.dark, 0.12), textAlign: 'center', fontSize: 8.4, lineHeight: 1.6, color: fade(C.dark, 0.6) },
   thanks: { color: C.primary, fontWeight: 600 },
+  signRow: { marginTop: 14, flexDirection: 'row' },
+  signBox: { flex: 1, borderWidth: 0.7, borderColor: fade(C.dark, 0.2), borderRadius: 6, padding: 8, height: 92 },
+  signImg: { height: 46, objectFit: 'contain', marginVertical: 3 },
+  signLine: { borderTopWidth: 0.7, borderTopColor: fade(C.dark, 0.35), paddingTop: 3, fontSize: 8.4, color: fade(C.dark, 0.75) },
 })
 
 const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) => new Date(iso).toLocaleString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', ...opts })
@@ -219,10 +223,24 @@ export default function BillReceiptDocument({ bill, patientNo, assetBase }: { bi
             </View>
           )}
 
-          <View style={s.footer}>
+          {bill.signature && (
+            <View style={s.signRow} wrap={false}>
+              <View style={[s.signBox, { marginRight: 14 }]}>
+                <Text style={s.label}>Customer signature</Text>
+                {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image, not an HTML img */}
+                <Image src={bill.signature.png} style={s.signImg} />
+                <Text style={s.signLine}>{bill.signature.name} · {fmt(bill.signature.at, { dateStyle: 'medium', timeStyle: 'short' })}</Text>
+              </View>
+              <View style={s.signBox}>
+                <Text style={s.label}>Company stamp</Text>
+              </View>
+            </View>
+          )}
+
+          <View style={bill.signature ? [s.footer, { marginTop: 12, paddingTop: 8 }] : s.footer}>
             <Text style={s.thanks}>Thank you for choosing {BILL_ISSUER.tradingName}.</Text>
             <Text>{BILL_ISSUER.bookingLine}</Text>
-            <Text>This is a computer-generated receipt — no signature is required. · {BILL_ISSUER.website}</Text>
+            <Text>{bill.signature ? 'Signed by the customer for claim purposes.' : 'This is a computer-generated receipt — no signature is required.'} · {BILL_ISSUER.website}</Text>
           </View>
         </View>
       </Page>

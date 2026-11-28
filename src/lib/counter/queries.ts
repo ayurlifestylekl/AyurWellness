@@ -61,6 +61,8 @@ export interface Bill {
   /** Taken by the payment method. */
   amountPaidRm: number
   balanceUses: { kind: BalanceKind; amount: number }[]
+  /** Customer's signature for a claim (PNG data URL), the name signed and when; null if not signed. */
+  signature: { png: string; name: string; at: string } | null
 }
 
 const BILL_COLUMNS =
@@ -109,6 +111,7 @@ function mapBill(r: any, names: Map<string, string>): Bill {
     balanceUses: ((r.patient_balance_entries ?? []) as any[])
       .filter((e) => Number(e.amount) < 0 && e.kind !== 'outstanding')
       .map((e) => ({ kind: e.kind as BalanceKind, amount: -Number(e.amount) })),
+    signature: null,
   }
 }
 
@@ -131,7 +134,12 @@ export async function getBill(db: ServiceDb, id: string): Promise<Bill | null | 
     logError('bill', error)
     return missingTable(error) ? undefined : null
   }
-  return data ? (await withNames(db, [data]))[0] : null
+  if (!data) return null
+  const bill = (await withNames(db, [data]))[0]
+  // Signature columns arrive with 20261202_bill_signatures.sql; a bill reads fine without them.
+  const { data: sig } = await db.from('counter_sales').select('signature_png, signed_name, signed_at').eq('id', id).maybeSingle()
+  if (sig?.signature_png) bill.signature = { png: sig.signature_png, name: sig.signed_name ?? bill.customerName, at: sig.signed_at ?? bill.createdAt }
+  return bill
 }
 
 export interface BillLists {

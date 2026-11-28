@@ -323,3 +323,29 @@ export async function recordBalanceEntry(raw: unknown): Promise<Result> {
   })
   return error ? fail('balance entry', error, 'Could not save. Please try again.') : { ok: true }
 }
+
+const PNG = /^data:image\/png;base64,[A-Za-z0-9+/=]+$/
+
+/**
+ * The customer signs the receipt on the tablet, for a claim. Signing again
+ * replaces the signature; `png: null` removes it.
+ */
+export async function signBill(billId: string, raw: unknown): Promise<Result> {
+  const { db } = await requireStaff(STAFF)
+  const parsed = z
+    .object({ png: z.string().max(400_000).regex(PNG).nullable(), name: z.string().trim().min(1, 'Enter the name of the person signing.').max(120).optional() })
+    .safeParse(raw)
+  if (!uuid.safeParse(billId).success || !parsed.success) return { ok: false, error: parsed.success ? 'Bill not found.' : parsed.error.errors[0]?.message ?? 'Please sign again.' }
+  const { png, name } = parsed.data
+  const { data: bill } = await db.from('counter_sales').select('id, customer_name').eq('id', billId).maybeSingle()
+  if (!bill) return { ok: false, error: 'Bill not found.' }
+  const patch = png
+    ? { signature_png: png, signed_name: name ?? bill.customer_name, signed_at: new Date().toISOString() }
+    : { signature_png: null, signed_name: null, signed_at: null }
+  const { error } = await db.from('counter_sales').update(patch).eq('id', billId)
+  if (error) {
+    if (/signature_png|signed_/.test(error.message)) return { ok: false, error: 'Signing needs a one-time database update. Please ask your developer to run it.' }
+    return fail('sign', error, 'Could not save the signature. Please try again.')
+  }
+  return { ok: true }
+}

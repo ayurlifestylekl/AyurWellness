@@ -8,6 +8,7 @@ import { getPatientRecord } from '@/lib/staff/patients'
 import { formatPatientNo } from '@/lib/staff/patient-id'
 import BillReceipt from '@/components/staff/BillReceipt'
 import PrintButton from '@/components/staff/PrintButton'
+import SignForClaim from '@/components/staff/SignForClaim'
 
 /** A bill's receipt: shared by the front desk and doctor portals. */
 export default async function ReceiptScreen({ db, id, base }: { db: ServiceDb; id: string; base: StaffBase }) {
@@ -25,6 +26,7 @@ export default async function ReceiptScreen({ db, id, base }: { db: ServiceDb; i
               Back to bill
             </Link>
           )}
+          {bill.status === 'paid' && <SignForClaim billId={bill.id} customerName={bill.customerName} signed={!!bill.signature} />}
           <PrintButton />
           <a
             href={`${base}/checkout/${bill.id}/pdf`}

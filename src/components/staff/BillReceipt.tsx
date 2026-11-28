@@ -150,10 +150,26 @@ export default function BillReceipt({ bill, patientNo }: { bill: Bill; patientNo
           </div>
         )}
 
+        {bill.signature && (
+          <div className="mt-8 grid grid-cols-2 gap-5 break-inside-avoid">
+            <div className="flex h-[150px] flex-col rounded-lg border border-dark/20 p-3">
+              <div className="font-heading text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Customer signature</div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={bill.signature.png} alt={`Signature of ${bill.signature.name}`} className="my-1 min-h-0 flex-1 object-contain" />
+              <div className="border-t border-dark/30 pt-1 font-body text-[11.5px] text-dark/75">
+                {bill.signature.name} · {fmt(bill.signature.at, { dateStyle: 'medium', timeStyle: 'short' })}
+              </div>
+            </div>
+            <div className="h-[150px] rounded-lg border border-dark/20 p-3">
+              <div className="font-heading text-[10px] font-bold uppercase tracking-[0.18em] text-accent">Company stamp</div>
+            </div>
+          </div>
+        )}
+
         <footer className="mt-8 border-t border-dark/10 pt-4 text-center font-body text-[11px] leading-[1.6] text-dark/55">
           <div className="font-semibold text-primary">Thank you for choosing {BILL_ISSUER.tradingName}.</div>
           <div>{BILL_ISSUER.bookingLine}</div>
-          <div>This is a computer-generated receipt — no signature is required. · {BILL_ISSUER.website}</div>
+          <div>{bill.signature ? 'Signed by the customer for claim purposes.' : 'This is a computer-generated receipt — no signature is required.'} · {BILL_ISSUER.website}</div>
         </footer>
       </div>
     </article>
