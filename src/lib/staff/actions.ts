@@ -528,6 +528,11 @@ export async function setStatus(id: string, to: BookingStatus): Promise<Ok | Err
   if ((to === 'cancelled' || to === 'no_show') && appt.payment_bill_id && appt.payment_status !== 'paid') {
     await voidBill(appt.payment_bill_id, appt.payment_provider)
   }
+  // Checked in: the guest gets today's next queue number (20261201_queue_calls.sql).
+  if (to === 'checked_in') {
+    const { error: qErr } = await db.rpc('assign_queue_no', { p_id: id })
+    if (qErr && !/assign_queue_no|function/i.test(qErr.message)) console.error('[queue] number:', qErr.message)
+  }
   revalidatePath('/console')
   revalidatePath('/doctor')
   revalidatePath(`/console/${id}`)

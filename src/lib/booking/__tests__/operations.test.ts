@@ -188,9 +188,14 @@ function makeAdminDb(opts: {
   return { from, updateFn }
 }
 
+// Check-in hands out today's queue number through assign_queue_no.
+const mockRpc = vi.fn()
+
 describe('setStatus operational integration', () => {
   beforeEach(() => {
     mockRequireStaff.mockReset()
+    mockRpc.mockReset()
+    mockRpc.mockResolvedValue({ data: 1, error: null })
   })
 
   it.each([
@@ -208,7 +213,7 @@ describe('setStatus operational integration', () => {
         payment_provider: null,
       },
     })
-    mockRequireStaff.mockResolvedValue({ userId: 'staff-1', role: 'front_desk', db: { from } })
+    mockRequireStaff.mockResolvedValue({ userId: 'staff-1', role: 'front_desk', db: { from, rpc: mockRpc } })
 
     const res = await setStatus('appt-1', to)
 
@@ -229,11 +234,12 @@ describe('setStatus operational integration', () => {
       },
       updateResult: { data: { id: 'appt-1' }, error: null },
     })
-    mockRequireStaff.mockResolvedValue({ userId: 'staff-1', role: 'front_desk', db: { from } })
+    mockRequireStaff.mockResolvedValue({ userId: 'staff-1', role: 'front_desk', db: { from, rpc: mockRpc } })
 
     const res = await setStatus('appt-1', 'checked_in')
 
     expect(res).toEqual({ ok: true })
+    expect(mockRpc).toHaveBeenCalledWith('assign_queue_no', { p_id: 'appt-1' })
     expect(updateFn).toHaveBeenCalledTimes(1)
     expect(updateFn.mock.calls[0][0]).toMatchObject({ status: 'checked_in' })
     expect(updateFn.mock.calls[0][0]).not.toHaveProperty('assigned_therapist_code')
@@ -252,11 +258,12 @@ describe('setStatus operational integration', () => {
       },
       updateResult: { data: { id: 'appt-1' }, error: null },
     })
-    mockRequireStaff.mockResolvedValue({ userId: 'staff-1', role: 'front_desk', db: { from } })
+    mockRequireStaff.mockResolvedValue({ userId: 'staff-1', role: 'front_desk', db: { from, rpc: mockRpc } })
 
     const res = await setStatus('appt-1', 'checked_in')
 
     expect(res).toEqual({ ok: true })
+    expect(mockRpc).toHaveBeenCalledWith('assign_queue_no', { p_id: 'appt-1' })
     expect(updateFn).toHaveBeenCalledTimes(1)
     expect(updateFn.mock.calls[0][0]).not.toHaveProperty('assigned_therapist_code')
   })

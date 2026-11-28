@@ -16,6 +16,9 @@ const g = (over: Partial<WaitingGuest>): WaitingGuest => ({
   room: null,
   checkedInAt: null,
   startedAt: null,
+  queueNo: null,
+  calledAt: null,
+  callCount: 0,
   ...over,
 })
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, CalendarDays, Users, Stethoscope, ClipboardList, Tags, UserPlus, Receipt, type LucideIcon } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Users, Stethoscope, ClipboardList, Tags, UserPlus, Receipt, Armchair, type LucideIcon } from 'lucide-react'
 import { doctorNav } from '@/lib/booking/dashboard-nav'
 import { PortalFrame, PortalNavLink, PortalNavSection } from '@/components/dashboard/PortalFrame'
 import PortalSwitchButton from '@/components/staff/PortalSwitchButton'
@@ -15,6 +15,7 @@ const ICON_BY_LABEL: Record<string, LucideIcon> = {
   'Billing items': Tags,
   'Add patient': UserPlus,
   Checkout: Receipt,
+  'Waiting room': Armchair,
 }
 
 export default function DoctorShell({

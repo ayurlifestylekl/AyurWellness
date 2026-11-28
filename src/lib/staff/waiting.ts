@@ -16,6 +16,10 @@ export interface WaitingGuest {
   room: string | null
   checkedInAt: string | null
   startedAt: string | null
+  /** Today's queue number, given at check-in. */
+  queueNo: number | null
+  calledAt: string | null
+  callCount: number
 }
 
 export interface WaitingBoard {
@@ -58,8 +62,10 @@ export async function getWaitingBoard(db: ServiceDb, day: string, nowMs: number)
       .in('status', ['scheduled', 'confirmed', 'checked_in', 'in_progress', 'completed'])
       .gte('appointment_date_time', from.toISOString())
       .lt('appointment_date_time', to.toISOString())
-  let res = await query(`${BASE}, started_at`)
-  // started_at arrives with 20261124_front_desk_day.sql.
+  // Newer columns, each with its database update: started_at (20261124_front_desk_day.sql),
+  // queue_no / called_at / call_count (20261201_queue_calls.sql). Ask for what exists.
+  let res = await query(`${BASE}, started_at, queue_no, called_at, call_count`)
+  if (res.error && /queue_no|called_at|call_count/.test(res.error.message)) res = await query(`${BASE}, started_at`)
   if (res.error && /started_at/.test(res.error.message)) res = await query(BASE)
   if (res.error) {
     console.error('[waiting] board:', res.error.message)
@@ -79,6 +85,9 @@ export async function getWaitingBoard(db: ServiceDb, day: string, nowMs: number)
     room: r.room ?? null,
     checkedInAt: r.checked_in_at ?? null,
     startedAt: r.started_at ?? null,
+    queueNo: r.queue_no ?? null,
+    calledAt: r.called_at ?? null,
+    callCount: Number(r.call_count ?? 0),
   }))
   return sortBoard(rows, nowMs)
 }
