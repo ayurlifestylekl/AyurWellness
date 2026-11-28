@@ -26,8 +26,9 @@ const ItemInput = z
     durationMins: z.number().int().min(5).max(600).nullable().optional(),
     sessions: z.number().int().min(1).max(100).nullable().optional(),
     validDays: z.number().int().min(1).max(3650).nullable().optional(),
+    validMonths: z.number().int().min(1).max(120).nullable().optional(),
   })
-  .refine((v) => v.kind !== 'package' || (v.sessions != null && v.validDays != null), { message: 'A package needs the number of sessions and how many days it lasts.' })
+  .refine((v) => v.kind !== 'package' || (v.sessions != null && (v.validDays != null || v.validMonths != null)), { message: 'A package needs the number of sessions and how long it lasts.' })
 
 export async function saveCounterItem(raw: unknown): Promise<Result> {
   const { db, userId } = await requireStaff(['admin', 'doctor', 'front_desk'])
@@ -40,7 +41,9 @@ export async function saveCounterItem(raw: unknown): Promise<Result> {
     price_rm: toSen(v.priceRm) / 100,
     duration_mins: v.kind === 'service' ? v.durationMins ?? null : null,
     sessions: v.kind === 'package' ? v.sessions ?? null : null,
-    valid_days: v.kind === 'package' ? v.validDays ?? null : null,
+    // A package lasts either days or months, never both.
+    valid_days: v.kind === 'package' && !v.validMonths ? v.validDays ?? null : null,
+    valid_months: v.kind === 'package' ? v.validMonths ?? null : null,
     updated_at: new Date().toISOString(),
   }
   const { error } = v.id

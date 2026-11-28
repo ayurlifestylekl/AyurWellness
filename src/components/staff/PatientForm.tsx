@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { useStaffBase } from '@/lib/staff/use-staff-base'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { savePatient } from '@/lib/staff/patient-actions'
@@ -10,6 +11,7 @@ export type { PatientFormValues }
 
 /** Add or edit a patient record (front desk + admin). */
 export default function PatientForm({ initial, cancelHref }: { initial: PatientFormValues; cancelHref: string }) {
+  const base = useStaffBase()
   const router = useRouter()
   const [v, setV] = useState<PatientFormValues>(initial)
   const [error, setError] = useState<string | null>(null)
@@ -26,7 +28,7 @@ export default function PatientForm({ initial, cancelHref }: { initial: PatientF
     start(async () => {
       const res = await savePatient(v)
       if (res.ok) {
-        router.push(`/console/patients/${res.id}`)
+        router.push(`${base}/patients/${res.id}`)
         router.refresh()
       } else {
         setError(res.error)
@@ -59,6 +61,18 @@ export default function PatientForm({ initial, cancelHref }: { initial: PatientF
           <Field label="Date of birth">
             <input value={v.dateOfBirth} onChange={set('dateOfBirth')} className={inp} type="date" min="1900-01-01" max={today} />
           </Field>
+          <Field label="Age (years)">
+            <input
+              value={v.dateOfBirth ? String(ageFromDob(v.dateOfBirth, today)) : v.age}
+              onChange={set('age')}
+              disabled={!!v.dateOfBirth}
+              className={inp}
+              inputMode="numeric"
+              maxLength={3}
+              placeholder="If no date of birth"
+              title={v.dateOfBirth ? 'Worked out from the date of birth' : undefined}
+            />
+          </Field>
           <Field label="Address">
             <input value={v.address} onChange={set('address')} className={inp} maxLength={300} placeholder="Optional" autoComplete="off" />
           </Field>
@@ -90,7 +104,7 @@ export default function PatientForm({ initial, cancelHref }: { initial: PatientF
           {existingId && (
             <>
               {' '}
-              <Link href={`/console/patients/${existingId}`} className="font-semibold underline">
+              <Link href={`${base}/patients/${existingId}`} className="font-semibold underline">
                 Open their page →
               </Link>
             </>
@@ -123,4 +137,11 @@ function Field({ label, required, children }: { label: string; required?: boolea
       {children}
     </label>
   )
+}
+
+/** Full years from a date of birth (YYYY-MM-DD) to today (YYYY-MM-DD). */
+function ageFromDob(dob: string, today: string): number {
+  const [y, m, d] = dob.split('-').map(Number)
+  const [ty, tm, td] = today.split('-').map(Number)
+  return Math.max(0, ty - y - (tm < m || (tm === m && td < d) ? 1 : 0))
 }

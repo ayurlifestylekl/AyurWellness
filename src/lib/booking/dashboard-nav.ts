@@ -33,6 +33,8 @@ export const doctorNav: DashboardNavItem[] = [
   { href: '/doctor/schedule', label: 'Schedule' },
   { href: '/doctor/calendar', label: 'Calendar' },
   { href: '/doctor/patients', label: 'Patients' },
+  { href: '/doctor/patients/new', label: 'Add patient' },
+  { href: '/doctor/checkout', label: 'Checkout' },
   { href: '/doctor/items', label: 'Billing items' },
   { href: '/doctor/consultations', label: 'Consultations' },
 ]

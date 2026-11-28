@@ -5,7 +5,7 @@ import { billNoText, rm } from '@/lib/counter/rules'
 const day = (iso: string) => new Date(iso).toLocaleDateString('en-MY', { timeZone: 'Asia/Kuala_Lumpur', day: 'numeric', month: 'short', year: 'numeric' })
 
 /** Bills for a patient or a visit: what was bought, and the receipt. */
-export default function BillsList({ bills, title = 'Bills', action }: { bills: Bill[]; title?: string; action?: React.ReactNode }) {
+export default function BillsList({ bills, title = 'Bills', action, base = '/console' }: { bills: Bill[]; title?: string; action?: React.ReactNode; base?: '/console' | '/doctor' }) {
   return (
     <section className="rounded-2xl border border-accent/20 bg-white p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -18,7 +18,7 @@ export default function BillsList({ bills, title = 'Bills', action }: { bills: B
         <ul className="mt-3 divide-y divide-accent/10">
           {bills.map((b) => (
             <li key={b.id}>
-              <Link href={b.status === 'open' ? `/console/checkout/${b.id}` : `/console/checkout/${b.id}/receipt`} className="block py-2.5 hover:bg-cream/40">
+              <Link href={b.status === 'open' ? `${base}/checkout/${b.id}` : `${base}/checkout/${b.id}/receipt`} className="block py-2.5 hover:bg-cream/40">
                 <div className="flex items-center justify-between gap-3 font-body text-[13px]">
                   <span>
                     <span className="font-semibold text-primary">{day(b.paidAt ?? b.createdAt)}</span>

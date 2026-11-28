@@ -5,6 +5,7 @@ import { ageGenderText, emptySheetData, isCaseSheetKind } from '@/lib/staff/case
 import { formatPatientNo } from '@/lib/staff/patient-id'
 import { mytDayKey } from '@/lib/datetime'
 import CaseSheetEditor from '@/components/staff/CaseSheetEditor'
+import { medicineSuggestions } from '@/lib/counter/catalog'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,9 +23,10 @@ export default async function NewCaseSheetPage({ searchParams }: { searchParams:
       initialDate={today}
       initialData={emptySheetData(searchParams.kind)}
       today={today}
-      header={{ name: record.fullName, ageGender: ageGenderText(record.dateOfBirth, record.gender, today), registrationNo: formatPatientNo(record.patientNo) }}
+      header={{ name: record.fullName, ageGender: ageGenderText(record.dateOfBirth, record.gender, today, { ageYears: record.ageYears, recordedOn: record.ageRecordedOn }), registrationNo: formatPatientNo(record.patientNo) }}
       cancelHref={`/doctor/patients/${record.id}`}
       viewBase="/doctor/case-sheets"
+      medicineOptions={await medicineSuggestions(db)}
     />
   )
 }

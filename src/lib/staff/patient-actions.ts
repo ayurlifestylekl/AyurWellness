@@ -40,6 +40,11 @@ const PatientSchema = z.object({
     .optional()
     .transform((v) => (v ? v : null))
     .refine((v) => v === null || (/^\d{4}-\d{2}-\d{2}$/.test(v) && v <= new Date().toISOString().slice(0, 10) && v >= '1900-01-01'), 'Enter a valid date of birth.'),
+  age: z
+    .union([z.string(), z.number()])
+    .optional()
+    .transform((v) => (v === undefined || v === '' ? null : Number(v)))
+    .refine((v) => v === null || (Number.isInteger(v) && v >= 0 && v <= 130), 'Enter the age in years, or leave it blank.'),
   address: optionalText(300),
   conditions: optionalText(1000),
   allergies: optionalText(1000),
@@ -49,9 +54,9 @@ const PatientSchema = z.object({
 
 export type SavePatientResult = { ok: true; id: string } | { ok: false; error: string; existingId?: string }
 
-/** Add a patient by hand, or update their record (front desk + admin). */
+/** Add a patient by hand, or update their record (front desk, doctors, admin). */
 export async function savePatient(raw: unknown): Promise<SavePatientResult> {
-  const { db, userId } = await requireStaff(['admin', 'front_desk'])
+  const { db, userId } = await requireStaff(['admin', 'front_desk', 'doctor'])
   const parsed = PatientSchema.safeParse(raw)
   if (!parsed.success) return { ok: false, error: parsed.error.errors[0]?.message ?? 'Please check the form.' }
   const v = parsed.data
@@ -93,9 +98,14 @@ export async function savePatient(raw: unknown): Promise<SavePatientResult> {
     updated_at: new Date().toISOString(),
   }
 
-  const { data, error } = v.id
-    ? await db.from('patients').update(row).eq('id', v.id).select('id').single()
-    : await db.from('patients').insert({ ...row, created_by_staff_id: userId }).select('id').single()
+  // Age is kept only when there is no date of birth (the date of birth gives the age).
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kuala_Lumpur' }).format(new Date())
+  const ageCols = v.dateOfBirth || v.age === null ? { age_years: null, age_recorded_on: null } : { age_years: v.age, age_recorded_on: today }
+  const write = (r: Record<string, unknown>) =>
+    v.id ? db.from('patients').update(r).eq('id', v.id).select('id').single() : db.from('patients').insert({ ...r, created_by_staff_id: userId }).select('id').single()
+  let { data, error } = await write({ ...row, ...ageCols })
+  // Before 20261130_centre_requests.sql there is no age column: save the rest.
+  if (error && /age_years|age_recorded_on/.test(error.message)) ({ data, error } = await write(row))
   if (error || !data) {
     console.error('[staff/patient-actions] save:', error?.message)
     return { ok: false, error: 'Could not save the patient. Please try again.' }

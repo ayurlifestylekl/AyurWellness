@@ -1,13 +1,15 @@
 'use client'
 
 import { useMemo, useState, useTransition } from 'react'
+import { useStaffBase } from '@/lib/staff/use-staff-base'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Minus, Plus, Search, Trash2 } from 'lucide-react'
 import type { Bill, PackageOption, ProductOption } from '@/lib/counter/queries'
 import type { CounterItem } from '@/lib/counter/catalog'
+import PrescriptionPanel, { type PrescribedLine } from './PrescriptionPanel'
 import { addBillItem, deleteBill, payBill, removeBillItem, setBillItemRemark, updateBill, updateBillItem } from '@/lib/counter/actions'
-import { BALANCE_LABEL, ITEM_PREFIX, PAYMENT_METHODS, SPENDABLE_KINDS, amountDue, billNoText, billTotals, cashChange, parseRm, rm, type BalanceKind, type PaymentMethod, type SpendableKind } from '@/lib/counter/rules'
+import { BALANCE_LABEL, ITEM_PREFIX, PAYMENT_METHODS, validityText, SPENDABLE_KINDS, amountDue, billNoText, billTotals, cashChange, parseRm, rm, type BalanceKind, type PaymentMethod, type SpendableKind } from '@/lib/counter/rules'
 import { durationText, groupByCategory, matchServices, priceText, type ServiceOption } from '@/lib/staff/services'
 
 type Tab = 'service' | 'product' | 'package' | 'deposit'
@@ -25,6 +27,8 @@ export default function CheckoutCart({
   products,
   packages,
   packagesForSale,
+  quickAdds = [],
+  prescription = null,
   patientHref,
   balances,
   manageHref,
@@ -37,11 +41,16 @@ export default function CheckoutCart({
   packagesForSale: CounterItem[]
   /** Where staff add, hide and remove billing items. */
   manageHref: string
+  /** One-tap add-ons on the bill: VIP Private Room, Hair Wash. */
+  quickAdds?: CounterItem[]
+  /** The doctor's latest prescription for this patient. */
+  prescription?: { sheetDate: string; doctor: string | null; lines: PrescribedLine[] } | null
   patientHref: string | null
   /** The saved patient's balances; null for a walk-in (no balances or pay-later). */
   balances: Record<BalanceKind, number> | null
 }) {
   const router = useRouter()
+  const base = useStaffBase()
   const [tab, setTab] = useState<Tab>('service')
   const [query, setQuery] = useState('')
   const [cat, setCat] = useState<string | null>(null)
@@ -102,7 +111,7 @@ export default function CheckoutCart({
     <div>
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <Link href="/console/checkout" className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-dark/50 hover:text-primary">← Checkout</Link>
+          <Link href={`${base}/checkout`} className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-dark/50 hover:text-primary">← Checkout</Link>
           <h1 className="mt-2 font-heading text-[22px] font-extrabold text-primary">
             {bill.customerName} <span className="ml-2 font-body text-[14px] font-normal text-dark/50">{billNoText(bill.billNo)}</span>
           </h1>
@@ -115,7 +124,7 @@ export default function CheckoutCart({
         <button
           type="button"
           disabled={pending}
-          onClick={() => { if (confirm('Delete this unpaid bill?')) run(() => deleteBill(bill.id), () => router.push('/console/checkout')) }}
+          onClick={() => { if (confirm('Delete this unpaid bill?')) run(() => deleteBill(bill.id), () => router.push(`${base}/checkout`)) }}
           className="inline-flex items-center gap-1.5 rounded-lg border border-red-300 px-3 py-2 font-heading text-[10px] font-bold uppercase tracking-[0.12em] text-red-700 hover:bg-red-50 disabled:opacity-60"
         >
           <Trash2 className="h-4 w-4" /> Delete bill
@@ -123,6 +132,10 @@ export default function CheckoutCart({
       </div>
 
       {error && <p className="mb-3 rounded-lg border border-red-300 bg-red-50 px-3 py-2 font-body text-[13px] text-red-700" role="alert">{error}</p>}
+
+      {prescription && (
+        <PrescriptionPanel lines={prescription.lines} sheetDate={prescription.sheetDate} doctor={prescription.doctor} disabled={pending} onAdd={addProduct} />
+      )}
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_400px]">
         {/* Catalogue */}
@@ -186,7 +199,7 @@ export default function CheckoutCart({
                   onClick={() => run(() => addBillItem(bill.id, { kind: 'item', itemId: p.id }))}
                   title={p.name}
                   right={rm(p.priceRm)}
-                  sub={`${p.sessions} sessions · valid ${p.validDays} days`}
+                  sub={`${p.sessions} sessions · ${validityText(p)}`}
                 />
               ))}
             {tab === 'package' && (
@@ -240,6 +253,24 @@ export default function CheckoutCart({
         {/* Bill */}
         <section className="rounded-2xl border border-accent/20 bg-white p-4 lg:sticky lg:top-20 lg:self-start">
           <h2 className="font-heading text-[15px] font-bold text-primary">Bill</h2>
+          {quickAdds.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {quickAdds.map((q) => {
+                const added = bill.items.some((i) => i.counterItemId === q.id)
+                return (
+                  <button
+                    key={q.id}
+                    type="button"
+                    disabled={pending || added}
+                    onClick={() => run(() => addBillItem(bill.id, { kind: 'item', itemId: q.id }))}
+                    className="inline-flex items-center gap-1 rounded-full border border-accent/40 bg-cream/50 px-3 py-1 font-heading text-[10.5px] font-bold uppercase tracking-[0.08em] text-primary hover:bg-cream disabled:opacity-50"
+                  >
+                    {added ? '✓' : '+'} {q.name.replace(/\s*\(add-on\)$/i, '')} · {rm(q.priceRm)}
+                  </button>
+                )
+              })}
+            </div>
+          )}
           {bill.notes && <p className="mt-1 rounded-lg bg-cream/70 px-3 py-1.5 font-body text-[12.5px] text-dark/70">{bill.notes}</p>}
           {bill.items.length === 0 ? (
             <p className="mt-3 font-body text-[13px] italic text-dark/45">Nothing added yet. Tap a service, product, package or deposit.</p>
@@ -377,7 +408,7 @@ export default function CheckoutCart({
               onClick={() =>
                 run(
                   () => payBill(bill.id, { method: needsMethod ? method : null, receivedRm: needsMethod && method === 'cash' ? receivedRm : null, uses, payLater }),
-                  () => router.push(`/console/checkout/${bill.id}/receipt`),
+                  () => router.push(`${base}/checkout/${bill.id}/receipt`),
                 )
               }
               className="mt-3 w-full rounded-xl bg-primary px-5 py-3 font-heading text-[12px] font-bold uppercase tracking-[0.14em] text-white hover:bg-primary/90 disabled:opacity-50"

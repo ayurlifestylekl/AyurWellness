@@ -9,6 +9,8 @@ export interface PatientFormValues {
   email: string
   gender: '' | 'female' | 'male'
   dateOfBirth: string
+  /** Age in years, for a patient who doesn't give a date of birth. */
+  age: string
   address: string
   conditions: string
   allergies: string
@@ -22,6 +24,7 @@ export const EMPTY_PATIENT: PatientFormValues = {
   email: '',
   gender: '',
   dateOfBirth: '',
+  age: '',
   address: '',
   conditions: '',
   allergies: '',

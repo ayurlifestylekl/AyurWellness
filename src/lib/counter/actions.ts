@@ -10,7 +10,8 @@ import { listRedeemablePackages, sellingPrice } from './queries'
 type Result<T = object> = ({ ok: true } & T) | { ok: false; error: string }
 
 const uuid = z.string().uuid()
-const STAFF: ('admin' | 'front_desk')[] = ['admin', 'front_desk']
+// Doctors bill too (their own Checkout in the doctor portal); the day's cash drawer stays front desk only.
+const STAFF: ('admin' | 'front_desk' | 'doctor')[] = ['admin', 'front_desk', 'doctor']
 const GENERIC = 'Something went wrong. Please try again.'
 
 function fail(where: string, error: { message: string } | null | undefined, fallback: string): { ok: false; error: string } {

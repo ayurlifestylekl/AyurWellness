@@ -16,6 +16,13 @@ export const PAYMENT_METHODS = [
 /** Marks a billing item the centre added itself in the cart's service / product lists. */
 export const ITEM_PREFIX = 'item:'
 
+/** "valid 6 months" / "valid 180 days" for a package. */
+export function validityText(p: { validDays: number | null; validMonths?: number | null }): string {
+  if (p.validMonths) return `valid ${p.validMonths} month${p.validMonths === 1 ? '' : 's'}`
+  if (p.validDays) return `valid ${p.validDays} day${p.validDays === 1 ? '' : 's'}`
+  return ''
+}
+
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]['value']
 /** package = a session used; package_sale = a package bought; deposit = money paid into the patient's deposit. */
 export type BillItemKind = 'service' | 'product' | 'package' | 'package_sale' | 'deposit'

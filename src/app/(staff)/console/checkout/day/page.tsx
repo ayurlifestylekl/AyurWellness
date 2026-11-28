@@ -6,7 +6,7 @@ import { rm } from '@/lib/counter/rules'
 import { mytDayKey } from '@/lib/datetime'
 import { BILL_ISSUER } from '@/lib/counter/issuer'
 import PrintButton from '@/components/staff/PrintButton'
-import { CloseDayForm, OpenDayForm, ReopenDayButton } from '@/components/staff/DayCloseForms'
+import { BreakdownLines, CloseDayForm, OpenDayForm, ReopenDayButton } from '@/components/staff/DayCloseForms'
 
 export const dynamic = 'force-dynamic'
 
@@ -65,7 +65,7 @@ export default async function DayClosePage({ searchParams }: { searchParams: { d
             ) : (
               <>
                 <h2 className="mb-3 font-heading text-[15px] font-bold text-primary">Close {longDay(day)}</h2>
-                <CloseDayForm day={day} expectedRm={report.expectedCashRm} />
+                <CloseDayForm day={day} expectedRm={report.expectedCashRm} countByNotes={!!rec.openingBreakdown} />
               </>
             )}
           </section>
@@ -147,6 +147,8 @@ export default async function DayClosePage({ searchParams }: { searchParams: { d
                   <Line k="Cash taken" v={rm(figures.cashInRm)} />
                   <Line k="Expected in drawer" v={rm(closed ? rec.expectedCashRm ?? 0 : report.expectedCashRm)} />
                   {closed && <Line k="Counted" v={rm(rec.countedCashRm ?? 0)} />}
+                  {rec.openingBreakdown && <BreakdownLines title="Opening float, by notes and coins" value={rec.openingBreakdown} />}
+                  {closed && rec.closingBreakdown && <BreakdownLines title="Counted at closing, by notes and coins" value={rec.closingBreakdown} />}
                   {closed && (
                     <Line
                       k="Difference"

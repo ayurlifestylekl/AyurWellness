@@ -62,6 +62,9 @@ export interface PatientRecord {
   notes: string | null
   /** Patient ID number (shown as AWC-00012); null before 20261122_patient_profile.sql. */
   patientNo: number | null
+  /** Age as told, when there is no date of birth, and the day it was recorded. */
+  ageYears: number | null
+  ageRecordedOn: string | null
   createdAt: string
   updatedAt: string
 }
@@ -75,15 +78,18 @@ const BASE_RECORD_COLUMNS =
  * look missing), so a read retries once without it and remembers the answer.
  */
 let hasPatientNo = true
+// age_years / age_recorded_on arrive with 20261130_centre_requests.sql; same idea.
+let hasAge = true
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type QueryResult = { data: any; error: { message: string; code?: string } | null }
 async function readRecords(run: (columns: string) => PromiseLike<QueryResult>): Promise<QueryResult> {
-  const first = await run(hasPatientNo ? `${BASE_RECORD_COLUMNS}, patient_no` : BASE_RECORD_COLUMNS)
-  if (first.error && hasPatientNo && /patient_no/.test(first.error.message)) {
-    hasPatientNo = false
-    return run(BASE_RECORD_COLUMNS)
+  for (;;) {
+    const cols = [BASE_RECORD_COLUMNS, hasPatientNo ? 'patient_no' : null, hasAge ? 'age_years, age_recorded_on' : null].filter(Boolean).join(', ')
+    const res = await run(cols)
+    if (res.error && hasPatientNo && /patient_no/.test(res.error.message)) { hasPatientNo = false; continue }
+    if (res.error && hasAge && /age_years|age_recorded_on/.test(res.error.message)) { hasAge = false; continue }
+    return res
   }
-  return first
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -101,6 +107,8 @@ function mapRecord(r: any): PatientRecord {
     medications: r.medications ?? null,
     notes: r.notes ?? null,
     patientNo: r.patient_no != null ? Number(r.patient_no) : null,
+    ageYears: r.age_years != null ? Number(r.age_years) : null,
+    ageRecordedOn: r.age_recorded_on ?? null,
     createdAt: r.created_at,
     updatedAt: r.updated_at,
   }

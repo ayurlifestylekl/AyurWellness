@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { useStaffBase } from '@/lib/staff/use-staff-base'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { recordBalanceEntry } from '@/lib/counter/actions'
@@ -20,6 +21,7 @@ function takesMoney(kind: BalanceKind, direction: 'add' | 'deduct') {
  * a history and a form to add or deduct (front desk + admin).
  */
 export default function BalancesPanel({ patientId, totals, entries }: { patientId: string; totals: Record<BalanceKind, number>; entries: BalanceEntry[] }) {
+  const base = useStaffBase()
   const router = useRouter()
   const [kind, setKind] = useState<BalanceKind>('deposit')
   const [direction, setDirection] = useState<'add' | 'deduct'>('add')
@@ -117,7 +119,7 @@ export default function BalancesPanel({ patientId, totals, entries }: { patientI
                 <span className="block text-[11px] text-dark/40">
                   {when(e.createdAt)}
                   {e.staffName ? ` · ${e.staffName}` : ''}
-                  {e.saleId && <> · <Link href={`/console/checkout/${e.saleId}/receipt`} className="text-accent underline">receipt</Link></>}
+                  {e.saleId && <> · <Link href={`${base}/checkout/${e.saleId}/receipt`} className="text-accent underline">receipt</Link></>}
                 </span>
               </span>
               <span className={`flex-none font-semibold tabular-nums ${e.amount < 0 ? 'text-dark/60' : 'text-primary'}`}>

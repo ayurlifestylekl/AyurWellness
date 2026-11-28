@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, CalendarDays, Users, Stethoscope, ClipboardList, Tags, type LucideIcon } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Users, Stethoscope, ClipboardList, Tags, UserPlus, Receipt, type LucideIcon } from 'lucide-react'
 import { doctorNav } from '@/lib/booking/dashboard-nav'
 import { PortalFrame, PortalNavLink, PortalNavSection } from '@/components/dashboard/PortalFrame'
 import PortalSwitchButton from '@/components/staff/PortalSwitchButton'
@@ -13,6 +13,8 @@ const ICON_BY_LABEL: Record<string, LucideIcon> = {
   Patients: Users,
   Consultations: Stethoscope,
   'Billing items': Tags,
+  'Add patient': UserPlus,
+  Checkout: Receipt,
 }
 
 export default function DoctorShell({
@@ -43,7 +45,7 @@ export default function DoctorShell({
               label={item.label}
               icon={ICON_BY_LABEL[item.label] ?? LayoutDashboard}
               // '/doctor' must match exactly — every other route is a prefix match.
-              active={item.href === '/doctor' ? pathname === item.href : pathname.startsWith(item.href)}
+              active={item.href === '/doctor' ? pathname === item.href : pathname.startsWith(item.href) && !doctorNav.some((o) => o.href.length > item.href.length && o.href.startsWith(item.href) && pathname.startsWith(o.href))}
               badge={item.href === '/doctor/consultations' ? toClearCount : null}
             />
           ))}

@@ -122,3 +122,38 @@ export function dayRange(day: string): { from: string; to: string } {
   const from = new Date(`${day}T00:00:00+08:00`)
   return { from: from.toISOString(), to: new Date(from.getTime() + 864e5).toISOString() }
 }
+
+// ── Counting cash by notes and coins ─────────────────────────────────────────
+
+/** Malaysian notes and coins, largest first. Value in sen. */
+export const DENOMINATIONS = [
+  { key: 'RM100', label: 'RM 100', sen: 10000 },
+  { key: 'RM50', label: 'RM 50', sen: 5000 },
+  { key: 'RM20', label: 'RM 20', sen: 2000 },
+  { key: 'RM10', label: 'RM 10', sen: 1000 },
+  { key: 'RM5', label: 'RM 5', sen: 500 },
+  { key: 'RM1', label: 'RM 1', sen: 100 },
+  { key: '50sen', label: '50 sen', sen: 50 },
+  { key: '20sen', label: '20 sen', sen: 20 },
+  { key: '10sen', label: '10 sen', sen: 10 },
+  { key: '5sen', label: '5 sen', sen: 5 },
+] as const
+
+export type CashBreakdown = Partial<Record<(typeof DENOMINATIONS)[number]['key'], number>>
+
+/** Only known notes and coins, whole counts 0–100000; empty entries dropped. */
+export function cleanBreakdown(raw: unknown): CashBreakdown | null {
+  if (!raw || typeof raw !== 'object') return null
+  const out: CashBreakdown = {}
+  for (const d of DENOMINATIONS) {
+    const n = Number((raw as Record<string, unknown>)[d.key])
+    if (Number.isInteger(n) && n > 0 && n <= 100_000) out[d.key] = n
+  }
+  return Object.keys(out).length ? out : null
+}
+
+/** Total of a breakdown in RM. */
+export function breakdownTotal(b: CashBreakdown | null | undefined): number {
+  if (!b) return 0
+  return fromSen(DENOMINATIONS.reduce((s, d) => s + (b[d.key] ?? 0) * d.sen, 0))
+}

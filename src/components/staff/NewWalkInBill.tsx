@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { useStaffBase } from '@/lib/staff/use-staff-base'
 import { useRouter } from 'next/navigation'
 import ClientLookup from './ClientLookup'
 import { createBill } from '@/lib/counter/actions'
@@ -9,6 +10,7 @@ const field = 'w-full rounded-lg border border-accent/30 bg-white px-3 py-2 font
 
 /** Start a bill for anyone at the counter: find a returning client or type a name. */
 export default function NewWalkInBill() {
+  const base = useStaffBase()
   const router = useRouter()
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -19,7 +21,7 @@ export default function NewWalkInBill() {
       setError(null)
       const res = await createBill({ customerName: name, customerPhone: phone || undefined })
       if (!res.ok) { setError(res.error); return }
-      router.push(`/console/checkout/${res.id}`)
+      router.push(`${base}/checkout/${res.id}`)
     })
   return (
     <section className="rounded-2xl border border-accent/20 bg-white p-4">

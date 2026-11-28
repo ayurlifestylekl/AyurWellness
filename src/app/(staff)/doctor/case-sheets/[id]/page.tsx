@@ -47,7 +47,7 @@ export default async function CaseSheetPage({ params }: { params: { id: string }
             kind={sheet.kind}
             data={sheet.data}
             sheetDate={sheet.sheetDate}
-            header={{ name: record.fullName, ageGender: ageGenderText(record.dateOfBirth, record.gender, today), registrationNo: formatPatientNo(record.patientNo) }}
+            header={{ name: record.fullName, ageGender: ageGenderText(record.dateOfBirth, record.gender, today, { ageYears: record.ageYears, recordedOn: record.ageRecordedOn }), registrationNo: formatPatientNo(record.patientNo) }}
           />
           {sheet.updatedByName && (
             <p className="mt-2 text-right font-body text-[11.5px] italic text-dark/45">

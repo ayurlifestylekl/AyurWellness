@@ -1,6 +1,6 @@
 import 'server-only'
 import type { ServiceDb } from '@/lib/staff/guard'
-import { dayRange, expectedCash, summarizeDay, type DayBill, type DayMoneyEntry, type DaySummary } from './day'
+import { dayRange, expectedCash, summarizeDay, type DayBill, type DayMoneyEntry, type DaySummary, cleanBreakdown, type CashBreakdown } from './day'
 
 /**
  * One day at the counter: whether it was opened/closed, the bills paid and the
@@ -18,6 +18,9 @@ export interface CounterDay {
   expectedCashRm: number | null
   summary: DaySummary | null
   notes: string | null
+  /** Cash counted by notes and coins, when the counter chose to (else null). */
+  openingBreakdown: CashBreakdown | null
+  closingBreakdown: CashBreakdown | null
 }
 
 export interface DayReport {
@@ -100,6 +103,8 @@ export async function getDayReport(db: ServiceDb, day: string): Promise<DayRepor
       expectedCashRm: row.expected_cash_rm != null ? Number(row.expected_cash_rm) : null,
       summary: (row.summary as DaySummary | null) ?? null,
       notes: row.notes ?? null,
+      openingBreakdown: cleanBreakdown(row.opening_breakdown),
+      closingBreakdown: cleanBreakdown(row.closing_breakdown),
     }
   }
   const paidAfterClose = record?.closedAt ? act.bills.filter((b) => b.paidAt > record!.closedAt!).length : 0

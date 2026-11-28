@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, Pencil, Plus, Trash2 } from 'lucide-react'
 import type { CounterItem, CounterItemKind } from '@/lib/counter/catalog'
 import { deleteCounterItem, saveCounterItem, setCounterItemHidden, setWebsiteItemHidden } from '@/lib/counter/catalog-actions'
-import { parseRm, rm } from '@/lib/counter/rules'
+import { parseRm, rm, validityText } from '@/lib/counter/rules'
 
 export interface WebsiteRow {
   id: string
@@ -67,7 +67,7 @@ export default function BillingItemsManager({
               <h2 className="font-heading text-[16px] font-bold text-primary">{KIND_LABEL[kind]}</h2>
               <button
                 type="button"
-                onClick={() => setEditing({ kind, name: '', priceRm: 0, durationMins: kind === 'service' ? 30 : null, sessions: kind === 'package' ? 5 : null, validDays: kind === 'package' ? 180 : null })}
+                onClick={() => setEditing({ kind, name: '', priceRm: 0, durationMins: kind === 'service' ? 30 : null, sessions: kind === 'package' ? 5 : null, validDays: null, validMonths: kind === 'package' ? 6 : null })}
                 className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-2 font-heading text-[10px] font-bold uppercase tracking-[0.12em] text-white"
               >
                 <Plus className="h-4 w-4" /> Add {kind}
@@ -84,7 +84,7 @@ export default function BillingItemsManager({
                   <Row
                     key={i.id}
                     name={i.name}
-                    detail={[rm(i.priceRm), i.durationMins ? `${i.durationMins} min` : null, i.sessions ? `${i.sessions} sessions · valid ${i.validDays} days` : null].filter(Boolean).join(' · ')}
+                    detail={[rm(i.priceRm), i.durationMins ? `${i.durationMins} min` : null, i.sessions ? `${i.sessions} sessions · ${validityText(i)}` : null].filter(Boolean).join(' · ')}
                     tag="Added by the centre"
                     hidden={i.hidden}
                     pending={pending}
@@ -156,7 +156,8 @@ function ItemForm({ value, pending, onSave, onCancel }: {
   const [price, setPrice] = useState(value.priceRm != null && value.id ? value.priceRm.toFixed(2) : '')
   const [mins, setMins] = useState(String(value.durationMins ?? ''))
   const [sessions, setSessions] = useState(String(value.sessions ?? ''))
-  const [days, setDays] = useState(String(value.validDays ?? ''))
+  const [validFor, setValidFor] = useState(String(value.validMonths ?? value.validDays ?? ''))
+  const [unit, setUnit] = useState<'months' | 'days'>(value.validMonths || !value.validDays ? 'months' : 'days')
   const [err, setErr] = useState<string | null>(null)
   const int = (t: string) => (t.trim() && /^\d+$/.test(t.trim()) ? Number(t) : null)
 
@@ -164,9 +165,9 @@ function ItemForm({ value, pending, onSave, onCancel }: {
     const p = parseRm(price)
     if (!name.trim()) return setErr('Enter a name.')
     if (p == null) return setErr('Enter the price, e.g. 25 or 25.50.')
-    if (value.kind === 'package' && (!int(sessions) || !int(days))) return setErr('Enter the number of sessions and how many days the package lasts.')
+    if (value.kind === 'package' && (!int(sessions) || !int(validFor))) return setErr('Enter the number of sessions and how long the package lasts.')
     setErr(null)
-    onSave({ id: value.id, kind: value.kind, name: name.trim(), priceRm: p, durationMins: value.kind === 'service' ? int(mins) : null, sessions: int(sessions), validDays: int(days) })
+    onSave({ id: value.id, kind: value.kind, name: name.trim(), priceRm: p, durationMins: value.kind === 'service' ? int(mins) : null, sessions: int(sessions), validDays: unit === 'days' ? int(validFor) : null, validMonths: unit === 'months' ? int(validFor) : null })
   }
 
   return (
@@ -178,7 +179,15 @@ function ItemForm({ value, pending, onSave, onCancel }: {
         {value.kind === 'package' && (
           <>
             <Lbl text="Sessions"><input value={sessions} onChange={(e) => setSessions(e.target.value)} inputMode="numeric" className={`${field} w-full text-right`} /></Lbl>
-            <Lbl text="Valid (days)"><input value={days} onChange={(e) => setDays(e.target.value)} inputMode="numeric" className={`${field} w-full text-right`} /></Lbl>
+            <Lbl text="Valid for">
+              <span className="flex gap-1.5">
+                <input value={validFor} onChange={(e) => setValidFor(e.target.value)} inputMode="numeric" aria-label="How long the package lasts" className={`${field} w-full min-w-0 text-right`} />
+                <select value={unit} onChange={(e) => setUnit(e.target.value as 'months' | 'days')} aria-label="Days or months" className={`${field} px-2`}>
+                  <option value="months">months</option>
+                  <option value="days">days</option>
+                </select>
+              </span>
+            </Lbl>
           </>
         )}
       </div>

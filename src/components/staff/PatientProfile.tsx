@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { currentAge } from '@/lib/staff/case-sheets'
 import { MessageCircle, Phone, CalendarPlus, Pencil, UserPlus } from 'lucide-react'
 import PatientHealthPanel from '@/components/staff/PatientHealthPanel'
 import PatientVisitHistory from '@/components/staff/PatientVisitHistory'
@@ -24,13 +25,11 @@ function fmtDate(iso: string | null) {
 const ATTENDED = ['scheduled', 'confirmed', 'checked_in', 'in_progress', 'completed']
 const UPCOMING = ['confirmed', 'scheduled', 'awaiting_payment', 'pending']
 
-function age(dob: string | null): string | null {
-  if (!dob) return null
-  const d = new Date(`${dob}T00:00:00+08:00`)
-  const now = new Date()
-  let years = now.getFullYear() - d.getFullYear()
-  if (now < new Date(now.getFullYear(), d.getMonth(), d.getDate())) years -= 1
-  return `${years} yrs`
+function age(r: { dateOfBirth: string | null; ageYears: number | null; ageRecordedOn: string | null } | null): string | null {
+  if (!r) return null
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kuala_Lumpur' }).format(new Date())
+  const years = currentAge(r.dateOfBirth, today, { ageYears: r.ageYears, recordedOn: r.ageRecordedOn })
+  return years == null ? null : `${years} yrs`
 }
 
 /**
@@ -104,7 +103,7 @@ export default function PatientProfile({
           <p className="mt-1 font-body text-[13.5px] text-dark/60">
             {[
               gender ? (gender === 'male' ? 'Male' : 'Female') : null,
-              age(record?.dateOfBirth ?? null),
+              age(record ?? null),
               patient?.customerId ? 'Has an account' : record ? 'Saved patient' : 'Guest',
               `${attended.length} visit${attended.length === 1 ? '' : 's'}`,
               attended[0] ? `last ${fmtDate(attended[0].whenISO)}` : null,
@@ -160,7 +159,7 @@ export default function PatientProfile({
           {caseSheets && record && <CaseSheetList patientId={record.id} sheets={caseSheets} />}
           {balances && balances.ready && record && <BalancesPanel patientId={record.id} totals={balances.totals} entries={balances.entries} />}
           {bills && (
-            <BillsList bills={bills} action={record ? <StartBillButton patientId={record.id} /> : undefined} />
+            <BillsList bills={bills} base={visitLinkBase === '/doctor' ? '/doctor' : '/console'} action={record ? <StartBillButton patientId={record.id} /> : undefined} />
           )}
           {photos && record && <PatientPhotos patientId={record.id} photos={photos} today={mytDayKey(new Date())} canDelete={canDeletePhotos} />}
         </div>
@@ -188,6 +187,7 @@ function RecordPanel({ record, hideContact }: { record: PatientRecord; hideConta
           ['Address', record.address],
         ] as [string, string | null][])),
     ['Date of birth', record.dateOfBirth ? new Date(`${record.dateOfBirth}T00:00:00+08:00`).toLocaleDateString('en-MY', { dateStyle: 'medium', timeZone: 'Asia/Kuala_Lumpur' }) : null],
+    ['Age', age(record)],
     ['Conditions', record.conditions],
     ['Allergies', record.allergies],
     ['Medications', record.medications],

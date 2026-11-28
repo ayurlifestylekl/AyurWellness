@@ -17,10 +17,12 @@ interface Props {
   cancelHref: string
   /** Where to go after saving; gets the sheet id appended. */
   viewBase: string
+  /** Product names offered while typing a medicine, so the front desk can bill it. */
+  medicineOptions?: string[]
 }
 
 /** Fill in or edit a primary / follow-up case sheet, laid out like the doctors' paper form. */
-export default function CaseSheetEditor({ patientId, kind, sheetId, initialDate, initialData, today, header, cancelHref, viewBase }: Props) {
+export default function CaseSheetEditor({ patientId, kind, sheetId, initialDate, initialData, today, header, cancelHref, viewBase, medicineOptions = [] }: Props) {
   const router = useRouter()
   const sheet = SHEETS[kind]
   const [date, setDate] = useState(initialDate)
@@ -93,6 +95,10 @@ export default function CaseSheetEditor({ patientId, kind, sheetId, initialDate,
                     </tr>
                   </thead>
                   <tbody>
+                    {/* Products the centre sells, suggested while typing: picking one lets the front desk bill it in one tap. */}
+                    {medicineOptions.length > 0 && (
+                      <tr className="hidden"><td><datalist id="centre-medicines">{medicineOptions.map((m) => <option key={m} value={m} />)}</datalist></td></tr>
+                    )}
                     {((data[section.key] as PrescriptionRow[]) ?? []).map((r, i) => (
                       <tr key={i} className="border-t border-accent/15">
                         <td className="px-3 py-1.5 text-dark/50">{i + 1}.</td>
@@ -102,6 +108,7 @@ export default function CaseSheetEditor({ patientId, kind, sheetId, initialDate,
                               value={r[col]}
                               onChange={(e) => setCell(section.key, i, col, e.target.value)}
                               aria-label={`Row ${i + 1} ${col}`}
+                              list={col === 'medicine' && medicineOptions.length ? 'centre-medicines' : undefined}
                               className="w-full rounded-md border border-transparent bg-transparent px-2 py-1.5 hover:border-accent/20 focus:border-accent focus:bg-white focus:outline-none"
                             />
                           </td>

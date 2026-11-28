@@ -132,8 +132,20 @@ export function ageYears(dob: string | null, todayYMD: string): number | null {
 }
 
 /** "34 / Female", "— / Male", or "" when neither is known. */
-export function ageGenderText(dob: string | null, gender: string | null, todayYMD: string): string {
-  const age = ageYears(dob, todayYMD)
+/**
+ * Age today: from the date of birth, or else from the age told on a past day
+ * (plus the full years since then).
+ */
+export function currentAge(dob: string | null, todayYMD: string, told?: { ageYears: number | null; recordedOn: string | null }): number | null {
+  const fromDob = ageYears(dob, todayYMD)
+  if (fromDob != null) return fromDob
+  if (told?.ageYears == null) return null
+  if (!told.recordedOn) return told.ageYears
+  return told.ageYears + Math.max(0, ageYears(told.recordedOn, todayYMD) ?? 0)
+}
+
+export function ageGenderText(dob: string | null, gender: string | null, todayYMD: string, told?: { ageYears: number | null; recordedOn: string | null }): string {
+  const age = currentAge(dob, todayYMD, told)
   const g = gender === 'male' ? 'Male' : gender === 'female' ? 'Female' : null
   if (age == null && !g) return ''
   return `${age ?? '—'} / ${g ?? '—'}`

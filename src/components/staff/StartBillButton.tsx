@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { useStaffBase } from '@/lib/staff/use-staff-base'
 import { useRouter } from 'next/navigation'
 import { Receipt } from 'lucide-react'
 import { createBill } from '@/lib/counter/actions'
 
 /** Opens a bill (cart) for a saved patient or a visit and goes straight to it. */
 export default function StartBillButton({ patientId, appointmentId, label = 'New bill' }: { patientId?: string; appointmentId?: string; label?: string }) {
+  const base = useStaffBase()
   const router = useRouter()
   const [pending, start] = useTransition()
   const [error, setError] = useState<string | null>(null)
@@ -20,7 +22,7 @@ export default function StartBillButton({ patientId, appointmentId, label = 'New
             setError(null)
             const res = await createBill({ patientId, appointmentId })
             if (!res.ok) { setError(res.error); return }
-            router.push(`/console/checkout/${res.id}`)
+            router.push(`${base}/checkout/${res.id}`)
           })
         }
         className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-primary/40 bg-white px-4 font-heading text-[10.5px] font-bold uppercase tracking-[0.12em] text-primary hover:bg-cream/60 disabled:opacity-60"
