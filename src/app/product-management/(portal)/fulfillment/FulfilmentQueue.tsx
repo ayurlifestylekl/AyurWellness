@@ -4,7 +4,7 @@ import { useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { formatDistanceToNowStrict } from 'date-fns'
-import { PackageCheck, Printer, Receipt, Send, Tag, Truck, X } from 'lucide-react'
+import { FileSpreadsheet, PackageCheck, Printer, Receipt, Send, Tag, Truck, X } from 'lucide-react'
 import type { FulfilmentQueueItem } from '@/lib/product-management/queries'
 import { markProductOrdersPacking, updateProductOrderStatus } from '@/lib/product-management/actions'
 
@@ -85,6 +85,15 @@ export default function FulfilmentQueue({ orders }: { orders: FulfilmentQueueIte
           <BulkLink href={printUrl(selectedIds, 'label', 'thermal')} icon={Tag} label="4×6 labels" />
           <BulkLink href={printUrl(selectedIds, 'label', 'a4')} icon={Printer} label="A4 labels" />
           <BulkLink href={printUrl(selectedIds, 'slip')} icon={Receipt} label="Packing slips" />
+          {tab !== 'shipped' && (
+            <a
+              href={`/product-management/fulfillment/jt-export?ids=${selectedIds.join(',')}`}
+              download
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#E30613] px-3 font-heading text-[11.5px] font-semibold text-white hover:bg-[#c00510]"
+            >
+              <FileSpreadsheet className="h-3.5 w-3.5" /> Download for J&amp;T
+            </a>
+          )}
           {tab === 'paid' && (
             <button
               type="button"

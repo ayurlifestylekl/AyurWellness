@@ -1,11 +1,17 @@
 import { listFulfilmentQueue } from '@/lib/product-management/queries'
 import FulfilmentQueue from './FulfilmentQueue'
+import JtPanel from './JtPanel'
+import { JT_SETTINGS } from '@/lib/fulfilment/jt'
 
 export const metadata = { title: 'Fulfillment · Product Management' }
 export const dynamic = 'force-dynamic'
 
 export default async function ProductManagementFulfillmentPage() {
   const queue = await listFulfilmentQueue()
+  const missing = [
+    ...(JT_SETTINGS.paymentMethod ? [] : ['Payment Method']),
+    ...(JT_SETTINGS.serviceType ? [] : ['Service Type (pick up or drop off)']),
+  ]
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
       <header>
@@ -17,6 +23,7 @@ export default async function ProductManagementFulfillmentPage() {
           Paid orders waiting to be packed and shipped. Tick orders to print labels or packing slips in one go.
         </p>
       </header>
+      <JtPanel missingSettings={missing} />
       <FulfilmentQueue orders={queue} />
     </div>
   )
