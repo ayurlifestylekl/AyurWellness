@@ -15,6 +15,13 @@ export function roomLabel(room: string | null | undefined): string | null {
   return /^\d+[A-Za-z]?$/.test(r) ? `Room ${r}` : r
 }
 
+/** "Bilik 2" for a bare number, otherwise the room as written. */
+export function roomLabelMs(room: string | null | undefined): string | null {
+  const r = room?.trim()
+  if (!r) return null
+  return /^\d+[A-Za-z]?$/.test(r) ? `Bilik ${r}` : r
+}
+
 /** What the lobby screen says: English, then Bahasa Malaysia. Numbers and rooms only, never names. */
 export function announcement(queueNo: number, room: string | null | undefined): { en: string; ms: string } {
   const r = room?.trim()

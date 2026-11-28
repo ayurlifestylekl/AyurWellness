@@ -4,7 +4,7 @@ import type { ServiceDb } from '@/lib/staff/guard'
 import type { StaffBase } from '@/lib/staff/use-staff-base'
 import { queueLabel } from '@/lib/staff/queue'
 import CallGuestButton from '@/components/staff/CallGuestButton'
-import LobbyCaller from '@/components/staff/LobbyCaller'
+import LobbyScreen from '@/components/staff/LobbyCaller'
 import { getWaitingBoard, publicName, type WaitingGuest } from '@/lib/staff/waiting'
 import { mytDayKey } from '@/lib/datetime'
 import AutoRefresh from '@/components/staff/AutoRefresh'
@@ -25,19 +25,15 @@ export default async function WaitingScreen({ db, base, screen }: { db: ServiceD
 
   if (screen) {
     return (
-      <div className="min-h-[80vh] rounded-3xl bg-primary p-8 text-white">
+      <>
         <AutoRefresh intervalMs={15000} />
-        <div className="flex items-baseline justify-between">
-          <h1 className="font-heading text-[34px] font-extrabold">Waiting room</h1>
-          <span className="font-body text-[20px] opacity-80">{time(new Date(now).toISOString())}</span>
-        </div>
-        <div className="mt-8 grid gap-8 md:grid-cols-2">
-          <ScreenList title="Please wait — we’ll call your number" guests={board.waiting} line={(g) => (g.therapistName ? `with ${g.therapistName.split(' ')[0]}` : '')} />
-          <ScreenList title="In treatment" guests={board.inTreatment} line={(g) => (g.room ? `Room ${g.room}` : '')} />
-        </div>
-        <LobbyCaller callsUrl={`${base}/waiting/calls`} />
-        <Link href={`${base}/waiting`} className="mt-10 inline-block font-body text-[13px] text-white/50 underline">Back to the staff view</Link>
-      </div>
+        <LobbyScreen
+          callsUrl={`${base}/waiting/calls`}
+          backHref={`${base}/waiting`}
+          waiting={board.waiting.map((g) => ({ id: g.id, queueNo: g.queueNo, label: publicName(g.patientName) }))}
+          inTreatment={board.inTreatment.length}
+        />
+      </>
     )
   }
 
@@ -122,27 +118,6 @@ function Column({ base, canCall, title, empty, guests, detail, warn }: { base: S
             </li>
           ))}
         </ul>
-      )}
-    </section>
-  )
-}
-
-function ScreenList({ title, guests, line }: { title: string; guests: WaitingGuest[]; line: (g: WaitingGuest) => string }) {
-  return (
-    <section>
-      <h2 className="font-heading text-[16px] font-bold uppercase tracking-[0.14em] text-white/70">{title}</h2>
-      {guests.length === 0 ? (
-        <p className="mt-4 font-body text-[22px] text-white/50">—</p>
-      ) : (
-        <ol className="mt-4 space-y-3">
-          {guests.map((g, i) => (
-            <li key={g.id} className="flex items-baseline gap-4 rounded-2xl bg-white/10 px-5 py-4">
-              <span className="min-w-[2.5ch] font-heading text-[30px] font-extrabold text-[#E4C384]">{g.queueNo != null ? queueLabel(g.queueNo) : i + 1}</span>
-              <span className="font-heading text-[28px] font-bold">{publicName(g.patientName)}</span>
-              <span className="ml-auto font-body text-[18px] text-white/70">{line(g)}</span>
-            </li>
-          ))}
-        </ol>
       )}
     </section>
   )
